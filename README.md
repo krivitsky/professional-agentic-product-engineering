@@ -20,7 +20,7 @@ You're mid-task, about to take a shortcut:
 >
 > 💡 **[Tip 32](guide.md#tip-32) — Red tests are signal, not noise.** Before deleting a red test, know *why* it's red: code regressed → fix the code (deleting it buries a live bug); feature gone or test stale → cleanup's fine.
 
-You're talking to Claude; the coach just listens in — one catch, one tip, one click to the Guide, then quiet again. It catches the *thinking*, not the syntax. **[Install it ↓](#how-to-use-it)**
+You're talking to Claude; the coach just listens in — one catch, one tip, one click to the Guide, then quiet again. It catches the *thinking*, not the syntax. **[Install it ↓](#3-the-coach--agentic-coach)**
 
 ## Who this is for
 
@@ -28,6 +28,17 @@ You're talking to Claude; the coach just listens in — one catch, one tip, one 
 - **Product managers** closing the tech gap — ship real changes, not just specs.
 - **Senior leaders** who want real hands-on experience, not slideware.
 - **Non-IT professionals** entering product development in the age of AI.
+
+## Big idea — engineer the system, not the prompt
+
+It all reduces to **one** climb. Professional agentic engineering is **not prompt engineering — it's engineering the system around the model.** As the work gets harder, *where you apply effort* moves up the ladder; the prompt shrinks while the system around it grows:
+
+```mermaid
+flowchart LR
+  P[Prompt] --> T[Task] --> C[Context] --> V[Verification] --> E[Environment] --> X[Execution]
+```
+
+The eight tiers below are the rungs; learn the ladder and the 60 tips fall into place.
 
 ## What's inside
 
@@ -60,35 +71,27 @@ Every tip is a concrete **Instead → Prefer** pair — the anti-example, then t
 
 Turns Claude Code into an interactive tutor for the Guide: one small concept at a time, you do each one, and a separate quizmaster checks that it stuck.
 
+**Use it** — clone the repo, open Claude Code in the folder, and say `hi`. It diagnoses your level and starts teaching:
+
+```shell
+git clone https://github.com/krivitsky/professional-agentic-product-engineering
+cd professional-agentic-product-engineering
+claude        # then type:  hi
+```
+
 ### 3) The Coach — [`agentic-coach`](plugins/agentic-coach)
 
 The ambient coach plugin from above: in-the-flow nudges to the right tip, no lesson required.
 
-## Engineer the system, not the prompt
-
-Those eight tiers are the rungs of **one** climb. Professional agentic engineering is **not prompt engineering — it's engineering the system around the model.** As the work gets harder, *where you apply effort* moves up the ladder; the prompt shrinks while the system around it grows:
-
-```mermaid
-flowchart LR
-  P[Prompt] --> T[Task] --> C[Context] --> V[Verification] --> E[Environment] --> X[Execution]
-```
-
-Learn the ladder and the 60 tips fall into place.
-
-## How to use it
-
-**Learn it with an agent (the fastest way through).** Open this repo in [Claude Code](https://claude.com/claude-code) and say `hi` — it tutors you through the [Guide](guide.md) hands-on. See **[CLAUDE.md](CLAUDE.md)** for how that works.
-
-**Or just read it.** Open the [Guide](guide.md) and work down the ladder to the tier your work needs.
-
-**Or install the ambient coach** (the demo above) into any repo:
+**Install it** — add the marketplace, install, reload:
 
 ```shell
 /plugin marketplace add krivitsky/professional-agentic-product-engineering
 /plugin install agentic-coach@pae
+/reload-plugins
 ```
 
-Then just work — it nudges when it catches something. Say *"coach me"* to ask it directly, or *"stop coaching"* to silence it.
+Then just work — it nudges when it catches something. Say `coach me` to ask it directly, or `stop coaching` to silence it.
 
 ## Contributing
 
