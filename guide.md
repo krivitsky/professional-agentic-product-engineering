@@ -66,74 +66,74 @@ Climb only as high as your work demands — then stop.
 4. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
 5. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
 6. [Tier 1 — Write prompts the agent can act on](#tier-1--write-prompts-the-agent-can-act-on-to-get-the-right-result-the-first-time)
-   - 1. Hand over the outcome, not a file list
-   - 2. Be specific
-   - 3. Say what to do, not what to avoid
-   - 4. Give the reason
-   - 5. Specify the output shape
-   - 6. Show examples
-   - 7. Follow the house style
-   - 8. Show, don't tell
-   - 9. Invite uncertainty
-   - 10. Paste raw errors
-   - 11. Constrain scope
-   - 12. Narrow the edit surface
-   - 13. Dial effort
-   - 14. Front-load turn 1
+   - [1. Hand over the outcome, not a file list](#tip-1)
+   - [2. Be specific](#tip-2)
+   - [3. Say what to do, not what to avoid](#tip-3)
+   - [4. Give the reason](#tip-4)
+   - [5. Specify the output shape](#tip-5)
+   - [6. Show examples](#tip-6)
+   - [7. Follow the house style](#tip-7)
+   - [8. Show, don't tell](#tip-8)
+   - [9. Invite uncertainty](#tip-9)
+   - [10. Paste raw errors](#tip-10)
+   - [11. Constrain scope](#tip-11)
+   - [12. Narrow the edit surface](#tip-12)
+   - [13. Dial effort](#tip-13)
+   - [14. Front-load turn 1](#tip-14)
 7. [Tier 2 — Plan and slice before you build](#tier-2--plan-and-slice-before-you-build-to-keep-every-change-small-and-safe)
-   - 15. Investigate before you edit
-   - 16. Plan the uncertain
-   - 17. Force an approval checkpoint
-   - 18. Ask for options
-   - 19. Slice vertically
-   - 20. Turn features into a spec
-   - 21. Plan smart, build cheap
-   - 22. Draft-and-critique the spec
+   - [15. Investigate before you edit](#tip-15)
+   - [16. Plan the uncertain](#tip-16)
+   - [17. Force an approval checkpoint](#tip-17)
+   - [18. Ask for options](#tip-18)
+   - [19. Slice vertically](#tip-19)
+   - [20. Turn features into a spec](#tip-20)
+   - [21. Plan smart, build cheap](#tip-21)
+   - [22. Draft-and-critique the spec](#tip-22)
 8. [Tier 3 — Give the agent the right context and tools](#tier-3--give-the-agent-the-right-context-and-tools-so-it-stops-guessing)
-   - 23. Feed high-signal context
-   - 24. Keep secrets out of git and context
-   - 25. `/clear` between tasks
-   - 26. Steer compaction
-   - 27. CLAUDE.md = gotchas + conventions
-   - 28. Put occasional knowledge in Skills
-   - 29. Add the right MCP servers
-   - 30. Use external memory
+   - [23. Feed high-signal context](#tip-23)
+   - [24. Keep secrets out of git and context](#tip-24)
+   - [25. `/clear` between tasks](#tip-25)
+   - [26. Steer compaction](#tip-26)
+   - [27. CLAUDE.md = gotchas + conventions](#tip-27)
+   - [28. Put occasional knowledge in Skills](#tip-28)
+   - [29. Add the right MCP servers](#tip-29)
+   - [30. Use external memory](#tip-30)
 9. [Tier 4 — Make the agent prove it's done (the loop)](#tier-4--make-the-agent-prove-its-done-so-you-can-trust-the-output-the-loop)
-   - 31. Make Definition of Done executable
-   - 32. Do TDD
-   - 33. Use BDD
-   - 34. Test the UI with Playwright MCP
-   - 35. Demand evidence
-   - 36. Ask for all findings
-   - 37. Review with fresh eyes
-   - 38. Run a pre-mortem
-   - 39. Iterate UI visually
+   - [31. Make Definition of Done executable](#tip-31)
+   - [32. Do TDD](#tip-32)
+   - [33. Use BDD](#tip-33)
+   - [34. Test the UI with Playwright MCP](#tip-34)
+   - [35. Demand evidence](#tip-35)
+   - [36. Ask for all findings](#tip-36)
+   - [37. Review with fresh eyes](#tip-37)
+   - [38. Run a pre-mortem](#tip-38)
+   - [39. Iterate UI visually](#tip-39)
 10. [Tier 5 — Checkpoint everything in git](#tier-5--checkpoint-everything-in-git-so-you-can-always-roll-back)
-    - 40. Commit every working step
-    - 41. Let Claude drive `gh`
-    - 42. Use worktrees
-    - 43. Replace "remember to run tests" with a hook
-    - 44. Move repetitive engineering into CI
+    - [40. Commit every working step](#tip-40)
+    - [41. Let Claude drive `gh`](#tip-41)
+    - [42. Use worktrees](#tip-42)
+    - [43. Replace "remember to run tests" with a hook](#tip-43)
+    - [44. Move repetitive engineering into CI](#tip-44)
 11. [Tier 6 — Run many agents at once](#tier-6--run-many-agents-at-once-to-ship-more-work-in-parallel)
     - [The model toolkit — bring in more models (any tier)](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)
-    - 45. Let it self-orchestrate
-    - 46. Use subagents to isolate context
-    - 47. Race several agents
-    - 48. Decompose into specialist roles
-    - 49. Engineer the long-horizon hand-off
-    - 50. Steer long runs mid-flight
-    - 51. Engineer the environment
+    - [45. Let it self-orchestrate](#tip-45)
+    - [46. Use subagents to isolate context](#tip-46)
+    - [47. Race several agents](#tip-47)
+    - [48. Decompose into specialist roles](#tip-48)
+    - [49. Engineer the long-horizon hand-off](#tip-49)
+    - [50. Steer long runs mid-flight](#tip-50)
+    - [51. Engineer the environment](#tip-51)
 12. [Tier 7 — Operate your agents as a fleet](#tier-7--operate-your-agents-as-a-fleet-so-long-runs-dont-die-on-you)
-    - 52. Use an agent-aware terminal
-    - 53. Isolate with worktrees + one session each
-    - 54. Host on a box that doesn't sleep
-    - 55. Drive the fleet from your phone
-    - 56. Secure the agent server
+    - [52. Use an agent-aware terminal](#tip-52)
+    - [53. Isolate with worktrees + one session each](#tip-53)
+    - [54. Host on a box that doesn't sleep](#tip-54)
+    - [55. Drive the fleet from your phone](#tip-55)
+    - [56. Secure the agent server](#tip-56)
 13. [Tier 8 — Put agents into production (the execution layer)](#tier-8--put-agents-into-production-so-they-work-without-you-the-execution-layer)
-    - 57. Sandbox the loop
-    - 58. Gate the plan, not every keystroke
-    - 59. Cap the strikes
-    - 60. Make the tracker the state machine
+    - [57. Sandbox the loop](#tip-57)
+    - [58. Gate the plan, not every keystroke](#tip-58)
+    - [59. Cap the strikes](#tip-59)
+    - [60. Make the tracker the state machine](#tip-60)
 14. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
 15. [Sources](#sources)
 
