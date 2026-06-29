@@ -10,17 +10,17 @@ A mid-2026 field guide — updated continuously — to getting good at operating
 
 ## See it catch you
 
-The Guide also ships as an **ambient coach** — a plugin you install once, then **keep working in your normal Claude Code session exactly as you would.** It rides along in the background, watching silently. Most turns it says nothing. It speaks up *only* when it catches a learning opportunity — a thinking mistake about to happen — and points you straight to the fix.
+The Guide also ships as an **ambient coach** — install it once, then work in Claude Code exactly as you normally would. It watches silently; most turns it says nothing. It speaks up *only* when it catches a learning opportunity, and links you straight to the fix.
 
-Mid-session, in the middle of your own work, you're about to delete failing tests to get a green build:
+You're mid-task, about to take a shortcut:
 
 > **You → Claude:** "Delete these failing tests — I just need the build green."
 >
-> **🧭 Agentic Coach** *(catching a learning opportunity):*
+> **🧭 Agentic Coach** — *catching a learning opportunity:*
 >
-> 💡 **[Tip 32](guide.md#tip-32) — Red tests are signal, not noise.** Don't delete failing tests to go green — first find out *why* they're red. Red because the code regressed → fix the code (deleting the test buries a live bug). Red because the feature's gone or the test is stale → then deleting is legit cleanup.
+> 💡 **[Tip 32](guide.md#tip-32) — Red tests are signal, not noise.** Before deleting a red test, know *why* it's red: code regressed → fix the code (deleting it buries a live bug); feature gone or test stale → cleanup's fine.
 
-You're talking to Claude; the coach just listens in. One command, one catch, one click to the Guide — then it goes quiet again until the next opportunity. It catches the *thinking*, not the syntax. **[Install it ↓](#how-to-use-it)**
+You're talking to Claude; the coach just listens in — one catch, one tip, one click to the Guide, then quiet again. It catches the *thinking*, not the syntax. **[Install it ↓](#how-to-use-it)**
 
 ## Who this is for
 
