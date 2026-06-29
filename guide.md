@@ -26,10 +26,10 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 
 ### TL;DR — if you do only five things
 1. **Be specific and positive.** Name files, constraints, and the pattern to follow; say what to *do*, not what to avoid. (Tips 1–4)
-2. **Give the agent an executable Definition of Done.** Tests/lint/typecheck as commands — that's the loop's exit condition. (Tip 28)
+2. **Give the agent an executable Definition of Done.** Tests/lint/typecheck as commands — that's the loop's exit condition. (Tip 31)
 3. **Plan before you edit; slice the work thin.** Investigate → approve a plan → one vertical slice at a time. (Tips 15, 17, 19)
-4. **Commit on every green step.** Each commit is a checkpoint the loop can revert to. (Tip 37)
-5. **Engineer the environment, not the prompt.** CLAUDE.md, Skills, hooks, MCP, CI carry the intelligence. (Tip 47)
+4. **Commit on every green step.** Each commit is a checkpoint the loop can revert to. (Tip 40)
+5. **Engineer the environment, not the prompt.** CLAUDE.md, Skills, hooks, MCP, CI carry the intelligence. (Tip 51)
 
 ### The eight tiers at a glance
 
@@ -74,53 +74,53 @@ Climb only as high as your work demands — then stop.
    - 18. Ask for options
    - 19. Slice vertically
    - 20. Turn features into a spec
-   - 20a. Plan smart, build cheap
-   - 20b. Draft-and-critique the spec
+   - 21. Plan smart, build cheap
+   - 22. Draft-and-critique the spec
 8. [Tier 3 — Give the agent the right context and tools](#tier-3--give-the-agent-the-right-context-and-tools-so-it-stops-guessing)
-   - 21. Feed high-signal context
-   - 21a. Keep secrets out of git and context
-   - 22. `/clear` between tasks
-   - 23. Steer compaction
-   - 24. CLAUDE.md = gotchas + conventions
-   - 25. Put occasional knowledge in Skills
-   - 26. Add the right MCP servers
-   - 27. Use external memory
+   - 23. Feed high-signal context
+   - 24. Keep secrets out of git and context
+   - 25. `/clear` between tasks
+   - 26. Steer compaction
+   - 27. CLAUDE.md = gotchas + conventions
+   - 28. Put occasional knowledge in Skills
+   - 29. Add the right MCP servers
+   - 30. Use external memory
 9. [Tier 4 — Make the agent prove it's done (the loop)](#tier-4--make-the-agent-prove-its-done-so-you-can-trust-the-output-the-loop)
-   - 28. Make Definition of Done executable
-   - 29. Do TDD
-   - 30. Use BDD
-   - 31. Test the UI with Playwright MCP
-   - 32. Demand evidence
-   - 33. Ask for all findings
-   - 34. Review with fresh eyes
-   - 35. Run a pre-mortem
-   - 36. Iterate UI visually
+   - 31. Make Definition of Done executable
+   - 32. Do TDD
+   - 33. Use BDD
+   - 34. Test the UI with Playwright MCP
+   - 35. Demand evidence
+   - 36. Ask for all findings
+   - 37. Review with fresh eyes
+   - 38. Run a pre-mortem
+   - 39. Iterate UI visually
 10. [Tier 5 — Checkpoint everything in git](#tier-5--checkpoint-everything-in-git-so-you-can-always-roll-back)
-    - 37. Commit every working step
-    - 38. Let Claude drive `gh`
-    - 39. Use worktrees
-    - 40. Replace "remember to run tests" with a hook
-    - 41. Move repetitive engineering into CI
+    - 40. Commit every working step
+    - 41. Let Claude drive `gh`
+    - 42. Use worktrees
+    - 43. Replace "remember to run tests" with a hook
+    - 44. Move repetitive engineering into CI
 11. [Tier 6 — Run many agents at once](#tier-6--run-many-agents-at-once-to-ship-more-work-in-parallel)
     - [The model toolkit — bring in more models (any tier)](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)
-    - 42. Let it self-orchestrate
-    - 43. Use subagents to isolate context
-    - 43a. Race several agents
-    - 44. Decompose into specialist roles
-    - 45. Engineer the long-horizon hand-off
-    - 46. Steer long runs mid-flight
-    - 47. Engineer the environment
+    - 45. Let it self-orchestrate
+    - 46. Use subagents to isolate context
+    - 47. Race several agents
+    - 48. Decompose into specialist roles
+    - 49. Engineer the long-horizon hand-off
+    - 50. Steer long runs mid-flight
+    - 51. Engineer the environment
 12. [Tier 7 — Operate your agents as a fleet](#tier-7--operate-your-agents-as-a-fleet-so-long-runs-dont-die-on-you)
-    - 48. Use an agent-aware terminal
-    - 49. Isolate with worktrees + one session each
-    - 50. Host on a box that doesn't sleep
-    - 51. Drive the fleet from your phone
-    - 52. Secure the agent server
+    - 52. Use an agent-aware terminal
+    - 53. Isolate with worktrees + one session each
+    - 54. Host on a box that doesn't sleep
+    - 55. Drive the fleet from your phone
+    - 56. Secure the agent server
 13. [Tier 8 — Put agents into production (the execution layer)](#tier-8--put-agents-into-production-so-they-work-without-you-the-execution-layer)
-    - 53. Sandbox the loop
-    - 54. Gate the plan, not every keystroke
-    - 55. Cap the strikes
-    - 56. Make the tracker the state machine
+    - 57. Sandbox the loop
+    - 58. Gate the plan, not every keystroke
+    - 59. Cap the strikes
+    - 60. Make the tracker the state machine
 14. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
 15. [Sources](#sources)
 
@@ -255,7 +255,7 @@ All of them are just Markdown/JSON files in your repo — check them in, and the
 | **Skill** | Knowledge/workflow the model **auto-loads when the task matches its description** | `.claude/skills/name/SKILL.md` (a *folder*) | write SKILL.md; add scripts/assets |
 | **Subagent** | A separate Claude instance with its **own context window**, tools, and model; returns only a summary | `.claude/agents/name.md` | `/agents` (recommended) or write the file |
 | **Hook** | Deterministic shell script on a lifecycle event | `.claude/settings.json` | add to `hooks` → Tier 5 |
-| **MCP server** | A connector giving Claude external tools (browser, DB, tracker) | `.mcp.json` / `claude mcp add` | Tier 3, Tip 26 |
+| **MCP server** | A connector giving Claude external tools (browser, DB, tracker) | `.mcp.json` / `claude mcp add` | Tier 3, Tip 29 |
 | **Plan mode** | Read-only investigate-then-plan gate | built-in | `Shift+Tab` ×2 → Tier 2 |
 | **Permissions** | Allow/deny rules + modes (default / auto / plan / bypass) for what runs without asking | `.claude/settings.json` | `/permissions` or settings |
 | **Plugin** | One installable unit bundling skills + hooks + subagents + MCP — how teams distribute all of the above | a marketplace / git repo | `/plugin` to browse & install |
@@ -394,7 +394,7 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 
 Two moves, no infrastructure — this is all the multi-model you need until you're orchestrating real work (the rest is the [full playbook](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook) before Tier 6).
 
-**20a. Plan with the smart model, build with the cheap one.**
+**21. Plan with the smart model, build with the cheap one.**
 > **Instead of:** running planning and coding on the same single model.
 > **Prefer:** `/model opusplan` — Opus reasons through the plan, Sonnet writes the code. One command, top-tier planning, without paying Opus rates on every edit.
 
@@ -402,7 +402,7 @@ Two moves, no infrastructure — this is all the multi-model you need until you'
 
 That's the whole basic setup — two Anthropic models, one flag, zero infra.
 
-**20b. Have one agent draft the spec and a different one critique it — before any code.**
+**22. Have one agent draft the spec and a different one critique it — before any code.**
 > **Instead of:** one model writing SPEC.md and you trusting it.
 > **Prefer:** let one agent draft the spec, then hand it to a *different* model to attack: "You're the reviewer. Find gaps, wrong assumptions, missing edge cases, and unstated requirements in this spec. List them; don't rewrite." Feed the findings back to the author to revise. One or two rounds and the spec is far harder than a single model produces.
 
@@ -420,11 +420,11 @@ The spec is the contract the whole build runs against (Tier 4), so this is the h
 
 *The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 6). Check usage any time with `/context`.*
 
-**21. Feed high-signal context, not the whole repo.**
+**23. Feed high-signal context, not the whole repo.**
 > **Instead of:** "Here's the entire codebase." (even at 1M tokens)
 > **Prefer:** just the affected modules + relevant docs, loaded just-in-time.
 
-**21a. Keep secrets out of git and out of context — set this up first.**
+**24. Keep secrets out of git and out of context — set this up first.**
 > **Instead of:** real keys in the repo, or pasted into a prompt.
 > **Prefer:** `.env` gitignored and referenced by variable, enforced with a hook.
 
@@ -433,18 +433,18 @@ A coding agent reads your whole tree and everything you paste; both leak.
 **How:**
 - **Gitignore secrets before anything else.** Real values in `.env`; add `.env` (plus `.env.local`, `*.pem`, `*.key`) to `.gitignore` — so neither git, a PR, nor the agent's own commits ever carry them. Commit a `.env.example` with blank keys as the shape to follow.
 - **Never paste a key into a prompt** — it lands in the transcript, the logs, and the context window. Reference it by variable (`process.env.STRIPE_KEY`); the app reads it at runtime.
-- **Enforce it, don't just trust it:** a `PreToolUse` guard hook (Tip 40) that blocks any read or write of `.env` — the layer the model can't talk its way past.
+- **Enforce it, don't just trust it:** a `PreToolUse` guard hook (Tip 43) that blocks any read or write of `.env` — the layer the model can't talk its way past.
 - **Privacy boundary:** code routed to a third-party model or gateway leaves Anthropic's trust boundary into that provider's data handling — keep sensitive code on Anthropic or your own infra ([Level 2](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)).
 
-**22. `/clear` between tasks; reset after repeated failure.**
+**25. `/clear` between tasks; reset after repeated failure.**
 > **Instead of:** one session for five unrelated tasks, then fixing the same bug four times.
 > **Prefer:** `/clear` between tasks; after ~2 failed fixes, `/clear` and rewrite the opening prompt.
 
-**23. Steer compaction, don't run it blind.**
+**26. Steer compaction, don't run it blind.**
 > **Instead of:** "/compact"
 > **Prefer:** "/compact keep the data-model decisions and the failing-test list; drop the exploration."
 
-**24. CLAUDE.md = gotchas + conventions, not an encyclopedia.**
+**27. CLAUDE.md = gotchas + conventions, not an encyclopedia.**
 > **Instead of:** a 500-line style manual.
 > **Prefer:** architecture, key commands, forbidden patterns, and the mistakes it keeps repeating — pruned often.
 
@@ -454,7 +454,7 @@ For the payment flow, see docs/payments.md.
 NOTE: src/legacy/* is deprecated — use src/v2/* equivalents.
 ```
 
-**25. Put occasional knowledge in Skills.**
+**28. Put occasional knowledge in Skills.**
 > **Instead of:** cramming the migration protocol into CLAUDE.md.
 > **Prefer:** a Skill that auto-loads only when the task matches its description.
 
@@ -469,7 +469,7 @@ description: Use when creating or altering database schema or writing migrations
 - Run `npm run migrate:make <name>`; then fill up/down.
 ```
 
-**26. Add the right MCP servers; keep the surface small.**
+**29. Add the right MCP servers; keep the surface small.**
 > **Instead of:** copy-pasting data in and out by hand, or wiring 30 thin tools.
 > **Prefer:** connect a few high-value MCP servers (browser, DB, issue tracker) and let Claude use them directly.
 
@@ -486,7 +486,7 @@ Or commit `.mcp.json` to the repo root:
 ```
 *>~20k tokens of MCP definitions already eats your working context. Few powerful gateway tools beat many thin REST mirrors.*
 
-**27. Use external memory for multi-session work.**
+**30. Use external memory for multi-session work.**
 > **Instead of:** trusting compaction to carry decisions across sessions.
 > **Prefer:** write `STATUS.md` at session end; reload it at the next session's start.
 
@@ -514,12 +514,12 @@ It used to be enforced by team discipline. With agents it becomes the **machine-
 
 The whole skill is writing a DoD precise enough that the agent knows, without you, whether it's done.
 
-**28. Make your Definition of Done executable.**
+**31. Make your Definition of Done executable.**
 > **Instead of:** "Make it work."
 > **Prefer:** spell out the DoD as commands the agent runs itself:
 > "Done when: `npm test` green, `npm run lint` clean, `npm run typecheck` passes, and `curl /health` returns 200. Loop until all four pass; show each output. Flag anything you couldn't verify."
 
-**29. Do TDD — the unit-level oracle.**
+**32. Do TDD — the unit-level oracle.**
 > **Instead of:** "Implement and test calculateTotal."
 > **Prefer:** drive the code with a failing test first.
 
@@ -531,7 +531,7 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 ```
 *Committing first means any quiet test-weakening shows up in the diff.*
 
-**30. Use BDD — the behavior-level oracle.**
+**33. Use BDD — the behavior-level oracle.**
 > **Instead of:** vague acceptance ("it should handle bad input").
 > **Prefer:** Given/When/Then scenarios the agent codes against and runs.
 
@@ -556,34 +556,34 @@ Then: *"Generate step definitions for refund.feature, implement until the scenar
 
 *Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin is the executable middle layer between a user story and unit tests, and all three give the loop its perfection state.*
 
-**31. Test the UI for real with Playwright MCP — don't eyeball it.**
+**34. Test the UI for real with Playwright MCP — don't eyeball it.**
 > **Instead of:** "make sure the checkout page looks right."
 > **Prefer:** have the agent drive a live browser, perform the flow, and assert.
 
-**How:** with Playwright MCP connected (Tip 26):
+**How:** with Playwright MCP connected (Tip 29):
 ```
 Open localhost:3000, add two items to the cart, go to checkout, verify the
 total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 ```
 *It works off the accessibility tree (~200–400 tokens/snapshot), not screenshot guessing. Division of labor: **Claude in Chrome** for interactive dev, **Playwright MCP** for the suite/CI, **Chrome DevTools MCP** for performance.*
 
-**32. Demand evidence, not a claim of success.**
+**35. Demand evidence, not a claim of success.**
 > **Instead of:** accepting "done, it works."
 > **Prefer:** "Paste the exact test command and its output before you say it's done."
 
-**33. Ask for all findings, not a conservative review.**
+**36. Ask for all findings, not a conservative review.**
 > **Instead of:** "Only flag high-severity issues." (4.8 obeys and hides real ones)
 > **Prefer:** "List every issue with a severity label and line reference. Don't pre-filter — I'll triage."
 
-**34. Review with fresh eyes, not the context that wrote it.**
+**37. Review with fresh eyes, not the context that wrote it.**
 > **Instead of:** the same session grading its own code.
 > **Prefer:** a fresh subagent/session reviews the diff against the criteria; correctness only, not style. *(Stronger still: have a **different model** review it — see [multi-model use](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook).)*
 
-**35. Run a pre-mortem; treat it like a teammate.**
+**38. Run a pre-mortem; treat it like a teammate.**
 > **Instead of:** "Looks great, ship it."
 > **Prefer:** "What could fail here? What did you assume? What's missing?"
 
-**36. Iterate UI visually when there's no spec to assert.**
+**39. Iterate UI visually when there's no spec to assert.**
 > **Instead of:** "Make the dashboard look good."
 > **Prefer:** mock → implement → screenshot → compare → fix (2–3 rounds). Override Opus 4.8's default house style (cream, serif, terracotta) with a concrete palette spec.
 
@@ -593,7 +593,7 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 
 *Git isn't bookkeeping here — it's the loop's memory and undo. CI and the `gh` CLI extend the harness from your machine to the team.*
 
-**37. Commit every working step — checkpoints are what make a loop safe.**
+**40. Commit every working step — checkpoints are what make a loop safe.**
 > **Instead of:** one giant commit at the end (or none).
 > **Prefer:** commit after each green step; each commit is a state the loop (or you) can revert to.
 
@@ -601,7 +601,7 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 
 Start from a clean tree; back up anything it can't regenerate before granting write access.
 
-**38. Let Claude drive `gh` — the collaboration layer is harness too.**
+**41. Let Claude drive `gh` — the collaboration layer is harness too.**
 > **Instead of:** copy-pasting diffs into the GitHub web UI.
 > **Prefer:** have Claude use the `gh` CLI to open PRs, read issues, check CI, and answer review comments.
 
@@ -614,11 +614,11 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
 ```
 *Claude has native git (stage/commit/branch/PR) and can run `gh`. In CI, `claude -p` + `gh` closes the loop from issue → branch → PR → review.*
 
-**39. Use worktrees for parallel agents.**
+**42. Use worktrees for parallel agents.**
 > **Instead of:** two sessions stepping on each other in one working copy.
 > **Prefer:** `git worktree add ../feat-x feat-x` so each agent works on its own branch and directory.
 
-**40. Replace "remember to run tests" with a hook.**
+**43. Replace "remember to run tests" with a hook.**
 > **Instead of:** "run the tests after each change" (a request it can forget).
 > **Prefer:** a hook that always runs them, and one that won't let it stop on red.
 
@@ -640,7 +640,7 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
 ```
 *`exit 2` on a `Stop` hook forces the agent to keep working (guard with `stop_hook_active` so it can't loop forever — Claude overrides a Stop hook after 8 consecutive blocks). `PreToolUse` `exit 2` blocks a tool outright — use it to protect `.env`, `package-lock.json`, `.git/`; a `PreToolUse` **deny fires before the permission check, so it holds even under `--dangerously-skip-permissions`** (hooks can tighten, never loosen). Hooks aren't only shell + exit codes: beyond `command`, a hook can be a `prompt` (a quick Haiku yes/no judgment) or an `agent` (a subagent that verifies before allowing stop) — an [agent-based verify hook](https://code.claude.com/docs/en/hooks-guide) is a sturdier loop oracle than a brittle test-runner line.*
 
-**41. Move repetitive engineering into CI / headless.**
+**44. Move repetitive engineering into CI / headless.**
 > **Instead of:** doing PR review, issue triage, and release notes by hand each time.
 > **Prefer:** run the agent non-interactively in your pipeline, scoped tightly.
 
@@ -751,15 +751,15 @@ Multi-model is a scalpel for decomposable, verifiable, high-stakes work — not 
 
 ### The orchestration tips
 
-**42. Let it self-orchestrate big, parallel work.**
+**45. Let it self-orchestrate big, parallel work.**
 > **Instead of:** manually spawning and merging a dozen subagents.
 > **Prefer:** `/effort ultracode` → "audit every endpoint for missing auth, fix it, prove each fix with a test." It fans out parallel subagents and self-verifies; you spot-check the report.
 
-**43. Use subagents to isolate context.**
+**46. Use subagents to isolate context.**
 > **Instead of:** a giant exploration that floods your main thread.
 > **Prefer:** "subagent: trace how auth is wired across the repo; return a summary plus the 3 files I should read." (Low effort for batch subagents to control cost.)
 
-**43a. Race several agents on the same task; keep the winner.**
+**47. Race several agents on the same task; keep the winner.**
 > **Instead of:** betting a high-value task on one agent's single attempt.
 > **Prefer:** run the same spec in several parallel git worktrees — and vary the model across them (Claude, Codex, Gemini) so their blind spots differ — then diff the results and merge the best. Budget ~2–4× the cost; reserve it for work where being right beats being cheap.
 
@@ -770,7 +770,7 @@ git worktree add ../try-a -b try/a   # repeat for try/b, try/c
 ```
 *Or assign the same issue to several agents in GitHub Agent HQ (Tier 8) and pick the winning PR.*
 
-**44. Decompose complex builds into specialist roles.**
+**48. Decompose complex builds into specialist roles.**
 > **Instead of:** one prompt that builds everything in one pass.
 > **Prefer:** architect → backend → frontend → tests → security-review, each a subagent with narrow context, reviewing each other.
 
@@ -781,7 +781,7 @@ plan to the backend subagent to implement, the test-writer subagent to cover it,
 the security-reviewer subagent to audit the diff. Each returns a summary.
 ```
 
-**45. Engineer the long-horizon hand-off.**
+**49. Engineer the long-horizon hand-off.**
 > **Instead of:** "build the whole app" in one window (it runs out of context mid-feature and the next session guesses).
 > **Prefer:** an initializer session that writes a checklist; fresh sessions execute it one item at a time.
 
@@ -798,7 +798,7 @@ the security-reviewer subagent to audit the diff. Each returns a summary.
 ```
 *When compaction starts losing detail, `/clear` and let the next session rebuild from PROGRESS.md — a clean hand-off beats a degraded context. Keep the authoritative task ledger as **JSON, not prose** — Anthropic's [long-running-agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) write-up found models reliably "tidy" or overwrite Markdown but treat a `features.json` of `{name, passes: false}` (flip one boolean per session) as load-bearing data. Prose hand-off in the doc; the status registry in JSON.*
 
-**46. Steer long runs mid-flight instead of restarting them.**
+**50. Steer long runs mid-flight instead of restarting them.**
 > **Instead of:** killing a 40-minute run to change a permission, budget, or direction.
 > **Prefer:** inject a steering message while it runs.
 
@@ -809,7 +809,7 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 { "role": "system", "content": "Permissions update: read-only from here. Summarize findings; make no further edits." }
 ```
 
-**47. Engineer the environment, not the wording.**
+**51. Engineer the environment, not the wording.**
 > **Instead of:** endlessly tuning the perfect prompt.
 > **Prefer:** invest in CLAUDE.md, Skills, MCP, git discipline, tests-as-oracle, hooks, and CI. Every methodology converges on **research → plan → execute → review → ship**, human-gated — build the system that runs that loop. That system, not the prompt, is the product of professional agentic engineering.
 
@@ -819,7 +819,7 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 
 *Once you're running more than one agent, or runs longer than you'll sit and watch, **where and how you run them** becomes its own engineering problem. This is the operations layer of agentic work.*
 
-**48. Manage parallel agents in an agent-aware terminal.**
+**52. Manage parallel agents in an agent-aware terminal.**
 > **Instead of:** a dozen plain terminal tabs where you lose track of which agent is blocked.
 > **Prefer:** a terminal built for agents (Warp) — panes per agent, notifications when one needs input, a built-in diff/review panel.
 
@@ -827,7 +827,7 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 
 `Cmd+Shift++` opens the code-review panel to diff what an agent changed and send inline comments back. (Claude Code also has its own agent view for grouping sessions.)
 
-**49. Isolate parallel agents with worktrees + one session each.**
+**53. Isolate parallel agents with worktrees + one session each.**
 > **Instead of:** two agents editing the same working copy and clobbering each other.
 > **Prefer:** one git worktree + branch + session per agent.
 
@@ -839,7 +839,7 @@ git worktree add ../feat-search feat-search
 ```
 *Bonus: run the same task with Claude Code in one worktree and Codex in another, then diff the two approaches side by side.*
 
-**50. Host long runs on a box that doesn't sleep; persist with tmux.**
+**54. Host long runs on a box that doesn't sleep; persist with tmux.**
 > **Instead of:** a run that dies the moment your laptop sleeps or wifi drops.
 > **Prefer:** run on a small always-on server and wrap each agent in tmux.
 
@@ -852,7 +852,7 @@ tmux attach -t claude-auth     # reattach later, from any device
 ```
 *Why this works: Claude Code is **API-bound, not compute-bound** — inference runs on Anthropic's servers; your machine just holds the thread. A box that doesn't sleep keeps the agent moving. A 4 GB VPS handles one agent; budget **16 GB+** for dynamic workflows or many parallel subagents (heavy orchestration OOM-kills small boxes, and that takes the tmux session with it). Caveat: tmux survives disconnects, not crashes or reboots.*
 
-**51. Drive the fleet from your phone.**
+**55. Drive the fleet from your phone.**
 > **Instead of:** being chained to a desk to answer one permission prompt.
 > **Prefer:** SSH in from a mobile client and clear decision points from anywhere.
 
@@ -862,13 +862,13 @@ For unattended runs, give an explicit **stopping condition** ("work until the te
 
 *(Claude Code's built-in Remote Control still runs on your local machine — the server + tmux setup is the only true close-the-laptop persistence.)*
 
-**52. Secure the agent server like production.**
+**56. Secure the agent server like production.**
 > **Instead of:** root login and API keys in a committed file on an internet-facing box.
 > **Prefer:** non-root sudo user, SSH-keys-only, firewall, secrets in env / a secrets manager.
 
 **How:** disable password and root SSH login, UFW-allow only SSH, keep `ANTHROPIC_API_KEY` in the environment (never committed).
 
-If you run unattended with `--dangerously-skip-permissions`, put it behind a `PreToolUse` guard hook (Tip 40) that blocks destructive commands — that's the layer the model can't talk its way past.
+If you run unattended with `--dangerously-skip-permissions`, put it behind a `PreToolUse` guard hook (Tip 43) that blocks destructive commands — that's the layer the model can't talk its way past.
 
 *Next level up is the managed version of all this: Warp's Oz and Claude Code's dynamic workflows run agents in the cloud on schedules/triggers with central tracking — the same fleet ideas, hosted.*
 
@@ -924,24 +924,24 @@ PR review is where to start: high value, low blast radius. The pattern:
 
 - **Feed the diff, not the codebase.** Pull only the changed lines + surrounding functions. Dumping the whole repo destroys the reviewer's context.
 - **Load the rulebook.** Inject your `ARCHITECTURE.md` or a `code-review` Skill ("always use the repository pattern for DB access") so it reviews against *your* standards.
-- **Prompt adversarially.** "Identify side effects this diff introduces that are **not** covered by the modified tests." (And per Tip 33: ask for all findings, severity-labeled — never tell it to be conservative.)
+- **Prompt adversarially.** "Identify side effects this diff introduces that are **not** covered by the modified tests." (And per Tip 36: ask for all findings, severity-labeled — never tell it to be conservative.)
 - **Use a different model than the author.** A cross-lab reviewer catches blind spots a self-review shares — see [multi-model use](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook).
 
 ### Instead / Prefer — the decisions that matter
 
-**53. Sandbox the loop; never run autonomous agents on a dev box or prod.**
+**57. Sandbox the loop; never run autonomous agents on a dev box or prod.**
 > **Instead of:** an unattended agent with write access on your laptop or a shared CI runner.
 > **Prefer:** an ephemeral sandbox (E2B/Modal/Daytona/Northflank, or Claude Code's web VMs) — a runaway loop burns a throwaway container, not your environment.
 
-**54. Gate the plan, not every keystroke.**
+**58. Gate the plan, not every keystroke.**
 > **Instead of:** full autopilot from ticket to merge, or approving every edit.
 > **Prefer:** auto-run the loop but pause for human approval at the spec and before merge. Gate the irreversible; automate the rest.
 
-**55. Cap the strikes.**
+**59. Cap the strikes.**
 > **Instead of:** "loop until the tests pass," unbounded.
 > **Prefer:** "loop until green, max 5 attempts, then stop and summarize what's blocking." A perfection state needs a give-up condition too.
 
-**56. Make the tracker the state machine.**
+**60. Make the tracker the state machine.**
 > **Instead of:** holding workflow state in the agent's conversation (it gets archived/compacted away).
 > **Prefer:** store state as ticket status/labels (Todo → Planning → Approved → In Review). It survives restarts, and a human can override by moving the card.
 

@@ -195,7 +195,7 @@ The learner can't see USER.md. So **render a visual progress map** so they alway
 - at **session start** (after diagnosing tier), and
 - **after every progress step** — each module passed, each tier quiz, each tier advance.
 
-Keep it compact. Mark the **current module** (← HERE). Show every tier as its own line — nothing is locked. Bars reflect tips completed / tips in tier. **Tier tip counts (from the guide — recount if the guide changes): T1=14, T2=6, T3=7, T4=9, T5=5, T6=6, T7=5, T8=4 (56 total).** Module list per tier comes from USER.md `Progress`.
+Keep it compact. Mark the **current module** (← HERE). Show every tier as its own line — nothing is locked. Bars reflect tips completed / tips in tier. **Tier tip counts (from the guide — recount if the guide changes): T1=14, T2=8, T3=8, T4=9, T5=5, T6=7, T7=5, T8=4 (60 total).** Module list per tier comes from USER.md `Progress`.
 
 Template (keep it narrow — short labels, fixed 4-char bars, one line per tier):
 
@@ -207,7 +207,7 @@ Template (keep it narrow — short labels, fixed 4-char bars, one line per tier)
 🔵 T3 Context
 🔵 T4 Verify
 🟧 T5 Git          ░░░░  0/5 ←HERE
-⬜ T6 Orchestrate  ░░░░  0/6
+⬜ T6 Orchestrate  ░░░░  0/7
 ⬜ T7 Fleet        ░░░░  0/5
 ⬜ T8 Production   ░░░░  0/4
 ──────────────────────
