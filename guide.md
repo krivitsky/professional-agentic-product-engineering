@@ -319,58 +319,72 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 
 ## Tier 1 — Write prompts the agent can act on, to get the right result the first time
 
+<a id="tip-1"></a>
 **1. Hand over the outcome, not a file list.**
 > **Instead of:** "Create these 15 files for auth."
 > **Prefer:** "Implement JWT auth following the architecture in @src/auth. No new libraries."
 
+<a id="tip-2"></a>
 **2. Be specific — vagueness is now taken literally.**
 > **Instead of:** "Clean up the auth code."
 > **Prefer:** "Extract token refresh in @src/auth/session.ts into the existing RetryPolicy class."
 
+<a id="tip-3"></a>
 **3. Say what to do, not what to avoid.**
 > **Instead of:** "Don't be verbose."
 > **Prefer:** "Write for senior engineers — lead with the technical specifics."
 
+<a id="tip-4"></a>
 **4. Give the reason; motivation makes it generalize.**
 > **Instead of:** "Use tabs."
 > **Prefer:** "Use tabs — our linter rejects spaces in this repo."
 
+<a id="tip-5"></a>
 **5. Specify the output shape, not just the goal.**
 > **Instead of:** "Build an auth API."
 > **Prefer:** "POST /login and /refresh, Zod validation, a consistent {error, code} envelope."
 
+<a id="tip-6"></a>
 **6. Show examples instead of describing style.**
 > **Instead of:** "Make the tone professional."
 > **Prefer:** "Match these 3 examples: `<example>…</example>`" (3–5 work best).
 
+<a id="tip-7"></a>
 **7. Follow the house style, don't invent one.**
 > **Instead of:** "Write a date parser."
 > **Prefer:** "Parse dates using the pattern already in @utils/date.ts."
 
+<a id="tip-8"></a>
 **8. Show, don't tell — use the input channels.**
 > **Instead of:** describing a layout bug in prose.
 > **Prefer:** paste the screenshot + `@Component.tsx`; pipe the raw logs straight in.
 
+<a id="tip-9"></a>
 **9. Invite uncertainty instead of forcing an answer.**
 > **Instead of:** "Implement the caching layer."
 > **Prefer:** "Implement caching. List your assumptions first; if a choice is genuinely ambiguous, stop and ask."
 
+<a id="tip-10"></a>
 **10. Paste raw errors, don't paraphrase them.**
 > **Instead of:** "It throws some null error."
 > **Prefer:** paste the full stack trace → "diagnose the root cause before changing anything."
 
+<a id="tip-11"></a>
 **11. Constrain scope — over-engineering is a frontier-model failure mode.**
 > **Instead of:** "Fix this bug and improve the code."
 > **Prefer:** "Fix only this bug. Don't refactor, comment untouched code, or add handling for cases that can't occur."
 
+<a id="tip-12"></a>
 **12. Narrow the edit surface.**
 > **Instead of:** "Refactor authentication."
 > **Prefer:** "Change only the middleware layer in @src/mw/auth.ts."
 
+<a id="tip-13"></a>
 **13. Dial effort; don't beg for thoroughness.**
 > **Instead of:** "Think really hard and be exhaustive."
 > **Prefer:** leave it at high (the 4.8 default); add `ultrathink` for one gnarly turn; `/effort ultracode` for big async jobs.
 
+<a id="tip-14"></a>
 **14. Front-load turn 1 instead of hand-holding across many.**
 > **Instead of:** a vague opener followed by ten corrections.
 > **Prefer:** one rich brief — goal + constraints + definition of done + "work autonomously; stop only at a real fork."
@@ -379,22 +393,27 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 
 ## Tier 2 — Plan and slice before you build, to keep every change small and safe
 
+<a id="tip-15"></a>
 **15. Investigate before you edit.**
 > **Instead of:** "Add OAuth." (straight to code)
 > **Prefer:** "Explore @src/auth, explain how it works, change nothing." → then "now implement OAuth."
 
+<a id="tip-16"></a>
 **16. Plan the uncertain; skip the plan for the trivial.**
 > **Instead of:** a 6-step plan to rename a variable.
 > **Prefer:** plan multi-file or unfamiliar work; do one-sentence diffs directly.
 
+<a id="tip-17"></a>
 **17. Force an approval checkpoint and the blast radius.**
 > **Instead of:** letting it touch 30 files unsupervised.
 > **Prefer:** "Numbered plan, risk per step, exact files to be created/modified/deleted. STOP for approval."
 
+<a id="tip-18"></a>
 **18. Ask for options, not the first idea.**
 > **Instead of:** accepting plan #1.
 > **Prefer:** "Give me 2–3 approaches with a one-line trade-off each; I'll choose."
 
+<a id="tip-19"></a>
 **19. Slice vertically — thin end-to-end increments, not horizontal layers.**
 > **Instead of:** "Build the whole course-catalog feature."
 > **Prefer:** "Slice 1: a user searches courses by department and sees results — UI → API → DB → test. Ship it green before slice 2."
@@ -406,6 +425,7 @@ flowchart LR
   S1[Slice 1<br/>UI→API→DB→test ✓] --> S2[Slice 2<br/>UI→API→DB→test ✓] --> S3[Slice 3<br/>...]
 ```
 
+<a id="tip-20"></a>
 **20. Turn big features into a spec, then a fresh session.**
 > **Instead of:** a 200-message thread that drifts.
 > **Prefer:** "Interview me on the hard parts, write SPEC.md" → new session: "Implement SPEC.md."
@@ -414,6 +434,7 @@ flowchart LR
 
 Two moves, no infrastructure — this is all the multi-model you need until you're orchestrating real work (the rest is the [full playbook](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook) before Tier 6).
 
+<a id="tip-21"></a>
 **21. Plan with the smart model, build with the cheap one.**
 > **Instead of:** running planning and coding on the same single model.
 > **Prefer:** `/model opusplan` — Opus reasons through the plan, Sonnet writes the code. One command, top-tier planning, without paying Opus rates on every edit.
@@ -422,6 +443,7 @@ Two moves, no infrastructure — this is all the multi-model you need until you'
 
 That's the whole basic setup — two Anthropic models, one flag, zero infra.
 
+<a id="tip-22"></a>
 **22. Have one agent draft the spec and a different one critique it — before any code.**
 > **Instead of:** one model writing SPEC.md and you trusting it.
 > **Prefer:** let one agent draft the spec, then hand it to a *different* model to attack: "You're the reviewer. Find gaps, wrong assumptions, missing edge cases, and unstated requirements in this spec. List them; don't rewrite." Feed the findings back to the author to revise. One or two rounds and the spec is far harder than a single model produces.
@@ -440,10 +462,12 @@ The spec is the contract the whole build runs against (Tier 4), so this is the h
 
 *The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 6). Check usage any time with `/context`.*
 
+<a id="tip-23"></a>
 **23. Feed high-signal context, not the whole repo.**
 > **Instead of:** "Here's the entire codebase." (even at 1M tokens)
 > **Prefer:** just the affected modules + relevant docs, loaded just-in-time.
 
+<a id="tip-24"></a>
 **24. Keep secrets out of git and out of context — set this up first.**
 > **Instead of:** real keys in the repo, or pasted into a prompt.
 > **Prefer:** `.env` gitignored and referenced by variable, enforced with a hook.
@@ -456,14 +480,17 @@ A coding agent reads your whole tree and everything you paste; both leak.
 - **Enforce it, don't just trust it:** a `PreToolUse` guard hook (Tip 43) that blocks any read or write of `.env` — the layer the model can't talk its way past.
 - **Privacy boundary:** code routed to a third-party model or gateway leaves Anthropic's trust boundary into that provider's data handling — keep sensitive code on Anthropic or your own infra ([Level 2](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)).
 
+<a id="tip-25"></a>
 **25. `/clear` between tasks; reset after repeated failure.**
 > **Instead of:** one session for five unrelated tasks, then fixing the same bug four times.
 > **Prefer:** `/clear` between tasks; after ~2 failed fixes, `/clear` and rewrite the opening prompt.
 
+<a id="tip-26"></a>
 **26. Steer compaction, don't run it blind.**
 > **Instead of:** "/compact"
 > **Prefer:** "/compact keep the data-model decisions and the failing-test list; drop the exploration."
 
+<a id="tip-27"></a>
 **27. CLAUDE.md = gotchas + conventions, not an encyclopedia.**
 > **Instead of:** a 500-line style manual.
 > **Prefer:** architecture, key commands, forbidden patterns, and the mistakes it keeps repeating — pruned often.
@@ -474,6 +501,7 @@ For the payment flow, see docs/payments.md.
 NOTE: src/legacy/* is deprecated — use src/v2/* equivalents.
 ```
 
+<a id="tip-28"></a>
 **28. Put occasional knowledge in Skills.**
 > **Instead of:** cramming the migration protocol into CLAUDE.md.
 > **Prefer:** a Skill that auto-loads only when the task matches its description.
@@ -489,6 +517,7 @@ description: Use when creating or altering database schema or writing migrations
 - Run `npm run migrate:make <name>`; then fill up/down.
 ```
 
+<a id="tip-29"></a>
 **29. Add the right MCP servers; keep the surface small.**
 > **Instead of:** copy-pasting data in and out by hand, or wiring 30 thin tools.
 > **Prefer:** connect a few high-value MCP servers (browser, DB, issue tracker) and let Claude use them directly.
@@ -506,6 +535,7 @@ Or commit `.mcp.json` to the repo root:
 ```
 *>~20k tokens of MCP definitions already eats your working context. Few powerful gateway tools beat many thin REST mirrors.*
 
+<a id="tip-30"></a>
 **30. Use external memory for multi-session work.**
 > **Instead of:** trusting compaction to carry decisions across sessions.
 > **Prefer:** write `STATUS.md` at session end; reload it at the next session's start.
@@ -547,11 +577,13 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 
 *The deeper shift: **the spec is the new source code.** When the loop regenerates the implementation on demand against an executable spec, the code becomes an ephemeral byproduct and the `SPEC.md` + tests become the artifact you actually author, version, and review. Your job moves up — from writing syntax to writing the rules the agent executes against.*
 
+<a id="tip-31"></a>
 **31. Make your Definition of Done executable.**
 > **Instead of:** "Make it work."
 > **Prefer:** spell out the DoD as commands the agent runs itself:
 > "Done when: `npm test` green, `npm run lint` clean, `npm run typecheck` passes, and `curl /health` returns 200. Loop until all four pass; show each output. Flag anything you couldn't verify."
 
+<a id="tip-32"></a>
 **32. Do TDD — the unit-level oracle.**
 > **Instead of:** "Implement and test calculateTotal."
 > **Prefer:** drive the code with a failing test first.
@@ -564,6 +596,7 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 ```
 *Committing first means any quiet test-weakening shows up in the diff.*
 
+<a id="tip-33"></a>
 **33. Use BDD — the behavior-level oracle.**
 > **Instead of:** vague acceptance ("it should handle bad input").
 > **Prefer:** Given/When/Then scenarios the agent codes against and runs.
@@ -589,6 +622,7 @@ Then: *"Generate step definitions for refund.feature, implement until the scenar
 
 *Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin is the executable middle layer between a user story and unit tests, and all three give the loop its perfection state.*
 
+<a id="tip-34"></a>
 **34. Test the UI for real with Playwright MCP — don't eyeball it.**
 > **Instead of:** "make sure the checkout page looks right."
 > **Prefer:** have the agent drive a live browser, perform the flow, and assert.
@@ -600,22 +634,27 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 ```
 *It works off the accessibility tree (~200–400 tokens/snapshot), not screenshot guessing. Division of labor: **Claude in Chrome** for interactive dev, **Playwright MCP** for the suite/CI, **Chrome DevTools MCP** for performance.*
 
+<a id="tip-35"></a>
 **35. Demand evidence, not a claim of success.**
 > **Instead of:** accepting "done, it works."
 > **Prefer:** "Paste the exact test command and its output before you say it's done."
 
+<a id="tip-36"></a>
 **36. Ask for all findings, not a conservative review.**
 > **Instead of:** "Only flag high-severity issues." (4.8 obeys and hides real ones)
 > **Prefer:** "List every issue with a severity label and line reference. Don't pre-filter — I'll triage."
 
+<a id="tip-37"></a>
 **37. Review with fresh eyes, not the context that wrote it.**
 > **Instead of:** the same session grading its own code.
 > **Prefer:** a fresh subagent/session reviews the diff against the criteria; correctness only, not style. *(Stronger still: have a **different model** review it — see [multi-model use](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook).)*
 
+<a id="tip-38"></a>
 **38. Run a pre-mortem; treat it like a teammate.**
 > **Instead of:** "Looks great, ship it."
 > **Prefer:** "What could fail here? What did you assume? What's missing?"
 
+<a id="tip-39"></a>
 **39. Iterate UI visually when there's no spec to assert.**
 > **Instead of:** "Make the dashboard look good."
 > **Prefer:** mock → implement → screenshot → compare → fix (2–3 rounds). Override Opus 4.8's default house style (cream, serif, terracotta) with a concrete palette spec.
@@ -626,6 +665,7 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 
 *Git isn't bookkeeping here — it's the loop's memory and undo. CI and the `gh` CLI extend the harness from your machine to the team.*
 
+<a id="tip-40"></a>
 **40. Commit every working step — checkpoints are what make a loop safe.**
 > **Instead of:** one giant commit at the end (or none).
 > **Prefer:** commit after each green step; each commit is a state the loop (or you) can revert to.
@@ -634,6 +674,7 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 
 Start from a clean tree; back up anything it can't regenerate before granting write access.
 
+<a id="tip-41"></a>
 **41. Let Claude drive `gh` — the collaboration layer is harness too.**
 > **Instead of:** copy-pasting diffs into the GitHub web UI.
 > **Prefer:** have Claude use the `gh` CLI to open PRs, read issues, check CI, and answer review comments.
@@ -647,10 +688,12 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
 ```
 *Claude has native git (stage/commit/branch/PR) and can run `gh`. In CI, `claude -p` + `gh` closes the loop from issue → branch → PR → review.*
 
+<a id="tip-42"></a>
 **42. Use worktrees for parallel agents.**
 > **Instead of:** two sessions stepping on each other in one working copy.
 > **Prefer:** `git worktree add ../feat-x feat-x` so each agent works on its own branch and directory.
 
+<a id="tip-43"></a>
 **43. Replace "remember to run tests" with a hook.**
 > **Instead of:** "run the tests after each change" (a request it can forget).
 > **Prefer:** a hook that always runs them, and one that won't let it stop on red.
@@ -673,6 +716,7 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
 ```
 *`exit 2` on a `Stop` hook forces the agent to keep working (guard with `stop_hook_active` so it can't loop forever — Claude overrides a Stop hook after 8 consecutive blocks). `PreToolUse` `exit 2` blocks a tool outright — use it to protect `.env`, `package-lock.json`, `.git/`; a `PreToolUse` **deny fires before the permission check, so it holds even under `--dangerously-skip-permissions`** (hooks can tighten, never loosen). Hooks aren't only shell + exit codes: beyond `command`, a hook can be a `prompt` (a quick Haiku yes/no judgment) or an `agent` (a subagent that verifies before allowing stop) — an [agent-based verify hook](https://code.claude.com/docs/en/hooks-guide) is a sturdier loop oracle than a brittle test-runner line.*
 
+<a id="tip-44"></a>
 **44. Move repetitive engineering into CI / headless.**
 > **Instead of:** doing PR review, issue triage, and release notes by hand each time.
 > **Prefer:** run the agent non-interactively in your pipeline, scoped tightly.
@@ -791,14 +835,17 @@ Multi-model is a scalpel for decomposable, verifiable, high-stakes work — not 
 
 ### The orchestration tips
 
+<a id="tip-45"></a>
 **45. Let it self-orchestrate big, parallel work.**
 > **Instead of:** manually spawning and merging a dozen subagents.
 > **Prefer:** `/effort ultracode` → "audit every endpoint for missing auth, fix it, prove each fix with a test." It fans out parallel subagents and self-verifies; you spot-check the report.
 
+<a id="tip-46"></a>
 **46. Use subagents to isolate context.**
 > **Instead of:** a giant exploration that floods your main thread.
 > **Prefer:** "subagent: trace how auth is wired across the repo; return a summary plus the 3 files I should read." (Low effort for batch subagents to control cost.)
 
+<a id="tip-47"></a>
 **47. Race several agents on the same task; keep the winner.**
 > **Instead of:** betting a high-value task on one agent's single attempt.
 > **Prefer:** run the same spec in several parallel git worktrees — and vary the model across them (Claude, Codex, Gemini) so their blind spots differ — then diff the results and merge the best. Budget ~2–4× the cost; reserve it for work where being right beats being cheap.
@@ -810,6 +857,7 @@ git worktree add ../try-a -b try/a   # repeat for try/b, try/c
 ```
 *Or assign the same issue to several agents in GitHub Agent HQ (Tier 8) and pick the winning PR.*
 
+<a id="tip-48"></a>
 **48. Decompose complex builds into specialist roles.**
 > **Instead of:** one prompt that builds everything in one pass.
 > **Prefer:** architect → backend → frontend → tests → security-review, each a subagent with narrow context, reviewing each other.
@@ -831,6 +879,7 @@ plan to the backend subagent to implement, the test-writer subagent to cover it,
 the security-reviewer subagent to audit the diff. Each returns a summary.
 ```
 
+<a id="tip-49"></a>
 **49. Engineer the long-horizon hand-off.**
 > **Instead of:** "build the whole app" in one window (it runs out of context mid-feature and the next session guesses).
 > **Prefer:** an initializer session that writes a checklist; fresh sessions execute it one item at a time.
@@ -848,6 +897,7 @@ the security-reviewer subagent to audit the diff. Each returns a summary.
 ```
 *When compaction starts losing detail, `/clear` and let the next session rebuild from PROGRESS.md — a clean hand-off beats a degraded context. Keep the authoritative task ledger as **JSON, not prose** — Anthropic's [long-running-agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) write-up found models reliably "tidy" or overwrite Markdown but treat a `features.json` of `{name, passes: false}` (flip one boolean per session) as load-bearing data. Prose hand-off in the doc; the status registry in JSON.*
 
+<a id="tip-50"></a>
 **50. Steer long runs mid-flight instead of restarting them.**
 > **Instead of:** killing a 40-minute run to change a permission, budget, or direction.
 > **Prefer:** inject a steering message while it runs.
@@ -859,6 +909,7 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 { "role": "system", "content": "Permissions update: read-only from here. Summarize findings; make no further edits." }
 ```
 
+<a id="tip-51"></a>
 **51. Engineer the environment, not the wording.**
 > **Instead of:** endlessly tuning the perfect prompt.
 > **Prefer:** invest in CLAUDE.md, Skills, MCP, git discipline, tests-as-oracle, hooks, and CI. Every methodology converges on **research → plan → execute → review → ship**, human-gated — build the system that runs that loop. That system, not the prompt, is the product of professional agentic engineering.
@@ -869,6 +920,7 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 
 *Once you're running more than one agent, or runs longer than you'll sit and watch, **where and how you run them** becomes its own engineering problem. This is the operations layer of agentic work.*
 
+<a id="tip-52"></a>
 **52. Manage parallel agents in an agent-aware terminal.**
 > **Instead of:** a dozen plain terminal tabs where you lose track of which agent is blocked.
 > **Prefer:** a terminal built for agents (Warp) — panes per agent, notifications when one needs input, a built-in diff/review panel.
@@ -877,6 +929,7 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 
 `Cmd+Shift++` opens the code-review panel to diff what an agent changed and send inline comments back. (Claude Code also has its own agent view for grouping sessions.)
 
+<a id="tip-53"></a>
 **53. Isolate parallel agents with worktrees + one session each.**
 > **Instead of:** two agents editing the same working copy and clobbering each other.
 > **Prefer:** one git worktree + branch + session per agent.
@@ -889,6 +942,7 @@ git worktree add ../feat-search feat-search
 ```
 *Bonus: run the same task with Claude Code in one worktree and Codex in another, then diff the two approaches side by side.*
 
+<a id="tip-54"></a>
 **54. Host long runs on a box that doesn't sleep; persist with tmux.**
 > **Instead of:** a run that dies the moment your laptop sleeps or wifi drops.
 > **Prefer:** run on a small always-on server and wrap each agent in tmux.
@@ -902,6 +956,7 @@ tmux attach -t claude-auth     # reattach later, from any device
 ```
 *Why this works: Claude Code is **API-bound, not compute-bound** — inference runs on Anthropic's servers; your machine just holds the thread. A box that doesn't sleep keeps the agent moving. A 4 GB VPS handles one agent; budget **16 GB+** for dynamic workflows or many parallel subagents (heavy orchestration OOM-kills small boxes, and that takes the tmux session with it). Caveat: tmux survives disconnects, not crashes or reboots.*
 
+<a id="tip-55"></a>
 **55. Drive the fleet from your phone.**
 > **Instead of:** being chained to a desk to answer one permission prompt.
 > **Prefer:** SSH in from a mobile client and clear decision points from anywhere.
@@ -912,6 +967,7 @@ For unattended runs, give an explicit **stopping condition** ("work until the te
 
 *(Claude Code's built-in Remote Control still runs on your local machine — the server + tmux setup is the only true close-the-laptop persistence.)*
 
+<a id="tip-56"></a>
 **56. Secure the agent server like production.**
 > **Instead of:** root login and API keys in a committed file on an internet-facing box.
 > **Prefer:** non-root sudo user, SSH-keys-only, firewall, secrets in env / a secrets manager.
@@ -991,18 +1047,22 @@ PR review is where to start: high value, low blast radius. The pattern:
 
 ### Instead / Prefer — the decisions that matter
 
+<a id="tip-57"></a>
 **57. Sandbox the loop; never run autonomous agents on a dev box or prod.**
 > **Instead of:** an unattended agent with write access on your laptop or a shared CI runner.
 > **Prefer:** an ephemeral sandbox (E2B/Modal/Daytona/Northflank, or Claude Code's web VMs) — a runaway loop burns a throwaway container, not your environment.
 
+<a id="tip-58"></a>
 **58. Gate the plan, not every keystroke.**
 > **Instead of:** full autopilot from ticket to merge, or approving every edit.
 > **Prefer:** auto-run the loop but pause for human approval at the spec and before merge. Gate the irreversible; automate the rest.
 
+<a id="tip-59"></a>
 **59. Cap the strikes.**
 > **Instead of:** "loop until the tests pass," unbounded.
 > **Prefer:** "loop until green, max 5 attempts, then stop and summarize what's blocking." A perfection state needs a give-up condition too.
 
+<a id="tip-60"></a>
 **60. Make the tracker the state machine.**
 > **Instead of:** holding workflow state in the agent's conversation (it gets archived/compacted away).
 > **Prefer:** store state as ticket status/labels (Todo → Planning → Approved → In Review). It survives restarts, and a human can override by moving the card.

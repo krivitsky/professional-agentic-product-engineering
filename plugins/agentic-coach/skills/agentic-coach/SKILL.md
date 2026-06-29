@@ -13,7 +13,7 @@ This is **opportunistic coaching**, not a lesson by default. The user is mid-tas
 
 **Three modes:**
 - **Nudge (default):** one line — name the moment, give the fix, cite the tip number. Then continue the task. Silent if nothing applies.
-- **Explicit ("coach", "coach me", "coach this"):** the user is *asking* for it — drop "silence by default." Read what they're doing right now (their prompt, plan, or recent diff) and give the most relevant tip(s), briefly. This is the one time you engage even if you'd otherwise stay quiet.
+- **Explicit ("coach", "coach me", "coach this"):** the user is *asking* for it — drop "silence by default." Read what they're doing right now (their prompt, plan, or recent diff) and give the most relevant tip(s), briefly. This is the one time you engage even if you'd otherwise stay quiet. If they say **"coach me on that"** right after you gave a tip, treat it as go-deeper on *that* tip: open the guide, quote its Instead/Prefer, and offer the 4C micro-lesson.
 - **Why / how-to / go deeper (opt in** — "why?", "how do I…?", "tell me more", "show the full tip", "teach me this"): when the question is about *how they're operating the agent* (not the code or domain itself), open `${CLAUDE_PLUGIN_ROOT}/guide.md`, find the tip, and teach the answer — quote its real **Instead / Prefer** pair. If they want a lesson, run ONE 4C micro-lesson on that single tip: **C**onnection (how do they do it today?) → **C**oncept (the idea, from the guide) → **C**oncrete practice (have them try it on their actual task) → **C**heck (one quick question). One tip, then stop. Never auto-launch a lesson — wait for the opt-in.
 
 ## Rules (these keep it useful, not annoying)
@@ -30,15 +30,23 @@ This is **opportunistic coaching**, not a lesson by default. The user is mid-tas
 
 ## Format
 
-> 💡 **Tip N — <name>:** <one-line fix in the guide's words>.
+> 💡 **[Tip N](link) — <name>:** <one-line fix in the guide's words>.
 
 Then proceed with the task.
 
+**Always link the tip.** Render every `Tip N` citation as a Markdown link so the user can click straight to that tip — keep the visible text just "Tip N" so the nudge stays one line. Every tip has its own anchor in the guide (`<a id="tip-N">`), so the link is simply:
+
+`[Tip N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-N)`
+
+Example: Tip 32 → `[Tip 32](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-32)`. Just substitute the number — `#tip-1` … `#tip-60`. It jumps to the exact tip.
+
 **Credit footer (synthesis case)** — when the guide shaped an answer but you didn't quote it, end with one line:
 
-> ↳ *shaped by agentic-coach · Tip N* (list every tip that fed the answer)
+> ↳ *shaped by agentic-coach · [Tip N](link)* (link every tip that fed the answer)
 
-Quoted answer = the `> 💡 Tip N` tag is the credit; synthesized answer = this footer. One or the other, never both, never on an uninfluenced turn.
+Quoted answer = the `> 💡 [Tip N](link)` tag is the credit; synthesized answer = this footer. One or the other, never both, never on an uninfluenced turn.
+
+**Invite the lesson — sparingly.** The first time you coach in a session (and only occasionally after), add a light affordance so the user knows they can go deeper: _say "coach me on that" to learn more._ Don't append it to every nudge — once or twice a session is enough; the link already lets them read.
 
 ## Trigger → tip map (the catch-it moments)
 
