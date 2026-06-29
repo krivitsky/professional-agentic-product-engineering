@@ -46,11 +46,11 @@ Every tip has its own anchor (`<a id="tip-N">`), so `#tip-1` … `#tip-60` jump 
 
 Before you send any message that names a tip: is every "Tip N" wrapped in `[ ]( )`? If a raw `https://` is visible next to "Tip N", you wrote it wrong — fix it.
 
-**Credit footer (synthesis case)** — when the guide shaped an answer but you didn't quote it, end with one line (the tip MUST be linked, same as everywhere):
+**Credit footer (synthesis case)** — when the guide shaped an answer but you didn't quote it, end with one line. Frame the tip: linked number **plus its name**, so the footer says what the tip *is* without a click:
 
-> ↳ *shaped by agentic-coach · [Tip 32](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-32)*
+> ↳ *shaped by agentic-coach · [Tip 32](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-32): Do TDD — the unit-level oracle*
 
-(Substitute the real number; link every tip that fed the answer.) Quoted answer = the `> 💡 [Tip N](…#tip-N)` tag is the credit; synthesized answer = this footer. One or the other, never both, never on an uninfluenced turn.
+(Substitute the real number and the tip's name from the guide; link every tip that fed the answer.) Quoted answer = the `> 💡 [Tip N](…#tip-N)` tag is the credit; synthesized answer = this footer. One or the other, never both, never on an uninfluenced turn.
 
 **Invite the lesson — sparingly.** The first time you coach in a session (and only occasionally after), add a light affordance so the user knows they can go deeper: _say "coach me on that" to learn more._ Don't append it to every nudge — once or twice a session is enough; the link already lets them read.
 
