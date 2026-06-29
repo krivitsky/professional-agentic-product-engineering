@@ -9,9 +9,11 @@ This is the *coaching* counterpart to the repo's CLAUDE.md *tutor*: the tutor ru
 Two layers, because skills alone trigger probabilistically:
 
 - **Skill** (`skills/agentic-coach`) — model-invoked. Holds the tip catalog and the "nudge, don't nag" protocol; Claude loads it when it judges the work matches.
-- **Hook** (`hooks/hooks.json`, `UserPromptSubmit`) — deterministic. Pattern-matches obvious anti-patterns in your prompt ("clean up", "make it work", "think hard", "don't do X", "the whole repo"…) and injects a one-line reminder to surface the matching tip. Silent otherwise.
+- **Hooks** (`hooks/hooks.json`) — deterministic trigger surface, two events:
+  - **`UserPromptSubmit`** — injects a one-line "consult the coach" reminder on *every* prompt. The skill then decides whether a real anti-pattern applies (one nudge) or stays silent. Always-inject beats keyword-grep, which only caught the few moments where the user happened to type a trigger word and missed semantic ones (no DoD, "it works" with no proof, file-list dumps).
+  - **`PostToolUse` (Bash)** — fires after `git commit` / `git push` / `npm run build` / test runs, nudging toward the checkpoint/verify tips (31 executable DoD · 35 demand evidence · 40 commit every green). This catches the build/commit moments a prompt-only hook can't see.
 
-Lexical moments (phrasing) are caught reliably by the hook; semantic moments (no Definition of Done, accepting "it works" with no proof, giant context) rely on the skill's judgment.
+The hooks guarantee the *reminder* fires; the skill's "nudge, don't nag — one per turn, silence by default" rules keep it from getting noisy.
 
 ## Nudge vs lesson
 
