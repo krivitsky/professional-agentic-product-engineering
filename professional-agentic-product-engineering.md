@@ -2,7 +2,7 @@
 
 **Main maintainer:** Alexey Krivitsky (alexey@krivitsky.com)  
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
-**Submit PR with improvements:** https://github.com/krivitsky/professional-agentic-product-engineering/pulls — ⭐ star it, contribute, help yourself and the next person learn better.
+**Submit PR with improvements** — ⭐ star it, contribute, help yourself and the next person learn better.
 
 ### Goal of this Guide
 
