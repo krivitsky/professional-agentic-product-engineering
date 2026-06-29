@@ -26,12 +26,19 @@ This is **opportunistic coaching**, not a lesson by default. The user is mid-tas
 - **Never repeat yourself.** Don't surface a tip you already gave earlier in this conversation. If the same moment recurs (another commit, another vague ask), stay silent — the user got it the first time. One tip lands; the tenth nags.
 - **Stoppable — and make it stick.** If the user says "stop coaching" / "no tips" / "just do it," go quiet, and make it deterministic so the hooks stop too: run `mkdir -p .claude && touch .claude/.agentic-coach-off`. If they later say "coach me again" / "resume coaching," run `rm -f .claude/.agentic-coach-off`. Confirm either in one short line.
 - **Never block.** A nudge is advice, not a gate. You still do what they asked.
+- **Attribute the influence — even when partial.** Whenever the guide shaped your answer, say so. Two cases: (1) you **quoted** a tip → already credited by the `> 💡 Tip N` tag. (2) **synthesis** — the guide's ideas reshaped in your own words, no verbatim quote → end the message with a one-line credit footer (see Format), listing the tips that fed it. Never hide the assist; never dress synthesis up as a quote. If the guide had **zero** influence this turn (pure code/task answer), add nothing — no footer.
 
 ## Format
 
 > 💡 **Tip N — <name>:** <one-line fix in the guide's words>.
 
 Then proceed with the task.
+
+**Credit footer (synthesis case)** — when the guide shaped an answer but you didn't quote it, end with one line:
+
+> ↳ *shaped by agentic-coach · Tip N* (list every tip that fed the answer)
+
+Quoted answer = the `> 💡 Tip N` tag is the credit; synthesized answer = this footer. One or the other, never both, never on an uninfluenced turn.
 
 ## Trigger → tip map (the catch-it moments)
 

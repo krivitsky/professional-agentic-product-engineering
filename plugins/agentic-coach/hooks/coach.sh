@@ -14,6 +14,7 @@ ev="${1:-prompt}"
 in="$(cat)"
 flag="${CLAUDE_PROJECT_DIR:-$PWD}/.claude/.agentic-coach-off"
 dont_repeat="Do not repeat a tip you already gave earlier in this conversation; if the same moment recurs, stay silent."
+attribute="If the guide shapes your reply even partially, attribute it: a quoted tip is credited by its '> Tip N' tag; a synthesized answer (no verbatim quote) ends with one line '↳ shaped by agentic-coach · Tip N'. No footer on turns the guide did not influence."
 
 emit() { # $1 = text, $2 = hookEventName
   jq -nc --arg c "$1" --arg e "$2" \
@@ -36,9 +37,9 @@ fi
 case "$ev" in
   prompt)
     if [ "$explicit" = "1" ]; then
-      emit "[agentic-coach] The user explicitly asked to be coached. Engage now: read their current prompt, plan, or recent changes, and surface the most relevant tip(s) from the agentic-coach skill (full text in ${CLAUDE_PLUGIN_ROOT}/guide.md), briefly. This OVERRIDES the usual 'silence by default'. ${dont_repeat}" "UserPromptSubmit"
+      emit "[agentic-coach] The user explicitly asked to be coached. Engage now: read their current prompt, plan, or recent changes, and surface the most relevant tip(s) from the agentic-coach skill (full text in ${CLAUDE_PLUGIN_ROOT}/guide.md), briefly. This OVERRIDES the usual 'silence by default'. ${dont_repeat} ${attribute}" "UserPromptSubmit"
     else
-      emit "[agentic-coach] Consult the agentic-coach skill. If a clear agentic anti-pattern applies this turn, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix), then continue the task. If the user asks 'why' or 'how to / how do I' about how they're operating the agent (not about the code or domain itself), teach the answer from the guide and cite the tip. Otherwise stay silent. ${dont_repeat} Never nag, max one nudge." "UserPromptSubmit"
+      emit "[agentic-coach] Consult the agentic-coach skill. If a clear agentic anti-pattern applies this turn, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix), then continue the task. If the user asks 'why' or 'how to / how do I' about how they're operating the agent (not about the code or domain itself), teach the answer from the guide and cite the tip. Otherwise stay silent. ${dont_repeat} Never nag, max one nudge. ${attribute}" "UserPromptSubmit"
     fi
     ;;
   bash)
