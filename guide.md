@@ -100,8 +100,8 @@ Climb only as high as your work demands — then stop.
     - 39. Use worktrees
     - 40. Replace "remember to run tests" with a hook
     - 41. Move repetitive engineering into CI
-11. [Bring in more models (the multi-model playbook)](#bring-in-more-models-to-cover-one-models-blind-spots-the-multi-model-playbook)
-12. [Tier 6 — Run many agents at once](#tier-6--run-many-agents-at-once-to-ship-more-work-in-parallel)
+11. [Tier 6 — Run many agents at once](#tier-6--run-many-agents-at-once-to-ship-more-work-in-parallel)
+    - [The model toolkit — bring in more models (any tier)](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)
     - 42. Let it self-orchestrate
     - 43. Use subagents to isolate context
     - 43a. Race several agents
@@ -109,19 +109,19 @@ Climb only as high as your work demands — then stop.
     - 45. Engineer the long-horizon hand-off
     - 46. Steer long runs mid-flight
     - 47. Engineer the environment
-13. [Tier 7 — Operate your agents as a fleet](#tier-7--operate-your-agents-as-a-fleet-so-long-runs-dont-die-on-you)
+12. [Tier 7 — Operate your agents as a fleet](#tier-7--operate-your-agents-as-a-fleet-so-long-runs-dont-die-on-you)
     - 48. Use an agent-aware terminal
     - 49. Isolate with worktrees + one session each
     - 50. Host on a box that doesn't sleep
     - 51. Drive the fleet from your phone
     - 52. Secure the agent server
-14. [Tier 8 — Put agents into production (the execution layer)](#tier-8--put-agents-into-production-so-they-work-without-you-the-execution-layer)
+13. [Tier 8 — Put agents into production (the execution layer)](#tier-8--put-agents-into-production-so-they-work-without-you-the-execution-layer)
     - 53. Sandbox the loop
     - 54. Gate the plan, not every keystroke
     - 55. Cap the strikes
     - 56. Make the tracker the state machine
-15. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
-16. [Sources](#sources)
+14. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
+15. [Sources](#sources)
 
 ---
 
@@ -391,7 +391,7 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 
 ### Your first multi-model setup (the basics)
 
-Two moves, no infrastructure — this is all the multi-model you need until you're orchestrating real work (the rest is the [full playbook](#bring-in-more-models-to-cover-one-models-blind-spots-the-multi-model-playbook) before Tier 6).
+Two moves, no infrastructure — this is all the multi-model you need until you're orchestrating real work (the rest is the [full playbook](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook) before Tier 6).
 
 **20a. Plan with the smart model, build with the cheap one.**
 > **Instead of:** running planning and coding on the same single model.
@@ -411,13 +411,19 @@ Inside Claude Code, make it a loop: a `spec-author` subagent writes SPEC.md and 
 
 The spec is the contract the whole build runs against (Tier 4), so this is the highest-leverage place to spend a second model.
 
-*That's the basics: one model plans while a cheaper one builds, and agents draft and critique the spec against each other before code. Per-subagent models, an advisor, cross-lab code review, and open-weight/self-hosted routing come later in the [full playbook](#bring-in-more-models-to-cover-one-models-blind-spots-the-multi-model-playbook).*
+*That's the basics: one model plans while a cheaper one builds, and agents draft and critique the spec against each other before code. Per-subagent models, an advisor, cross-lab code review, and open-weight/self-hosted routing come later in the [full playbook](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook).*
 
 ---
 
 ## Tier 3 — Give the agent the right context and tools, so it stops guessing
 
 *The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 6). Check usage any time with `/context`.*
+
+**Before the agent touches a real repo — keep secrets out of git and out of context.** A coding agent reads your whole tree and everything you paste; both leak. Set this up once, first:
+- **Gitignore secrets before anything else.** Put real values in `.env`; add `.env` (and `.env.local`, `*.pem`, `*.key`) to `.gitignore` — so neither git, a PR, nor the agent's own commits ever carry them. Commit a `.env.example` with blank keys as the shape the agent should follow.
+- **Never paste a key into a prompt.** A token in a prompt lands in the transcript, the logs, and the context window. Reference it by variable (`process.env.STRIPE_KEY`) and let the app read it at runtime.
+- **Enforce it, don't just trust it.** Back the convention with the `PreToolUse` guard hook (Tip 40) that blocks any read or write of `.env` — the layer the model can't talk its way past.
+- **Privacy boundary.** Any code you route to a third-party model or gateway leaves Anthropic's trust boundary into that provider's data handling — keep sensitive code on Anthropic or your own infra ([Level 2](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)).
 
 **21. Feed high-signal context, not the whole repo.**
 > **Instead of:** "Here's the entire codebase." (even at 1M tokens)
@@ -564,7 +570,7 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 
 **34. Review with fresh eyes, not the context that wrote it.**
 > **Instead of:** the same session grading its own code.
-> **Prefer:** a fresh subagent/session reviews the diff against the criteria; correctness only, not style. *(Stronger still: have a **different model** review it — see [multi-model use](#bring-in-more-models-to-cover-one-models-blind-spots-the-multi-model-playbook).)*
+> **Prefer:** a fresh subagent/session reviews the diff against the criteria; correctness only, not style. *(Stronger still: have a **different model** review it — see [multi-model use](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook).)*
 
 **35. Run a pre-mortem; treat it like a teammate.**
 > **Instead of:** "Looks great, ship it."
@@ -640,9 +646,11 @@ claude -p "Review this PR diff for correctness and security; comment only on rea
 
 ---
 
-## Bring in more models, to cover one model's blind spots (the multi-model playbook)
+## Tier 6 — Run many agents at once, to ship more work in parallel
 
-Using more than one model isn't a graduation prize you unlock at the top — it's something you can do at **any** tier.
+### The model toolkit — bring in more models (the multi-model playbook)
+
+Using more than one model is usable at **any** tier — but you lean on it hardest here (per-subagent models, racing agents across labs, specialist roles), which is why it leads off Tier 6.
 
 It works for one reason: **different models have different blind spots**, so a second model catches what the first missed.
 
@@ -653,7 +661,7 @@ Reach for it when a task is **high-stakes, decomposable, or verifiable**; skip i
 1. **Within the Anthropic family** (Opus / Sonnet / Haiku) — explicit model choice, per-subagent models, opusplan, advisor. Fully supported, built in, no extra infra. This is where most of the value is.
 2. **Beyond Anthropic** — other frontier labs (GPT-5.5-class, Gemini 3.x), open-weight models (DeepSeek/Qwen/Llama-class), or models you self-host. More power and more cost/privacy control, but you leave the natively-supported path and take on compatibility + governance work.
 
-### Level 1 — Multiple Anthropic models inside Claude Code
+#### Level 1 — Multiple Anthropic models inside Claude Code
 
 The native path: built in, fully supported, costs nothing but a flag or a frontmatter line. Default division of labor: **Opus** for reasoning/planning/judgment, **Sonnet** for implementation, **Haiku** for search/explore/classification.
 
@@ -690,7 +698,7 @@ export CLAUDE_CODE_SUBAGENT_MODEL="claude-sonnet-4-6"
 
 **How:** `claude --fallback-model sonnet,haiku` (or `"fallbackModel": ["sonnet","haiku"]` in settings) — tried in order on overload, capped at 3, lasts the turn. This is a *reliability* lever (availability), distinct from the advisor's *quality/cost* lever — both matter once runs go unattended (Tier 7–8).
 
-### Level 2 — Reaching beyond Anthropic (other frontier, open-weight, self-hosted)
+#### Level 2 — Reaching beyond Anthropic (other frontier, open-weight, self-hosted)
 
 The advanced case. The payoff is real — a different lab's blind spots aren't your model's blind spots, and open-weight/self-hosted models can cut cost or keep code on your own hardware — but you leave Claude Code's fully-supported native path.
 
@@ -734,7 +742,7 @@ Multi-model is a scalpel for decomposable, verifiable, high-stakes work — not 
 
 ---
 
-## Tier 6 — Run many agents at once, to ship more work in parallel
+### The orchestration tips
 
 **42. Let it self-orchestrate big, parallel work.**
 > **Instead of:** manually spawning and merging a dozen subagents.
@@ -910,7 +918,7 @@ PR review is where to start: high value, low blast radius. The pattern:
 - **Feed the diff, not the codebase.** Pull only the changed lines + surrounding functions. Dumping the whole repo destroys the reviewer's context.
 - **Load the rulebook.** Inject your `ARCHITECTURE.md` or a `code-review` Skill ("always use the repository pattern for DB access") so it reviews against *your* standards.
 - **Prompt adversarially.** "Identify side effects this diff introduces that are **not** covered by the modified tests." (And per Tip 33: ask for all findings, severity-labeled — never tell it to be conservative.)
-- **Use a different model than the author.** A cross-lab reviewer catches blind spots a self-review shares — see [multi-model use](#bring-in-more-models-to-cover-one-models-blind-spots-the-multi-model-playbook).
+- **Use a different model than the author.** A cross-lab reviewer catches blind spots a self-review shares — see [multi-model use](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook).
 
 ### Instead / Prefer — the decisions that matter
 
