@@ -4,13 +4,7 @@
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
 **Submit PR with improvements** — ⭐ star it, contribute, help yourself and the next person learn better.
 
-## Goal of this Guide
-
-A mid-2026 field guide — updated continuously — to getting good at operating a coding agent (using the example of a popular agentic coding harness, Claude Code by Anthropic) for creating new software and working on real codebases.
-
-It spans the full range: from "fix bug xyz" all the way to autonomous engineering loops running in production.
-
-Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
+A mid-2026 field guide — updated continuously — to getting good at operating a coding agent (using the example of a popular agentic coding harness, Claude Code by Anthropic) for creating new software and working on real codebases. It spans the full range: from "fix bug xyz" to autonomous engineering loops in production. Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
 
 ## The one idea
 
@@ -22,6 +16,16 @@ flowchart LR
 ```
 
 The eight tiers are the detailed rungs of that one climb. Learn the ladder and the 60 tips fall into place.
+
+## See it catch you
+
+The Guide also ships as an **ambient coach** — a plugin that watches how you operate the agent and speaks up the moment you're about to make a *thinking* mistake, with a link straight to the fix. You're about to delete failing tests to get a green build:
+
+> **you ›** can I remove red tests?
+>
+> 💡 **[Tip 32](guide.md#tip-32) — Red tests are signal, not noise.** Don't delete failing tests to go green — first find out *why* they're red. Red because the code regressed → fix the code (deleting the test buries a live bug). Red because the feature's gone or the test is stale → then deleting is legit cleanup.
+
+One question, one tip, one click to the Guide. It catches the *thinking*, not the syntax — and stays silent unless it has something. **[Install it ↓](#how-to-use-it)**
 
 ## Who this is for
 
@@ -38,6 +42,8 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 
 ## What's inside
 
+Three ways into the same material — read it, get tutored through it, or get coached *while you work*:
+
 - **[`guide.md`](guide.md)** — the Guide itself. One ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
 
   | Tier | You learn to… |
@@ -53,7 +59,8 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 
   Climb only as high as your work demands — then stop.
 
-- **[`CLAUDE.md`](CLAUDE.md)** — turns Claude Code into an interactive **tutor** for the Guide. Open this repo in Claude Code and it teaches you the Guide hands-on: one small concept at a time, you do each one, and a separate quizmaster checks that it stuck.
+- **[`CLAUDE.md`](CLAUDE.md)** — turns Claude Code into an interactive **tutor** for the Guide: one small concept at a time, you do each one, and a separate quizmaster checks that it stuck.
+- **[`agentic-coach`](plugins/agentic-coach)** — the **ambient coach** plugin from above: in-the-flow nudges to the right tip, no lesson required.
 
 ## How to use it
 
@@ -61,20 +68,14 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 
 **Or just read it.** Open the [Guide](guide.md) and work down the ladder to the tier your work needs.
 
-**Or install the ambient coach.** Drop the [`agentic-coach`](plugins/agentic-coach) plugin into any repo and it nudges you with the right tip *while you work* — no lesson, just in-the-flow coaching:
+**Or install the ambient coach** (the demo above) into any repo:
 
 ```shell
 /plugin marketplace add krivitsky/professional-agentic-product-engineering
 /plugin install agentic-coach@pae
 ```
 
-It catches the *thinking* mistake, not just the syntax — and links you straight to the tip. You're about to delete failing tests to get a green build:
-
-> **you ›** can I remove red tests?
->
-> 💡 **[Tip 32](guide.md#tip-32) — Red tests are signal, not noise.** Don't delete failing tests to go green — first find out *why* they're red. Red because the code regressed → fix the code (deleting the test buries a live bug). Red because the feature's gone or the test is stale → then deleting is legit cleanup.
-
-One question, one tip, one click to the [Guide](guide.md). It speaks up only when it catches something — say *"coach me"* to ask it directly, or *"stop coaching"* to silence it.
+Then just work — it nudges when it catches something. Say *"coach me"* to ask it directly, or *"stop coaching"* to silence it.
 
 ## Contributing
 
