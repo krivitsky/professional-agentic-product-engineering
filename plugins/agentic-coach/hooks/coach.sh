@@ -14,7 +14,7 @@ ev="${1:-prompt}"
 in="$(cat)"
 flag="${CLAUDE_PROJECT_DIR:-$PWD}/.claude/.agentic-coach-off"
 dont_repeat="Do not repeat a tip you already gave earlier in this conversation; if the same moment recurs, stay silent."
-attribute="If the guide shapes your reply even partially, attribute it. Quoted tip -> the '> Tip N' tag is the credit. Synthesized answer (no verbatim quote) -> end with EXACTLY this one line, filling in the number and the tip's name: '↳ shaped by agentic-coach · [Tip N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-N): <tip name>'. The [Tip N](url) bracket form is mandatory — 'Tip N' is the clickable text and the URL stays hidden; writing a bare 'Tip N (https://...)' with the URL visible is a bug. No footer on turns the guide did not influence."
+attribute="Citing the relevant tip comes first; attribution/formatting second — never drop a citation to get formatting right. When the guide shaped your reply: a quoted tip is credited by its '> Tip N' tag; otherwise end with one line '↳ shaped by agentic-coach · [Tip N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-N): <tip name>'. Format Tip N as that [bracketed link] so the text is clickable and the URL hidden. Add the footer only when a tip was actually relevant."
 
 emit() { # $1 = text, $2 = hookEventName
   jq -nc --arg c "$1" --arg e "$2" \
@@ -39,7 +39,7 @@ case "$ev" in
     if [ "$explicit" = "1" ]; then
       emit "[agentic-coach] The user explicitly asked to be coached. Engage now: read their current prompt, plan, or recent changes, and surface the most relevant tip(s) from the agentic-coach skill (full text in ${CLAUDE_PLUGIN_ROOT}/guide.md), briefly. This OVERRIDES the usual 'silence by default'. ${dont_repeat} ${attribute}" "UserPromptSubmit"
     else
-      emit "[agentic-coach] Consult the agentic-coach skill. If a clear agentic anti-pattern applies this turn, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix), then continue the task. If the user asks 'why' or 'how to / how do I' about how they're operating the agent (not about the code or domain itself), teach the answer from the guide and cite the tip. Otherwise stay silent. ${dont_repeat} Never nag, max one nudge. ${attribute}" "UserPromptSubmit"
+      emit "[agentic-coach] Consult the agentic-coach skill. If the user is doing, asking about, OR considering anything a guide tip covers, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix) and continue. This includes questions, not just anti-pattern actions — e.g. 'can I remove red tests?' -> Tip 32; a vague ask -> Tip 2; 'why/how do I' about operating the agent -> teach from the guide. Citing the relevant tip IS the job — do NOT stay silent just because nothing is strictly an 'anti-pattern'. Stay silent only when no tip is genuinely relevant (pure code/domain turn). ${dont_repeat} One nudge, no nagging. ${attribute}" "UserPromptSubmit"
     fi
     ;;
   bash)

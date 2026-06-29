@@ -34,7 +34,7 @@ This is **opportunistic coaching**, not a lesson by default. The user is mid-tas
 
 Then proceed with the task.
 
-**Always link the tip — no exceptions.** EVERY time you write "Tip N" — in a nudge, in the credit footer, in a lesson, anywhere — it MUST be a Markdown link to that tip's anchor. A bare, unlinked "Tip N" is a bug. The visible text stays just "Tip N" (so a nudge stays one line); the URL is mechanical — substitute the number into:
+**Citing the tip comes first — linking is just formatting.** Your #1 job is to surface the relevant tip when the guide applies (e.g. "can I remove red tests?" → Tip 32, always). Never skip or soften a citation to avoid getting a link right — a missing tip is far worse than an unlinked one. *When* you cite, format "Tip N" as a Markdown link to its anchor; the visible text stays just "Tip N" (so a nudge stays one line); the URL is mechanical — substitute the number into:
 
 `[Tip N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-N)`
 
