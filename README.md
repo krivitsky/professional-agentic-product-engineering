@@ -68,6 +68,14 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 /plugin install agentic-coach@pae
 ```
 
+It catches the *thinking* mistake, not just the syntax — and links you straight to the tip. You're about to delete failing tests to get a green build:
+
+> **you ›** can I remove red tests?
+>
+> 💡 **[Tip 32](guide.md#tip-32) — Red tests are signal, not noise.** Don't delete failing tests to go green — first find out *why* they're red. Red because the code regressed → fix the code (deleting the test buries a live bug). Red because the feature's gone or the test is stale → then deleting is legit cleanup.
+
+One question, one tip, one click to the [Guide](guide.md). It speaks up only when it catches something — say *"coach me"* to ask it directly, or *"stop coaching"* to silence it.
+
 ## Contributing
 
 ⭐ If it helps, **star the repo**.
