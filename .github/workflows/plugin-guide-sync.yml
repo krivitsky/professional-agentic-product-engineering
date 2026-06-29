@@ -1,0 +1,27 @@
+name: plugin-guide-sync
+
+# Fail if the agentic-coach plugin's bundled guide.md has drifted from the
+# canonical guide.md at the repo root. Fix: run ./scripts/sync-plugin.sh and commit.
+
+on:
+  push:
+    paths:
+      - "guide.md"
+      - "plugins/agentic-coach/guide.md"
+  pull_request:
+    paths:
+      - "guide.md"
+      - "plugins/agentic-coach/guide.md"
+
+jobs:
+  check-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare bundled guide to canonical
+        run: |
+          if ! diff -q guide.md plugins/agentic-coach/guide.md; then
+            echo "::error::plugins/agentic-coach/guide.md is out of sync with guide.md. Run ./scripts/sync-plugin.sh and commit."
+            exit 1
+          fi
+          echo "In sync."

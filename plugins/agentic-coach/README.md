@@ -13,6 +13,13 @@ Two layers, because skills alone trigger probabilistically:
 
 Lexical moments (phrasing) are caught reliably by the hook; semantic moments (no Definition of Done, accepting "it works" with no proof, giant context) rely on the skill's judgment.
 
+## Nudge vs lesson
+
+The full guide ships with the plugin (`guide.md`, a snapshot of all 60 tips), kept in sync with the canonical copy by CI.
+
+- **Default:** a one-line nudge that cites the tip.
+- **Opt in** ("show the full tip", "teach me this", "why?") and the coach reads the real tip from the bundled guide — exact *Instead / Prefer* text — or runs a single 4C micro-lesson on it. It never auto-lectures.
+
 ## Install
 
 ```shell
