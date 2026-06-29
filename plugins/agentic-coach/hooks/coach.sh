@@ -38,7 +38,7 @@ case "$ev" in
     if [ "$explicit" = "1" ]; then
       emit "[agentic-coach] The user explicitly asked to be coached. Engage now: read their current prompt, plan, or recent changes, and surface the most relevant tip(s) from the agentic-coach skill (full text in ${CLAUDE_PLUGIN_ROOT}/guide.md), briefly. This OVERRIDES the usual 'silence by default'. ${dont_repeat}" "UserPromptSubmit"
     else
-      emit "[agentic-coach] Consult the agentic-coach skill. If a clear agentic anti-pattern applies this turn, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix), then continue the task. If the user asks 'why' about how they're operating the agent (not about the code itself), teach the reasoning from the guide and cite the tip. Otherwise stay silent. ${dont_repeat} Never nag, max one nudge." "UserPromptSubmit"
+      emit "[agentic-coach] Consult the agentic-coach skill. If a clear agentic anti-pattern applies this turn, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix), then continue the task. If the user asks 'why' or 'how to / how do I' about how they're operating the agent (not about the code or domain itself), teach the answer from the guide and cite the tip. Otherwise stay silent. ${dont_repeat} Never nag, max one nudge." "UserPromptSubmit"
     fi
     ;;
   bash)
