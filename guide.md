@@ -12,6 +12,19 @@ It spans the full range: from "fix bug xyz" all the way to autonomous engineerin
 
 Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemini 3.x+**.
 
+### The one idea
+
+Professional agentic engineering is **not prompt engineering. It's engineering the system around the model.**
+
+As the work gets harder, *where you apply effort* climbs a ladder — the prompt shrinks while the system around it grows:
+
+```mermaid
+flowchart LR
+  P[Prompt<br/>engineering] --> T[Task<br/>engineering] --> C[Context<br/>engineering] --> V[Verification<br/>engineering] --> E[Environment<br/>engineering] --> X[Execution<br/>engineering]
+```
+
+The eight tiers below are the detailed rungs of that one climb (Prompt = T1, Task = T2, Context = T3, Verification = T4, Environment = T5–T7, Execution = T8). Every tip is an instance of one layer — learn the ladder and the 60 tips fall into place.
+
 ### Who this is for
 - **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
 - **Product managers** closing the tech gap — ship real changes, not just specs.
@@ -149,7 +162,9 @@ The trick is knowing *what pushes you to the next tier* — it's always a specif
 
 **Read the right column as a diagnostic.** Stuck re-typing the same context every session? That's the Tier 3 pain — go engineer CLAUDE.md and Skills.
 
-Losing work on long runs? Tier 5 — commit on every green. Each tier exists to kill a specific failure of the one below it.
+Losing work on long runs? Tier 5 — commit on every green. Each tier exists to kill a specific failure of the one below it:
+
+> Prompts drift → **T2** plans them. Plans are forgotten across sessions → **T3** makes context durable. Context still can't prove correctness → **T4** verifies. Long runs lose good work → **T5** checkpoints. One agent is too slow → **T6** orchestrates many. Runs die when your laptop sleeps → **T7** runs a fleet. Humans still babysit terminals → **T8** makes agents async workers.
 
 The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against an objective bar, inside a real repo you own.
 
@@ -496,6 +511,8 @@ Or commit `.mcp.json` to the repo root:
 
 **This is the heart of professional agentic engineering, so read the framing first.**
 
+> **Prompts don't make agents reliable. Verification does.**
+
 You don't get great output from one prompt — you get it from a **loop**: the agent acts, checks, improves, repeats.
 
 But a loop can only *converge* if it has a target it can test itself against — a **perfection state**, an objective oracle that says *done / not done* without you in the seat every cycle.
@@ -513,6 +530,8 @@ The old rigor is now load-bearing — that's what makes it *engineering* and not
 It used to be enforced by team discipline. With agents it becomes the **machine-checkable contract the loop runs against**: every DoD item that *can* be a command (tests, lint, typecheck, build, e2e, coverage threshold) becomes part of the bar the agent iterates toward; the few that can't be automated — "does this actually solve the user's problem?" — stay human gates.
 
 The whole skill is writing a DoD precise enough that the agent knows, without you, whether it's done.
+
+*The deeper shift: **the spec is the new source code.** When the loop regenerates the implementation on demand against an executable spec, the code becomes an ephemeral byproduct and the `SPEC.md` + tests become the artifact you actually author, version, and review. Your job moves up — from writing syntax to writing the rules the agent executes against.*
 
 **31. Make your Definition of Done executable.**
 > **Instead of:** "Make it work."
@@ -774,6 +793,16 @@ git worktree add ../try-a -b try/a   # repeat for try/b, try/c
 > **Instead of:** one prompt that builds everything in one pass.
 > **Prefer:** architect → backend → frontend → tests → security-review, each a subagent with narrow context, reviewing each other.
 
+```mermaid
+flowchart LR
+  A[Architect<br/>read-only] -->|approved plan| B[Backend]
+  A --> F[Frontend]
+  B --> T[Test-writer]
+  F --> T
+  T --> S[Security-reviewer<br/>read-only]
+  S -->|findings| B
+```
+
 **How:** define each role as a `.claude/agents/<role>.md` (see Primitives) with a tight tool list — architect read-only (`Read, Grep, Glob`), backend gets `+ Write, Edit, Bash`, security-reviewer stays read-only — then chain them in one ask:
 ```
 Plan this with the architect subagent and STOP for my approval. Then hand the approved
@@ -910,6 +939,18 @@ When you outgrow managed (control, data residency, custom tools), the layer has 
 ### The loop — from ticket to merged PR
 
 This is just Tier 4's loop, hosted and gated:
+
+```mermaid
+flowchart TD
+  Tk[Ticket → Agent Todo] --> Pl[Plan: spec sub-agent]
+  Pl --> G1{Human approves spec?}
+  G1 -->|yes| Ex[Isolated execution<br/>sandbox + own worktree]
+  Ex --> Loop[Build & test loop<br/>until green · capped ~3–5 strikes]
+  Loop --> PR[Commit & open PR via gh]
+  PR --> Rev[Review agent posts findings]
+  Rev --> Fix[Execution agent fixes]
+  Fix --> G2{Human merges}
+```
 
 1. **Trigger & context.** A human moves a ticket to "Agent Todo"; a webhook fires. The agent reads the ticket (MCP) and pulls only the relevant files (code intelligence) — *not* the whole repo.
 2. **Plan (spec sub-agent).** A planning subagent drafts a short spec and posts it back to the ticket; the loop **pauses for a human "Approve."** Keep this gate.
