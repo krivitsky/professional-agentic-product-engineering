@@ -78,6 +78,7 @@ Climb only as high as your work demands — then stop.
    - 20b. Draft-and-critique the spec
 8. [Tier 3 — Give the agent the right context and tools](#tier-3--give-the-agent-the-right-context-and-tools-so-it-stops-guessing)
    - 21. Feed high-signal context
+   - 21a. Keep secrets out of git and context
    - 22. `/clear` between tasks
    - 23. Steer compaction
    - 24. CLAUDE.md = gotchas + conventions
@@ -419,15 +420,21 @@ The spec is the contract the whole build runs against (Tier 4), so this is the h
 
 *The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 6). Check usage any time with `/context`.*
 
-**Before the agent touches a real repo — keep secrets out of git and out of context.** A coding agent reads your whole tree and everything you paste; both leak. Set this up once, first:
-- **Gitignore secrets before anything else.** Put real values in `.env`; add `.env` (and `.env.local`, `*.pem`, `*.key`) to `.gitignore` — so neither git, a PR, nor the agent's own commits ever carry them. Commit a `.env.example` with blank keys as the shape the agent should follow.
-- **Never paste a key into a prompt.** A token in a prompt lands in the transcript, the logs, and the context window. Reference it by variable (`process.env.STRIPE_KEY`) and let the app read it at runtime.
-- **Enforce it, don't just trust it.** Back the convention with the `PreToolUse` guard hook (Tip 40) that blocks any read or write of `.env` — the layer the model can't talk its way past.
-- **Privacy boundary.** Any code you route to a third-party model or gateway leaves Anthropic's trust boundary into that provider's data handling — keep sensitive code on Anthropic or your own infra ([Level 2](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)).
-
 **21. Feed high-signal context, not the whole repo.**
 > **Instead of:** "Here's the entire codebase." (even at 1M tokens)
 > **Prefer:** just the affected modules + relevant docs, loaded just-in-time.
+
+**21a. Keep secrets out of git and out of context — set this up first.**
+> **Instead of:** real keys in the repo, or pasted into a prompt.
+> **Prefer:** `.env` gitignored and referenced by variable, enforced with a hook.
+
+A coding agent reads your whole tree and everything you paste; both leak.
+
+**How:**
+- **Gitignore secrets before anything else.** Real values in `.env`; add `.env` (plus `.env.local`, `*.pem`, `*.key`) to `.gitignore` — so neither git, a PR, nor the agent's own commits ever carry them. Commit a `.env.example` with blank keys as the shape to follow.
+- **Never paste a key into a prompt** — it lands in the transcript, the logs, and the context window. Reference it by variable (`process.env.STRIPE_KEY`); the app reads it at runtime.
+- **Enforce it, don't just trust it:** a `PreToolUse` guard hook (Tip 40) that blocks any read or write of `.env` — the layer the model can't talk its way past.
+- **Privacy boundary:** code routed to a third-party model or gateway leaves Anthropic's trust boundary into that provider's data handling — keep sensitive code on Anthropic or your own infra ([Level 2](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)).
 
 **22. `/clear` between tasks; reset after repeated failure.**
 > **Instead of:** one session for five unrelated tasks, then fixing the same bug four times.
