@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | jq -r .prompt 2>/dev/null | grep -qiE 'clean up|make it (work|better|nice)|improve the|just fix|fix it|think (really )?hard|ultrathink|the (whole|entire) (repo|codebase)|do not |don.t (use|do|be)' && echo '[agentic-coach] This prompt may show an agentic anti-pattern. Consult the agentic-coach skill and, if one clearly applies, surface the SINGLE most relevant tip in one line, then continue the task. Do not nag.'; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}

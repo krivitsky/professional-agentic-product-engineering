@@ -61,6 +61,13 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 
 **Or just read it.** Open the [Guide](guide.md) and work down the ladder to the tier your work needs.
 
+**Or install the ambient coach.** Drop the [`agentic-coach`](plugins/agentic-coach) plugin into any repo and it nudges you with the right tip *while you work* — no lesson, just in-the-flow coaching:
+
+```shell
+/plugin marketplace add krivitsky/professional-agentic-product-engineering
+/plugin install agentic-coach@pae
+```
+
 ## Contributing
 
 ⭐ If it helps, **star the repo**.
