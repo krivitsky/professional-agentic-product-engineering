@@ -14,7 +14,7 @@ ev="${1:-prompt}"
 in="$(cat)"
 flag="${CLAUDE_PROJECT_DIR:-$PWD}/.claude/.agentic-coach-off"
 dont_repeat="Do not repeat a tip you already gave earlier in this conversation; if the same moment recurs, stay silent."
-attribute="If the guide shapes your reply even partially, attribute it: a quoted tip is credited by its '> Tip N' tag; a synthesized answer (no verbatim quote) ends with one line '↳ shaped by agentic-coach · Tip N'. No footer on turns the guide did not influence. EVERY 'Tip N' you write — nudge OR footer — MUST be a Markdown link with the bracket form so 'Tip N' itself is the clickable text and the URL stays hidden: [Tip N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-N). Never print the raw URL next to 'Tip N'; a bare unlinked 'Tip N', or a visible https:// URL, is a bug."
+attribute="If the guide shapes your reply even partially, attribute it. Quoted tip -> the '> Tip N' tag is the credit. Synthesized answer (no verbatim quote) -> end with EXACTLY this one line, filling in the number and the tip's name: '↳ shaped by agentic-coach · [Tip N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-N): <tip name>'. The [Tip N](url) bracket form is mandatory — 'Tip N' is the clickable text and the URL stays hidden; writing a bare 'Tip N (https://...)' with the URL visible is a bug. No footer on turns the guide did not influence."
 
 emit() { # $1 = text, $2 = hookEventName
   jq -nc --arg c "$1" --arg e "$2" \
