@@ -31,9 +31,9 @@ You're talking to Claude; the coach just listens in — one catch, one tip, one 
 
 ## What's inside
 
-Three ways into the same material — read it, get tutored through it, or get coached *while you work*.
+**Three in one** — the same material in three forms: read it, get tutored through it, or get coached *while you work*.
 
-### The Guide — [`guide.md`](guide.md)
+### 1) The Guide — [`guide.md`](guide.md)
 
 One ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
 
@@ -56,11 +56,11 @@ Every tip is a concrete **Instead → Prefer** pair — the anti-example, then t
 >
 > ✅ "Extract token refresh in `session.ts` into the existing `RetryPolicy` class."
 
-### The Tutor — [`CLAUDE.md`](CLAUDE.md)
+### 2) The Tutor — [`CLAUDE.md`](CLAUDE.md)
 
 Turns Claude Code into an interactive tutor for the Guide: one small concept at a time, you do each one, and a separate quizmaster checks that it stuck.
 
-### The Coach — [`agentic-coach`](plugins/agentic-coach)
+### 3) The Coach — [`agentic-coach`](plugins/agentic-coach)
 
 The ambient coach plugin from above: in-the-flow nudges to the right tip, no lesson required.
 
