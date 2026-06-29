@@ -1,8 +1,10 @@
 # Professional Agentic Product Engineering Guide (Mid-2026 and updated continuously)
 
-**Main maintainer:** Alexey Krivitsky (alexey@krivitsky.com)
-**Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering
+**Main maintainer:** Alexey Krivitsky (alexey@krivitsky.com)  
+**Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
 **Submit PR with improvements:** https://github.com/krivitsky/professional-agentic-product-engineering/pulls — ⭐ star it, contribute, help yourself and the next person learn better.
+
+### Goal of this Guide
 
 Getting good at operating a coding agent (using the example of a popular agentic coding harness, Claude Code by Anthropic) for creating new software and working on real codebases.
 
