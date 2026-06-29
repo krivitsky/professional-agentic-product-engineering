@@ -401,6 +401,11 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 
 *A vertical slice is narrow, end-to-end, independently testable. It keeps each agent task inside the context window, makes dependencies explicit, and gives a working checkpoint after every slice instead of one giant unverifiable diff.*
 
+```mermaid
+flowchart LR
+  S1[Slice 1<br/>UI→API→DB→test ✓] --> S2[Slice 2<br/>UI→API→DB→test ✓] --> S3[Slice 3<br/>...]
+```
+
 **20. Turn big features into a spec, then a fresh session.**
 > **Instead of:** a 200-message thread that drifts.
 > **Prefer:** "Interview me on the hard parts, write SPEC.md" → new session: "Implement SPEC.md."
@@ -518,6 +523,15 @@ You don't get great output from one prompt — you get it from a **loop**: the a
 But a loop can only *converge* if it has a target it can test itself against — a **perfection state**, an objective oracle that says *done / not done* without you in the seat every cycle.
 
 That oracle is **tests**. **Red → green is the perfect loop condition**: unambiguous, automatable, and the agent can run it itself.
+
+```mermaid
+flowchart TD
+  P[Prompt + executable DoD] --> A[Agent acts]
+  A --> V{Oracle: tests / lint / types green?}
+  V -->|no, under cap| A
+  V -->|no, cap hit| Stop[Stop · summarize blocker]
+  V -->|yes| Done[Done · show evidence]
+```
 
 This is why we don't need to invent new techniques for agentic quality — the discipline already exists. TDD and BDD were once *highly recommended* practices of professional product engineers.
 
@@ -715,6 +729,13 @@ export CLAUDE_CODE_SUBAGENT_MODEL="claude-sonnet-4-6"
 **Keep a stronger model on call during execution — the advisor.**
 > **Instead of:** paying for a top model for the whole run, or letting a cheap one guess at the hard moments.
 > **Prefer:** run a cheaper main model and let it consult a stronger one only at decision points (before committing to an approach, when stuck on a recurring error, before declaring done).
+
+```mermaid
+flowchart LR
+  E[Executor · Sonnet/Haiku<br/>drives task, calls tools] -->|hard decision| Ad[Advisor · Opus<br/>short plan, no tools]
+  Ad -->|guidance| E
+  E --> R[Result]
+```
 
 **How:** `claude --advisor opus` with a Sonnet/Haiku main (or the `/advisor` command / `advisorModel` setting). Anthropic's own numbers: **Sonnet + an Opus advisor beat Sonnet alone by 2.7 pts on SWE-bench Multilingual *while cutting cost per task ~12%*** — the advisor reads the shared context and writes only a short plan/correction (~400–700 tokens), never tools or user-facing output. (Needs Claude Code v2.1.98+ on the Anthropic API.)
 
