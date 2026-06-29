@@ -9,11 +9,14 @@ This is the *coaching* counterpart to the repo's CLAUDE.md *tutor*: the tutor ru
 Two layers, because skills alone trigger probabilistically:
 
 - **Skill** (`skills/agentic-coach`) — model-invoked. Holds the tip catalog and the "nudge, don't nag" protocol; Claude loads it when it judges the work matches.
-- **Hooks** (`hooks/hooks.json`) — deterministic trigger surface, two events:
+- **Hooks** (`hooks/hooks.json` → `hooks/coach.sh`) — deterministic trigger surface, three events:
   - **`UserPromptSubmit`** — injects a one-line "consult the coach" reminder on *every* prompt. The skill then decides whether a real anti-pattern applies (one nudge) or stays silent. Always-inject beats keyword-grep, which only caught the few moments where the user happened to type a trigger word and missed semantic ones (no DoD, "it works" with no proof, file-list dumps).
-  - **`PostToolUse` (Bash)** — fires after `git commit` / `git push` / `npm run build` / test runs, nudging toward the checkpoint/verify tips (31 executable DoD · 35 demand evidence · 40 commit every green). This catches the build/commit moments a prompt-only hook can't see.
+  - **`PostToolUse` (Bash)** — fires after `git commit` / `git push` / build / test runs, nudging toward the checkpoint/verify tips (31 executable DoD · 35 demand evidence · 40 commit every green). Catches the build/commit moments a prompt-only hook can't see.
+  - **`PostToolUse` (Edit|Write)** — fires when a `*test*` / `*spec*` / `.feature` file is edited, nudging Tip 32 (don't edit tests to pass) — the classic reward-hack.
 
-The hooks guarantee the *reminder* fires; the skill's "nudge, don't nag — one per turn, silence by default" rules keep it from getting noisy.
+The hooks guarantee the *reminder* fires; the skill keeps it quiet: **one nudge per turn, silence by default, and never repeats a tip already given this conversation.**
+
+**Off switch.** Say "stop coaching" and the skill drops a flag (`.claude/.agentic-coach-off`) that the hooks check — coaching goes silent deterministically (not just by my goodwill). "Coach me again" removes it.
 
 ## Nudge vs lesson
 

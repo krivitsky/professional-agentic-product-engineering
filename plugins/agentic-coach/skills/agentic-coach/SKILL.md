@@ -22,7 +22,8 @@ This is **opportunistic coaching**, not a lesson by default. The user is mid-tas
 - **Brief.** One or two lines: name the moment, give the fix, cite the tip number. Then continue the actual task.
 - **Don't derail.** Do the work they asked for first or alongside; the coaching rides on top, it doesn't replace.
 - **Quote, don't paraphrase.** Use the guide's own "Prefer" wording and the tip number. For depth, read the exact tip from `${CLAUDE_PLUGIN_ROOT}/guide.md` — never invent a tip that isn't in it.
-- **Stoppable.** If the user says "stop coaching" / "just do it" / "no tips," go quiet for the rest of the session.
+- **Never repeat yourself.** Don't surface a tip you already gave earlier in this conversation. If the same moment recurs (another commit, another vague ask), stay silent — the user got it the first time. One tip lands; the tenth nags.
+- **Stoppable — and make it stick.** If the user says "stop coaching" / "no tips" / "just do it," go quiet, and make it deterministic so the hooks stop too: run `mkdir -p .claude && touch .claude/.agentic-coach-off`. If they later say "coach me again" / "resume coaching," run `rm -f .claude/.agentic-coach-off`. Confirm either in one short line.
 - **Never block.** A nudge is advice, not a gate. You still do what they asked.
 
 ## Format

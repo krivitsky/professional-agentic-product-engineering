@@ -6,3 +6,6 @@ USER.md
 
 # Local Claude Code settings
 .claude/settings.local.json
+
+# agentic-coach off-switch (local toggle, set by "stop coaching")
+.claude/.agentic-coach-off

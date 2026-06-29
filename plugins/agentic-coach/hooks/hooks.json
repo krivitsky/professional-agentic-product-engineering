@@ -3,10 +3,7 @@
     "UserPromptSubmit": [
       {
         "hooks": [
-          {
-            "type": "command",
-            "command": "cat >/dev/null 2>&1; echo '[agentic-coach] Consult the agentic-coach skill. If a clear agentic anti-pattern applies to this turn, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix), then continue the task. If none clearly applies, stay silent. Never nag, max one nudge.'; exit 0"
-          }
+          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/coach.sh\" prompt" }
         ]
       }
     ],
@@ -14,10 +11,13 @@
       {
         "matcher": "Bash",
         "hooks": [
-          {
-            "type": "command",
-            "command": "c=$(cat | jq -r '.tool_input.command // empty' 2>/dev/null); echo \"$c\" | grep -qiE 'git commit|git push|npm run build|npm run test|vitest|next build|npm test' && jq -nc '{hookSpecificOutput:{hookEventName:\"PostToolUse\",additionalContext:\"[agentic-coach] A commit/build/test just ran. Consult the agentic-coach skill: if this is a checkpoint or done-claim moment (Tip 31 executable DoD, Tip 35 demand evidence, Tip 40 commit every green step), surface the SINGLE most relevant tip in one line, then continue. If nothing clearly applies, stay silent. Never nag.\"}}'; exit 0"
-          }
+          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/coach.sh\" bash" }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/coach.sh\" edit" }
         ]
       }
     ]
