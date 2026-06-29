@@ -33,7 +33,7 @@ You're talking to Claude; the coach just listens in — one catch, one tip, one 
 
 Three ways into the same material — read it, get tutored through it, or get coached *while you work*. New to this? Start at the top of the ladder and **stop climbing wherever your work needs**. Already fluent? Jump straight to the tier that matches you, or tell your agent to skip ahead.
 
-- **[`guide.md`](guide.md)** — the Guide itself. One ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
+- **[`guide.md`](guide.md)** — the **Professional Agentic Product Engineering Guide** itself. One ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
 
   | Tier | You learn to… |
   |---|---|
