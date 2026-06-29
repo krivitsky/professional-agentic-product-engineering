@@ -31,31 +31,38 @@ You're talking to Claude; the coach just listens in — one catch, one tip, one 
 
 ## What's inside
 
-Three ways into the same material — read it, get tutored through it, or get coached *while you work*. New to this? Start at the top of the ladder and **stop climbing wherever your work needs**. Already fluent? Jump straight to the tier that matches you, or tell your agent to skip ahead.
+Three ways into the same material — read it, get tutored through it, or get coached *while you work*.
 
-- **[`guide.md`](guide.md)** — the **Professional Agentic Product Engineering Guide** itself. One ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
+### The Guide — [`guide.md`](guide.md)
 
-  | Tier | You learn to… |
-  |---|---|
-  | **T1 Prompts** | Write prompts the agent can act on |
-  | **T2 Plan & slice** | Plan and slice before you build |
-  | **T3 Context** | Give the agent the right context and tools |
-  | **T4 Verify loop** | Make the agent prove it's done *(the heart of it)* |
-  | **T5 Git** | Checkpoint everything so you can roll back |
-  | **T6 Orchestrate** | Run many agents at once |
-  | **T7 Fleet** | Operate your agents as a fleet |
-  | **T8 Production** | Put agents into production (the execution layer) |
+One ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
 
-  Climb only as high as your work demands — then stop.
+| Tier | You learn to… |
+|---|---|
+| **T1 Prompts** | Write prompts the agent can act on |
+| **T2 Plan & slice** | Plan and slice before you build |
+| **T3 Context** | Give the agent the right context and tools |
+| **T4 Verify loop** | Make the agent prove it's done *(the heart of it)* |
+| **T5 Git** | Checkpoint everything so you can roll back |
+| **T6 Orchestrate** | Run many agents at once |
+| **T7 Fleet** | Operate your agents as a fleet |
+| **T8 Production** | Put agents into production (the execution layer) |
 
-  Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 2:
+Climb only as high as your work demands — then stop. New to this? Start at the top; already fluent? jump straight to the tier that matches you.
 
-  > ❌ "Clean up the auth code."
-  >
-  > ✅ "Extract token refresh in `session.ts` into the existing `RetryPolicy` class."
+Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 2:
 
-- **[`CLAUDE.md`](CLAUDE.md)** — turns Claude Code into an interactive **tutor** for the Guide: one small concept at a time, you do each one, and a separate quizmaster checks that it stuck.
-- **[`agentic-coach`](plugins/agentic-coach)** — the **ambient coach** plugin from above: in-the-flow nudges to the right tip, no lesson required.
+> ❌ "Clean up the auth code."
+>
+> ✅ "Extract token refresh in `session.ts` into the existing `RetryPolicy` class."
+
+### The Tutor — [`CLAUDE.md`](CLAUDE.md)
+
+Turns Claude Code into an interactive tutor for the Guide: one small concept at a time, you do each one, and a separate quizmaster checks that it stuck.
+
+### The Coach — [`agentic-coach`](plugins/agentic-coach)
+
+The ambient coach plugin from above: in-the-flow nudges to the right tip, no lesson required.
 
 ## Engineer the system, not the prompt
 
