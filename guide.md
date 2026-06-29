@@ -20,7 +20,7 @@ As the work gets harder, *where you apply effort* climbs a ladder — the prompt
 
 ```mermaid
 flowchart LR
-  P[Prompt<br/>engineering] --> T[Task<br/>engineering] --> C[Context<br/>engineering] --> V[Verification<br/>engineering] --> E[Environment<br/>engineering] --> X[Execution<br/>engineering]
+  P[Prompt] --> T[Task] --> C[Context] --> V[Verification] --> E[Environment] --> X[Execution]
 ```
 
 The eight tiers below are the detailed rungs of that one climb (Prompt = T1, Task = T2, Context = T3, Verification = T4, Environment = T5–T7, Execution = T8). Every tip is an instance of one layer — learn the ladder and the 60 tips fall into place.

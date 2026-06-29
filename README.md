@@ -18,7 +18,7 @@ Professional agentic engineering is **not prompt engineering. It's engineering t
 
 ```mermaid
 flowchart LR
-  P[Prompt<br/>engineering] --> T[Task<br/>engineering] --> C[Context<br/>engineering] --> V[Verification<br/>engineering] --> E[Environment<br/>engineering] --> X[Execution<br/>engineering]
+  P[Prompt] --> T[Task] --> C[Context] --> V[Verification] --> E[Environment] --> X[Execution]
 ```
 
 The eight tiers are the detailed rungs of that one climb. Learn the ladder and the 60 tips fall into place.
