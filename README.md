@@ -14,11 +14,13 @@ The Guide also ships as an **ambient coach** — a plugin you install once, then
 
 Mid-session, in the middle of your own work, you're about to delete failing tests to get a green build:
 
-> **you ›** can I remove red tests?
+> **You → Claude:** "Delete these failing tests — I just need the build green."
+>
+> **🧭 Agentic Coach** *(catching a learning opportunity):*
 >
 > 💡 **[Tip 32](guide.md#tip-32) — Red tests are signal, not noise.** Don't delete failing tests to go green — first find out *why* they're red. Red because the code regressed → fix the code (deleting the test buries a live bug). Red because the feature's gone or the test is stale → then deleting is legit cleanup.
 
-One question, one tip, one click to the Guide — then it goes quiet again until the next opportunity. It catches the *thinking*, not the syntax. **[Install it ↓](#how-to-use-it)**
+You're talking to Claude; the coach just listens in. One command, one catch, one click to the Guide — then it goes quiet again until the next opportunity. It catches the *thinking*, not the syntax. **[Install it ↓](#how-to-use-it)**
 
 ## Who this is for
 
