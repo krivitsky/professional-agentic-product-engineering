@@ -12,6 +12,17 @@ It spans the full range: from "fix bug xyz" all the way to autonomous engineerin
 
 Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
 
+## The one idea
+
+Professional agentic engineering is **not prompt engineering. It's engineering the system around the model.** As the work gets harder, *where you apply effort* climbs a ladder — the prompt shrinks while the system around it grows:
+
+```mermaid
+flowchart LR
+  P[Prompt<br/>engineering] --> T[Task<br/>engineering] --> C[Context<br/>engineering] --> V[Verification<br/>engineering] --> E[Environment<br/>engineering] --> X[Execution<br/>engineering]
+```
+
+The eight tiers are the detailed rungs of that one climb. Learn the ladder and the 60 tips fall into place.
+
 ## Who this is for
 
 - **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
