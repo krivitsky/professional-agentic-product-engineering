@@ -46,7 +46,13 @@ Three ways into the same material — read it, get tutored through it, or get co
   | **T7 Fleet** | Operate your agents as a fleet |
   | **T8 Production** | Put agents into production (the execution layer) |
 
-  Climb only as high as your work demands — then stop. Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 2: ❌ *"Clean up the auth code."* → ✅ *"Extract token refresh in `session.ts` into the existing `RetryPolicy` class."*
+  Climb only as high as your work demands — then stop.
+
+  Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 2:
+
+  > ❌ "Clean up the auth code."
+  >
+  > ✅ "Extract token refresh in `session.ts` into the existing `RetryPolicy` class."
 
 - **[`CLAUDE.md`](CLAUDE.md)** — turns Claude Code into an interactive **tutor** for the Guide: one small concept at a time, you do each one, and a separate quizmaster checks that it stuck.
 - **[`agentic-coach`](plugins/agentic-coach)** — the **ambient coach** plugin from above: in-the-flow nudges to the right tip, no lesson required.
