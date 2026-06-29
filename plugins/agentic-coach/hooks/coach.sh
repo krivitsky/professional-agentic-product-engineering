@@ -3,16 +3,16 @@
 #   $1 = event: prompt | bash | edit
 # Reads the hook JSON on stdin, decides whether to inject a coaching reminder.
 # Dedup of already-given tips is handled model-side (the skill rule); this script
-# only gates on the off-switch flag and the per-event triggers.
+# gates on the off-switch flag and the per-event triggers.
 set -uo pipefail
+
+# CLAUDE_PLUGIN_ROOT is set by Claude Code at runtime; fall back to this script's
+# plugin dir so the hook also works under direct testing.
+CLAUDE_PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 
 ev="${1:-prompt}"
 in="$(cat)"
-
-# Off-switch: if the user said "stop coaching", the skill drops this flag. Stay silent.
 flag="${CLAUDE_PROJECT_DIR:-$PWD}/.claude/.agentic-coach-off"
-[ -f "$flag" ] && exit 0
-
 dont_repeat="Do not repeat a tip you already gave earlier in this conversation; if the same moment recurs, stay silent."
 
 emit() { # $1 = text, $2 = hookEventName
@@ -20,9 +20,26 @@ emit() { # $1 = text, $2 = hookEventName
     '{hookSpecificOutput:{hookEventName:$e,additionalContext:$c}}'
 }
 
+# Explicit invocation ("coach", "coach me", "coach this") — only on a prompt event.
+explicit=0
+if [ "$ev" = "prompt" ]; then
+  pr="$(printf '%s' "$in" | jq -r '.prompt // empty' 2>/dev/null)"
+  # match "coach" as a whole word, but NOT "coaching" (so "stop coaching" doesn't trip it)
+  printf '%s' "$pr" | grep -qiE '(^|[^a-z])coach([^a-z]|$)' && explicit=1
+fi
+
+# Off-switch: silent — UNLESS the user is explicitly asking to be coached this turn.
+if [ "$explicit" != "1" ] && [ -f "$flag" ]; then
+  exit 0
+fi
+
 case "$ev" in
   prompt)
-    emit "[agentic-coach] Consult the agentic-coach skill. If a clear agentic anti-pattern applies this turn, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix), then continue the task. If none clearly applies, stay silent. ${dont_repeat} Never nag, max one nudge." "UserPromptSubmit"
+    if [ "$explicit" = "1" ]; then
+      emit "[agentic-coach] The user explicitly asked to be coached. Engage now: read their current prompt, plan, or recent changes, and surface the most relevant tip(s) from the agentic-coach skill (full text in ${CLAUDE_PLUGIN_ROOT}/guide.md), briefly. This OVERRIDES the usual 'silence by default'. ${dont_repeat}" "UserPromptSubmit"
+    else
+      emit "[agentic-coach] Consult the agentic-coach skill. If a clear agentic anti-pattern applies this turn, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix), then continue the task. If the user asks 'why' about how they're operating the agent (not about the code itself), teach the reasoning from the guide and cite the tip. Otherwise stay silent. ${dont_repeat} Never nag, max one nudge." "UserPromptSubmit"
+    fi
     ;;
   bash)
     cmd="$(printf '%s' "$in" | jq -r '.tool_input.command // empty' 2>/dev/null)"
