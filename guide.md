@@ -397,7 +397,7 @@ Two moves, no infrastructure — this is all the multi-model you need until you'
 > **Instead of:** running planning and coding on the same single model.
 > **Prefer:** `/model opusplan` — Opus reasons through the plan, Sonnet writes the code. One command, top-tier planning, without paying Opus rates on every edit.
 
-**How:** type `/model opusplan` (or set `"model": "opusplan"` in `.claude/settings.json`). Switch by hand any time: `/model opus` for hard thinking, `/model sonnet` to implement, `/model haiku` for cheap bulk work.
+**How:** type `/model opusplan` (or set `"model": "opusplan"` in `.claude/settings.json`). Switch by hand any time: `/model opus` for hard thinking, `/model sonnet` to implement, `/model haiku` for cheap bulk work, `/model best` for the current top of the ladder (Fable 5 where available, else latest Opus). Aliases auto-update to the recommended version; pin a full name like `claude-opus-4-8` when you need it fixed.
 
 That's the whole basic setup — two Anthropic models, one flag, zero infra.
 
@@ -416,6 +416,8 @@ The spec is the contract the whole build runs against (Tier 4), so this is the h
 ---
 
 ## Tier 3 — Give the agent the right context and tools, so it stops guessing
+
+*The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 6). Check usage any time with `/context`.*
 
 **21. Feed high-signal context, not the whole repo.**
 > **Instead of:** "Here's the entire codebase." (even at 1M tokens)
@@ -623,7 +625,7 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
   }
 }
 ```
-*`exit 2` on a `Stop` hook forces the agent to keep working (guard with `stop_hook_active` so it can't loop forever). `PreToolUse` `exit 2` blocks a tool outright — use it to protect `.env`, `package-lock.json`, `.git/`.*
+*`exit 2` on a `Stop` hook forces the agent to keep working (guard with `stop_hook_active` so it can't loop forever — Claude overrides a Stop hook after 8 consecutive blocks). `PreToolUse` `exit 2` blocks a tool outright — use it to protect `.env`, `package-lock.json`, `.git/`; a `PreToolUse` **deny fires before the permission check, so it holds even under `--dangerously-skip-permissions`** (hooks can tighten, never loosen). Hooks aren't only shell + exit codes: beyond `command`, a hook can be a `prompt` (a quick Haiku yes/no judgment) or an `agent` (a subagent that verifies before allowing stop) — an [agent-based verify hook](https://code.claude.com/docs/en/hooks-guide) is a sturdier loop oracle than a brittle test-runner line.*
 
 **41. Move repetitive engineering into CI / headless.**
 > **Instead of:** doing PR review, issue triage, and release notes by hand each time.
@@ -680,7 +682,13 @@ export CLAUDE_CODE_SUBAGENT_MODEL="claude-sonnet-4-6"
 > **Instead of:** paying for a top model for the whole run, or letting a cheap one guess at the hard moments.
 > **Prefer:** run a cheaper main model and let it consult a stronger one only at decision points (before committing to an approach, when stuck on a recurring error, before declaring done).
 
-**How:** `claude --advisor opus` with a Sonnet/Haiku main (or the `/advisor` command / `advisorModel` setting). Anthropic's own numbers: **Sonnet + an Opus advisor beat Sonnet alone by 2.7 pts on SWE-bench Multilingual *while cutting cost per task ~12%*** — the advisor writes only a short plan, not the full output. (Needs Claude Code v2.1.98+ on the Anthropic API.)
+**How:** `claude --advisor opus` with a Sonnet/Haiku main (or the `/advisor` command / `advisorModel` setting). Anthropic's own numbers: **Sonnet + an Opus advisor beat Sonnet alone by 2.7 pts on SWE-bench Multilingual *while cutting cost per task ~12%*** — the advisor reads the shared context and writes only a short plan/correction (~400–700 tokens), never tools or user-facing output. (Needs Claude Code v2.1.98+ on the Anthropic API.)
+
+**Keep the fleet alive when a model is overloaded — fallback chains.**
+> **Instead of:** a run that dies on a single `overloaded` / unavailable response.
+> **Prefer:** declare an ordered fallback so the turn retries on the next model instead of failing.
+
+**How:** `claude --fallback-model sonnet,haiku` (or `"fallbackModel": ["sonnet","haiku"]` in settings) — tried in order on overload, capped at 3, lasts the turn. This is a *reliability* lever (availability), distinct from the advisor's *quality/cost* lever — both matter once runs go unattended (Tier 7–8).
 
 ### Level 2 — Reaching beyond Anthropic (other frontier, open-weight, self-hosted)
 
@@ -769,10 +777,11 @@ the security-reviewer subagent to audit the diff. Each returns a summary.
  plus 'Current state' and 'Next step' sections. Do not implement yet."
 
 # Session 2+ — workers (fresh context each time)
-"Read PROGRESS.md. Implement the next unchecked item, run its tests, check it off,
- update 'Next step', and commit. Then stop."
+"Read PROGRESS.md. Run the smoke test first — assume the last session may have left
+ the app broken, and fix that before new work. Then implement the next unchecked item,
+ run its tests, check it off, update 'Next step', and commit. Then stop."
 ```
-*When compaction starts losing detail, `/clear` and let the next session rebuild from PROGRESS.md — a clean hand-off beats a degraded context.*
+*When compaction starts losing detail, `/clear` and let the next session rebuild from PROGRESS.md — a clean hand-off beats a degraded context. Keep the authoritative task ledger as **JSON, not prose** — Anthropic's [long-running-agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) write-up found models reliably "tidy" or overwrite Markdown but treat a `features.json` of `{name, passes: false}` (flip one boolean per session) as load-bearing data. Prose hand-off in the doc; the status registry in JSON.*
 
 **46. Steer long runs mid-flight instead of restarting them.**
 > **Instead of:** killing a 40-minute run to change a permission, budget, or direction.
@@ -943,8 +952,8 @@ The mechanisms here (`/effort`, `ultracode`, dynamic workflows, hooks, CLAUDE.md
 
 ## Sources
 
-- Anthropic — *Prompting best practices*, *Prompting Claude Opus 4.8*, *Introducing Claude Opus 4.8*; *Best practices for Claude Code*; *Create custom subagents* & *Skills* docs; *Automate actions with hooks*; *Effective context engineering for AI agents*; *Effective harnesses for long-running agents*; *Writing effective tools for AI agents*; Claude Code GitHub Action
-- Multi-model — Anthropic *The advisor strategy* (+2.7pt / −11.9% cost) & Claude Code model-config/advisor docs; `opusplan` write-ups; Aider architect/editor benchmark; cross-lab review reports (charlesjones.dev, dev.to, Milvus model-debate); MoA (Wang et al. 2406.04692) vs Self-MoA (Li et al. 2502.00674); Sakana AB-MCTS; GitHub Agent HQ; `johannesjo/parallel-code`
+- Anthropic — [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), [Prompting Claude Opus 4.8](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8), [Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8); [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices); [Create custom subagents](https://code.claude.com/docs/en/sub-agents) & [Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) docs; [Automate actions with hooks](https://code.claude.com/docs/en/hooks-guide); [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents); [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents); [Writing effective tools for AI agents](https://www.anthropic.com/engineering/writing-tools-for-agents); [Claude Code GitHub Action](https://code.claude.com/docs/en/github-actions)
+- Multi-model — Anthropic [The advisor strategy](https://claude.com/blog/the-advisor-strategy) (+2.7pt / −11.9% cost) & Claude Code [model-config/advisor docs](https://code.claude.com/docs/en/model-config); `opusplan` write-ups; Aider architect/editor benchmark; cross-lab review reports (charlesjones.dev, dev.to, Milvus model-debate); MoA (Wang et al. 2406.04692) vs Self-MoA (Li et al. 2502.00674); Sakana AB-MCTS; GitHub Agent HQ; `johannesjo/parallel-code`
 - OpenRouter routing — OpenRouter *Claude Code integration* + *Anthropic Skin* docs/blog; Morph, TokenMix, mykolaaleksandrov.dev setup guides; `musistudio/claude-code-router`
 - Agents vs one-shot builders — Claude Code vs Lovable/Bolt/v0/Replit/Base44 comparisons (lowcode.agency, builder.io, buildthisnow, nxcode, 2026)
 - Playwright MCP (`@playwright/mcp`, Microsoft) — official docs; Builder.io & qaskills setup guides

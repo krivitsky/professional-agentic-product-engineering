@@ -27,7 +27,7 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 
 ## What's inside
 
-- **[`professional-agentic-product-engineering.md`](professional-agentic-product-engineering.md)** — the Guide itself. One ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
+- **[`guide.md`](guide.md)** — the Guide itself. One ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
 
   | Tier | You learn to… |
   |---|---|
@@ -46,9 +46,9 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 
 ## How to use it
 
-**Learn it with an agent (the fastest way through).** Open this repo in [Claude Code](https://claude.com/claude-code) and say `hi` — it tutors you through the [Guide](professional-agentic-product-engineering.md) hands-on. See **[CLAUDE.md](CLAUDE.md)** for how that works.
+**Learn it with an agent (the fastest way through).** Open this repo in [Claude Code](https://claude.com/claude-code) and say `hi` — it tutors you through the [Guide](guide.md) hands-on. See **[CLAUDE.md](CLAUDE.md)** for how that works.
 
-**Or just read it.** Open the [Guide](professional-agentic-product-engineering.md) and work down the ladder to the tier your work needs.
+**Or just read it.** Open the [Guide](guide.md) and work down the ladder to the tier your work needs.
 
 ## Contributing
 
