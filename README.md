@@ -48,7 +48,7 @@ One ladder of **eight tiers, simple → hard**, where the work shifts from wordi
 | **T7 Fleet** | Operate your agents as a fleet |
 | **T8 Production** | Put agents into production (the execution layer) |
 
-Climb only as high as your work demands — then stop. New to this? Start at the top; already fluent? jump straight to the tier that matches you.
+Climb only as high as your work demands. New to this? Start at the top; already fluent? jump straight to the tier that matches you.
 
 Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 2:
 
