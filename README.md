@@ -1,4 +1,6 @@
-# Professional Agentic Product Engineering Guide
+# Professional Agentic Product Engineering
+
+The field guide — **plus an Agentic Coach** that catches your thinking mistakes and nudges you to the right tip while you code.
 
 **Main maintainer:** Alexey Krivitsky (alexey@krivitsky.com)  
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
