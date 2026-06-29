@@ -14,7 +14,7 @@ ev="${1:-prompt}"
 in="$(cat)"
 flag="${CLAUDE_PROJECT_DIR:-$PWD}/.claude/.agentic-coach-off"
 dont_repeat="Do not repeat a tip you already gave earlier in this conversation; if the same moment recurs, stay silent."
-attribute="If the guide shapes your reply even partially, attribute it: a quoted tip is credited by its '> Tip N' tag; a synthesized answer (no verbatim quote) ends with one line '↳ shaped by agentic-coach · Tip N'. No footer on turns the guide did not influence."
+attribute="If the guide shapes your reply even partially, attribute it: a quoted tip is credited by its '> Tip N' tag; a synthesized answer (no verbatim quote) ends with one line '↳ shaped by agentic-coach · Tip N'. No footer on turns the guide did not influence. EVERY 'Tip N' you write — nudge OR footer — MUST be a Markdown link [Tip N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-N); a bare unlinked 'Tip N' is a bug."
 
 emit() { # $1 = text, $2 = hookEventName
   jq -nc --arg c "$1" --arg e "$2" \
