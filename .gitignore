@@ -1,0 +1,8 @@
+# Per-learner state — regenerated each session by the tutor
+USER.md
+
+# Local memory / session index
+.memsearch/
+
+# Local Claude Code settings
+.claude/settings.local.json
