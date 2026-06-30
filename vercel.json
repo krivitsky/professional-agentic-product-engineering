@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "cd web && npm install && node build.mjs",
+  "outputDirectory": "web/dist",
+  "installCommand": "echo skip-root-install",
+  "cleanUrls": true,
+  "trailingSlash": false
+}

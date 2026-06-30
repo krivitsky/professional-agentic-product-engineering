@@ -1,0 +1,14 @@
+{
+  "name": "pae-guide-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Static site for the Professional Agentic Product Engineering Guide — built by cutting guide.md.",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && npx --yes serve dist"
+  },
+  "dependencies": {
+    "marked": "9.1.6"
+  }
+}

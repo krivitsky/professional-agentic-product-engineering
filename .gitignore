@@ -9,3 +9,7 @@ USER.md
 
 # agentic-coach off-switch (local toggle, set by "stop coaching")
 .claude/.agentic-coach-off
+
+# Generated static site + deps
+web/dist/
+web/node_modules/
