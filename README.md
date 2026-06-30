@@ -1,12 +1,12 @@
 # Professional Agentic Product Engineering
 
+<img src="assets/og-2x.png" alt="Professional Agentic Product Engineering — From Prompts to Systems: Master The 8 Tiers" width="100%">
+
 **Professional agentic engineering is not prompt engineering — it's engineering the system around the model.** As the work gets harder, the effort moves up the ladder: the prompt shrinks while the system around it grows.
 
 This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Professional Agentic Product Engineering Guide](guide.md). These materials and harness nudge you to the right tip of your growing product engineering skills.
 
 📖 **Read it online: [agentic-engineering.guide](https://agentic-engineering.guide/)** — a browsable web version of the Guide: one page per tier, dark/light mode, easy to share. It's auto-generated from [`guide.md`](guide.md) and rebuilt on every change, so it's always in sync with this repo.
-
-<img src="assets/tutor-caveman.png" width="320" alt="pixel-art caveman tutor at a flipchart">
 
 The Guide is kept up-to-date (currently June 2026) to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
 
@@ -103,6 +103,8 @@ Then just work — it nudges when it catches something. Say `coach me` to ask it
 ⭐ [Star the repo](https://github.com/krivitsky/professional-agentic-product-engineering) if it helps.
 
 Found a better example, a fix, or a new tip? **Submit an issue or PR** — or just ask your harness (Claude, etc.) to open one for you. Help yourself and the next person learn better.
+
+<img src="assets/tutor-caveman.png" width="320" alt="pixel-art caveman tutor at a flipchart">
 
 ## Credits
 

@@ -437,6 +437,25 @@ flowchart LR
 >
 > **Prefer:** "Interview me on the hard parts, write SPEC.md" → new session: "Implement SPEC.md."
 
+**How:** shape the behavior into the spec itself — a Story, **Given/When/Then scenarios** (`.feature`), and Non-goals — so "done" is concrete before any code. Keep scenarios crisp (one behavior each, concrete Then steps):
+```markdown
+# Spec — refund eligibility
+## Story
+As a customer, I want to request a refund within 30 days so I'm not stuck with a bad purchase.
+## Scenarios (.feature)
+Scenario: Refund allowed inside the window
+  Given an order placed 10 days ago
+  When the customer requests a refund
+  Then the refund is approved and the amount is credited
+Scenario: Refund refused outside the window
+  Given an order placed 45 days ago
+  When the customer requests a refund
+  Then the request is rejected with reason "window_expired"
+## Non-goals
+- Partial refunds (separate spec).
+```
+*This is the **shape**; Tier 4 turns these scenarios into the loop's executable check ([Tip 33](#tip-33)).*
+
 ### Your first multi-model setup (the basics)
 
 Two moves, no infrastructure — this is all the multi-model you need until you're orchestrating real work (the rest is the [full playbook](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook) before Tier 6).
@@ -631,24 +650,7 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 >
 > **Prefer:** Given/When/Then scenarios the agent codes against and runs.
 
-**How:** drop a SPEC.md into the ticket and hand it over whole; reference a shared `gherkin-guidelines.md` so scenarios stay crisp (one behavior each, concrete Then steps):
-```markdown
-# Spec — refund eligibility
-## Story
-As a customer, I want to request a refund within 30 days so I'm not stuck with a bad purchase.
-## Scenarios (.feature)
-Scenario: Refund allowed inside the window
-  Given an order placed 10 days ago
-  When the customer requests a refund
-  Then the refund is approved and the amount is credited
-Scenario: Refund refused outside the window
-  Given an order placed 45 days ago
-  When the customer requests a refund
-  Then the request is rejected with reason "window_expired"
-## Non-goals
-- Partial refunds (separate spec).
-```
-Then: *"Generate step definitions for refund.feature, implement until the scenarios pass, and sanity-check by mutation — break the implementation on purpose, confirm the scenario fails, then revert."*
+**How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 20](#tip-20)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md`, then: *"Generate step definitions for refund.feature, implement until the scenarios pass, and sanity-check by mutation — break the implementation on purpose, confirm the scenario fails, then revert."*
 
 *Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin is the executable middle layer between a user story and unit tests, and all three give the loop a target it can test itself against.*
 
