@@ -4,6 +4,8 @@ The field guide — **plus an Agentic Coach** that catches your thinking mistake
 
 A mid-2026 field guide — updated continuously — to getting good at operating a coding agent (using the example of a popular agentic coding harness, Claude Code by Anthropic) for creating new software and working on real codebases. It spans the full range: from "fix bug xyz" to autonomous engineering loops in production.
 
+<img src="assets/tutor-caveman.png" width="320" alt="pixel-art caveman tutor at a flipchart">
+
 Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
 
 ## See it catch you
