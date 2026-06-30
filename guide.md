@@ -152,7 +152,7 @@ The trick is knowing *what pushes you to the next tier* — it's always a specif
 | Tier | What you work on | Level it applies at | What pushes you up |
 |---|---|---|---|
 | **1 — Write better prompts** | The single request | One message | The agent keeps doing *almost* the right thing — vague asks get literal, wrong results |
-| **2 — Plan, slice, scope** | The task before you start | One task | Big asks go sideways; it edits the wrong things or boils the ocean in one pass |
+| **2 — Plan, slice, scope** | The task before you start | One task | Big asks go sideways; it edits the wrong things or tries to do everything in one pass |
 | **3 — Engineer context & tools** | The project the agent sees | The repo | You re-explain the same conventions every session; it can't see your DB/browser/docs |
 | **4 — Verify (the loop)** | A "done" the agent can check itself | The task, automated | You can't trust the output without reading every line; "done" means nothing concrete |
 | **5 — Git, checkpoints & harness** | Safe, revertible runs | The session | A long run goes wrong and you lose good work; nothing to roll back to |
@@ -166,7 +166,7 @@ Losing work on long runs? Tier 5 — commit on every green. Each tier exists to 
 
 > Prompts drift → **T2** plans them. Plans are forgotten across sessions → **T3** makes context durable. Context still can't prove correctness → **T4** verifies. Long runs lose good work → **T5** checkpoints. One agent is too slow → **T6** orchestrates many. Runs die when your laptop sleeps → **T7** runs a fleet. Humans still babysit terminals → **T8** makes agents async workers.
 
-The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against an objective bar, inside a real repo you own.
+The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against a clear, testable standard, inside a real repo you own.
 
 ### Which tier do I need?
 
@@ -309,7 +309,7 @@ Invoke it three ways: **auto** (the parent delegates when the task matches the d
 
 Omit `tools` and it inherits everything; whitelist to keep it tight. (For multiple *communicating* sessions rather than one-shot workers, there's experimental **Agent Teams** — a step beyond subagents.)
 
-**The distinction worth internalizing — skill vs subagent vs command.** Same Markdown-plus-frontmatter shape; the difference is *where the work happens*.
+**The distinction that matters — skill vs subagent vs command.** Same Markdown-plus-frontmatter shape; the difference is *where the work happens*.
 
 A **command/skill loads into your current conversation** — its instructions join the active context and every step accumulates in your main window. A **subagent runs in its own context window** and returns just a summary.
 
@@ -420,7 +420,7 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 > **Prefer:** plan multi-file or unfamiliar work; do one-sentence diffs directly.
 
 <a id="tip-17"></a>
-**17. Force an approval checkpoint and the blast radius — nothing irreversible runs unseen.**
+**17. Force an approval checkpoint and see what it will touch — nothing irreversible runs unseen.**
 > **Instead of:** letting it touch 30 files unsupervised.
 >
 > **Prefer:** "Numbered plan, risk per step, exact files to be created/modified/deleted. STOP for approval."
@@ -580,9 +580,9 @@ Or commit `.mcp.json` to the repo root:
 
 You don't get great output from one prompt — you get it from a **loop**: the agent acts, checks, improves, repeats.
 
-But a loop can only *converge* if it has a target it can test itself against — a **perfection state**, an objective oracle that says *done / not done* without you in the seat every cycle.
+A loop only works if it has a target it can test itself against — something that reports *done / not done* without you checking every cycle.
 
-That oracle is **tests**. **Red → green is the perfect loop condition**: unambiguous, automatable, and the agent can run it itself.
+That target is **tests**. **Red → green is the ideal loop condition**: unambiguous, automatable, and the agent can run it itself.
 
 ```mermaid
 flowchart TD
@@ -597,7 +597,7 @@ This is why we don't need to invent new techniques for agentic quality — the d
 
 In the agentic era they're **mandatory**: they're what turns a wandering agent into one that converges instead of declaring success on vibes.
 
-The old rigor is now load-bearing — that's what makes it *engineering* and not just generation.
+These old practices are now essential — that's what makes it *engineering* and not just generation.
 
 **This is just your Definition of Done, made executable.** In agile, the DoD is the shared, explicit checklist a work item must satisfy to count as finished — tests pass, code reviewed, lint clean, types check, docs updated, deployed to staging.
 
@@ -605,7 +605,7 @@ It used to be enforced by team discipline. With agents it becomes the **machine-
 
 The whole skill is writing a DoD precise enough that the agent knows, without you, whether it's done.
 
-*The deeper shift: **the spec is the new source code.** When the loop regenerates the implementation on demand against an executable spec, the code becomes an ephemeral byproduct and the `SPEC.md` + tests become the artifact you actually author, version, and review. Your job moves up — from writing syntax to writing the rules the agent executes against.*
+*The deeper shift: **the spec is the new source code.** When the loop regenerates the implementation on demand against an executable spec, the code becomes throwaway output and the `SPEC.md` + tests become the artifact you actually author, version, and review. Your job moves up — from writing syntax to writing the rules the agent executes against.*
 
 **You decide what to test for; the agent doesn't.** The tests that catch real bugs are usually integration and end-to-end, not single units. So treat those as first-class: you say what they must check, the agent writes them to your spec and adds them to CI, and you confirm they check the right things. Build the rails; don't let the agent build its own. *(Raised in [#1](https://github.com/krivitsky/professional-agentic-product-engineering/issues/1).)*
 
@@ -617,7 +617,7 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 > "Done when: `npm test` green, `npm run lint` clean, `npm run typecheck` passes, and `curl /health` returns 200. Loop until all four pass; show each output. Flag anything you couldn't verify."
 
 <a id="tip-32"></a>
-**32. Do TDD — the unit-level oracle.**
+**32. Do TDD — the unit-level check.**
 > **Instead of:** "Implement and test calculateTotal."
 >
 > **Prefer:** drive the code with a failing test first.
@@ -633,7 +633,7 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 *Passing unit tests doesn't mean the app works — the worst bugs usually show up in integration and end-to-end tests, not single units.*
 
 <a id="tip-33"></a>
-**33. Use BDD — the behavior-level oracle.**
+**33. Use BDD — the behavior-level check.**
 > **Instead of:** vague acceptance ("it should handle bad input").
 >
 > **Prefer:** Given/When/Then scenarios the agent codes against and runs.
@@ -657,7 +657,7 @@ Scenario: Refund refused outside the window
 ```
 Then: *"Generate step definitions for refund.feature, implement until the scenarios pass, and sanity-check by mutation — break the implementation on purpose, confirm the scenario fails, then revert."*
 
-*Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin is the executable middle layer between a user story and unit tests, and all three give the loop its perfection state.*
+*Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin is the executable middle layer between a user story and unit tests, and all three give the loop a target it can test itself against.*
 
 <a id="tip-34"></a>
 **34. Test the UI for real with Playwright MCP — don't eyeball it.**
@@ -761,7 +761,7 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
   }
 }
 ```
-*`exit 2` on a `Stop` hook forces the agent to keep working (guard with `stop_hook_active` so it can't loop forever — Claude overrides a Stop hook after 8 consecutive blocks). `PreToolUse` `exit 2` blocks a tool outright — use it to protect `.env`, `package-lock.json`, `.git/`; a `PreToolUse` **deny fires before the permission check, so it holds even under `--dangerously-skip-permissions`** (hooks can tighten, never loosen). Hooks aren't only shell + exit codes: beyond `command`, a hook can be a `prompt` (a quick Haiku yes/no judgment) or an `agent` (a subagent that verifies before allowing stop) — an [agent-based verify hook](https://code.claude.com/docs/en/hooks-guide) is a sturdier loop oracle than a brittle test-runner line.*
+*`exit 2` on a `Stop` hook forces the agent to keep working (guard with `stop_hook_active` so it can't loop forever — Claude overrides a Stop hook after 8 consecutive blocks). `PreToolUse` `exit 2` blocks a tool outright — use it to protect `.env`, `package-lock.json`, `.git/`; a `PreToolUse` **deny fires before the permission check, so it holds even under `--dangerously-skip-permissions`** (hooks can tighten, never loosen). Hooks aren't only shell + exit codes: beyond `command`, a hook can be a `prompt` (a quick Haiku yes/no judgment) or an `agent` (a subagent that verifies before allowing stop) — an [agent-based verify hook](https://code.claude.com/docs/en/hooks-guide) is a sturdier loop check than a brittle test-runner line.*
 
 <a id="tip-44"></a>
 **44. Move repetitive engineering into CI / headless — run it without you in the seat.**
@@ -952,7 +952,7 @@ the security-reviewer subagent to audit the diff. Each returns a summary.
  the app broken, and fix that before new work. Then implement the next unchecked item,
  run its tests, check it off, update 'Next step', and commit. Then stop."
 ```
-*When compaction starts losing detail, `/clear` and let the next session rebuild from PROGRESS.md — a clean hand-off beats a degraded context. Keep the authoritative task ledger as **JSON, not prose** — Anthropic's [long-running-agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) write-up found models reliably "tidy" or overwrite Markdown but treat a `features.json` of `{name, passes: false}` (flip one boolean per session) as load-bearing data. Prose hand-off in the doc; the status registry in JSON.*
+*When compaction starts losing detail, `/clear` and let the next session rebuild from PROGRESS.md — a clean hand-off beats a degraded context. Keep the authoritative task ledger as **JSON, not prose** — Anthropic's [long-running-agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) write-up found models reliably "tidy" or overwrite Markdown but treat a `features.json` of `{name, passes: false}` (flip one boolean per session) as real data they won't casually rewrite. Prose hand-off in the doc; the status registry in JSON.*
 
 <a id="tip-50"></a>
 **50. Steer long runs mid-flight instead of restarting them.**
@@ -971,7 +971,7 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 **51. Engineer the environment, not the wording.**
 > **Instead of:** endlessly tuning the perfect prompt.
 >
-> **Prefer:** invest in CLAUDE.md, Skills, MCP, git discipline, tests-as-oracle, hooks, and CI. Every methodology converges on **research → plan → execute → review → ship**, human-gated — build the system that runs that loop. That system, not the prompt, is the product of professional agentic engineering.
+> **Prefer:** invest in CLAUDE.md, Skills, MCP, git discipline, tests as the check, hooks, and CI. Every methodology converges on **research → plan → execute → review → ship**, human-gated — build the system that runs that loop. That system, not the prompt, is the product of professional agentic engineering.
 
 ---
 
@@ -1046,7 +1046,7 @@ If you run unattended with `--dangerously-skip-permissions`, put it behind a `Pr
 
 ## Tier 8 — Put agents into production, so they work without you (the execution layer)
 
-> **While running a local loop is perfect for individual spec-driven development, enterprise agentic loops require a dedicated *Agent Execution Layer*.** It's the ring beyond your own server (Tier 7): where loops run **hosted, isolated, and event-triggered**, so an agent can pick up a ticket, fix it, and open a PR with no one babysitting a terminal.
+> **While running a local loop is perfect for individual spec-driven development, enterprise agentic loops require a dedicated *Agent Execution Layer*.** It's the layer beyond your own server (Tier 7): loops run **hosted, isolated, and event-triggered**, so an agent can pick up a ticket, fix it, and open a PR with no one babysitting a terminal.
 
 **Don't be scared — it's the same loop you already built.** Everything from Tier 4 (act → test → fix against a Definition of Done) and Tier 5 (commit, `gh`, CI) is unchanged.
 
@@ -1102,7 +1102,7 @@ flowchart TD
 
 ### The review-agent pattern (most teams' first loop)
 
-PR review is where to start: high value, low blast radius. The pattern:
+PR review is where to start: high value, low risk. The pattern:
 
 - **Feed the diff, not the codebase.** Pull only the changed lines + surrounding functions. Dumping the whole repo destroys the reviewer's context.
 - **Load the rulebook.** Inject your `ARCHITECTURE.md` or a `code-review` Skill ("always use the repository pattern for DB access") so it reviews against *your* standards.
@@ -1127,7 +1127,7 @@ PR review is where to start: high value, low blast radius. The pattern:
 **59. Cap the strikes — a stuck agent shouldn't burn tokens forever.**
 > **Instead of:** "loop until the tests pass," unbounded.
 >
-> **Prefer:** "loop until green, max 5 attempts, then stop and summarize what's blocking." A perfection state needs a give-up condition too.
+> **Prefer:** "loop until green, max 5 attempts, then stop and summarize what's blocking." An exit condition needs a give-up condition too.
 
 <a id="tip-60"></a>
 **60. Make the tracker the state machine — the agent forgets; the board remembers.**
