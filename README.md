@@ -2,11 +2,9 @@
 
 The field guide — **plus an Agentic Coach** that catches your thinking mistakes and nudges you to the right tip while you code.
 
-**Main maintainer:** Alexey Krivitsky (alexey@krivitsky.com)  
-**Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
-**Submit PR with improvements** — ⭐ star it, contribute, help yourself and the next person learn better.
+A mid-2026 field guide — updated continuously — to getting good at operating a coding agent (using the example of a popular agentic coding harness, Claude Code by Anthropic) for creating new software and working on real codebases. It spans the full range: from "fix bug xyz" to autonomous engineering loops in production.
 
-A mid-2026 field guide — updated continuously — to getting good at operating a coding agent (using the example of a popular agentic coding harness, Claude Code by Anthropic) for creating new software and working on real codebases. It spans the full range: from "fix bug xyz" to autonomous engineering loops in production. Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
+Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
 
 ## See it catch you
 
@@ -18,9 +16,11 @@ You're mid-task, about to take a shortcut:
 >
 > **🧭 Agentic Coach** — *catching a learning opportunity:*
 >
-> 💡 **[Tip 32](guide.md#tip-32) — Red tests are signal, not noise.** Before deleting a red test, know *why* it's red: code regressed → fix the code (deleting it buries a live bug); feature gone or test stale → cleanup's fine.
+> 💡 **Red test? Find out *why* before you delete it.** Code regressed → fix the code (deleting it buries a live bug); feature gone or test stale → cleanup's fine. → **[Tier 4 — make the agent prove it's done](guide.md#tier-4--make-the-agent-prove-its-done-so-you-can-trust-the-output-the-loop)**
 
-You're talking to Claude; the coach just listens in — one catch, one tip, one click to the Guide, then quiet again. It catches the *thinking*, not the syntax. **[Install it ↓](#3-the-coach--agentic-coach)**
+You're talking to Claude; the coach just listens in — one catch, one nudge, one click to the Guide, then quiet again. It catches the *thinking*, not the syntax.
+
+That's just one of **three ways to use this** — read the Guide, get tutored through it, or get coached while you work. Here's the full picture:
 
 ## Who this is for
 
@@ -59,7 +59,7 @@ One ladder of **eight tiers, simple → hard**, where the work shifts from wordi
 | **T7 Fleet** | Operate your agents as a fleet |
 | **T8 Production** | Put agents into production (the execution layer) |
 
-Climb only as high as your work demands. New to this? Start at the top; already fluent? jump straight to the tier that matches you.
+Climb only as high as your work demands. New to this? Start at **T1**; already fluent? jump straight to the tier that matches you.
 
 Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 2:
 
@@ -79,6 +79,14 @@ cd professional-agentic-product-engineering
 claude        # then type:  hi
 ```
 
+*Shown with [Claude Code](https://claude.com/claude-code), the example harness used throughout — but the Guide and Tutor are harness-agnostic; this repo ships both `CLAUDE.md` and `AGENTS.md`, so any agent that reads them works.*
+
+**It reads your real prompts first (with consent).** Instead of interrogating you, the tutor offers to glance at your past Claude Code prompts across your local projects and build a *portrait* — your stack, your prompting habits, the tier those imply.
+
+Then it tailors each lesson's examples to *your* stack and repos — and aims its advice at the prompting habits it actually saw in your history — instead of a generic textbook example.
+
+Read-only and local — nothing leaves your machine.
+
 ### 3) The Coach — [`agentic-coach`](plugins/agentic-coach)
 
 The ambient coach plugin from above: in-the-flow nudges to the right tip, no lesson required.
@@ -91,16 +99,15 @@ The ambient coach plugin from above: in-the-flow nudges to the right tip, no les
 /reload-plugins
 ```
 
-Then just work — it nudges when it catches something. Say `coach me` to ask it directly, or `stop coaching` to silence it.
+Then just work — it nudges when it catches something. Say `coach me` to ask it directly, or `stop coaching` to silence it. *(Needs `jq` on your PATH.)*
 
 ## Contributing
 
-⭐ If it helps, **star the repo**.
+⭐ [Star the repo](https://github.com/krivitsky/professional-agentic-product-engineering) if it helps.
 
-Found a better example, a fix, or a new tip? Ask your Claude to **wrap the improvement into a pull request** — or open one yourself. Help yourself and the next person learn better. Every improvement counts.
+Found a better example, a fix, or a new tip? **Submit an issue or PR** — or just ask your harness (Claude, etc.) to open one for you. Help yourself and the next person learn better.
 
 ## Credits
 
-**Main maintainer:** Alexey Krivitsky (alexey@krivitsky.com)  
-**Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
-**Submit PR with improvements** — ⭐ star it, contribute, help yourself and the next person learn better.
+**Maintainer:** [Alexey Krivitsky](https://www.linkedin.com/in/alexeykrivitsky/) (alexey@krivitsky.com)  
+**Upstream:** https://github.com/krivitsky/professional-agentic-product-engineering

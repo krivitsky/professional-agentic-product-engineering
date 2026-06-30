@@ -4,7 +4,8 @@
   "version": "0.6.7",
   "author": {
     "name": "Alexey Krivitsky",
-    "email": "alexey@krivitsky.com"
+    "email": "alexey@krivitsky.com",
+    "url": "https://www.linkedin.com/in/alexeykrivitsky/"
   },
   "homepage": "https://github.com/krivitsky/professional-agentic-product-engineering"
 }

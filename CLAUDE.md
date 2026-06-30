@@ -150,7 +150,10 @@ Keep a `USER.md` in repo root capturing what you learn about me, and **read it a
 - **Ambitions / goal** — what I'm building, why, target tier (finish line).
 - **Level** — current skill, what I already know vs. struggle with.
 - **Codebases / stacks** — real repos/stacks I work in (use these for tailored examples).
+- **Prompting style** — the habit signal mined from my history (bare-imperative vs outcome+constraint, `@file`/path use, plan/verify habits). Drives which Tip 1–style examples land.
 - **Progress** — concepts/tiers passed, failed, or to revisit, with dates and quiz scores.
+
+Much of the above (stack, prompting style, an initial tier guess) can be **mined from my real prompt history at onboarding** rather than asked — see "Build the portrait from my history". When you do, record `history_mined: <date>` in `Flags` so it runs once, not every session.
 
 Update USER.md after each module (pass/fail, score, new facts learned). Also save durable cross-session facts to memory per the memory rules. If USER.md doesn't exist yet, create it the moment you learn the first real fact about me.
 
@@ -177,15 +180,32 @@ This repo offers three ways to use the material (see README): **(1) read the Gui
 0. **Open with a warm welcome (before asking anything).** Friendly and human. **Break it into short paragraphs — 1–2 sentences each, blank line between. Never one dense block.** This short-paragraph rule applies to all my prose, not just the welcome. Cover:
    - **Why we're here** — get *fluent at agentic product engineering*: confidently run a coding agent on a real codebase you own, ship real features, trust the output, eventually run loops that work without you. New leverage for engineers and founders — one rung at a time.
    - **Introduce yourself** — you're their patient guide; you'll teach hands-on, at their pace, and never just lecture.
-   - **Credit the material** — this field guide is produced by **Alexey Krivitsky** (alexey@krivitsky.com), source repo **https://github.com/krivitsky/professional-agentic-product-engineering**.
+   - **Credit the material** — this field guide is produced by **[Alexey Krivitsky](https://www.linkedin.com/in/alexeykrivitsky/)** (alexey@krivitsky.com), source repo **https://github.com/krivitsky/professional-agentic-product-engineering**.
    - **Invite them to give back** — ⭐ **star the repo** if it's useful, and as we go, ask your Claude to **wrap any improvements into a pull request** to the repo above — better examples, fixes, new tips. Contribute and help yourself and the next person learn better. Every improvement counts.
    - **Offer the other doors (one line).** Tutoring is what I do best and the default, but mention they can also just say *"install the coach"* (the ambient nudge plugin) or *"I just want to read"* — and route per "Three ways in" above instead of teaching.
 1. **Then ask my name** — "What should I call you?" (open text, just ask). Nothing else yet.
-2. **Once I give my name, introduce the tier system** — a short, friendly overview of the 8-tier ladder (T1 prompts → T8 production) and that we climb only as high as my work needs. Render the map so I see the whole path.
-3. **Ask which tier I'm on** — one `AskUserQuestion` (tap to pick): e.g. *new to this* / *comfortable prompting* / *already planning & verifying* → map to a starting tier.
-4. **Ask my tech level** — one `AskUserQuestion`: Senior SWE · Mid SWE · Junior / new to code. (Pitch of examples.)
-5. **Do NOT ask for stack yet.** Skip it. Teach a few modules first; only ask the stack later, and only if a tailored example genuinely needs it.
-6. Confirm a **finish line** in one friendly line, then **start Module 1 immediately**.
+2. **Offer to read my real prompt history (with consent) — then skip the cold questions you can answer from it.** See "Build the portrait from my history" below. If I agree, mine it, draft a portrait (stack, prompting style, guessed tier), and **turn steps 3–5 into one-tap confirmations of what you found** ("Looks like you're around T4 and live in TypeScript/Vercel — right?") rather than cold asks. If I decline or it's empty, fall through to the cold path (steps 3–5). Skip this offer entirely if USER.md already has a `history_mined:` date.
+3. **Once I give my name, introduce the tier system** — a short, friendly overview of the 8-tier ladder (T1 prompts → T8 production) and that we climb only as high as my work needs. Render the map so I see the whole path.
+4. **Ask which tier I'm on** — one `AskUserQuestion` (tap to pick): e.g. *new to this* / *comfortable prompting* / *already planning & verifying* → map to a starting tier. (If history was mined: pre-select the guessed tier and frame it as confirm-or-correct.)
+5. **Ask my tech level** — one `AskUserQuestion`: Senior SWE · Mid SWE · Junior / new to code. (Pitch of examples.) (If history was mined: pre-fill from the portrait, confirm.)
+6. **Do NOT cold-ask for stack.** If history was mined, you already have it — record it. Otherwise skip it; teach a few modules first and only ask later if a tailored example genuinely needs it.
+7. Confirm a **finish line** in one friendly line, then **start Module 1 immediately**.
+
+### Build the portrait from my history
+
+Instead of interrogating me, **read my real Claude Code prompts** and infer the portrait. This makes Module 1 land on *my* stack and *my* prompting habits from the first beat.
+
+**Ask consent first — once.** One line, plain: *"Want me to glance at your past Claude Code prompts (all local projects) so I can tailor this to your real work? Read-only, nothing leaves your machine."* Only proceed on a yes. If USER.md already has a `history_mined:` date, don't ask again — the portrait's already built.
+
+**Mine, then judge (hybrid — keep the two jobs separate):**
+- **Extract (mechanical):** run `scripts/mine-prompts.sh` — it reads `~/.claude/projects/<slug>/*.jsonl` (read-only) and prints a markdown digest: per-project prompt samples + a most-repeated-prompts frequency table. It does *only* a light structural filter; it does **not** try to scrub every kind of harness noise.
+- **Judge (you, the LLM):** read the digest and do the semantic work the script deliberately skips. **Ignore leftover noise** (caveats, slash-command output, context-continuation summaries, bare `yes`/`ok`/`push` acknowledgements). From the real prompts, infer:
+  - **Stack & tools** — languages, frameworks, hosts (e.g. TypeScript, Next.js, Vercel), and which repos are theirs.
+  - **Prompting style** — vague bare-imperatives ("fix the gaps", "push") vs outcome+constraint; `@file`/path use; plan-mode and verify habits; whether they hand over outcomes or file lists (Tip 1 signal).
+  - **Tier** — what their habits imply on the T1–T8 ladder (lots of bare imperatives → T1; routine plan-then-build with checks → T3–T4; orchestration/loops → T6+).
+- **Don't fabricate.** If the history is thin or ambiguous, say so and fall back to asking. The digest is evidence, not proof — confirm the guessed tier with me before locking it.
+
+**Write the portrait to USER.md** (Codebases/stacks + a short *Prompting style* note + the guessed tier under Level), and set `history_mined: <today's date>` in `Flags` so it's not re-run every session. Keep guide-truth and this mined evidence in separate buckets per the source-fidelity rules — the portrait is about *me*, never treated as guide content.
 
 **Introduce the quizmaster — once.** Unless USER.md says `quizmaster_intro: shown`, fold a short, friendly note on how checks work into the flow (don't make it a wall), then record it. Skip if already `shown`.
 

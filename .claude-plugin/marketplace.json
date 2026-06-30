@@ -2,7 +2,8 @@
   "name": "pae",
   "owner": {
     "name": "Alexey Krivitsky",
-    "email": "alexey@krivitsky.com"
+    "email": "alexey@krivitsky.com",
+    "url": "https://www.linkedin.com/in/alexeykrivitsky/"
   },
   "plugins": [
     {
