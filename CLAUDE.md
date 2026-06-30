@@ -23,7 +23,7 @@ It's organized as one ladder of **eight tiers, simple → hard**, where the work
 | **T5 Checkpointing & Hardening** | Checkpoint in git; wire tests & CI into the harness |
 | **T6 Orchestration** | Run many agents at once |
 | **T7 Fleet Ops** | Operate your agents as a fleet |
-| **T8 Execution Layer** | Put agents into production (the execution layer) |
+| **T8 Agent Execution Layer** | Put agents into production (the execution layer) |
 
 The reader is told to climb only as high as their work demands and stop.
 
@@ -248,7 +248,7 @@ Template (names match the guide's tier table; fixed 4-char bars; one line per ti
 🟧 T5 Checkpointing & Hardening   ░░░░  0/5 ←HERE
 ⬜ T6 Orchestration               ░░░░  0/7
 ⬜ T7 Fleet Ops                   ░░░░  0/5
-⬜ T8 Execution Layer             ░░░░  0/4
+⬜ T8 Agent Execution Layer       ░░░░  0/4
 ────────────────────────────────────
 🟧now 🔵skip ✅done ⬜ahead
 ```

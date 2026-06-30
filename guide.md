@@ -55,7 +55,7 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 | **T5 Checkpointing & Hardening** | Checkpoint in git; wire tests & CI into the harness |
 | **T6 Orchestration** | Run many agents at once |
 | **T7 Fleet Ops** | Operate your agents as a fleet |
-| **T8 Execution Layer** | Put agents into production (the execution layer) |
+| **T8 Agent Execution Layer** | Put agents into production (the execution layer) |
 
 Climb only as high as your work demands — then stop.
 
@@ -1068,7 +1068,7 @@ If you run unattended with `--dangerously-skip-permissions`, put it behind a `Pr
 ---
 
 <a id="tier-8"></a>
-## Tier 8 — Execution Layer: Put agents into production, so they work without you
+## Tier 8 — Agent Execution Layer: Put agents into production, so they work without you
 
 **Reach for this tier when** the team needs it — agents must pick up tickets and open PRs without anyone babysitting a terminal.
 

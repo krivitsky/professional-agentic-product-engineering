@@ -34,7 +34,7 @@ One ladder of **eight tiers, simple → hard**, where the work shifts from wordi
 | [**T5 Checkpointing & Hardening**](guide.md#tier-5) | Checkpoint in git; wire tests & CI into the harness |
 | [**T6 Orchestration**](guide.md#tier-6) | Run many agents at once |
 | [**T7 Fleet Ops**](guide.md#tier-7) | Operate your agents as a fleet |
-| [**T8 Execution Layer**](guide.md#tier-8) | Put agents into production (the execution layer) |
+| [**T8 Agent Execution Layer**](guide.md#tier-8) | Put agents into production (the execution layer) |
 
 Climb only as high as your work demands. New to this? Start at **T1**; already fluent? jump straight to the tier that matches you.
 
