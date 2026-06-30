@@ -607,6 +607,8 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 
 *The deeper shift: **the spec is the new source code.** When the loop regenerates the implementation on demand against an executable spec, the code becomes an ephemeral byproduct and the `SPEC.md` + tests become the artifact you actually author, version, and review. Your job moves up — from writing syntax to writing the rules the agent executes against.*
 
+**You decide what to test for; the agent doesn't.** The tests that catch real bugs are usually integration and end-to-end, not single units. So treat those as first-class: you say what they must check, the agent writes them to your spec and adds them to CI, and you confirm they check the right things. Build the rails; don't let the agent build its own. *(Raised in [#1](https://github.com/krivitsky/professional-agentic-product-engineering/issues/1).)*
+
 <a id="tip-31"></a>
 **31. Make your Definition of Done executable — a command is what the loop converges to.**
 > **Instead of:** "Make it work."
@@ -627,6 +629,8 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 3. "Implement until green. Do NOT edit the tests."
 ```
 *Committing first means any quiet test-weakening shows up in the diff.*
+
+*Passing unit tests doesn't mean the app works — the worst bugs usually show up in integration and end-to-end tests, not single units.*
 
 <a id="tip-33"></a>
 **33. Use BDD — the behavior-level oracle.**
