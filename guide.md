@@ -48,14 +48,14 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 
 | Tier | You learn to… |
 |---|---|
-| **T1 Prompts** | Write prompts the agent can act on |
-| **T2 Plan & slice** | Plan and slice before you build |
-| **T3 Context** | Give the agent the right context and tools |
-| **T4 Verify loop** | Make the agent prove it's done *(the heart of it)* |
-| **T5 Git** | Checkpoint everything so you can roll back |
-| **T6 Orchestrate** | Run many agents at once |
-| **T7 Fleet** | Operate your agents as a fleet |
-| **T8 Production** | Put agents into production (the execution layer) |
+| **T1 Professional Prompting** | Write prompts the agent can act on |
+| **T2 Planning & Slicing** | Plan and slice before you build |
+| **T3 Context Management** | Give the agent the right context and tools |
+| **T4 Loop Until Done** | Make the agent prove it's done *(the heart of it)* |
+| **T5 Checkpointing & Hardening** | Checkpoint in git; wire tests & CI into the harness |
+| **T6 Orchestration** | Run many agents at once |
+| **T7 Fleet Ops** | Operate your agents as a fleet |
+| **T8 Execution Layer** | Put agents into production (the execution layer) |
 
 Climb only as high as your work demands — then stop.
 
@@ -65,7 +65,7 @@ Climb only as high as your work demands — then stop.
 3. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
 4. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
 5. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
-6. [Tier 1 — Write prompts the agent can act on](#tier-1--write-prompts-the-agent-can-act-on-to-get-the-right-result-the-first-time)
+6. [Tier 1 — Write prompts the agent can act on](#tier-1)
    - [1. Hand over the outcome, not a file list](#tip-1)
    - [2. Be specific](#tip-2)
    - [3. Say what to do, not what to avoid](#tip-3)
@@ -80,7 +80,7 @@ Climb only as high as your work demands — then stop.
    - [12. Narrow the edit surface](#tip-12)
    - [13. Dial effort](#tip-13)
    - [14. Front-load turn 1](#tip-14)
-7. [Tier 2 — Plan and slice before you build](#tier-2--plan-and-slice-before-you-build-to-keep-every-change-small-and-safe)
+7. [Tier 2 — Plan and slice before you build](#tier-2)
    - [15. Investigate before you edit](#tip-15)
    - [16. Plan the uncertain](#tip-16)
    - [17. Force an approval checkpoint](#tip-17)
@@ -89,7 +89,7 @@ Climb only as high as your work demands — then stop.
    - [20. Turn features into a spec](#tip-20)
    - [21. Plan smart, build cheap](#tip-21)
    - [22. Draft-and-critique the spec](#tip-22)
-8. [Tier 3 — Give the agent the right context and tools](#tier-3--give-the-agent-the-right-context-and-tools-so-it-stops-guessing)
+8. [Tier 3 — Give the agent the right context and tools](#tier-3)
    - [23. Feed high-signal context](#tip-23)
    - [24. Keep secrets out of git and context](#tip-24)
    - [25. `/clear` between tasks](#tip-25)
@@ -98,7 +98,7 @@ Climb only as high as your work demands — then stop.
    - [28. Put occasional knowledge in Skills](#tip-28)
    - [29. Add the right MCP servers](#tip-29)
    - [30. Use external memory](#tip-30)
-9. [Tier 4 — Make the agent prove it's done (the loop)](#tier-4--make-the-agent-prove-its-done-so-you-can-trust-the-output-the-loop)
+9. [Tier 4 — Make the agent prove it's done (the loop)](#tier-4)
    - [31. Make Definition of Done executable](#tip-31)
    - [32. Do TDD](#tip-32)
    - [33. Use BDD](#tip-33)
@@ -108,13 +108,13 @@ Climb only as high as your work demands — then stop.
    - [37. Review with fresh eyes](#tip-37)
    - [38. Run a pre-mortem](#tip-38)
    - [39. Iterate UI visually](#tip-39)
-10. [Tier 5 — Checkpoint everything in git](#tier-5--checkpoint-everything-in-git-so-you-can-always-roll-back)
+10. [Tier 5 — Checkpoint everything in git](#tier-5)
     - [40. Commit every working step](#tip-40)
     - [41. Let Claude drive `gh`](#tip-41)
     - [42. Use worktrees](#tip-42)
     - [43. Replace "remember to run tests" with a hook](#tip-43)
     - [44. Move repetitive engineering into CI](#tip-44)
-11. [Tier 6 — Run many agents at once](#tier-6--run-many-agents-at-once-to-ship-more-work-in-parallel)
+11. [Tier 6 — Run many agents at once](#tier-6)
     - [The model toolkit — bring in more models (any tier)](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)
     - [45. Let it self-orchestrate](#tip-45)
     - [46. Use subagents to isolate context](#tip-46)
@@ -123,13 +123,13 @@ Climb only as high as your work demands — then stop.
     - [49. Engineer the long-horizon hand-off](#tip-49)
     - [50. Steer long runs mid-flight](#tip-50)
     - [51. Engineer the environment](#tip-51)
-12. [Tier 7 — Operate your agents as a fleet](#tier-7--operate-your-agents-as-a-fleet-so-long-runs-dont-die-on-you)
+12. [Tier 7 — Operate your agents as a fleet](#tier-7)
     - [52. Use an agent-aware terminal](#tip-52)
     - [53. Isolate with worktrees + one session each](#tip-53)
     - [54. Host on a box that doesn't sleep](#tip-54)
     - [55. Drive the fleet from your phone](#tip-55)
     - [56. Secure the agent server](#tip-56)
-13. [Tier 8 — Put agents into production (the execution layer)](#tier-8--put-agents-into-production-so-they-work-without-you-the-execution-layer)
+13. [Tier 8 — Put agents into production (the execution layer)](#tier-8)
     - [57. Sandbox the loop](#tip-57)
     - [58. Gate the plan, not every keystroke](#tip-58)
     - [59. Cap the strikes](#tip-59)
@@ -317,7 +317,10 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 
 ---
 
-## Tier 1 — Write prompts the agent can act on, to get the right result the first time
+<a id="tier-1"></a>
+## Tier 1 — Professional Prompting: Write prompts the agent can act on, to get the right result the first time
+
+**Reach for this tier when** the agent keeps doing *almost* the right thing — vague asks get literal, wrong results. The single request is your cheapest lever: say what you want so it can't guess wrong.
 
 <a id="tip-1"></a>
 **1. Hand over the outcome, not a file list.**
@@ -405,7 +408,10 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 
 ---
 
-## Tier 2 — Plan and slice before you build, to keep every change small and safe
+<a id="tier-2"></a>
+## Tier 2 — Planning & Slicing: Plan and slice before you build, to keep every change small and safe
+
+**Reach for this tier when** big asks go sideways — the agent edits the wrong things or tries to do everything in one pass. Plan first, then cut the work into small slices, each one small enough to check and cheap to undo.
 
 <a id="tip-15"></a>
 **15. Investigate before you edit — a wrong mental model wrecks the diff.**
@@ -480,7 +486,10 @@ The spec is the contract the whole build runs against (Tier 4), so this is the h
 
 ---
 
-## Tier 3 — Give the agent the right context and tools, so it stops guessing
+<a id="tier-3"></a>
+## Tier 3 — Context Management: Give the agent the right context and tools, so it stops guessing
+
+**Reach for this tier when** you re-explain the same conventions every session, or the agent can't see your DB, browser, or docs. Engineer that context once — durable project memory plus the right tools — and it stops re-asking and guessing.
 
 *The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 6). Check usage any time with `/context`.*
 
@@ -572,7 +581,10 @@ Or commit `.mcp.json` to the repo root:
 
 ---
 
-## Tier 4 — Make the agent prove it's done, so you can trust the output (the loop)
+<a id="tier-4"></a>
+## Tier 4 — Loop Until Done: Make the agent prove it's done, so you can trust the output
+
+**Reach for this tier when** you can't trust the output without reading every line, and "done" means nothing concrete.
 
 **This is the heart of professional agentic engineering, so read the framing first.**
 
@@ -704,9 +716,12 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 
 ---
 
-## Tier 5 — Checkpoint everything in git, so you can always roll back
+<a id="tier-5"></a>
+## Tier 5 — Checkpointing & Hardening: Checkpoint in git and harden the harness, so you can always roll back
 
-*Git isn't bookkeeping here — it's the loop's memory and undo. CI and the `gh` CLI extend the harness from your machine to the team.*
+**Reach for this tier when** a long run goes wrong and you've lost good work with nothing to roll back to. With a checkpoint at every green step, a bad run costs minutes to undo, not a rewrite.
+
+*Git isn't bookkeeping here — it's the loop's memory and undo. And the harness around it — hooks that always run your tests, CI, the `gh` CLI — makes the whole loop deterministic and shareable with the team.*
 
 <a id="tip-40"></a>
 **40. Commit every working step — checkpoints are what make a loop safe.**
@@ -745,6 +760,8 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
 >
 > **Prefer:** a hook that always runs them, and one that won't let it stop on red.
 
+*This is where Tier 4 becomes durable: the check you defined there gets wired into the harness, so it runs every time and can't be skipped or forgotten.*
+
 **How:** `.claude/settings.json` (commit it so the team shares the gate):
 ```json
 {
@@ -778,7 +795,10 @@ claude -p "Review this PR diff for correctness and security; comment only on rea
 
 ---
 
-## Tier 6 — Run many agents at once, to ship more work in parallel
+<a id="tier-6"></a>
+## Tier 6 — Orchestration: Run many agents at once, to ship more work in parallel
+
+**Reach for this tier when** one agent is too slow or floods its own context, and the build is too big for one pass. The next gain is parallelism — many subagents on independent slices, specialist roles, and a second model catching what the first missed.
 
 ### The model toolkit — bring in more models (the multi-model playbook)
 
@@ -975,7 +995,10 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 
 ---
 
-## Tier 7 — Operate your agents as a fleet, so long runs don't die on you
+<a id="tier-7"></a>
+## Tier 7 — Fleet Ops: Operate your agents as a fleet, so long runs don't die on you
+
+**Reach for this tier when** runs die because your laptop slept, parallel agents collide, or you want to drive them from your phone. Get this right and a run survives your laptop closing and keeps going while you're away.
 
 *Once you're running more than one agent, or runs longer than you'll sit and watch, **where and how you run them** becomes its own engineering problem. This is the operations layer of agentic work.*
 
@@ -1044,9 +1067,12 @@ If you run unattended with `--dangerously-skip-permissions`, put it behind a `Pr
 
 ---
 
-## Tier 8 — Put agents into production, so they work without you (the execution layer)
+<a id="tier-8"></a>
+## Tier 8 — Execution Layer: Put agents into production, so they work without you
 
-> **While running a local loop is perfect for individual spec-driven development, enterprise agentic loops require a dedicated *Agent Execution Layer*.** It's the layer beyond your own server (Tier 7): loops run **hosted, isolated, and event-triggered**, so an agent can pick up a ticket, fix it, and open a PR with no one babysitting a terminal.
+**Reach for this tier when** the team needs it — agents must pick up tickets and open PRs without anyone babysitting a terminal.
+
+> **While running a local loop is perfect for individual spec-driven development, enterprise agentic loops require a dedicated *Agent Execution Layer*.** It's the layer beyond your own server (Tier 7): loops run **hosted, isolated, and event-triggered**.
 
 **Don't be scared — it's the same loop you already built.** Everything from Tier 4 (act → test → fix against a Definition of Done) and Tier 5 (commit, `gh`, CI) is unchanged.
 
