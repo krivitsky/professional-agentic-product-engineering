@@ -1,28 +1,14 @@
 # Professional Agentic Product Engineering
 
-The field guide — **plus an Agentic Coach** that catches your thinking mistakes and nudges you to the right tip while you code.
+**Professional agentic engineering is not prompt engineering — it's engineering the system around the model.** As the work gets harder, the effort moves up the ladder: the prompt shrinks while the system around it grows.
 
-A mid-2026 field guide — updated continuously — to getting good at operating a coding agent (using the example of a popular agentic coding harness, Claude Code by Anthropic) for creating new software and working on real codebases. It spans the full range: from "fix bug xyz" to autonomous engineering loops in production.
+This field guide — **plus an Agentic Coach** — nudges you to the right tip of your growing product engineering skills.
 
 <img src="assets/tutor-caveman.png" width="320" alt="pixel-art caveman tutor at a flipchart">
 
+This Guide is kept up-to-date (currently June 2026) to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
+
 Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
-
-## See it catch you
-
-The Guide also ships as an **ambient coach** — install it once, then work in Claude Code exactly as you normally would. It watches silently; most turns it says nothing. It speaks up *only* when it catches a learning opportunity, and links you straight to the fix.
-
-You're mid-task, about to take a shortcut:
-
-> **You → Claude:** "Delete these failing tests — I just need the build green."
->
-> **🧭 Agentic Coach** — *catching a learning opportunity:*
->
-> 💡 **Red test? Find out *why* before you delete it.** Code regressed → fix the code (deleting it buries a live bug); feature gone or test stale → cleanup's fine. → **[Tier 4 — make the agent prove it's done](guide.md#tier-4--make-the-agent-prove-its-done-so-you-can-trust-the-output-the-loop)**
-
-You're talking to Claude; the coach just listens in — one catch, one nudge, one click to the Guide, then quiet again. It catches the *thinking*, not the syntax.
-
-That's just one of **three ways to use this** — read the Guide, get tutored through it, or get coached while you work. Here's the full picture:
 
 ## Who this is for
 
@@ -30,17 +16,6 @@ That's just one of **three ways to use this** — read the Guide, get tutored th
 - **Product managers** closing the tech gap — ship real changes, not just specs.
 - **Senior leaders** who want real hands-on experience, not slideware.
 - **Non-IT professionals** entering product development in the age of AI.
-
-## Big idea — engineer the system, not the prompt
-
-It all reduces to **one** climb. Professional agentic engineering is **not prompt engineering — it's engineering the system around the model.** As the work gets harder, *where you apply effort* moves up the ladder; the prompt shrinks while the system around it grows:
-
-```mermaid
-flowchart LR
-  P[Prompt] --> T[Task] --> C[Context] --> V[Verification] --> E[Environment] --> X[Execution]
-```
-
-The eight tiers below are the rungs; learn the ladder and the 60 tips fall into place.
 
 ## What's inside
 
@@ -91,7 +66,17 @@ Read-only and local — nothing leaves your machine.
 
 ### 3) The Coach — [`agentic-coach`](plugins/agentic-coach)
 
-The ambient coach plugin from above: in-the-flow nudges to the right tip, no lesson required.
+An ambient coach — install it once, then work in Claude Code as you normally would. It watches silently; most turns it says nothing. It speaks up *only* when it catches a learning opportunity, and links you straight to the fix.
+
+You're mid-task, about to take a shortcut:
+
+> **You → Claude:** "Delete these failing tests — I just need the build green."
+>
+> **🧭 Agentic Coach** — *catching a learning opportunity:*
+>
+> 💡 **Red test? Find out *why* before you delete it.** Code regressed → fix the code (deleting it buries a live bug); feature gone or test stale → cleanup's fine. → **[Tier 4 — make the agent prove it's done](guide.md#tier-4--make-the-agent-prove-its-done-so-you-can-trust-the-output-the-loop)**
+
+It catches the *thinking*, not the syntax — one catch, one nudge, one click to the Guide, then quiet again.
 
 **Install it** — add the marketplace, install, reload:
 
