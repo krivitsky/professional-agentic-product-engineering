@@ -4,6 +4,8 @@
 
 This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Professional Agentic Product Engineering Guide](guide.md). These materials and harness nudge you to the right tip of your growing product engineering skills.
 
+📖 **Read it online: [agentic-engineering.guide](https://agentic-engineering.guide/)** — a browsable web version of the Guide: one page per tier, dark/light mode, easy to share. It's auto-generated from [`guide.md`](guide.md) and rebuilt on every change, so it's always in sync with this repo.
+
 <img src="assets/tutor-caveman.png" width="320" alt="pixel-art caveman tutor at a flipchart">
 
 The Guide is kept up-to-date (currently June 2026) to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
@@ -16,6 +18,14 @@ Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 
 - **Product managers** closing the tech gap — ship real changes, not just specs.
 - **Senior leaders** who want real hands-on experience, not slideware.
 - **Non-IT professionals** entering product development in the age of AI.
+
+## Big Idea 💡: From Prompts to Systems
+
+Professional agentic engineering is **not prompt engineering — it's engineering the system around the model.** That system isn't a line; it's **three nested loops** ([the value-factory model](https://www.krivitsky.com/post/value-factory-nested-loops)) — a tight **coding loop** (red → green → refactor) inside a **feature loop** (specify → refine → verify), inside an **impact loop** (opportunities → hypothesis → impact):
+
+<img src="assets/nested-loops.png" width="640" alt="Three nested loops: an impact loop containing a feature loop containing a coding loop">
+
+The eight tiers are how you make these loops close on their own — from wording a single prompt (T1) to whole loops running autonomously in production (T8). The prompt shrinks; the system grows.
 
 ## What's inside
 

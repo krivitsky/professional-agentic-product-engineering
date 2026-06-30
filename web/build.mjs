@@ -5,6 +5,7 @@ import { readFile, writeFile, rm, mkdir, copyFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { execSync } from 'node:child_process';
 import { marked } from 'marked';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -24,7 +25,13 @@ const BASE = (
   (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) ||
   'https://professional-agentic-product-engineering.vercel.app'
 ).replace(/\/+$/, '');
-const SITE_DESC = 'A mid-2026 field guide to operating a coding agent professionally — eight tiers from prompting to autonomous production loops, using Claude Code as the worked example.';
+const SITE_DESC = 'A continuously updated field guide to operating a coding agent professionally — eight tiers from prompting to autonomous production loops, using Claude Code as the worked example.';
+// Build stamp — time + commit, surfaced as "updated at" / build #. Refreshes each deploy.
+const BUILD_TIME = new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+const BUILD_SHA_FULL =
+  process.env.VERCEL_GIT_COMMIT_SHA ||
+  (() => { try { return execSync('git rev-parse HEAD', { cwd: ROOT }).toString().trim(); } catch { return ''; } })();
+const BUILD_SHA = BUILD_SHA_FULL.slice(0, 7) || 'local';
 const OG_IMAGE = `${BASE}/og.png`; // 1200x630 social card — regenerate with `node make-og.mjs`
 
 // Strip markdown to plain text for descriptions / llms.txt.
@@ -53,7 +60,8 @@ const slug = (s) =>
   s.toLowerCase().trim()
    .replace(/`/g, '')
    .replace(/[^\w\s-]/g, '')
-   .replace(/\s/g, '-');
+   .replace(/\s/g, '-')
+   .replace(/^-+|-+$/g, '');
 
 // First non-empty paragraph that introduces a tier ("Reach for this tier when …").
 function reachBlurb(body) {
@@ -117,8 +125,49 @@ pages.push({
 
 // Drop the in-guide "### Contents" block from home — we build our own nav.
 function stripContents(md) {
-  return md.replace(/###\s+Contents[\s\S]*?(?=\n---\n)/, '').replace(/\n{3,}/g, '\n\n');
+  // Remove the Contents list *and* its trailing `---` (else it renders as an
+  // <hr> right above the footer's own divider — a double separator).
+  return md.replace(/###\s+Contents[\s\S]*?\n---\n/, '').replace(/\n{3,}/g, '\n\n');
 }
+
+// Split the home front matter: pull out the H1, and strip the raw
+// maintainer/repo block (shown instead as the shared, styled credit row).
+// Content fixes (title text, tables) live in guide.md — not here.
+function homeParts(md) {
+  const title = (md.match(/^#\s+(.+)$/m) || [, SITE_TITLE])[1];
+  const body = md
+    .replace(/^#\s+.+\n/, '')
+    .replace(/\*\*Main maintainer:\*\*[\s\S]*?learn better\.\s*\n/, '');
+  return { title, body };
+}
+
+// Link the at-a-glance table's tier names to their chapter pages (web nav
+// sugar — the text itself is verbatim from guide.md).
+function linkifyTiers(md) {
+  return md.replace(/\*\*(T(\d) [^*|]+?)\*\*/g, (_, label, n) => `**[${label}](tier-${n}.html)**`);
+}
+
+// Author/repo/build credit — the text block (used in the sidebar) ...
+function creditText() {
+  return (
+    `<p>Field guide by <a href="${AUTHOR_URL}" target="_blank" rel="noopener">${AUTHOR_NAME}</a> — <a href="mailto:alexey@krivitsky.com">alexey@krivitsky.com</a></p>` +
+    `<p><a href="${REPO_URL}" target="_blank" rel="noopener">⭐ Star &amp; contribute on GitHub</a> · updated continuously</p>` +
+    `<p class="buildmeta">Auto-generated from <a href="${REPO_URL}/blob/main/guide.md" target="_blank" rel="noopener">guide.md</a> · built ${BUILD_TIME}` +
+    (BUILD_SHA_FULL ? ` · <a href="${REPO_URL}/commit/${BUILD_SHA_FULL}" target="_blank" rel="noopener">build ${BUILD_SHA}</a>` : ` · build ${BUILD_SHA}`) +
+    `</p>`
+  );
+}
+// ... and the same with the caveman logo, for the page footer.
+function creditRow() {
+  return `<img class="cred-logo" src="assets/tutor-caveman.png" alt=""><div class="cred-text">${creditText()}</div>`;
+}
+
+// Theme toggle — lives in the sidebar on desktop, in the topbar on mobile.
+const THEME_TOGGLE = (cls = '') =>
+  `<button class="theme-btn ${cls}" data-theme-toggle aria-label="Toggle dark mode">` +
+  `<svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>` +
+  `<svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>` +
+  `</button>`;
 
 const anchorToPage = {}; // every known anchor/slug -> page slug
 anchorToPage[slug('contents')] = 'index';
@@ -130,6 +179,26 @@ const uniq = (base) => {
   usedSlugs.add(s);
   return s;
 };
+
+// --- Overview: keep "Goal" on the landing, split the rest of the front
+// matter's `###` sections into their own subpages nested under Overview ---
+const { title: HOME_TITLE, body: fmBodyRaw } = homeParts(frontMatter);
+const fmParts = stripContents(fmBodyRaw).split(/(?=^### )/m).map((p) => p.trim()).filter(Boolean);
+let HOME_INTRO_MD = '';
+for (const part of fmParts) {
+  const h = (part.match(/^###\s+(.+)$/m) || [, ''])[1].trim();
+  if (!h || /^Goal\b/i.test(h)) { HOME_INTRO_MD += part + '\n\n'; continue; }
+  const subSlug = uniq(slug(shortLabel(h).label));
+  const subBody = part.replace(/^###\s+.+\n?/, '').replace(/^\n+/, '');
+  pages.push({
+    slug: subSlug, file: `${subSlug}.html`, title: h,
+    menuLabel: shortLabel(h).label, kind: 'overview-sub',
+    anchorId: slug(h), body: subBody, description: firstSentence(subBody),
+  });
+  anchorToPage[slug(h)] = subSlug;
+  anchorToPage[subSlug] = subSlug;
+}
+
 for (const s of sections) {
   const meta = shortLabel(s.heading);
   const headSlug = slug(s.heading);
@@ -243,7 +312,7 @@ function renderMarkdown(md, currentSlug) {
 
 // ------------------------------------------------------------- nav + shell ---
 const navGroups = [
-  { title: 'Start here', filter: (p) => p.kind === 'home' },
+  { title: 'Start here', filter: (p) => p.kind === 'home' || p.kind === 'overview-sub' },
   { title: 'Get oriented', filter: (p) => p.kind === 'section' && p.orderIdx < tierStart },
   { title: 'The eight tiers', filter: (p) => p.kind === 'tier' },
   { title: 'Reference', filter: (p) => p.kind === 'section' && p.orderIdx > tierStart },
@@ -264,10 +333,10 @@ function renderNav(currentSlug) {
     if (!items.length) continue;
     html += `<div class="nav-group"><p class="nav-group-title">${g.title}</p><ul>`;
     for (const p of items) {
-      const active = p.slug === currentSlug ? ' class="active"' : '';
+      const attr = p.slug === currentSlug ? ' class="active"' : '';
       const num = p.kind === 'tier' ? `<span class="nav-num">T${p.n}</span>` : '';
       const label = p.kind === 'tier' ? p.menuLabel.replace(/^T\d+\s·\s/, '') : p.menuLabel;
-      html += `<li><a${active} href="${p.file}">${num}<span>${escapeHtml(label)}</span></a></li>`;
+      html += `<li><a${attr} href="${p.file}">${num}<span>${escapeHtml(label)}</span></a></li>`;
     }
     html += '</ul></div>';
   }
@@ -376,7 +445,8 @@ function shell({ page, contentHtml }) {
 <meta name="twitter:title" content="${escapeHtml(isHome ? fullTitle : page.title)}">
 <meta name="twitter:description" content="${escapeHtml(desc)}">
 <meta name="twitter:image" content="${OG_IMAGE}">
-<link rel="icon" href="assets/tutor-caveman.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 <link rel="alternate" type="text/markdown" href="${BASE}/llms-full.txt" title="Full guide as plain markdown">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -392,12 +462,11 @@ function shell({ page, contentHtml }) {
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
   </button>
   <a class="topbar-brand" href="index.html"><img src="assets/tutor-caveman.png" alt=""><span>Agentic Product Engineering</span></a>
-  <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode">
-    <svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
-    <svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-  </button>
+  <div class="topbar-credit cred-text">${creditText()}</div>
+  ${THEME_TOGGLE('theme-top')}
 </header>
 <div class="overlay" id="overlay"></div>
+<div class="layout">
 <aside class="sidebar" id="sidebar">
   <a class="sidebar-brand" href="index.html">
     <img src="assets/tutor-caveman.png" alt="">
@@ -409,15 +478,10 @@ function shell({ page, contentHtml }) {
   <article class="content" id="content">
 ${contentHtml}
   </article>
-  ${isHome ? '' : prevNext(pageSlug)}
-  <footer class="site-footer">
-    <img src="assets/tutor-caveman.png" alt="" class="footer-logo">
-    <div class="footer-text">
-      <p>Field guide by <a href="${AUTHOR_URL}" target="_blank" rel="noopener">${AUTHOR_NAME}</a> — <a href="mailto:alexey@krivitsky.com">alexey@krivitsky.com</a></p>
-      <p><a href="${REPO_URL}" target="_blank" rel="noopener">⭐ Star &amp; contribute on GitHub</a> · updated continuously</p>
-    </div>
-  </footer>
+  ${prevNext(pageSlug)}
+  <footer class="site-footer creditrow">${creditRow()}</footer>
 </main>
+</div>
 <script type="module" src="app.js?v=${ASSET_VER}"></script>
 </body>
 </html>`;
@@ -430,20 +494,32 @@ const cssText = await readFile(join(HERE, 'src', 'styles.css'), 'utf8');
 const jsText = await readFile(join(HERE, 'src', 'app.js'), 'utf8');
 ASSET_VER = createHash('sha1').update(cssText + jsText).digest('hex').slice(0, 8);
 await copyFile(LOGO_SRC, join(DIST, 'assets', 'tutor-caveman.png'));
+await copyFile(join(ROOT, 'assets', 'nested-loops.svg'), join(DIST, 'assets', 'nested-loops.svg'));
+await copyFile(join(ROOT, 'assets', 'nested-loops.png'), join(DIST, 'assets', 'nested-loops.png'));
 await copyFile(join(ROOT, 'assets', 'og.png'), join(DIST, 'og.png'));
+await copyFile(join(ROOT, 'assets', 'og-2x.png'), join(DIST, 'og-2x.png'));
+await copyFile(join(ROOT, 'assets', 'favicon.png'), join(DIST, 'favicon.png'));
 await writeFile(join(DIST, 'styles.css'), cssText);
 await writeFile(join(DIST, 'app.js'), jsText);
 
 for (const p of pages) {
   let contentHtml;
   if (p.kind === 'home') {
-    const intro = renderMarkdown(stripContents(p.body), 'index');
+    const intro = renderMarkdown(linkifyTiers(HOME_INTRO_MD), 'index');
     contentHtml =
-      `<div class="hero-cta"><p class="eyebrow">Mid-2026 field guide · updated continuously</p></div>` +
-      intro +
-      `<h2 id="the-eight-tiers">Climb the eight tiers</h2>` +
-      `<p>Each tier is its own chapter — open the one your work needs.</p>` +
-      tierCards();
+      `<h1 class="sr-only">${escapeHtml(HOME_TITLE)}</h1>` +
+      `<img class="hero-banner" src="og-2x.png?v=${ASSET_VER}" alt="${escapeHtml(HOME_TITLE)}" width="1200" height="630">` +
+      `<div class="learn-callout">` +
+      `<p class="learn-callout-title">🤖 Learn it with your agent — way more fun than reading.</p>` +
+      `<p>Point Claude Code (or any agentic harness) at <a href="${REPO_URL}" target="_blank" rel="noopener">this repository</a> and have it tutor you through the guide, one concept at a time.</p>` +
+      `<p><a class="learn-callout-link" href="learn-this-with-an-agent.html">See how it works →</a></p>` +
+      `</div>` +
+      intro;
+  } else if (p.kind === 'overview-sub') {
+    contentHtml =
+      `<p class="eyebrow">Overview</p>` +
+      `<h1 id="${p.anchorId}" class="page-title">${escapeHtml(p.title)}</h1>` +
+      renderMarkdown(linkifyTiers(p.body), p.slug);
   } else {
     contentHtml =
       `<p class="eyebrow">${p.kind === 'tier' ? 'Tier ' + p.n : 'Chapter'}</p>` +

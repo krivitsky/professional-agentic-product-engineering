@@ -13,3 +13,6 @@ USER.md
 # Generated static site + deps
 web/dist/
 web/node_modules/
+
+# macOS
+.DS_Store

@@ -10,9 +10,11 @@ function setTheme(t) {
   try { localStorage.setItem('theme', t); } catch (e) {}
   renderMermaid(t);
 }
-document.getElementById('themeBtn')?.addEventListener('click', () => {
-  setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark');
-});
+for (const btn of document.querySelectorAll('[data-theme-toggle]')) {
+  btn.addEventListener('click', () => {
+    setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark');
+  });
+}
 
 // --- mobile drawer ---------------------------------------------------------
 const sidebar = document.getElementById('sidebar');
@@ -62,12 +64,19 @@ function renderMermaid(theme) {
   const nodes = document.querySelectorAll('pre.mermaid');
   if (!nodes.length) return;
   nodes.forEach((n, i) => { n.removeAttribute('data-processed'); n.textContent = mermaidSrc[i]; });
+  const dark = theme === 'dark';
   mermaid.initialize({
     startOnLoad: false,
-    theme: theme === 'dark' ? 'dark' : 'base',
+    theme: 'base',
     themeVariables: {
-      primaryColor: '#1abc9c', primaryTextColor: theme === 'dark' ? '#e7edf2' : '#2c3e50',
-      primaryBorderColor: '#16a085', lineColor: '#8a99a8', fontFamily: 'Inter, sans-serif',
+      fontFamily: 'Inter, sans-serif',
+      primaryColor: dark ? '#2a3a47' : '#eef7f4',
+      primaryTextColor: dark ? '#e7edf2' : '#2c3e50',
+      primaryBorderColor: '#1abc9c',
+      lineColor: dark ? '#7c8b99' : '#8a99a8',
+      clusterBkg: dark ? 'rgba(26,188,156,0.06)' : 'rgba(26,188,156,0.06)',
+      clusterBorder: dark ? '#2f6f63' : '#7fd3c3',
+      fontSize: '15px',
     },
   });
   try { mermaid.run({ nodes }); } catch (e) {}

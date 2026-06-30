@@ -1,4 +1,4 @@
-# Professional Agentic Product Engineering Guide (Mid-2026 and updated continuously)
+# Professional Agentic Product Engineering Guide (updated continuously)
 
 **Main maintainer:** [Alexey Krivitsky](https://www.linkedin.com/in/alexeykrivitsky/) (alexey@krivitsky.com)  
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
@@ -12,30 +12,21 @@ It spans the full range: from "fix bug xyz" all the way to autonomous engineerin
 
 Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemini 3.x+**.
 
-### The one idea
+### Big Idea 💡: From Prompts to Systems
 
 Professional agentic engineering is **not prompt engineering. It's engineering the system around the model.**
 
-As the work gets harder, *where you apply effort* climbs a ladder — the prompt shrinks while the system around it grows:
+That system isn't a line — it's **three nested loops** ([the value-factory model](https://www.krivitsky.com/post/value-factory-nested-loops)). A tight **coding loop** (red → green → refactor) sits inside a **feature loop** (specify → refine → verify), inside an **impact loop** (opportunities → hypothesis → impact). Each wider loop is slower, higher-stakes, and longer to close:
 
-```mermaid
-flowchart LR
-  P[Prompt] --> T[Task] --> C[Context] --> V[Verification] --> E[Environment] --> X[Execution]
-```
+![Three nested loops: an impact loop (find value, test hypotheses, measure & learn) containing a feature loop (specify, refine, verify) containing a coding loop (red, green, refactor)](assets/nested-loops.svg)
 
-The eight tiers below are the detailed rungs of that one climb (Prompt = T1, Task = T2, Context = T3, Verification = T4, Environment = T5–T7, Execution = T8). Every tip is an instance of one layer — learn the ladder and the 60 tips fall into place.
+As the work gets harder, your effort moves from *wording one prompt* to *engineering these loops so they close on their own* — the prompt shrinks while the system around it grows. The eight tiers below are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
 
 ### Who this is for
 - **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
 - **Product managers** closing the tech gap — ship real changes, not just specs.
 - **Senior leaders** who want real hands-on experience, not slideware.
 - **Non-IT professionals** entering product development in the age of AI.
-
-### Your level — where to start
-
-If you've used a coding agent a few times and want to get professional, start at the top and stop climbing wherever you are today.
-
-Already more fluent? Jump straight to the tier that matches you — or tell your agent to skip ahead to the sections you need.
 
 ### TL;DR — if you do only five things
 1. **Be specific and positive.** Name files, constraints, and the pattern to follow; say what to *do*, not what to avoid. (Tips 1–4)
@@ -57,7 +48,7 @@ Already more fluent? Jump straight to the tier that matches you — or tell your
 | **T7 Fleet Ops** | Operate your agents as a fleet |
 | **T8 Agent Execution Layer** | Put agents into production (the execution layer) |
 
-Climb only as high as your work demands — then stop.
+Climb only as high as your work demands.
 
 ### Contents
 1. [Climb the eight tiers — to spend effort only where your work needs it (the arc)](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it-the-arc)
@@ -151,14 +142,14 @@ The trick is knowing *what pushes you to the next tier* — it's always a specif
 
 | Tier | What you work on | Level it applies at | What pushes you up |
 |---|---|---|---|
-| **1 — Write better prompts** | The single request | One message | The agent keeps doing *almost* the right thing — vague asks get literal, wrong results |
-| **2 — Plan, slice, scope** | The task before you start | One task | Big asks go sideways; it edits the wrong things or tries to do everything in one pass |
-| **3 — Engineer context & tools** | The project the agent sees | The repo | You re-explain the same conventions every session; it can't see your DB/browser/docs |
-| **4 — Verify (the loop)** | A "done" the agent can check itself | The task, automated | You can't trust the output without reading every line; "done" means nothing concrete |
-| **5 — Git, checkpoints & harness** | Safe, revertible runs | The session | A long run goes wrong and you lose good work; nothing to roll back to |
-| **6 — Orchestrate & go pro** | Many subagents, long horizons | Multi-step / multi-agent | One agent is too slow or floods its context; the build is too big for one pass |
-| **7 — Run the fleet** | Where & how runs execute | Your machines | Runs die when your laptop sleeps; parallel agents collide; you want to drive from your phone |
-| **8 — The Agent Execution Layer** | Agents as async workers | Your org / production | The team needs it: agents must pick up tickets and open PRs without anyone babysitting a terminal |
+| **T1 — Professional Prompting** | The single request | One message | The agent keeps doing *almost* the right thing — vague asks get literal, wrong results |
+| **T2 — Planning & Slicing** | The task before you start | One task | Big asks go sideways; it edits the wrong things or tries to do everything in one pass |
+| **T3 — Context Management** | The project the agent sees | The repo | You re-explain the same conventions every session; it can't see your DB/browser/docs |
+| **T4 — Loop Until Done** | A "done" the agent can check itself | The task, automated | You can't trust the output without reading every line; "done" means nothing concrete |
+| **T5 — Checkpointing & Hardening** | Safe, revertible runs | The session | A long run goes wrong and you lose good work; nothing to roll back to |
+| **T6 — Orchestration** | Many subagents, long horizons | Multi-step / multi-agent | One agent is too slow or floods its context; the build is too big for one pass |
+| **T7 — Fleet Ops** | Where & how runs execute | Your machines | Runs die when your laptop sleeps; parallel agents collide; you want to drive from your phone |
+| **T8 — Agent Execution Layer** | Agents as async workers | Your org / production | The team needs it: agents must pick up tickets and open PRs without anyone babysitting a terminal |
 
 **Read the right column as a diagnostic.** Stuck re-typing the same context every session? That's the Tier 3 pain — go engineer CLAUDE.md and Skills.
 
@@ -184,43 +175,33 @@ Match the job to a target tier and stop there — climbing higher than the work 
 
 ## Learn this with an agent (the fastest way through)
 
-You don't have to read this alone — the best way to learn agentic engineering is *with an agent*. Hand this guide to Claude (or any capable model) and have it tutor you through it **one concept at a time**: a quick why, the idea, a hands-on rep, and a check that it stuck.
+You don't have to read this alone. The same material comes in **three modes** — **read it**, get **tutored** through it, or get **coached** while you work. Pick by how hands-on you want to be.
 
-Keep each module to **~7 minutes and one concept** — small beats marathon, and you retain it.
+### 1) The Guide — `guide.md`
 
-Each module follows **4C**, the structure good trainers use:
-- **Connection** — surface what you already do about this problem *(~1 min)*
-- **Concept** — the idea itself, one tip or primitive, no more *(~2 min)*
-- **Concrete practice** — you run it on a real or scratch repo *(~3 min)*
-- **Conclusion** — get tested (multiple-choice, predict-the-output, explain-it-back, or spot-the-bug), so it sticks *(~1 min)*
+**Read it — old school.** This website (or [`guide.md`](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md)) top to bottom, or jump to the tier your work needs — one ladder of **eight tiers, simple → hard**, every tip a concrete **Instead → Prefer** pair (the anti-example, then the fix). No agent required; best when you just want the reference.
 
-**Set up your tutor — paste once:**
+### 2) The Tutor — `CLAUDE.md`
+
+Turns Claude Code into an interactive tutor for the Guide: **one small concept at a time** (~7 min each), you do every rep in a scratch repo, and a separate quizmaster checks it stuck before you advance. Clone the repo, open Claude Code in the folder, and say `hi`:
+```shell
+git clone https://github.com/krivitsky/professional-agentic-product-engineering
+cd professional-agentic-product-engineering
+claude        # then type:  hi
 ```
-You are my agentic-engineering tutor. Teach me the guide I'm pasting/linking below,
-ONE concept at a time, in ~7-minute modules. For each module use 4C:
-1) Connection: ask me one question about how I handle this today.
-2) Concept: explain ONE concept (a single tip or primitive) plainly, with a concrete example.
-3) Concrete practice: give me a small hands-on task to run in a scratch git repo; check my result.
-4) Conclusion: check I actually learned it — rotate the format each module so I can't pattern-match:
-   a multiple-choice question (4 options, one correct; after I answer, tell me why each is right/wrong),
-   OR have me explain the concept back in my own words and grade it,
-   OR show me a flawed example/prompt and ask me to spot the mistake,
-   OR ask me to predict what a given command or prompt will do, then check.
-   Mark me right/wrong, correct misunderstandings, and only then move on.
-Go tier by tier, simplest first. Don't advance until I pass. Keep it tight.
-Start with Tier 1, concept 1.
-[paste the guide here — or: read it at <url / file path>]
+It diagnoses your level and — with your consent — glances at your past prompts (read-only, local, nothing leaves your machine) to tailor every example to *your* stack and habits instead of a generic one. Best when you want to **learn it by doing**.
+
+### 3) The Coach — `agentic-coach`
+
+An ambient plugin: install once, then work in Claude Code as usual. It stays silent until it catches a learning moment mid-task, then drops **one nudge linked straight to the fix** — the thinking, not the syntax.
+```shell
+/plugin marketplace add krivitsky/professional-agentic-product-engineering
+/plugin install agentic-coach@pae
+/reload-plugins
 ```
+Then just work; say `coach me` to ask it directly, or `stop coaching` to silence it. Best when you'd rather learn **in the flow of real work**. *(Needs `jq` on your PATH.)*
 
-**Drive it — one-liners:**
-- Continue: `Next module.`
-- Didn't land: `Re-explain that with a different example, then re-test me.`
-- Go deeper: `Give me a harder practice task for this concept.`
-- Track progress: `Which concepts have I passed, and what's left in this tier?`
-- Test me harder: `Quiz me on this whole tier — 5 mixed questions (multiple-choice + spot-the-bug).`
-- Set your finish line: `I'm building <X>. Which tier should I stop at? Skip the rest.`
-
-*Do the practice in a throwaway git repo and let the agent run commands and tests against your work — the rep is where it sticks. Use the [Which tier do I need?](#which-tier-do-i-need) table to set your finish line so you don't over-learn.*
+*Harness-agnostic: the repo ships both `CLAUDE.md` and `AGENTS.md`, so any agent that reads them works. No repo handy? Paste this guide into any capable model and tell it to tutor you one concept at a time — Connection → Concept → Concrete practice → Conclusion, tier by tier, not advancing until you pass.*
 
 ---
 
@@ -1174,8 +1155,6 @@ Start with one managed loop (PR review), prove it, then expand. This is the top 
 ## Port these habits to any model, so this outlasts today's models (Opus / GPT / Gemini)
 
 Convergent traits make this guide generalize: literal instruction-following (specificity + positive framing pay off everywhere), over-engineering risk (constrain scope), longer autonomous horizons + self-verification (invest in the bar), bigger context (manage by signal).
-
-Rough division of strengths (mid-2026, broad strokes, not benchmarks): Opus 4.8 leads on agentic coding, browser automation, code self-critique, long tool-use; GPT-5.5-class on native multimodal voice/video and heavy math; Gemini 3.x on very long context and cost-sensitive routing.
 
 The mechanisms here (`/effort`, `ultracode`, dynamic workflows, hooks, CLAUDE.md, Skills, MCP) are Claude Code's; other harnesses expose analogues. **Port the principle, swap the syntax.**
 
