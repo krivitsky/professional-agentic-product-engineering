@@ -27,14 +27,14 @@ One ladder of **eight tiers, simple → hard**, where the work shifts from wordi
 
 | Tier | You learn to… |
 |---|---|
-| **T1 Prompts** | Write prompts the agent can act on |
-| **T2 Plan & slice** | Plan and slice before you build |
-| **T3 Context** | Give the agent the right context and tools |
-| **T4 Verify loop** | Make the agent prove it's done *(the heart of it)* |
-| **T5 Git** | Checkpoint everything so you can roll back |
-| **T6 Orchestrate** | Run many agents at once |
-| **T7 Fleet** | Operate your agents as a fleet |
-| **T8 Production** | Put agents into production (the execution layer) |
+| [**T1 Prompts**](guide.md#tier-1--write-prompts-the-agent-can-act-on-to-get-the-right-result-the-first-time) | Write prompts the agent can act on |
+| [**T2 Plan & slice**](guide.md#tier-2--plan-and-slice-before-you-build-to-keep-every-change-small-and-safe) | Plan and slice before you build |
+| [**T3 Context**](guide.md#tier-3--give-the-agent-the-right-context-and-tools-so-it-stops-guessing) | Give the agent the right context and tools |
+| [**T4 Verify loop**](guide.md#tier-4--make-the-agent-prove-its-done-so-you-can-trust-the-output-the-loop) | Make the agent prove it's done *(the heart of it)* |
+| [**T5 Git**](guide.md#tier-5--checkpoint-everything-in-git-so-you-can-always-roll-back) | Checkpoint everything so you can roll back |
+| [**T6 Orchestrate**](guide.md#tier-6--run-many-agents-at-once-to-ship-more-work-in-parallel) | Run many agents at once |
+| [**T7 Fleet**](guide.md#tier-7--operate-your-agents-as-a-fleet-so-long-runs-dont-die-on-you) | Operate your agents as a fleet |
+| [**T8 Production**](guide.md#tier-8--put-agents-into-production-so-they-work-without-you-the-execution-layer) | Put agents into production (the execution layer) |
 
 Climb only as high as your work demands. New to this? Start at **T1**; already fluent? jump straight to the tier that matches you.
 
