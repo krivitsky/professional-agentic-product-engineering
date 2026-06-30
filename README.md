@@ -2,11 +2,11 @@
 
 **Professional agentic engineering is not prompt engineering — it's engineering the system around the model.** As the work gets harder, the effort moves up the ladder: the prompt shrinks while the system around it grows.
 
-This field guide — **plus an Agentic Coach** — nudges you to the right tip of your growing product engineering skills.
+This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Professional Agentic Product Engineering Guide](guide.md). These materials and harness nudge you to the right tip of your growing product engineering skills.
 
 <img src="assets/tutor-caveman.png" width="320" alt="pixel-art caveman tutor at a flipchart">
 
-This Guide is kept up-to-date (currently June 2026) to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
+The Guide is kept up-to-date (currently June 2026) to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
 
 Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
 
