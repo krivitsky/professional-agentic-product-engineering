@@ -12,46 +12,8 @@ It spans the full range: from "fix bug xyz" all the way to autonomous engineerin
 
 Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemini 3.x+**.
 
-### Big Idea 💡: From Prompts to Systems
-
-Professional agentic engineering is **not prompt engineering. It's engineering the system around the model.**
-
-That system isn't a line — it's **three nested loops** ([the value-factory model](https://www.krivitsky.com/post/value-factory-nested-loops)). A tight **coding loop** (red → green → refactor) sits inside a **feature loop** (specify → refine → verify), inside an **impact loop** (opportunities → hypothesis → impact). Each wider loop is slower, higher-stakes, and longer to close:
-
-![Three nested loops: an impact loop (find value, test hypotheses, measure & learn) containing a feature loop (specify, refine, verify) containing a coding loop (red, green, refactor)](assets/nested-loops.svg)
-
-As the work gets harder, your effort moves from *wording one prompt* to *engineering these loops so they close on their own* — the prompt shrinks while the system around it grows. The eight tiers below are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
-
-### Who this is for
-- **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
-- **Product managers** closing the tech gap — ship real changes, not just specs.
-- **Senior leaders** who want real hands-on experience, not slideware.
-- **Non-IT professionals** entering product development in the age of AI.
-
-### TL;DR — if you do only five things
-1. **Be specific and positive.** Name files, constraints, and the pattern to follow; say what to *do*, not what to avoid. (Tips 1–4)
-2. **Give the agent an executable Definition of Done.** Tests/lint/typecheck as commands — that's the loop's exit condition. (Tip 31)
-3. **Plan before you edit; slice the work thin.** Investigate → approve a plan → one vertical slice at a time. (Tips 15, 17, 19)
-4. **Commit on every green step.** Each commit is a checkpoint the loop can revert to. (Tip 40)
-5. **Engineer the environment, not the prompt.** CLAUDE.md, Skills, hooks, MCP, CI carry the intelligence. (Tip 51)
-
-### The eight tiers at a glance
-
-| Tier | You learn to… |
-|---|---|
-| **T1 Professional Prompting** | Write prompts the agent can act on |
-| **T2 Planning & Slicing** | Plan and slice before you build |
-| **T3 Context Management** | Give the agent the right context and tools |
-| **T4 Loop Until Done** | Make the agent prove it's done *(the heart of it)* |
-| **T5 Checkpointing & Hardening** | Checkpoint in git; wire tests & CI into the harness |
-| **T6 Orchestration** | Run many agents at once |
-| **T7 Fleet Ops** | Operate your agents as a fleet |
-| **T8 Agent Execution Layer** | Put agents into production (the execution layer) |
-
-Climb only as high as your work demands.
-
 ### Contents
-1. [Climb the eight tiers — to spend effort only where your work needs it (the arc)](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it-the-arc)
+1. [Climb the eight tiers — to spend effort only where your work needs it](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it-the-arc)
 2. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
 3. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
 4. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
@@ -130,49 +92,6 @@ Climb only as high as your work demands.
 
 ---
 
-## Climb the eight tiers — to spend effort only where your work needs it (the arc)
-
-This guide is one ladder: **eight tiers, simple → hard.** A tier is a level of skill *and* a level of where you're applying effort.
-
-As you climb, the work shifts from **wording the prompt** to **engineering the system around the model** — prompts shrink, the system carries the intelligence.
-
-You don't need all eight. Climb until the agent is as reliable as the work demands, then stop.
-
-The trick is knowing *what pushes you to the next tier* — it's always a specific pain, not ambition. When you feel the pain in the right column, you're ready for the next tier.
-
-| Tier | What you work on | Level it applies at | What pushes you up |
-|---|---|---|---|
-| **T1 — Professional Prompting** | The single request | One message | The agent keeps doing *almost* the right thing — vague asks get literal, wrong results |
-| **T2 — Planning & Slicing** | The task before you start | One task | Big asks go sideways; it edits the wrong things or tries to do everything in one pass |
-| **T3 — Context Management** | The project the agent sees | The repo | You re-explain the same conventions every session; it can't see your DB/browser/docs |
-| **T4 — Loop Until Done** | A "done" the agent can check itself | The task, automated | You can't trust the output without reading every line; "done" means nothing concrete |
-| **T5 — Checkpointing & Hardening** | Safe, revertible runs | The session | A long run goes wrong and you lose good work; nothing to roll back to |
-| **T6 — Orchestration** | Many subagents, long horizons | Multi-step / multi-agent | One agent is too slow or floods its context; the build is too big for one pass |
-| **T7 — Fleet Ops** | Where & how runs execute | Your machines | Runs die when your laptop sleeps; parallel agents collide; you want to drive from your phone |
-| **T8 — Agent Execution Layer** | Agents as async workers | Your org / production | The team needs it: agents must pick up tickets and open PRs without anyone babysitting a terminal |
-
-**Read the right column as a diagnostic.** Stuck re-typing the same context every session? That's the Tier 3 pain — go engineer CLAUDE.md and Skills.
-
-Losing work on long runs? Tier 5 — commit on every green. Each tier exists to kill a specific failure of the one below it:
-
-> Prompts drift → **T2** plans them. Plans are forgotten across sessions → **T3** makes context durable. Context still can't prove correctness → **T4** verifies. Long runs lose good work → **T5** checkpoints. One agent is too slow → **T6** orchestrates many. Runs die when your laptop sleeps → **T7** runs a fleet. Humans still babysit terminals → **T8** makes agents async workers.
-
-The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against a clear, testable standard, inside a real repo you own.
-
-### Which tier do I need?
-
-Match the job to a target tier and stop there — climbing higher than the work demands is wasted effort.
-
-| What you're building | Aim for | Why |
-|---|---|---|
-| A landing page, throwaway script, or one-off for yourself | **Tier 1–2** — or skip the agent and use a one-shot builder (Lovable/v0/Bolt) | Low stakes, short-lived. A clear prompt is enough; you don't need tests, git discipline, or a loop |
-| A feature in a side project you intend to keep | **Tier 1–4** | Now correctness matters over time — you want a verify loop and checkpoints so it doesn't rot |
-| Production code in a shared team repo | **Tier 1–5**, reaching into **6–8** as scale demands | Multiple people, real consequences. Context engineering, git hygiene, and review become non-negotiable; orchestration and a hosted execution layer follow when one agent or one machine isn't enough |
-
-*So for that simple landing page: **Tier 1–2 is the answer** — and a one-shot builder may serve you better than Claude Code (see [Agents vs one-shot builders](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)).*
-
----
-
 ## Learn this with an agent (the fastest way through)
 
 You don't have to read this alone. The same material comes in **three modes** — **read it**, get **tutored** through it, or get **coached** while you work. Pick by how hands-on you want to be.
@@ -204,6 +123,87 @@ Then just work; say `coach me` to ask it directly, or `stop coaching` to silence
 *Harness-agnostic: the repo ships both `CLAUDE.md` and `AGENTS.md`, so any agent that reads them works. No repo handy? Paste this guide into any capable model and tell it to tutor you one concept at a time — Connection → Concept → Concrete practice → Conclusion, tier by tier, not advancing until you pass.*
 
 ---
+
+## Big Idea 💡: From Prompts to Systems
+
+Professional agentic engineering is **not prompt engineering. It's engineering the system around the model.**
+
+That system isn't a line — it's **three nested loops** ([the value-factory model](https://www.krivitsky.com/post/value-factory-nested-loops)). A tight **coding loop** (red → green → refactor) sits inside a **feature loop** (specify → refine → verify), inside an **impact loop** (opportunities → hypothesis → impact). Each wider loop is slower, higher-stakes, and longer to close:
+
+![Three nested loops: an impact loop (find value, test hypotheses, measure & learn) containing a feature loop (specify, refine, verify) containing a coding loop (red, green, refactor)](assets/nested-loops.svg)
+
+As the work gets harder, your effort moves from *wording one prompt* to *engineering these loops so they close on their own* — the prompt shrinks while the system around it grows. The eight tiers below are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
+
+## The eight tiers at a glance
+
+| Tier | You learn to… |
+|---|---|
+| **T1 Professional Prompting** | Write prompts the agent can act on |
+| **T2 Shaping & Slicing** | Plan and slice before you build |
+| **T3 Context Management** | Give the agent the right context and tools |
+| **T4 Loop Until Done** | Make the agent prove it's done *(the heart of it)* |
+| **T5 Checkpointing & Hardening** | Checkpoint in git; wire tests & CI into the harness |
+| **T6 Orchestration** | Run many agents at once |
+| **T7 Fleet Ops** | Operate your agents as a fleet |
+| **T8 Agent Execution Layer** | Put agents into production (the execution layer) |
+
+Climb only as high as your work demands.
+
+## Climb the eight tiers — to spend effort only where your work needs it
+
+This guide is one ladder: **eight tiers, simple → hard.** A tier is a level of skill *and* a level of where you're applying effort.
+
+As you climb, the work shifts from **wording the prompt** to **engineering the system around the model** — prompts shrink, the system carries the intelligence.
+
+You don't need all eight. Climb until the agent is as reliable as the work demands, then stop.
+
+The trick is knowing *what pushes you to the next tier* — it's always a specific pain, not ambition. When you feel the pain in the right column, you're ready for the next tier.
+
+| Tier | What you work on | Level it applies at | What pushes you up |
+|---|---|---|---|
+| **T1 — Professional Prompting** | The single request | One message | The agent keeps doing *almost* the right thing — vague asks get literal, wrong results |
+| **T2 — Shaping & Slicing** | The task before you start | One task | Big asks go sideways; it edits the wrong things or tries to do everything in one pass |
+| **T3 — Context Management** | The project the agent sees | The repo | You re-explain the same conventions every session; it can't see your DB/browser/docs |
+| **T4 — Loop Until Done** | A "done" the agent can check itself | The task, automated | You can't trust the output without reading every line; "done" means nothing concrete |
+| **T5 — Checkpointing & Hardening** | Safe, revertible runs | The session | A long run goes wrong and you lose good work; nothing to roll back to |
+| **T6 — Orchestration** | Many subagents, long horizons | Multi-step / multi-agent | One agent is too slow or floods its context; the build is too big for one pass |
+| **T7 — Fleet Ops** | Where & how runs execute | Your machines | Runs die when your laptop sleeps; parallel agents collide; you want to drive from your phone |
+| **T8 — Agent Execution Layer** | Agents as async workers | Your org / production | The team needs it: agents must pick up tickets and open PRs without anyone babysitting a terminal |
+
+**Read the right column as a diagnostic.** Stuck re-typing the same context every session? That's the Tier 3 pain — go engineer CLAUDE.md and Skills.
+
+Losing work on long runs? Tier 5 — commit on every green. Each tier exists to kill a specific failure of the one below it:
+
+> Prompts drift → **T2** plans them. Plans are forgotten across sessions → **T3** makes context durable. Context still can't prove correctness → **T4** verifies. Long runs lose good work → **T5** checkpoints. One agent is too slow → **T6** orchestrates many. Runs die when your laptop sleeps → **T7** runs a fleet. Humans still babysit terminals → **T8** makes agents async workers.
+
+The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against a clear, testable standard, inside a real repo you own.
+
+### Which tier do I need?
+
+Match the job to a target tier and stop there — climbing higher than the work demands is wasted effort.
+
+| What you're building | Aim for | Why |
+|---|---|---|
+| A landing page, throwaway script, or one-off for yourself | **Tier 1–2** — or skip the agent and use a one-shot builder (Lovable/v0/Bolt) | Low stakes, short-lived. A clear prompt is enough; you don't need tests, git discipline, or a loop |
+| A feature in a side project you intend to keep | **Tier 1–4** | Now correctness matters over time — you want a verify loop and checkpoints so it doesn't rot |
+| Production code in a shared team repo | **Tier 1–5**, reaching into **6–8** as scale demands | Multiple people, real consequences. Context engineering, git hygiene, and review become non-negotiable; orchestration and a hosted execution layer follow when one agent or one machine isn't enough |
+
+*So for that simple landing page: **Tier 1–2 is the answer** — and a one-shot builder may serve you better than Claude Code (see [Agents vs one-shot builders](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)).*
+
+---
+
+## Who this is for
+- **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
+- **Product managers** closing the tech gap — ship real changes, not just specs.
+- **Senior leaders** who want real hands-on experience, not slideware.
+- **Non-IT professionals** entering product development in the age of AI.
+
+## TL;DR — if you do only five things
+1. **Be specific and positive.** Name files, constraints, and the pattern to follow; say what to *do*, not what to avoid.
+2. **Give the agent an executable Definition of Done.** Tests/lint/typecheck as commands — that's the loop's exit condition.
+3. **Plan before you edit; slice the work thin.** Investigate → approve a plan → one vertical slice at a time.
+4. **Commit on every green step.** Each commit is a checkpoint the loop can revert to.
+5. **Engineer the environment, not the prompt.** CLAUDE.md, Skills, hooks, MCP, CI carry the intelligence.
 
 ## Unlearn the old playbook — so stale advice stops sabotaging you
 
@@ -390,7 +390,7 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 ---
 
 <a id="tier-2"></a>
-## Tier 2 — Planning & Slicing: Plan and slice before you build, to keep every change small and safe
+## Tier 2 — Shaping & Slicing: Plan and slice before you build, to keep every change small and safe
 
 **Reach for this tier when** big asks go sideways — the agent edits the wrong things or tries to do everything in one pass. Plan first, then cut the work into small slices, each one small enough to check and cheap to undo.
 
@@ -491,7 +491,7 @@ A coding agent reads your whole tree and everything you paste; both leak.
 **How:**
 - **Gitignore secrets before anything else.** Real values in `.env`; add `.env` (plus `.env.local`, `*.pem`, `*.key`) to `.gitignore` — so neither git, a PR, nor the agent's own commits ever carry them. Commit a `.env.example` with blank keys as the shape to follow.
 - **Never paste a key into a prompt** — it lands in the transcript, the logs, and the context window. Reference it by variable (`process.env.STRIPE_KEY`); the app reads it at runtime.
-- **Enforce it, don't just trust it:** a `PreToolUse` guard hook (Tip 43) that blocks any read or write of `.env` — the layer the model can't talk its way past.
+- **Enforce it, don't just trust it:** a `PreToolUse` guard hook that blocks any read or write of `.env` — the layer the model can't talk its way past.
 - **Privacy boundary:** code routed to a third-party model or gateway leaves Anthropic's trust boundary into that provider's data handling — keep sensitive code on Anthropic or your own infra ([Level 2](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)).
 
 <a id="tip-25"></a>
@@ -658,7 +658,7 @@ Then: *"Generate step definitions for refund.feature, implement until the scenar
 >
 > **Prefer:** have the agent drive a live browser, perform the flow, and assert.
 
-**How:** with Playwright MCP connected (Tip 29):
+**How:** with Playwright MCP connected:
 ```
 Open localhost:3000, add two items to the cart, go to checkout, verify the
 total reads $40 and "Payment received" appears. Save the run as an e2e spec.
@@ -1042,7 +1042,7 @@ For unattended runs, give an explicit **stopping condition** ("work until the te
 
 **How:** disable password and root SSH login, UFW-allow only SSH, keep `ANTHROPIC_API_KEY` in the environment (never committed).
 
-If you run unattended with `--dangerously-skip-permissions`, put it behind a `PreToolUse` guard hook (Tip 43) that blocks destructive commands — that's the layer the model can't talk its way past.
+If you run unattended with `--dangerously-skip-permissions`, put it behind a `PreToolUse` guard hook that blocks destructive commands — that's the layer the model can't talk its way past.
 
 *Next level up is the managed version of all this: Warp's Oz and Claude Code's dynamic workflows run agents in the cloud on schedules/triggers with central tracking — the same fleet ideas, hosted.*
 

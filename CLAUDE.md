@@ -17,7 +17,7 @@ It's organized as one ladder of **eight tiers, simple → hard**, where the work
 | Tier | You learn to… |
 |---|---|
 | **T1 Professional Prompting** | Write prompts the agent can act on |
-| **T2 Planning & Slicing** | Plan and slice before you build |
+| **T2 Shaping & Slicing** | Plan and slice before you build |
 | **T3 Context Management** | Give the agent the right context and tools |
 | **T4 Loop Until Done** | Make the agent prove it's done *(the heart of it)* |
 | **T5 Checkpointing & Hardening** | Checkpoint in git; wire tests & CI into the harness |
@@ -242,7 +242,7 @@ Template (names match the guide's tier table; fixed 4-char bars; one line per ti
 📍 <name> · start: T<N>
 ────────────────────────────────────
 🔵 T1 Professional Prompting     ←skipped at onboarding
-🔵 T2 Planning & Slicing
+🔵 T2 Shaping & Slicing
 🔵 T3 Context Management
 🔵 T4 Loop Until Done
 🟧 T5 Checkpointing & Hardening   ░░░░  0/5 ←HERE

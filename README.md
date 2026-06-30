@@ -38,7 +38,7 @@ One ladder of **eight tiers, simple → hard**, where the work shifts from wordi
 | Tier | You learn to… |
 |---|---|
 | [**T1 Professional Prompting**](guide.md#tier-1) | Write prompts the agent can act on |
-| [**T2 Planning & Slicing**](guide.md#tier-2) | Plan and slice before you build |
+| [**T2 Shaping & Slicing**](guide.md#tier-2) | Plan and slice before you build |
 | [**T3 Context Management**](guide.md#tier-3) | Give the agent the right context and tools |
 | [**T4 Loop Until Done**](guide.md#tier-4) | Make the agent prove it's done *(the heart of it)* |
 | [**T5 Checkpointing & Hardening**](guide.md#tier-5) | Checkpoint in git; wire tests & CI into the harness |

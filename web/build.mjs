@@ -20,11 +20,7 @@ const AUTHOR_URL = 'https://www.krivitsky.com';
 const AUTHOR_NAME = 'Alexey Krivitsky';
 // Absolute origin for canonical/OG/sitemap. Override at build time: SITE_URL=https://… node build.mjs
 // On Vercel, VERCEL_PROJECT_PRODUCTION_URL is injected automatically.
-const BASE = (
-  process.env.SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) ||
-  'https://professional-agentic-product-engineering.vercel.app'
-).replace(/\/+$/, '');
+const BASE = (process.env.SITE_URL || 'https://agentic-engineering.guide').replace(/\/+$/, '');
 const SITE_DESC = 'A continuously updated field guide to operating a coding agent professionally — eight tiers from prompting to autonomous production loops, using Claude Code as the worked example.';
 // Build stamp — time + commit, surfaced as "updated at" / build #. Refreshes each deploy.
 const BUILD_TIME = new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
@@ -311,25 +307,26 @@ function renderMarkdown(md, currentSlug) {
 }
 
 // ------------------------------------------------------------- nav + shell ---
-const navGroups = [
-  { title: 'Start here', filter: (p) => p.kind === 'home' || p.kind === 'overview-sub' },
-  { title: 'Get oriented', filter: (p) => p.kind === 'section' && p.orderIdx < tierStart },
-  { title: 'The eight tiers', filter: (p) => p.kind === 'tier' },
-  { title: 'Reference', filter: (p) => p.kind === 'section' && p.orderIdx > tierStart },
-];
-// index pages so "before/after tiers" splits cleanly
 pages.forEach((p, i) => (p.orderIdx = i));
 const firstTier = pages.find((p) => p.kind === 'tier');
 const lastTier = [...pages].reverse().find((p) => p.kind === 'tier');
 const tierStart = firstTier ? firstTier.orderIdx : 999;
 const tierEnd = lastTier ? lastTier.orderIdx : 999;
-navGroups[1].filter = (p) => p.kind === 'section' && p.orderIdx < tierStart;
-navGroups[3].filter = (p) => p.kind === 'section' && p.orderIdx > tierEnd;
+
+// Explicit menu order (decoupled from guide.md section order).
+const tierSlugs = pages.filter((p) => p.kind === 'tier').map((p) => p.slug);
+const NAV = [
+  { title: 'Start here', slugs: ['index', 'learn-this-with-an-agent'] },
+  { title: 'Get oriented', slugs: ['big-idea', 'the-eight-tiers-at-a-glance', 'climb-the-eight-tiers', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-the-primitives'] },
+  { title: 'The eight tiers', slugs: tierSlugs },
+  { title: 'Reference', slugs: ['port-these-habits-to-any-model', 'sources'] },
+];
+const bySlug = Object.fromEntries(pages.map((p) => [p.slug, p]));
 
 function renderNav(currentSlug) {
   let html = '';
-  for (const g of navGroups) {
-    const items = pages.filter(g.filter);
+  for (const g of NAV) {
+    const items = g.slugs.map((s) => bySlug[s]).filter(Boolean);
     if (!items.length) continue;
     html += `<div class="nav-group"><p class="nav-group-title">${g.title}</p><ul>`;
     for (const p of items) {
@@ -357,10 +354,12 @@ function tierCards() {
   return html + '</div>';
 }
 
+// Reading order = the menu order (so prev/next always match the sidebar).
+const NAV_ORDER = NAV.flatMap((g) => g.slugs).map((s) => bySlug[s]).filter(Boolean);
 function prevNext(currentSlug) {
-  const idx = pages.findIndex((p) => p.slug === currentSlug);
-  const prev = pages[idx - 1];
-  const next = pages[idx + 1];
+  const idx = NAV_ORDER.findIndex((p) => p.slug === currentSlug);
+  const prev = NAV_ORDER[idx - 1];
+  const next = NAV_ORDER[idx + 1];
   let html = '<nav class="pager">';
   html += prev
     ? `<a class="pager-prev" href="${prev.file}"><span>← Previous</span><strong>${escapeHtml(prev.menuLabel)}</strong></a>`
@@ -419,7 +418,7 @@ function shell({ page, contentHtml }) {
   const isHome = page.kind === 'home';
   const pageSlug = page.slug;
   const canonical = urlOf(page);
-  const fullTitle = isHome ? `${SITE_TITLE} Guide` : `${page.title} · ${SITE_TITLE}`;
+  const fullTitle = isHome ? SITE_TITLE : `${page.title} · ${SITE_TITLE}`;
   const desc = page.description || SITE_DESC;
   return `<!doctype html>
 <html lang="en" data-theme="light">
@@ -447,7 +446,6 @@ function shell({ page, contentHtml }) {
 <meta name="twitter:image" content="${OG_IMAGE}">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
-<link rel="alternate" type="text/markdown" href="${BASE}/llms-full.txt" title="Full guide as plain markdown">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -461,17 +459,15 @@ function shell({ page, contentHtml }) {
   <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
   </button>
-  <a class="topbar-brand" href="index.html"><img src="assets/tutor-caveman.png" alt=""><span>Agentic Product Engineering</span></a>
-  <div class="topbar-credit cred-text">${creditText()}</div>
+  <a class="topbar-brand" href="index.html">
+    <img src="assets/tutor-caveman.png" alt="">
+    <span class="sidebar-brand-text"><strong>Professional Agentic</strong> Product Engineering</span>
+  </a>
   ${THEME_TOGGLE('theme-top')}
 </header>
 <div class="overlay" id="overlay"></div>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-  <a class="sidebar-brand" href="index.html">
-    <img src="assets/tutor-caveman.png" alt="">
-    <span class="sidebar-brand-text">Agentic <strong>Product Engineering</strong> Guide</span>
-  </a>
   <nav class="nav">${renderNav(pageSlug)}</nav>
 </aside>
 <main class="main">
@@ -479,7 +475,16 @@ function shell({ page, contentHtml }) {
 ${contentHtml}
   </article>
   ${prevNext(pageSlug)}
-  <footer class="site-footer creditrow">${creditRow()}</footer>
+  <footer class="site-footer">
+    <div class="creditrow">${creditRow()}</div>
+    <nav class="footer-links">
+      <a href="sitemap.xml">Sitemap</a>
+      <a href="robots.txt">robots.txt</a>
+      <a href="llms.txt">llms.txt</a>
+      <a href="${REPO_URL}/blob/main/guide.md" target="_blank" rel="noopener">guide.md</a>
+      <a href="${REPO_URL}" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </footer>
 </main>
 </div>
 <script type="module" src="app.js?v=${ASSET_VER}"></script>
@@ -509,12 +514,11 @@ for (const p of pages) {
     contentHtml =
       `<h1 class="sr-only">${escapeHtml(HOME_TITLE)}</h1>` +
       `<img class="hero-banner" src="og-2x.png?v=${ASSET_VER}" alt="${escapeHtml(HOME_TITLE)}" width="1200" height="630">` +
+      intro +
       `<div class="learn-callout">` +
-      `<p class="learn-callout-title">🤖 Learn it with your agent — way more fun than reading.</p>` +
+      `<p class="learn-callout-title">Learn it with your agent — way more fun than reading.</p>` +
       `<p>Point Claude Code (or any agentic harness) at <a href="${REPO_URL}" target="_blank" rel="noopener">this repository</a> and have it tutor you through the guide, one concept at a time.</p>` +
-      `<p><a class="learn-callout-link" href="learn-this-with-an-agent.html">See how it works →</a></p>` +
-      `</div>` +
-      intro;
+      `</div>`;
   } else if (p.kind === 'overview-sub') {
     contentHtml =
       `<p class="eyebrow">Overview</p>` +
@@ -564,7 +568,6 @@ let llms =
   `# Professional Agentic Product Engineering Guide\n\n` +
   `> ${SITE_DESC}\n\n` +
   `Maintained by ${AUTHOR_NAME} (${AUTHOR_URL}). Source: ${REPO_URL}\n` +
-  `The full guide as one markdown file: ${BASE}/llms-full.txt\n\n` +
   `- [Overview](${BASE}/): motivation, the one idea, the eight-tier ladder.\n`;
 for (const [title, items] of llmsGroups) {
   if (!items.length) continue;
@@ -573,9 +576,7 @@ for (const [title, items] of llmsGroups) {
 }
 await writeFile(join(DIST, 'llms.txt'), llms);
 
-// llms-full.txt — the entire guide as plain markdown, for direct ingestion.
-await writeFile(join(DIST, 'llms-full.txt'), raw);
 
 console.log(`Built ${pages.length} pages (assets v${ASSET_VER}) -> ${DIST}`);
-console.log('  + robots.txt, sitemap.xml, llms.txt, llms-full.txt');
+console.log('  + robots.txt, sitemap.xml, llms.txt');
 for (const p of pages) console.log(`  ${p.file.padEnd(50)} ${p.menuLabel}`);

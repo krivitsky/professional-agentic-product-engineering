@@ -17,24 +17,29 @@ const LOGO = `data:image/png;base64,${logo.toString('base64')}`;
 
 const html = `<!doctype html><html><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&family=Playfair+Display:wght@800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1200px;height:630px;overflow:hidden}
 .wrap{width:1200px;height:630px;background:#22303c;display:flex;flex-direction:column;padding:44px 70px 36px;position:relative}
 .wrap:before{content:'';position:absolute;left:0;top:0;bottom:0;width:16px;background:#1abc9c}
 .row{flex:1;display:flex;align-items:center;gap:50px}
-.cave{width:320px;flex:none}
+.cave-wrap{width:320px;flex:none;display:flex;flex-direction:column;align-items:center;gap:18px}
+.cave{width:300px}
+.cave-label{font:600 23px 'Inter',sans-serif;color:#1abc9c;letter-spacing:.01em}
 .title{flex:1;font-family:'Playfair Display',serif;font-weight:900;font-size:84px;line-height:1.03;color:#fff;letter-spacing:-.015em}
 .title b{color:#1abc9c}
-.brand{font:700 27px 'Inter',sans-serif;color:#8aa0b0;letter-spacing:.01em;text-align:center;padding-top:6px}
+.brand{font:400 26px 'Inter',sans-serif;color:#8aa0b0;letter-spacing:.01em;margin-left:370px}
 </style></head><body>
 <div class="wrap">
-  <img class="cave" src="${LOGO}">
-  <div class="r">
+  <div class="row">
+    <div class="cave-wrap">
+      <img class="cave" src="${LOGO}">
+      <div class="cave-label">Learn with agents</div>
+    </div>
     <div class="title"><b>Professional</b><br><b>Agentic</b><br>Product<br>Engineering</div>
-    <div class="brand">from prompts to systems · with 8 tiers of maturity · continuously updated</div>
   </div>
+  <div class="brand">From Prompts to Systems: Master The 8 Tiers</div>
 </div></body></html>`;
 
 const tmp = join(HERE, '.og-tmp.html');
