@@ -25,7 +25,7 @@ const BASE = (
   'https://professional-agentic-product-engineering.vercel.app'
 ).replace(/\/+$/, '');
 const SITE_DESC = 'A mid-2026 field guide to operating a coding agent professionally — eight tiers from prompting to autonomous production loops, using Claude Code as the worked example.';
-const OG_IMAGE = `${BASE}/assets/tutor-caveman.png`;
+const OG_IMAGE = `${BASE}/og.png`; // 1200x630 social card — regenerate with `node make-og.mjs`
 
 // Strip markdown to plain text for descriptions / llms.txt.
 const stripMd = (s) =>
@@ -369,7 +369,10 @@ function shell({ page, contentHtml }) {
 <meta property="og:description" content="${escapeHtml(desc)}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${OG_IMAGE}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Professional Agentic Product Engineering — a field guide by Alexey Krivitsky">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(isHome ? fullTitle : page.title)}">
 <meta name="twitter:description" content="${escapeHtml(desc)}">
 <meta name="twitter:image" content="${OG_IMAGE}">
@@ -427,6 +430,7 @@ const cssText = await readFile(join(HERE, 'src', 'styles.css'), 'utf8');
 const jsText = await readFile(join(HERE, 'src', 'app.js'), 'utf8');
 ASSET_VER = createHash('sha1').update(cssText + jsText).digest('hex').slice(0, 8);
 await copyFile(LOGO_SRC, join(DIST, 'assets', 'tutor-caveman.png'));
+await copyFile(join(ROOT, 'assets', 'og.png'), join(DIST, 'og.png'));
 await writeFile(join(DIST, 'styles.css'), cssText);
 await writeFile(join(DIST, 'app.js'), jsText);
 
