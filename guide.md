@@ -4,6 +4,11 @@
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
 **⭐ Star it; submit issues or PRs** — help yourself and the next person learn better.
 
+<div class="testimonial testimonial-lead">
+<p>&ldquo;The purpose of knowledge is action, not knowledge.&rdquo;</p>
+<span class="testimonial-cite">— Aristotle</span>
+</div>
+
 <div class="testimonial">
 <p>&ldquo;Nice! Thank you for the compact guide where all the basics are in one place.&rdquo;</p>
 <span class="testimonial-cite">— <a href="https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29">Michal Svoboda</a>, Security &amp; Engineering Mentor</span>

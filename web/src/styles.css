@@ -304,6 +304,10 @@ a:hover { text-decoration: underline; }
 }
 .testimonial-cite { font-size: .92rem; font-style: normal; color: var(--teal-d); font-weight: 600; }
 
+/* the top epigraph (e.g. Aristotle) — a notch bigger than reader testimonials below it */
+.testimonial-lead p { font-size: 1.55rem; }
+.testimonial-lead .testimonial-cite { font-size: 1rem; }
+
 /* ------------------------------------------------------------ responsive */
 @media (max-width: 940px) {
   body { font-size: 16px; }
