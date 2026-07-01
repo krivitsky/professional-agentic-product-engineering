@@ -296,8 +296,8 @@ a:hover { text-decoration: underline; }
 .learn-callout-title { font-weight: 700; font-size: 1.06rem; }
 .learn-callout-link { font-weight: 700; }
 
-/* testimonial — quiet pull-quote, deliberately NOT a teal box (avoids stacking with .learn-callout) */
-.testimonial { margin: 0 0 26px; padding: 0; }
+/* testimonial — quiet pull-quote with a thin accent line, deliberately NOT a filled box (avoids stacking with .learn-callout) */
+.testimonial { margin: 0 0 26px; padding: 2px 0 2px 16px; border-left: 3px solid var(--teal); }
 .testimonial p {
   font-size: 1.28rem; font-style: italic; font-weight: 600;
   line-height: 1.4; color: var(--text); margin: 0 0 6px;
