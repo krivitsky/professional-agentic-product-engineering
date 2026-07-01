@@ -17,6 +17,9 @@ It spans the full range: from "fix bug xyz" all the way to autonomous engineerin
 
 Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemini 3.x+**. But the habits are built to outlast any single model — see [Port these habits to any model](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini).
 
+> "Nice! Thank you for the compact guide where all the basics are in one place."
+> — [Michal Svoboda](https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29), Security & Engineering Mentor
+
 ### Contents
 1. [Climb the eight tiers — to spend effort only where your work needs it](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it-the-arc)
 2. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
