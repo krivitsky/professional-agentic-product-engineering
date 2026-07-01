@@ -1,4 +1,4 @@
-# Professional Agentic Product Engineering
+# Professional Agentic Product Engineering (PAPE) Guide
 
 <img src="assets/og-2x.png" alt="Professional Agentic Product Engineering — From Prompts to Systems: Master The 8 Tiers" width="100%">
 
