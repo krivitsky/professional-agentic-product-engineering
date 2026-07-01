@@ -23,62 +23,71 @@ Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemin
 </div>
 
 ### Contents
-1. [Climb the eight tiers — to spend effort only where your work needs it](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it-the-arc)
-2. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
-3. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
-4. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
-5. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
-6. [Tier 1 — Write prompts the agent can act on](#tier-1)
-   - [1.1 Hand over the outcome, not a file list](#tip-1-1)
-   - [1.2 Be specific](#tip-1-2)
-   - [1.3 Say what to do, not what to avoid](#tip-1-3)
-   - [1.4 Give the reason](#tip-1-4)
-   - [1.5 Specify the output shape](#tip-1-5)
-   - [1.6 Show examples](#tip-1-6)
-   - [1.7 Follow the house style](#tip-1-7)
-   - [1.8 Show, don't tell](#tip-1-8)
-   - [1.9 Invite uncertainty](#tip-1-9)
-   - [1.10 Paste raw errors](#tip-1-10)
-   - [1.11 Constrain scope](#tip-1-11)
-   - [1.12 Narrow the edit surface](#tip-1-12)
-   - [1.13 Dial effort](#tip-1-13)
-   - [1.14 Front-load turn 1](#tip-1-14)
-7. [Tier 2 — Plan and slice before you build](#tier-2)
-   - [2.1 Investigate before you edit](#tip-2-1)
-   - [2.2 Plan the uncertain](#tip-2-2)
-   - [2.3 Force an approval checkpoint](#tip-2-3)
-   - [2.4 Ask for options](#tip-2-4)
-   - [2.5 Slice vertically](#tip-2-5)
-   - [2.6 Turn features into a spec](#tip-2-6)
-   - [2.7 Plan smart, build cheap](#tip-2-7)
-   - [2.8 Draft-and-critique the spec](#tip-2-8)
-8. [Tier 3 — Give the agent the right context and tools](#tier-3)
-   - [3.1 Feed high-signal context](#tip-3-1)
-   - [3.2 Keep secrets out of git and context](#tip-3-2)
-   - [3.3 `/clear` between tasks](#tip-3-3)
-   - [3.4 Steer compaction](#tip-3-4)
-   - [3.5 CLAUDE.md = gotchas + conventions](#tip-3-5)
-   - [3.6 Put occasional knowledge in Skills](#tip-3-6)
-   - [3.7 Add the right MCP servers](#tip-3-7)
-   - [3.8 Use external memory](#tip-3-8)
-9. [Tier 4 — Make the agent prove it's done (the loop)](#tier-4)
-   - [4.1 Make Definition of Done executable](#tip-4-1)
-   - [4.2 Do TDD](#tip-4-2)
-   - [4.3 Use BDD](#tip-4-3)
-   - [4.4 Test the UI with Playwright MCP](#tip-4-4)
-   - [4.5 Demand evidence](#tip-4-5)
-   - [4.6 Ask for all findings](#tip-4-6)
-   - [4.7 Review with fresh eyes](#tip-4-7)
-   - [4.8 Run a pre-mortem](#tip-4-8)
-   - [4.9 Iterate UI visually](#tip-4-9)
-10. [Tier 5 — Checkpoint everything in git](#tier-5)
+1. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
+2. [Big Idea 💡: From Prompts to Systems](#big-idea--from-prompts-to-systems)
+3. [The eight tiers at a glance](#the-eight-tiers-at-a-glance)
+4. [Climb the eight tiers — to spend effort only where your work needs it](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it)
+   - [Which tier do I need?](#which-tier-do-i-need)
+5. [Who this is for](#who-this-is-for)
+6. [TL;DR — if you do only five things](#tldr--if-you-do-only-five-things)
+7. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
+8. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
+9. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
+10. [Tier 1 — Professional Prompting: Write prompts the agent can act on](#tier-1)
+    - [1.1 Hand over the outcome, not a file list](#tip-1-1)
+    - [1.2 Be specific](#tip-1-2)
+    - [1.3 Say what to do, not what to avoid](#tip-1-3)
+    - [1.4 Give the reason](#tip-1-4)
+    - [1.5 Specify the output shape](#tip-1-5)
+    - [1.6 Show examples](#tip-1-6)
+    - [1.7 Follow the house style](#tip-1-7)
+    - [1.8 Show, don't tell](#tip-1-8)
+    - [1.9 Invite uncertainty](#tip-1-9)
+    - [1.10 Paste raw errors](#tip-1-10)
+    - [1.11 Constrain scope](#tip-1-11)
+    - [1.12 Narrow the edit surface](#tip-1-12)
+    - [1.13 Dial effort](#tip-1-13)
+    - [1.14 Front-load turn 1](#tip-1-14)
+11. [Tier 2 — Shaping & Slicing: Plan and slice before you build](#tier-2)
+    - [2.1 Investigate before you edit](#tip-2-1)
+    - [2.2 Plan the uncertain](#tip-2-2)
+    - [2.3 Force an approval checkpoint](#tip-2-3)
+    - [2.4 Ask for options](#tip-2-4)
+    - [2.5 Slice vertically](#tip-2-5)
+    - [2.6 Turn features into a spec](#tip-2-6)
+    - [2.7 Plan smart, build cheap](#tip-2-7)
+    - [2.8 Draft-and-critique the spec](#tip-2-8)
+12. [Tier 3 — Context Management: Give the agent the right context and tools](#tier-3)
+    - [3.1 Feed high-signal context](#tip-3-1)
+    - [3.2 Keep secrets out of git and context](#tip-3-2)
+    - [3.3 `/clear` between tasks](#tip-3-3)
+    - [3.4 Steer compaction](#tip-3-4)
+    - [3.5 CLAUDE.md = gotchas + conventions](#tip-3-5)
+    - [3.6 Put occasional knowledge in Skills](#tip-3-6)
+    - [3.7 Add the right MCP servers](#tip-3-7)
+    - [3.8 Use external memory](#tip-3-8)
+13. [Tier 4 — Loop Until Done: Make the agent prove it's done](#tier-4)
+    - [4.1 Make Definition of Done executable](#tip-4-1)
+    - [4.2 Do TDD](#tip-4-2)
+    - [4.3 Use BDD](#tip-4-3)
+    - [4.4 Test the UI with Playwright MCP](#tip-4-4)
+    - [4.5 Demand evidence](#tip-4-5)
+    - [4.6 Ask for all findings](#tip-4-6)
+    - [4.7 Review with fresh eyes](#tip-4-7)
+    - [4.8 Run a pre-mortem](#tip-4-8)
+    - [4.9 Iterate UI visually](#tip-4-9)
+14. [Tier 5 — Checkpointing & Hardening: Checkpoint in git and harden the harness](#tier-5)
     - [5.1 Commit every working step](#tip-5-1)
     - [5.2 Let Claude drive `gh`](#tip-5-2)
-    - [5.3 Use worktrees](#tip-5-3)
+    - [5.3 Use worktrees for disposable checkpoints](#tip-5-3)
     - [5.4 Replace "remember to run tests" with a hook](#tip-5-4)
     - [5.5 Move repetitive engineering into CI](#tip-5-5)
-11. [Tier 6 — Run many agents at once](#tier-6)
+15. [Tier 6 — Orchestration: Run many agents at once](#tier-6)
     - [The model toolkit — bring in more models (any tier)](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)
+      - [Assign a model per subagent](#toolkit-model-per-subagent)
+      - [Keep a stronger model on call — the advisor](#toolkit-advisor)
+      - [Keep the fleet alive with fallback chains](#toolkit-fallback)
+      - [Have a different lab review the diff](#toolkit-cross-lab-review)
     - [6.1 Let it self-orchestrate](#tip-6-1)
     - [6.2 Use subagents to isolate context](#tip-6-2)
     - [6.3 Race several agents](#tip-6-3)
@@ -86,19 +95,19 @@ Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemin
     - [6.5 Engineer the long-horizon hand-off](#tip-6-5)
     - [6.6 Steer long runs mid-flight](#tip-6-6)
     - [6.7 Engineer the environment](#tip-6-7)
-12. [Tier 7 — Operate your agents as a fleet](#tier-7)
+16. [Tier 7 — Fleet Ops: Operate your agents as a fleet](#tier-7)
     - [7.1 Use an agent-aware terminal](#tip-7-1)
     - [7.2 Isolate with worktrees + one session each](#tip-7-2)
     - [7.3 Host on a box that doesn't sleep](#tip-7-3)
     - [7.4 Drive the fleet from your phone](#tip-7-4)
     - [7.5 Secure the agent server](#tip-7-5)
-13. [Tier 8 — Put agents into production (the execution layer)](#tier-8)
+17. [Tier 8 — Agent Execution Layer: Put agents into production](#tier-8)
     - [8.1 Sandbox the loop](#tip-8-1)
     - [8.2 Gate the plan, not every keystroke](#tip-8-2)
     - [8.3 Cap the strikes](#tip-8-3)
     - [8.4 Make the tracker the state machine](#tip-8-4)
-14. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
-15. [Sources](#sources)
+18. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
+19. [Sources](#sources)
 
 ---
 
@@ -271,7 +280,7 @@ All of them are just Markdown/JSON files in your repo — check them in, and the
 | **Permissions** | Allow/deny rules + modes (default / auto / plan / bypass) for what runs without asking | `.claude/settings.json` | `/permissions` or settings |
 | **Plugin** | One installable unit bundling skills + hooks + subagents + MCP — how teams distribute all of the above | a marketplace / git repo | `/plugin` to browse & install |
 
-*Most of these are files you commit. The central config is **`.claude/settings.json`** (precedence: managed › project › user › local) — it's where `permissions`, `hooks`, `mcpServers`, `model`, and inline `agents` can all be declared. A **plugin** is just a pre-packaged set of these files, so a teammate runs `/plugin install` on day one and inherits your whole setup.*
+*Most of these are files you commit. The central config is **`.claude/settings.json`** (precedence: managed › CLI args › local › project › user) — it's where `permissions`, `hooks`, `mcpServers`, `model`, and inline `agents` can all be declared. A **plugin** is just a pre-packaged set of these files, so a teammate runs `/plugin install` on day one and inherits your whole setup.*
 
 **Skill anatomy** — auto-loaded by its `description`, otherwise invisible; it's a folder, so it can ship scripts:
 ```
@@ -594,6 +603,8 @@ Or commit `.mcp.json` to the repo root:
 >
 > **Prefer:** write `STATUS.md` at session end; reload it at the next session's start.
 
+*Tier 6 scales this into a full hand-off protocol for multi-session builds — [Tip 6.5](#tip-6-5).*
+
 ---
 
 <a id="tier-4"></a>
@@ -665,7 +676,7 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 >
 > **Prefer:** Given/When/Then scenarios the agent codes against and runs.
 
-**How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 2.6](#tip-2-6)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md`, then: *"Generate step definitions for refund.feature, implement until the scenarios pass, and sanity-check by mutation — break the implementation on purpose, confirm the scenario fails, then revert."*
+**How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 2.6](#tip-2-6)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md` (your house rules for writing scenarios — one file, checked in, so every agent writes Gherkin the same way), then: *"Generate step definitions for refund.feature, implement until the scenarios pass, and sanity-check by mutation — break the implementation on purpose, confirm the scenario fails, then revert."*
 
 *Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin sits between a user story and unit tests. That nesting **is** the [three loops](#big-idea--from-prompts-to-systems): the spec sets the behavior to verify (**feature loop**), the tests turn red to green underneath (**coding loop**). All three give the loop a target it can test itself against.*
 
@@ -710,7 +721,7 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 **4.9 Iterate UI visually when there's no spec to assert.**
 > **Instead of:** "Make the dashboard look good."
 >
-> **Prefer:** mock → implement → screenshot → compare → fix (2–3 rounds). Override Opus 4.8's default house style (cream, serif, terracotta) with a concrete palette spec.
+> **Prefer:** mock → implement → screenshot → compare → fix (2–3 rounds). Override the model's default house style (on Opus 4.8 currently: cream, serif, terracotta) with a concrete palette spec.
 
 ---
 
@@ -747,10 +758,12 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
 *Claude has native git (stage/commit/branch/PR) and can run `gh`. In CI, `claude -p` + `gh` closes the loop from issue → branch → PR → review.*
 
 <a id="tip-5-3"></a>
-**5.3 Use worktrees for parallel agents — separate dirs, no clobbering.**
-> **Instead of:** two sessions stepping on each other in one working copy.
+**5.3 Try risky work in a worktree — a disposable checkpoint you can throw away.**
+> **Instead of:** a risky refactor or spike directly on your working branch, hoping you can `git reset` your way out.
 >
-> **Prefer:** `git worktree add ../feat-x feat-x` so each agent works on its own branch and directory.
+> **Prefer:** `git worktree add ../spike-x spike-x` — experiment there; keep it if it works, delete the directory if it doesn't. Your main working copy never sees the mess.
+
+*Worktrees also isolate **parallel** agents so they don't clobber each other — that's the Tier 7 use — see [Tip 7.2](#tip-7-2).*
 
 <a id="tip-5-4"></a>
 **5.4 Replace "remember to run tests" with a hook.**
@@ -767,7 +780,7 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
     "PostToolUse": [
       { "matcher": "Edit|Write",
         "hooks": [{ "type": "command",
-          "command": "npm test -- --findRelatedTests \"$CLAUDE_TOOL_INPUT_FILE_PATH\"" }] }
+          "command": "FILE=$(cat | jq -r '.tool_input.file_path // empty'); [ -n \"$FILE\" ] && npm test -- --findRelatedTests \"$FILE\"" }] }
     ],
     "Stop": [
       { "hooks": [{ "type": "command",
@@ -817,6 +830,7 @@ The native path: built in, fully supported, costs nothing but a flag or a frontm
 
 Beyond the `/model` switching and `opusplan` you already saw in Tier 2, two moves add real leverage:
 
+<a id="toolkit-model-per-subagent"></a>
 **Assign a model per subagent.** *(see Primitives)*
 > **Instead of:** every subagent inheriting your expensive main model.
 >
@@ -837,6 +851,7 @@ model: haiku        # cheap + fast for bulk search
 export CLAUDE_CODE_SUBAGENT_MODEL="claude-sonnet-4-6"
 ```
 
+<a id="toolkit-advisor"></a>
 **Keep a stronger model on call during execution — the advisor.**
 > **Instead of:** paying for a top model for the whole run, or letting a cheap one guess at the hard moments.
 >
@@ -851,6 +866,7 @@ flowchart LR
 
 **How:** `claude --advisor opus` with a Sonnet/Haiku main (or the `/advisor` command / `advisorModel` setting). Anthropic's own numbers: **Sonnet + an Opus advisor beat Sonnet alone by 2.7 pts on SWE-bench Multilingual *while cutting cost per task ~12%*** — the advisor reads the shared context and writes only a short plan/correction (~400–700 tokens), never tools or user-facing output. (Needs Claude Code v2.1.98+ on the Anthropic API.)
 
+<a id="toolkit-fallback"></a>
 **Keep the fleet alive when a model is overloaded — fallback chains.**
 > **Instead of:** a run that dies on a single `overloaded` / unavailable response.
 >
@@ -864,6 +880,7 @@ The advanced case. The payoff is real — a different lab's blind spots aren't y
 
 Do this once Level 1 is second nature.
 
+<a id="toolkit-cross-lab-review"></a>
 **Have a different lab review the diff.** *(the cross-model form of the review-agent pattern in Tier 8)*
 > **Instead of:** the model that wrote the code reviewing its own code — it carries the same blind spots into the review.
 >
@@ -1083,7 +1100,7 @@ You adopt it gradually — start fully managed, self-host only when you need the
 You don't build anything to begin. The managed on-ramps give you a production loop on Monday:
 
 - **GitHub.** Run `/install-github-app`, then `@claude` in any issue or PR to implement or fix; switch on automatic **Code Review** to get a review on *every* PR. On **Agent HQ** you can assign Claude (or Codex/Copilot) to an issue and get a draft PR back — reviewed like a teammate's, no new dashboard to learn.
-- **Linear.** Assign an issue to the Linear agent and it runs a **cloud coding session** (powered by Claude Code/Codex), grounded in the ticket, history, and linked context, and returns a diff for review. (Linear resolves ~30% of its own incoming bugs this way, mostly first-pass.) Want your own harness instead? **Cyrus** (open-source) makes Claude Code an assignable Linear agent via Linear's Agent API.
+- **Linear.** Assign an issue to the Linear agent and it runs a **cloud coding session** (powered by Claude Code/Codex), grounded in the ticket, history, and linked context, and returns a diff for review. [Linear uses it on its own incoming bug reports](https://linear.app/now/linear-agent-bug-fix), landing the correct fix roughly a third of the time on failing background tasks alone. Want your own harness instead? **Cyrus** (open-source) makes Claude Code an assignable Linear agent via Linear's Agent API.
 - **Anthropic-managed.** Claude Code on the web runs sessions in isolated cloud VMs; Routines run scheduled jobs on Anthropic's infra with no local machine.
 
 Wire one trigger, keep a human approval gate, and you have an execution layer. That's the whole "try it" step.
@@ -1161,7 +1178,7 @@ PR review is where to start: high value, low risk. The pattern:
 
 ### The honest part
 
-**88% of agent pilots never reach production — and the blocker is almost never the model.** It's isolation, governance, least-privilege permissions, audit, and data residency.
+**Most pilots die before production.** IDC found [88% of AI proof-of-concepts never reach wide deployment](https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html); Gartner [predicts over 40% of agentic AI projects will be canceled by end of 2027](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) — costs, unclear value, inadequate risk controls. In practice, for a coding agent, that means the boring parts: isolation, governance, least-privilege permissions, audit, data residency.
 
 So treat the execution layer like any production system: scope tools per agent (Tier 6), keep secrets in a manager not prompts, log everything, and use BYOC/on-prem sandboxes if you're regulated.
 
@@ -1194,7 +1211,8 @@ The *mechanisms* here — `/effort`, `ultracode`, dynamic workflows, hooks, CLAU
 - BDD/specs — AutomationPanda *gherkin-guidelines-for-ai*; *ATDD with AI*; *Spec-Driven Development* (Fowler; arXiv 2602.00180; BCMS 2026 guide)
 - Vertical slicing — CODE Magazine *AI-Assisted Greenfield Dev: Vertical Slices*
 - Terminal & session ops — Warp Agents docs (vertical tabs, notifications, code review, Oz orchestration); *Run many Claude Code sessions in parallel* (Towards Data Science); Claude Code-on-VPS + tmux guides (claudefa.st, virtua.cloud, codeongrass, Medium); Claude Code remote-session feature request (#13613)
-- Agent Execution Layer — Northflank & Modal enterprise-deployment + sandbox guides; E2B/Modal/Daytona sandbox comparison (AgentMarketCap); Linear Agents + changelog (cloud coding sessions); Cyrus + Hookdeck (Claude Code as a Linear agent); daily.dev *Huginn* Linear coding agent; Claude Code GitHub Actions + GitHub *Agent HQ*; `ai-boost/awesome-harness-engineering`
+- Agent Execution Layer — Northflank & Modal enterprise-deployment + sandbox guides; E2B/Modal/Daytona sandbox comparison (AgentMarketCap); [Linear — teaching an agent to auto-fix bugs](https://linear.app/now/linear-agent-bug-fix) + changelog (cloud coding sessions); Cyrus + Hookdeck (Claude Code as a Linear agent); daily.dev *Huginn* Linear coding agent; Claude Code GitHub Actions + GitHub *Agent HQ*; `ai-boost/awesome-harness-engineering`
+- Pilot-to-production stats — [IDC/Lenovo CIO Playbook 2025, via CIO.com](https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html) (88% of AI POCs); [Gartner, June 2025](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) (40%+ of agentic AI projects canceled by 2027)
 - Effort / `ultracode` / dynamic workflows — Claude Code model-config docs + 2026 guides (claudefa.st, stacknotice)
 - DataCamp *Claude Code Best Practices*; rosmur 12-source synthesis; stevekinney AI-dev course; Addy Osmani *Agent Harness Engineering*; Viv Trivedy *Anatomy of an Agent Harness*
 - Methodologies to study: Superpowers, Spec Kit, BMAD-METHOD, OpenSpec · Directories: `awesome-claude-code`, Playwright MCP

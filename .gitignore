@@ -4,6 +4,9 @@ USER.md
 # Local memory / session index
 .memsearch/
 
+# Local handover specs (not published)
+specs/
+
 # Local Claude Code settings
 .claude/settings.local.json
 
