@@ -233,6 +233,42 @@ for (const m of frontMatter.matchAll(/^#{3,5}\s+(.+)$/gm)) {
   if (!anchorToPage[a]) anchorToPage[a] = 'index';
 }
 
+// --- Reference page: "All tips" — a derived index of every tip, harvested
+// straight from guide.md so it can never drift. Each tip links to its full
+// Instead → Prefer pair on the tier page (rewriteLinks resolves #tip-T-N).
+const harvestedTips = [];
+for (const m of raw.matchAll(/<a id="(tip-(\d+)-(\d+))"><\/a>\s*\n\*\*(\d+\.\d+)\s+(.+?)\*\*/g)) {
+  harvestedTips.push({ anchor: m[1], tier: +m[2], label: m[4], title: m[5].replace(/\.\s*$/, '') });
+}
+if (harvestedTips.length) {
+  const tierPages = pages.filter((p) => p.kind === 'tier');
+  const tierName = Object.fromEntries(tierPages.map((p) => [p.n, p.menuLabel.replace(/^T\d+\s·\s/, '')]));
+  const tierFile = Object.fromEntries(tierPages.map((p) => [p.n, p.file]));
+  let tipsBody =
+    `Every tip in the guide — all ${harvestedTips.length}, grouped by tier and numbered \`T.N\` (tier · index). ` +
+    `Each links to its full **Instead → Prefer** pair on the tier page.\n\n`;
+  for (const p of tierPages) {
+    const items = harvestedTips.filter((t) => t.tier === p.n);
+    if (!items.length) continue;
+    const name = tierName[p.n] || `Tier ${p.n}`;
+    tipsBody += `### [T${p.n} — ${name}](${tierFile[p.n]})\n\n`;
+    for (const t of items) tipsBody += `- **[Tip ${t.label}](#${t.anchor})** — ${t.title}\n`;
+    tipsBody += '\n';
+  }
+  pages.push({
+    slug: 'all-tips',
+    file: 'all-tips.html',
+    title: 'All tips — the complete index',
+    menuLabel: 'All tips',
+    kind: 'section',
+    n: 0,
+    anchorId: 'all-tips',
+    body: tipsBody,
+    description: `Every tip in the guide — all ${harvestedTips.length}, grouped by tier, each linking to its Instead → Prefer pair.`,
+  });
+  anchorToPage['all-tips'] = 'all-tips';
+}
+
 // --------------------------------------------------- cross-page link fixer ---
 // Dead in-guide anchors are collected here and fail the build (see end of file).
 const brokenLinks = [];
@@ -324,7 +360,7 @@ const NAV = [
   { title: 'Start here', slugs: ['index', 'learn-this-with-an-agent'] },
   { title: 'Get oriented', slugs: ['big-idea', 'the-eight-tiers-at-a-glance', 'climb-the-eight-tiers', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-the-primitives'] },
   { title: 'The eight tiers', slugs: tierSlugs },
-  { title: 'Reference', slugs: ['port-these-habits-to-any-model', 'sources'] },
+  { title: 'Reference', slugs: ['all-tips', 'port-these-habits-to-any-model', 'sources'] },
 ];
 const bySlug = Object.fromEntries(pages.map((p) => [p.slug, p]));
 

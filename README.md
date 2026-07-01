@@ -49,7 +49,7 @@ One ladder of **eight tiers, simple → hard**, where the work shifts from wordi
 
 Climb only as high as your work demands. New to this? Start at **T1**; already fluent? jump straight to the tier that matches you.
 
-Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 2:
+Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 1.2:
 
 > ❌ "Clean up the auth code."
 >

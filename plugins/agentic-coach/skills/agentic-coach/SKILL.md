@@ -30,27 +30,29 @@ This is **opportunistic coaching**, not a lesson by default. The user is mid-tas
 
 ## Format
 
-> 💡 **[Tip N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-N) — <name>:** <one-line fix in the guide's words>.
+> 💡 **[Tip T.N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-T-N) — <name>:** <one-line fix in the guide's words>.
 
 Then proceed with the task.
 
-**Citing the tip comes first — linking is just formatting.** Your #1 job is to surface the relevant tip when the guide applies (e.g. "can I remove red tests?" → Tip 32, always). Never skip or soften a citation to avoid getting a link right — a missing tip is far worse than an unlinked one. *When* you cite, format "Tip N" as a Markdown link to its anchor; the visible text stays just "Tip N" (so a nudge stays one line); the URL is mechanical — substitute the number into:
+**Tip numbers are per tier — `T.N`** (Tier.index), e.g. Tip 4.2 = Tier 4, tip 2. The anchor turns the dot into a hyphen: `#tip-T-N` (so Tip 4.2 → `#tip-4-2`).
 
-`[Tip N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-N)`
+**Citing the tip comes first — linking is just formatting.** Your #1 job is to surface the relevant tip when the guide applies (e.g. "can I remove red tests?" → Tip 4.2, always). Never skip or soften a citation to avoid getting a link right — a missing tip is far worse than an unlinked one. *When* you cite, format "Tip T.N" as a Markdown link to its anchor; the visible text stays just "Tip T.N" (so a nudge stays one line); the URL is mechanical — substitute the number into:
 
-Every tip has its own anchor (`<a id="tip-N">`), so `#tip-1` … `#tip-60` jump to the exact tip.
+`[Tip T.N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-T-N)`
 
-**Use the `[text](url)` bracket form — the brackets make "Tip N" the clickable text and HIDE the raw URL. Never print the URL as visible text.**
-- ✅ `[Tip 32](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-32)` → renders as a clickable "Tip 32"
-- ❌ `Tip 32 (https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-32)` → bare URL showing, "Tip 32" not clickable — WRONG
+Every tip has its own anchor (`<a id="tip-T-N">`), so `#tip-1-1` … `#tip-8-4` jump to the exact tip.
 
-Before you send any message that names a tip: is every "Tip N" wrapped in `[ ]( )`? If a raw `https://` is visible next to "Tip N", you wrote it wrong — fix it.
+**Use the `[text](url)` bracket form — the brackets make "Tip T.N" the clickable text and HIDE the raw URL. Never print the URL as visible text.**
+- ✅ `[Tip 4.2](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-4-2)` → renders as a clickable "Tip 4.2"
+- ❌ `Tip 4.2 (https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-4-2)` → bare URL showing, "Tip 4.2" not clickable — WRONG
+
+Before you send any message that names a tip: is every "Tip T.N" wrapped in `[ ]( )`? If a raw `https://` is visible next to "Tip T.N", you wrote it wrong — fix it.
 
 **Credit footer (synthesis case)** — when the guide shaped an answer but you didn't quote it, end with one line. Frame the tip: linked number **plus its name**, so the footer says what the tip *is* without a click:
 
-> ↳ *shaped by agentic-coach · [Tip 32](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-32): Do TDD — the unit-level oracle*
+> ↳ *shaped by agentic-coach · [Tip 4.2](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-4-2): Do TDD — the unit-level oracle*
 
-(Substitute the real number and the tip's name from the guide; link every tip that fed the answer.) Quoted answer = the `> 💡 [Tip N](…#tip-N)` tag is the credit; synthesized answer = this footer. One or the other, never both, never on an uninfluenced turn.
+(Substitute the real number and the tip's name from the guide; link every tip that fed the answer.) Quoted answer = the `> 💡 [Tip T.N](…#tip-T-N)` tag is the credit; synthesized answer = this footer. One or the other, never both, never on an uninfluenced turn.
 
 **Invite the lesson — sparingly.** The first time you coach in a session (and only occasionally after), add a light affordance so the user knows they can go deeper: _say "coach me on that" to learn more._ Don't append it to every nudge — once or twice a session is enough; the link already lets them read.
 
