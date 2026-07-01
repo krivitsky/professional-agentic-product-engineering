@@ -234,11 +234,16 @@ for (const m of frontMatter.matchAll(/^#{3,5}\s+(.+)$/gm)) {
 }
 
 // --------------------------------------------------- cross-page link fixer ---
+// Dead in-guide anchors are collected here and fail the build (see end of file).
+const brokenLinks = [];
 // Rewrite every `](#anchor)` so it points at the right subpage.
 function rewriteLinks(md, currentSlug) {
   return md.replace(/\]\(#([\w-]+)\)/g, (full, anchor) => {
     const target = anchorToPage[anchor];
-    if (!target) return currentSlug === 'index' ? `](#${anchor})` : `](index.html#${anchor})`;
+    if (!target) {
+      brokenLinks.push(`${currentSlug} → #${anchor}`);
+      return currentSlug === 'index' ? `](#${anchor})` : `](index.html#${anchor})`;
+    }
     if (target === currentSlug) return `](#${anchor})`;
     const file = target === 'index' ? 'index.html' : `${target}.html`;
     // if the anchor *is* the page's primary anchor, no fragment needed
@@ -580,3 +585,13 @@ await writeFile(join(DIST, 'llms.txt'), llms);
 console.log(`Built ${pages.length} pages (assets v${ASSET_VER}) -> ${DIST}`);
 console.log('  + robots.txt, sitemap.xml, llms.txt');
 for (const p of pages) console.log(`  ${p.file.padEnd(50)} ${p.menuLabel}`);
+
+// Link-integrity gate — a dead `](#anchor)` in guide.md fails the build (and
+// blocks the Vercel deploy) instead of shipping a broken link silently.
+const uniqueBroken = [...new Set(brokenLinks)].sort();
+if (uniqueBroken.length) {
+  console.error(`\n✖ ${uniqueBroken.length} unresolved in-guide anchor link(s):`);
+  for (const b of uniqueBroken) console.error(`   ${b}`);
+  console.error('Fix the anchor in guide.md, or add the section it points to.');
+  process.exit(1);
+}

@@ -134,6 +134,8 @@ That system isn't a line — it's **three nested loops** ([the value-factory mod
 
 As the work gets harder, your effort moves from *wording one prompt* to *engineering these loops so they close on their own* — the prompt shrinks while the system around it grows. The eight tiers below are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
 
+**Each tier works on one of these loops, from the inside out.** T4–T5 close the inner **coding loop** (red → green → refactor). T2 and T4 build the **feature loop** around it (specify → refine → verify). T6–T8 scale out to the **impact loop** (opportunities → hypothesis → impact). Same three loops — you just climb them from the inside.
+
 ## The eight tiers at a glance
 
 | Tier | You learn to… |
@@ -594,7 +596,7 @@ You don't get great output from one prompt — you get it from a **loop**: the a
 
 A loop only works if it has a target it can test itself against — something that reports *done / not done* without you checking every cycle.
 
-That target is **tests**. **Red → green is the ideal loop condition**: unambiguous, automatable, and the agent can run it itself.
+That target is **tests**. **Red → green is the ideal loop condition** — this is the [**coding loop**, the innermost of the three](#big-idea--from-prompts-to-systems): unambiguous, automatable, and the agent can run it itself.
 
 ```mermaid
 flowchart TD
@@ -652,7 +654,7 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 
 **How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 20](#tip-20)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md`, then: *"Generate step definitions for refund.feature, implement until the scenarios pass, and sanity-check by mutation — break the implementation on purpose, confirm the scenario fails, then revert."*
 
-*Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin is the executable middle layer between a user story and unit tests, and all three give the loop a target it can test itself against.*
+*Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin sits between a user story and unit tests. That nesting **is** the [three loops](#big-idea--from-prompts-to-systems): the spec sets the behavior to verify (**feature loop**), the tests turn red to green underneath (**coding loop**). All three give the loop a target it can test itself against.*
 
 <a id="tip-34"></a>
 **34. Test the UI for real with Playwright MCP — don't eyeball it.**
