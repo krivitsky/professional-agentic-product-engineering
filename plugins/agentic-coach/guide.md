@@ -1154,6 +1154,8 @@ So treat the execution layer like any production system: scope tools per agent (
 
 Start with one managed loop (PR review), prove it, then expand. This is the top of the arc: the agent stops being a chatbot and becomes an **asynchronous worker operating inside your org's existing system of record.**
 
+**That's the point of the whole climb.** When the inner two loops run themselves — the agent closes the [**coding loop**](#big-idea--from-prompts-to-systems) (red → green) and you shape the **feature loop** around it (specify → verify) — your attention is freed for the loop no agent can close for you: the **impact loop**. What's worth building (**opportunities**), which bet to make (**hypothesis**), and whether shipping it actually helped (**impact**). The tiers automate the *how*; they hand you back time for the *what* and the *why*.
+
 ---
 
 ## Port these habits to any model, so this outlasts today's models (Opus / GPT / Gemini)
