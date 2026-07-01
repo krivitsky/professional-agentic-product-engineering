@@ -23,6 +23,7 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
 html,body{width:1200px;height:630px;overflow:hidden}
 .wrap{width:1200px;height:630px;background:#22303c;display:flex;flex-direction:column;padding:44px 70px 36px;position:relative}
 .wrap:before{content:'';position:absolute;left:0;top:0;bottom:0;width:16px;background:#1abc9c}
+.topline{font:600 30px 'Inter',sans-serif;color:#8aa0b0;letter-spacing:.01em;margin-left:370px}
 .row{flex:1;display:flex;align-items:center;gap:50px}
 .cave-wrap{width:320px;flex:none;display:flex;flex-direction:column;align-items:center;gap:18px}
 .cave{width:300px}
@@ -32,6 +33,7 @@ html,body{width:1200px;height:630px;overflow:hidden}
 .brand{font:400 26px 'Inter',sans-serif;color:#8aa0b0;letter-spacing:.01em;margin-left:370px}
 </style></head><body>
 <div class="wrap">
+  <div class="topline">Field Guide</div>
   <div class="row">
     <div class="cave-wrap">
       <img class="cave" src="${LOGO}">

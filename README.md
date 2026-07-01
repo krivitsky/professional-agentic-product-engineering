@@ -1,4 +1,4 @@
-# Professional Agentic Product Engineering (PAPE) Guide
+# Professional Agentic Product Engineering (PAPE) — Field Guide
 
 <img src="assets/og-2x.png" alt="Professional Agentic Product Engineering — From Prompts to Systems: Master The 8 Tiers" width="100%">
 
@@ -6,7 +6,8 @@
 
 This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Professional Agentic Product Engineering Guide](guide.md). These materials and harness nudge you to the right tip of your growing product engineering skills.
 
-📖 **Read it online: [agentic-engineering.guide](https://agentic-engineering.guide/)** — a browsable web version of the Guide: one page per tier, dark/light mode, easy to share. It's auto-generated from [`guide.md`](guide.md) and rebuilt on every change, so it's always in sync with this repo.
+> [!TIP]
+> 📖 **Read it online: [agentic-engineering.guide](https://agentic-engineering.guide/)** — a browsable web version of the Guide: one page per tier, dark/light mode, easy to share. It's auto-generated from [`guide.md`](guide.md) and rebuilt on every change, so it's always in sync with this repo.
 
 The Guide is kept up-to-date (currently June 2026) to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
 

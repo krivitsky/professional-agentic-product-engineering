@@ -14,7 +14,7 @@ const DIST = join(HERE, 'dist');
 const GUIDE = join(ROOT, 'guide.md');
 const LOGO_SRC = join(ROOT, 'assets', 'tutor-caveman.png');
 
-const SITE_TITLE = 'Professional Agentic Product Engineering';
+const SITE_TITLE = 'Professional Agentic Product Engineering (PAPE) — Field Guide';
 const REPO_URL = 'https://github.com/krivitsky/professional-agentic-product-engineering';
 const AUTHOR_URL = 'https://www.krivitsky.com';
 const AUTHOR_NAME = 'Alexey Krivitsky';
@@ -214,7 +214,7 @@ for (const s of sections) {
     reach: meta.kind === 'tier' ? reachBlurb(body) : '',
     description:
       meta.kind === 'tier'
-        ? firstSentence(`Tier ${meta.n} — ${meta.label.replace(/^T\d+ · /, '')}. ${reachBlurb(body)}`)
+        ? firstSentence(`Tier ${meta.n} — ${meta.label.replace(/^T\d+ · /, '')}. ${reachBlurb(body).replace(/^./, (c) => c.toUpperCase())}`)
         : firstSentence(body),
   };
   pages.push(page);
@@ -378,7 +378,7 @@ function jsonLd(page) {
       '@type': 'WebSite',
       '@id': `${BASE}/#website`,
       url: `${BASE}/`,
-      name: SITE_TITLE + ' Guide',
+      name: SITE_TITLE,
       description: SITE_DESC,
       inLanguage: 'en',
       publisher: { '@id': `${BASE}/#author` },
@@ -432,7 +432,7 @@ function shell({ page, contentHtml }) {
 <meta name="theme-color" content="#2c3e50" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
 <meta property="og:type" content="${isHome ? 'website' : 'article'}">
-<meta property="og:site_name" content="${SITE_TITLE} Guide">
+<meta property="og:site_name" content="${SITE_TITLE}">
 <meta property="og:title" content="${escapeHtml(isHome ? fullTitle : page.title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
 <meta property="og:url" content="${canonical}">
