@@ -2,6 +2,9 @@
 
 <img src="assets/og-2x.png?v=2" alt="Professional Agentic Product Engineering — From Prompts to Systems: Master The 8 Tiers" width="100%">
 
+> "Nice! Thank you for the compact guide where all the basics are in one place."
+> — [Michal Svoboda](https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29), Security & Engineering Mentor
+
 **Professional agentic engineering is not prompt engineering — it's engineering the system around the model.** As the work gets harder, the effort moves up the ladder: the prompt shrinks while the system around it grows.
 
 This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Professional Agentic Product Engineering Guide](guide.md). These materials and harness nudge you to the right tip of your growing product engineering skills.
@@ -74,6 +77,9 @@ claude        # then type:  hi
 Then it tailors each lesson's examples to *your* stack and repos — and aims its advice at the prompting habits it actually saw in your history — instead of a generic textbook example.
 
 Read-only and local — nothing leaves your machine.
+
+> "First impressions? Good :) It reads my history and estimates my current level, but is also transparent and asks me for my self assessment. Tell tell sign of quality — right there."
+> — [Magnus Vestin](https://www.linkedin.com/feed/update/urn:li:activity:7477965874549739520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477965874549739520%2C7477975689984442368%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287477975689984442368%2Curn%3Ali%3Aactivity%3A7477965874549739520%29)
 
 ### 3) The Coach — [`agentic-coach`](plugins/agentic-coach)
 

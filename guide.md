@@ -115,6 +115,9 @@ claude        # then type:  hi
 ```
 It diagnoses your level and — with your consent — glances at your past prompts (read-only, local, nothing leaves your machine) to tailor every example to *your* stack and habits instead of a generic one. Best when you want to **learn it by doing**.
 
+> "First impressions? Good :) It reads my history and estimates my current level, but is also transparent and asks me for my self assessment. Tell tell sign of quality — right there."
+> — [Magnus Vestin](https://www.linkedin.com/feed/update/urn:li:activity:7477965874549739520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477965874549739520%2C7477975689984442368%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287477975689984442368%2Curn%3Ali%3Aactivity%3A7477965874549739520%29)
+
 ### 3) The Coach — `agentic-coach`
 
 An ambient plugin: install once, then work in Claude Code as usual. It stays silent until it catches a learning moment mid-task, then drops **one nudge linked straight to the fix** — the thinking, not the syntax.
