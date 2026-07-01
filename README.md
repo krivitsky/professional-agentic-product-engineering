@@ -1,6 +1,6 @@
 # Professional Agentic Product Engineering (PAPE) — Field Guide
 
-<img src="assets/og-2x.png" alt="Professional Agentic Product Engineering — From Prompts to Systems: Master The 8 Tiers" width="100%">
+<img src="assets/og-2x.png?v=2" alt="Professional Agentic Product Engineering — From Prompts to Systems: Master The 8 Tiers" width="100%">
 
 **Professional agentic engineering is not prompt engineering — it's engineering the system around the model.** As the work gets harder, the effort moves up the ladder: the prompt shrinks while the system around it grows.
 
@@ -9,7 +9,7 @@ This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Pro
 > [!TIP]
 > 📖 **Read it online: [agentic-engineering.guide](https://agentic-engineering.guide/)** — a browsable web version of the Guide: one page per tier, dark/light mode, easy to share. It's auto-generated from [`guide.md`](guide.md) and rebuilt on every change, so it's always in sync with this repo.
 
-The Guide is kept up-to-date (currently June 2026) to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
+The Guide is kept up-to-date to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
 
 Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
 
