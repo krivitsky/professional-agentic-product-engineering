@@ -1,6 +1,6 @@
 # agentic-coach
 
-An **ambient coach** for operating a coding agent. It catches teachable moments while you work and surfaces the single most relevant tip from the [Professional Agentic Product Engineering guide](https://github.com/krivitsky/professional-agentic-product-engineering) — one nudge at a time, then gets out of the way.
+An **ambient coach** for operating coding agents. It catches teachable moments while you work and surfaces the single most relevant tip from the [Professional Agentic Product Engineering guide](https://github.com/krivitsky/professional-agentic-product-engineering) — one nudge at a time, then gets out of the way.
 
 This is the *coaching* counterpart to the repo's CLAUDE.md *tutor*: the tutor runs structured lessons; the coach rides along on real work.
 

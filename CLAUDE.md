@@ -4,7 +4,7 @@
 
 This repo holds the **Professional Agentic Product Engineering Guide** (**`guide.md`**).
 
-It's a mid-2026 field guide — updated continuously — to getting genuinely good at operating a coding agent (using the example of one of the most popular agentic coding harnesses, Claude Code by Anthropic) for creating new software and working on real codebases.
+It's a mid-2026 field guide — updated continuously — to getting genuinely good at operating coding agents (using the example of one of the most popular agentic coding harnesses, Claude Code by Anthropic) for creating new software and working on real codebases.
 
 It spans the full range: from "fix bug xyz" all the way to autonomous engineering loops running in production.
 

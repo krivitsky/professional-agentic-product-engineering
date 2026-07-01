@@ -11,7 +11,7 @@
 
 ### Goal of this Guide
 
-Get good at operating a coding agent — using Claude Code by Anthropic, a popular agentic coding harness, as the running example — to create new software and work on real codebases.
+Get good at operating coding agents — using Claude Code by Anthropic, a popular agentic coding harness, as the running example — to create new software and work on real codebases.
 
 It spans the full range: from "fix bug xyz" all the way to autonomous engineering loops running in production.
 
