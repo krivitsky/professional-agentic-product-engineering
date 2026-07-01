@@ -4,6 +4,11 @@
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
 **⭐ Star it; submit issues or PRs** — help yourself and the next person learn better.
 
+<div class="testimonial">
+<p>&ldquo;Nice! Thank you for the compact guide where all the basics are in one place.&rdquo;</p>
+<span class="testimonial-cite">— <a href="https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29">Michal Svoboda</a>, Security &amp; Engineering Mentor</span>
+</div>
+
 ### Goal of this Guide
 
 Get good at operating a coding agent — using Claude Code by Anthropic, a popular agentic coding harness, as the running example — to create new software and work on real codebases.
@@ -109,6 +114,9 @@ cd professional-agentic-product-engineering
 claude        # then type:  hi
 ```
 It diagnoses your level and — with your consent — glances at your past prompts (read-only, local, nothing leaves your machine) to tailor every example to *your* stack and habits instead of a generic one. Best when you want to **learn it by doing**.
+
+> "First impressions? Good :) It reads my history and estimates my current level, but is also transparent and asks me for my self assessment. Tell tell sign of quality — right there."
+> — [Magnus Vestin](https://www.linkedin.com/feed/update/urn:li:activity:7477965874549739520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477965874549739520%2C7477975689984442368%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287477975689984442368%2Curn%3Ali%3Aactivity%3A7477965874549739520%29)
 
 ### 3) The Coach — `agentic-coach`
 
