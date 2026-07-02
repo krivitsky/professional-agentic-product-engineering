@@ -260,7 +260,7 @@ The pragmatic play: prototype on a one-shot builder to validate, then rebuild on
 
 Before the tiers, the vocabulary. The tiers show how to *use* these well; this is what they *are* and how to make one.
 
-All of them are just Markdown/JSON files in your repo — check them in, and the whole team (and your CI) inherits them.
+They're not hidden settings or some LLM dark magic. These agentic-engineering primitives live as plain-text files (Markdown, JSON, a shell script or two) — study them, understand them. And for stable teamwork they must be versioned and shared: every teammate and every CI run inherits the same setup, not a config trapped on one laptop.
 
 | Primitive | What it is | Where it lives | Create it with |
 |---|---|---|---|
@@ -268,9 +268,9 @@ All of them are just Markdown/JSON files in your repo — check them in, and the
 | **Slash command** | A reusable prompt you trigger by hand with `/name` | `.claude/commands/name.md` | write the file |
 | **Skill** | Knowledge/workflow the model **auto-loads when the task matches its description** | `.claude/skills/name/SKILL.md` (a *folder*) | write SKILL.md; add scripts/assets |
 | **Subagent** | A separate Claude instance with its **own context window**, tools, and model; returns only a summary | `.claude/agents/name.md` | `/agents` (recommended) or write the file |
-| **Hook** | Deterministic shell script on a lifecycle event | `.claude/settings.json` | add to `hooks` → Tier 5 |
-| **MCP server** | A connector giving Claude external tools (browser, DB, tracker) | `.mcp.json` / `claude mcp add` | Tier 3, Tip 3.7 |
-| **Plan mode** | Read-only investigate-then-plan gate | built-in | `Shift+Tab` ×2 → Tier 2 |
+| **Hook** | Deterministic shell script on a lifecycle event | `.claude/settings.json` | add to `hooks` → [Tier 5](#tier-5) |
+| **MCP server** | A connector giving Claude external tools (browser, DB, tracker) | `.mcp.json` / `claude mcp add` | [Tier 3](#tier-3), [Tip 3.7](#tip-3-7) |
+| **Plan mode** | Read-only investigate-then-plan gate | built-in | `Shift+Tab` ×2 → [Tier 2](#tier-2) |
 | **Permissions** | Allow/deny rules + modes (default / auto / plan / bypass) for what runs without asking | `.claude/settings.json` | `/permissions` or settings |
 | **Plugin** | One installable unit bundling skills + hooks + subagents + MCP — how teams distribute all of the above | a marketplace / git repo | `/plugin` to browse & install |
 
