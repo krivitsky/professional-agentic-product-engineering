@@ -47,7 +47,7 @@ Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemin
     - [1.11 Constrain scope](#tip-1-11)
     - [1.12 Narrow the edit surface](#tip-1-12)
     - [1.13 Dial effort](#tip-1-13)
-    - [1.14 Front-load turn 1](#tip-1-14)
+    - [1.14 Say it all in your first message](#tip-1-14)
 11. [Tier 2 — Shaping & Slicing: Plan and slice before you build](#tier-2)
     - [2.1 Investigate before you edit](#tip-2-1)
     - [2.2 Plan the uncertain](#tip-2-2)
@@ -349,10 +349,10 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 > **Prefer:** paste the full stack trace → "diagnose the root cause before changing anything."
 
 <a id="tip-1-11"></a>
-**1.11 Constrain scope — over-engineering is a frontier-model failure mode.**
+**1.11 Constrain scope — modern models over-engineer unless you stop them.**
 > **Instead of:** "Fix this bug and improve the code."
 >
-> **Prefer:** "Fix only this bug. Don't refactor, comment untouched code, or add handling for cases that can't occur."
+> **Prefer:** "Fix only this bug — smallest change that works. No refactoring, no comments on untouched code, no handling for cases that can't happen."
 
 <a id="tip-1-12"></a>
 **1.12 Narrow the edit surface — a small diff is a reviewable diff.**
@@ -367,10 +367,12 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 > **Prefer:** leave it at high (the current default); add `ultrathink` for one gnarly turn; `/effort ultracode` for big async jobs.
 
 <a id="tip-1-14"></a>
-**1.14 Front-load turn 1 instead of hand-holding across many.**
-> **Instead of:** a vague opener followed by ten corrections.
+**1.14 Say it all in your first message.**
+> **Instead of:** "Add a way to export reports." — then ten messages fixing what it guessed wrong.
 >
-> **Prefer:** one rich brief — goal + constraints + definition of done + "work autonomously; stop only at a real fork."
+> **Prefer:** "Add report export: a button on the reports page that downloads the current rows as a `.csv`. No new libraries. Work on your own; only stop if you hit a real decision."
+
+*One complete brief beats ten corrections — the agent runs further on its own, and you stop babysitting.*
 
 ---
 
