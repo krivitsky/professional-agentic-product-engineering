@@ -227,6 +227,8 @@ Match the job to a target tier and stop there — climbing higher than the work 
 
 Before frontier models, prompting was a craft of *coaxing*. Most moves that worked then backfire now. Worth knowing, because half the advice still circulating is from this era.
 
+![Vibe coding vs an agentic system: on the left a model poked with prompt after prompt, drifting inside a formless shape; on the right a model bouncing cleanly inside a harness of workflows, guidelines, autotests, and guardrails](assets/vibing-vs-agentic-engineering.gif)
+
 | The old move | Why it worked then | What to do now |
 |---|---|---|
 | **Magic thinking words** — "think", "think hard", "ultrathink" | They mapped to literal reasoning-token budgets (ultrathink ≈ 32k) | Adaptive thinking + effort settings; current frontier models default to *high*. Use `/effort`; reserve `ultrathink` for one hard turn |
@@ -296,7 +298,7 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 **1.2 Be specific — vagueness is now taken literally.**
 > **Instead of:** "Clean up the auth code."
 >
-> **Prefer:** "Extract token refresh in @src/auth/session.ts into the existing RetryPolicy class."
+> **Prefer:** "Extract the token-refresh logic in @src/auth/session.ts into the existing retry helper."
 
 <a id="tip-1-3"></a>
 **1.3 Say what to do, not what to avoid.**
@@ -312,9 +314,9 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 
 <a id="tip-1-5"></a>
 **1.5 Specify the output shape, not just the goal.**
-> **Instead of:** "Build an auth API."
+> **Instead of:** "Add a search endpoint."
 >
-> **Prefer:** "POST /login and /refresh, Zod validation, a consistent {error, code} envelope."
+> **Prefer:** "Add search: `GET /search?q=`, returns JSON — an array of `{title, url, date}`, newest first, max 20."
 
 <a id="tip-1-6"></a>
 **1.6 Show examples instead of describing style.**
