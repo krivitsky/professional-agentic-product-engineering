@@ -169,7 +169,13 @@ The system you build around the model isn't a line — it's **three nested loops
 
 ![Three nested loops: an impact loop (find value, test hypotheses, measure & learn) containing a feature loop (specify, refine, verify) containing a coding loop (red, green, refactor)](assets/nested-loops.svg)
 
-**Each loop is built by specific tiers.** Tier 4's tests close the innermost **coding loop** (red → green → refactor), and Tier 5 hardens that check so it runs every time. The **feature loop** around it (specify → refine → verify) runs from the spec you shape in Tier 2 to that same Tier 4 check — which is why Tier 4 belongs to both. Tiers 6–8 scale out to the outer **impact loop** (opportunities → hypothesis → impact), once one agent or one machine isn't enough. Tiers 1 and 3 — prompting and context — are the groundwork under all three. Eight tiers, three loops: climbing the ladder is how you build the loops up.
+**Each loop is built by specific tiers:**
+
+- **Coding loop** (red → green → refactor) — closed by Tier 4's tests; Tier 5 hardens that check so it runs every time.
+- **Feature loop** (specify → refine → verify) — runs from the spec you shape in Tier 2 to that same Tier 4 check, which is why Tier 4 belongs to both.
+- **Impact loop** (opportunities → hypothesis → impact) — Tiers 6–8 scale out to it, once one agent or one machine isn't enough.
+
+Tiers 1 and 3 — prompting and context — are the groundwork under all three. Eight tiers, three loops: climbing the ladder is how you build the loops up.
 
 ## The eight tiers at a glance
 
