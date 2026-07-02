@@ -376,6 +376,14 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 
 *One complete brief beats ten corrections — the agent runs further on its own, and you stop babysitting.*
 
+**If you forget the rest, keep these five:**
+
+1. **Hand over the goal, not the steps.** Say what you want and the limits; let the agent pick the how. *(not a file list or a play-by-play)*
+2. **Be specific and concrete.** Vague asks get taken literally now. *(not "clean it up", "make it better")*
+3. **Do one thing at a time.** A single goal, a small focused diff — not "fix this *and* improve that." *(not "fix this and improve the code")*
+4. **Show, don't describe.** Paste the real error, the screenshot, an example. *(not retyping or paraphrasing them)*
+5. **Say it all in the first message.** One full brief beats ten corrections.
+
 ---
 
 <a id="tier-2"></a>

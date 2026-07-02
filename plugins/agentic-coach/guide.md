@@ -227,7 +227,9 @@ Match the job to a target tier and stop there — climbing higher than the work 
 
 Before frontier models, prompting was a craft of *coaxing*. Most moves that worked then backfire now. Worth knowing, because half the advice still circulating is from this era.
 
-![Vibe coding vs an agentic system: on the left a model poked with prompt after prompt, drifting inside a formless shape; on the right a model bouncing cleanly inside a harness of workflows, guidelines, autotests, and guardrails](assets/vibing-vs-agentic-engineering.gif)
+![Vibe coding vs an agentic system: on the left a model poked with prompt after prompt, drifting inside a formless shape; on the right a model bouncing cleanly inside a harness of workflows, guidelines, autotests, and guardrails](assets/vibing-vs-agentic-engineering.png)
+
+*▶ [Watch it animate](assets/vibing-vs-agentic-engineering.gif) · [open the interactive version](https://agentic-engineering.guide/unlearn-the-old-playbook)*
 
 | The old move | Why it worked then | What to do now |
 |---|---|---|
@@ -373,6 +375,14 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 > **Prefer:** "Add report export: a button on the reports page that downloads the current rows as a `.csv`. No new libraries. Work on your own; only stop if you hit a real decision."
 
 *One complete brief beats ten corrections — the agent runs further on its own, and you stop babysitting.*
+
+**If you forget the rest, keep these five:**
+
+1. **Hand over the goal, not the steps.** Say what you want and the limits; let the agent pick the how. *(not a file list or a play-by-play)*
+2. **Be specific and concrete.** Vague asks get taken literally now. *(not "clean it up", "make it better")*
+3. **Do one thing at a time.** A single goal, a small focused diff — not "fix this *and* improve that." *(not "fix this and improve the code")*
+4. **Show, don't describe.** Paste the real error, the screenshot, an example. *(not retyping or paraphrasing them)*
+5. **Say it all in the first message.** One full brief beats ten corrections.
 
 ---
 
