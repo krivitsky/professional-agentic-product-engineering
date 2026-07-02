@@ -270,49 +270,12 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 | **Subagent** | A separate Claude instance with its **own context window**, tools, and model; returns only a summary | `.claude/agents/name.md` | `/agents` (recommended) or write the file |
 | **Hook** | Deterministic shell script on a lifecycle event | `.claude/settings.json` | add to `hooks` → [Tier 5](#tier-5) |
 | **MCP server** | A connector giving Claude external tools (browser, DB, tracker) | `.mcp.json` / `claude mcp add` | [Tier 3](#tier-3), [Tip 3.7](#tip-3-7) |
-| **Plan mode** | Read-only investigate-then-plan gate | built-in | `Shift+Tab` ×2 → [Tier 2](#tier-2) |
 | **Permissions** | Allow/deny rules + modes (default / auto / plan / bypass) for what runs without asking | `.claude/settings.json` | `/permissions` or settings |
 | **Plugin** | One installable unit bundling skills + hooks + subagents + MCP — how teams distribute all of the above | a marketplace / git repo | `/plugin` to browse & install |
 
 *Most of these are files you commit. The central config is **`.claude/settings.json`** (precedence: managed › CLI args › local › project › user) — it's where `permissions`, `hooks`, `mcpServers`, `model`, and inline `agents` can all be declared. A **plugin** is just a pre-packaged set of these files, so a teammate runs `/plugin install` on day one and inherits your whole setup.*
 
-**Skill anatomy** — auto-loaded by its `description`, otherwise invisible; it's a folder, so it can ship scripts:
-```
-.claude/skills/pdf-forms/SKILL.md
----
-name: pdf-forms
-description: Use when filling or extracting fields from PDF forms.
----
-# How we handle PDF forms
-- Use pdftk; never re-flatten a signed PDF.
-- Helper: ./fill.py <template> <data.json>
-```
-*A slash command is the same idea you trigger by hand. In fact commands are now skills under the hood — `.claude/commands/review.md` and `.claude/skills/review/SKILL.md` both make `/review`. Add `disable-model-invocation: true` to a skill to make it explicit-only.*
-
-**Subagent anatomy** — required fields are `name` and `description`; the body is its system prompt; it runs in its **own** context window and hands back only a result:
-```
-.claude/agents/security-reviewer.md
----
-name: security-reviewer
-description: Use proactively after auth or data-handling changes, or on "audit for security".
-tools: Read, Grep, Glob      # read-only — it can't modify files
-model: opus                  # high-stakes review gets max effort
----
-You are a senior application security engineer. Review the diff for injection,
-authz flaws, leaked secrets, and unsafe data handling. Report findings by
-severity (blocker/major/minor) with file:line references. Don't pre-filter.
-```
-Create it with `/agents` (guided), or drop the file in.
-
-Invoke it three ways: **auto** (the parent delegates when the task matches the description — that's why the description matters most), **explicitly** ("use the security-reviewer subagent on the auth diff"), or **`@security-reviewer`**.
-
-Omit `tools` and it inherits everything; whitelist to keep it tight. (For multiple *communicating* sessions rather than one-shot workers, there's experimental **Agent Teams** — a step beyond subagents.)
-
-**The distinction that matters — skill vs subagent vs command.** Same Markdown-plus-frontmatter shape; the difference is *where the work happens*.
-
-A **command/skill loads into your current conversation** — its instructions join the active context and every step accumulates in your main window. A **subagent runs in its own context window** and returns just a summary.
-
-So: reach for a **skill** to *teach the main thread* a workflow; reach for a **subagent** to *offload heavy work and protect the main thread's context*. (You can even preload skills into a subagent with a `skills:` frontmatter field.)
+*Each primitive's full anatomy — the frontmatter, a worked example, when to reach for it — lands in the tier that uses it: [Skills](#tip-3-6) and [MCP servers](#tip-3-7) in Tier 3, [hooks](#tier-5) in Tier 5, [subagents](#tier-6) in Tier 6.*
 
 ---
 
@@ -571,6 +534,7 @@ description: Use when creating or altering database schema or writing migrations
 - New file in /migrations; never edit an applied one.
 - Run `npm run migrate:make <name>`; then fill up/down.
 ```
+*A slash command is the same idea you trigger by hand. In fact commands are now skills under the hood — `.claude/commands/review.md` and `.claude/skills/review/SKILL.md` both make `/review`. Add `disable-model-invocation: true` to a skill to make it explicit-only.*
 
 <a id="tip-3-7"></a>
 **3.7 Add the right MCP servers; keep the surface small.**
@@ -917,6 +881,25 @@ Multi-model is a scalpel for decomposable, verifiable, high-stakes work — not 
 ---
 
 ### The orchestration tips
+
+Every tip below leans on **subagents**, so here's one up close. A subagent is a separate Claude instance with its **own** context window, tools, and model; it does work and hands back only a result. Required fields are `name` and `description`; the body is its system prompt:
+```
+.claude/agents/security-reviewer.md
+---
+name: security-reviewer
+description: Use proactively after auth or data-handling changes, or on "audit for security".
+tools: Read, Grep, Glob      # read-only — it can't modify files
+model: opus                  # high-stakes review gets max effort
+---
+You are a senior application security engineer. Review the diff for injection,
+authz flaws, leaked secrets, and unsafe data handling. Report findings by
+severity (blocker/major/minor) with file:line references. Don't pre-filter.
+```
+Create it with `/agents` (guided), or drop the file in. Omit `tools` and it inherits everything; whitelist to keep it tight.
+
+Invoke it three ways: **auto** (the parent delegates when the task matches the description — that's why the description matters most), **explicitly** ("use the security-reviewer subagent on the auth diff"), or **`@security-reviewer`**. *(For multiple* communicating *sessions rather than one-shot workers, there's experimental **Agent Teams** — a step beyond subagents.)*
+
+**Skill vs subagent vs command — the distinction that matters.** Same Markdown-plus-frontmatter shape; the difference is *where the work happens*. A **command/skill loads into your current conversation** — its instructions join the active context and every step accumulates in your main window. A **subagent runs in its own context window** and returns just a summary. So: reach for a **skill** to *teach the main thread* a workflow; reach for a **subagent** to *offload heavy work and protect the main thread's context*. (You can even preload skills into a subagent with a `skills:` frontmatter field.)
 
 <a id="tip-6-1"></a>
 **6.1 Let it self-orchestrate big, parallel work — it fans out faster than you can by hand.**
