@@ -566,10 +566,13 @@ for (const p of pages) {
       `<h1 id="${p.anchorId}" class="page-title">${escapeHtml(p.title)}</h1>` +
       renderMarkdown(linkifyTiers(p.body), p.slug);
   } else {
+    // Chapter pages (e.g. the at-a-glance and climb tables) get their **Tn …**
+    // tier names linked to the tier pages; tier pages themselves don't self-link.
+    const body = p.kind === 'tier' ? p.body : linkifyTiers(p.body);
     contentHtml =
       `<p class="eyebrow">${p.kind === 'tier' ? 'Tier ' + p.n : 'Chapter'}</p>` +
       `<h1 id="${p.anchorId}" class="page-title">${escapeHtml(p.title)}</h1>` +
-      renderMarkdown(p.body, p.slug);
+      renderMarkdown(body, p.slug);
   }
   await writeFile(join(DIST, p.file), shell({ page: p, contentHtml }));
 }

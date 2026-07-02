@@ -16,14 +16,14 @@ It's organized as one ladder of **eight tiers, simple → hard**, where the work
 
 | Tier | You learn to… |
 |---|---|
-| **T1 Professional Prompting** | Write prompts the agent can act on |
-| **T2 Shaping & Slicing** | Plan and slice before you build |
+| **T1 Professional Prompting** | Write prompts that get the most from the agent's intelligence |
+| **T2 Shaping & Slicing** | Ideate, refine, spec, and plan before you build |
 | **T3 Context Management** | Give the agent the right context and tools |
-| **T4 Loop Until Done** | Make the agent prove it's done *(the heart of it)* |
-| **T5 Checkpointing & Hardening** | Checkpoint in git; wire tests & CI into the harness |
+| **T4 Loop Until Done** | Make the agent prove it's done |
+| **T5 Checkpointing & Hardening** | Checkpoint in git; run tests and CI automatically |
 | **T6 Orchestration** | Run many agents at once |
 | **T7 Fleet Ops** | Operate your agents as a fleet |
-| **T8 Agent Execution Layer** | Put agents into production (the execution layer) |
+| **T8 Agent Execution Layer** | Put agents into production |
 
 The reader is told to climb only as high as their work demands and stop.
 

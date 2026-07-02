@@ -154,22 +154,22 @@ That system isn't a line — it's **three nested loops** ([the value-factory mod
 
 ![Three nested loops: an impact loop (find value, test hypotheses, measure & learn) containing a feature loop (specify, refine, verify) containing a coding loop (red, green, refactor)](assets/nested-loops.svg)
 
-As the work gets harder, your effort moves from *wording one prompt* to *engineering these loops so they close on their own* — the prompt shrinks while the system around it grows. The eight tiers below are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
+As the work gets harder, your effort moves from *wording one prompt* to *engineering these loops so they close on their own* — the prompt shrinks while the system around it grows. [The eight tiers](#the-eight-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
 
-**Each tier works on one of these loops, from the inside out.** T4–T5 close the inner **coding loop** (red → green → refactor). T2 and T4 build the **feature loop** around it (specify → refine → verify). T6–T8 scale out to the **impact loop** (opportunities → hypothesis → impact). Same three loops — you just climb them from the inside.
+**Each loop is built by specific tiers.** Tier 4's tests close the innermost **coding loop** (red → green → refactor), and Tier 5 hardens that check so it runs every time. The **feature loop** around it (specify → refine → verify) runs from the spec you shape in Tier 2 to that same Tier 4 check — which is why Tier 4 belongs to both. Tiers 6–8 scale out to the outer **impact loop** (opportunities → hypothesis → impact), once one agent or one machine isn't enough. Tiers 1 and 3 — prompting and context — are the groundwork under all three. Eight tiers, three loops: climbing the ladder is how you build the loops up.
 
 ## The eight tiers at a glance
 
 | Tier | You learn to… |
 |---|---|
-| **T1 Professional Prompting** | Write prompts the agent can act on |
-| **T2 Shaping & Slicing** | Plan and slice before you build |
+| **T1 Professional Prompting** | Write prompts that get the most from the agent's intelligence |
+| **T2 Shaping & Slicing** | Ideate, refine, spec, and plan before you build |
 | **T3 Context Management** | Give the agent the right context and tools |
-| **T4 Loop Until Done** | Make the agent prove it's done *(the heart of it)* |
-| **T5 Checkpointing & Hardening** | Checkpoint in git; wire tests & CI into the harness |
+| **T4 Loop Until Done** | Make the agent prove it's done |
+| **T5 Checkpointing & Hardening** | Checkpoint in git; run tests and CI automatically |
 | **T6 Orchestration** | Run many agents at once |
 | **T7 Fleet Ops** | Operate your agents as a fleet |
-| **T8 Agent Execution Layer** | Put agents into production (the execution layer) |
+| **T8 Agent Execution Layer** | Put agents into production |
 
 Climb only as high as your work demands.
 
@@ -194,11 +194,7 @@ The trick is knowing *what pushes you to the next tier* — it's always a specif
 | **T7 — Fleet Ops** | Where & how runs execute | Your machines | Runs die when your laptop sleeps; parallel agents collide; you want to drive from your phone |
 | **T8 — Agent Execution Layer** | Agents as async workers | Your org / production | The team needs it: agents must pick up tickets and open PRs without anyone babysitting a terminal |
 
-**Read the right column as a diagnostic.** Stuck re-typing the same context every session? That's the Tier 3 pain — go engineer CLAUDE.md and Skills.
-
-Losing work on long runs? Tier 5 — commit on every green. Each tier exists to kill a specific failure of the one below it:
-
-> Prompts drift → **T2** plans them. Plans are forgotten across sessions → **T3** makes context durable. Context still can't prove correctness → **T4** verifies. Long runs lose good work → **T5** checkpoints. One agent is too slow → **T6** orchestrates many. Runs die when your laptop sleeps → **T7** runs a fleet. Humans still babysit terminals → **T8** makes agents async workers.
+**Read the right column as a diagnostic:** find the pain you're feeling now, climb to the tier that fixes it, then stop. Each tier exists to kill a specific failure of the one below it.
 
 The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against a clear, testable standard, inside a real repo you own.
 
@@ -208,11 +204,9 @@ Match the job to a target tier and stop there — climbing higher than the work 
 
 | What you're building | Aim for | Why |
 |---|---|---|
-| A landing page, throwaway script, or one-off for yourself | **Tier 1–2** — or skip the agent and use a one-shot builder (Lovable/v0/Bolt) | Low stakes, short-lived. A clear prompt is enough; you don't need tests, git discipline, or a loop |
+| A landing page, throwaway script, or one-off for yourself | **Tier 1–2** — or skip the agent and use a [one-shot builder](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder) (Lovable/v0/Bolt) | Low stakes, short-lived. A clear prompt is enough; you don't need tests, git discipline, or a loop |
 | A feature in a side project you intend to keep | **Tier 1–4** | Now correctness matters over time — you want a verify loop and checkpoints so it doesn't rot |
 | Production code in a shared team repo | **Tier 1–5**, reaching into **6–8** as scale demands | Multiple people, real consequences. Context engineering, git hygiene, and review become non-negotiable; orchestration and a hosted execution layer follow when one agent or one machine isn't enough |
-
-*So for that simple landing page: **Tier 1–2 is the answer** — and a one-shot builder may serve you better than Claude Code (see [Agents vs one-shot builders](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)).*
 
 ---
 
@@ -235,11 +229,11 @@ Before frontier models, prompting was a craft of *coaxing*. Most moves that work
 
 | The old move | Why it worked then | What to do now |
 |---|---|---|
-| **Magic thinking words** — "think", "think hard", "ultrathink" | They mapped to literal reasoning-token budgets (ultrathink ≈ 32k) | Adaptive thinking + effort settings; Opus 4.8 defaults to *high*. Use `/effort`; reserve `ultrathink` for one hard turn |
+| **Magic thinking words** — "think", "think hard", "ultrathink" | They mapped to literal reasoning-token budgets (ultrathink ≈ 32k) | Adaptive thinking + effort settings; current frontier models default to *high*. Use `/effort`; reserve `ultrathink` for one hard turn |
 | **Anti-laziness pep talks** — "Don't hold back. Give it your all. Go above and beyond." | Older models under-delivered without a push | Newer models *over-trigger* and over-engineer. Push thoroughness **down**; scope tight |
 | **Negative constraints** — "Don't use X" | Models were loose enough to need fencing | Literal instruction-following makes negations backfire. Say what to **do** |
 | **Context babysitting** — cram everything under 200k, trim obsessively | Context was scarce and precious | 1M is the default; manage by **signal**, not a percentage (rot is still real) |
-| **"Be conservative" reviews** | Kept review noise down | 4.8 obeys and **suppresses real findings**. Ask for everything, severity-labeled |
+| **"Be conservative" reviews** | Kept review noise down | Current models obey and **suppress real findings**. Ask for everything, severity-labeled |
 | **Turn-by-turn steering** | Models lost the thread fast | Multi-turn costs more and the model rewards autonomy. **Front-load** the brief |
 | **Manual subagent choreography** | The only way to parallelize | It can **self-orchestrate** parallel subagents now. Give it the goal + the bar |
 
@@ -252,13 +246,13 @@ The throughline: you used to *push the model to do more*. Now you *constrain it 
 Know what kind of tool you're holding. Two families:
 
 - **One-shot app builders** — Lovable, Bolt, v0, Replit, Base44. Describe an app in a text box; they generate a full stack (often React + Supabase) and deploy to a URL, managing the infra for you. The loop is fast and addictive — superb for blank-canvas prototypes, MVPs, and non-technical founders. (Several run on Claude under the hood; Lovable is a scaffolding/deploy *layer* on the same intelligence.)
-- **Coding agents** — Claude Code (also Cursor, Aider). A terminal-native agent that works inside your *real repo* — your git, tools, tests, stack. No capability ceiling, you own the code, it makes **targeted diffs** (not full-file rewrites), runs commands, opens PRs.
+- **Coding agents** — Claude Code (also Codex, opencode, Cursor). A terminal-native agent that works inside your *real repo* — your git, tools, tests, stack. No capability ceiling, you own the code, it makes **targeted diffs** (not full-file rewrites), runs commands, opens PRs.
 
-The dividing line is **prototype vs production** and **code ownership**. One-shot builders plateau at CRUD on a fixed stack; apps that outgrow them are **rebuilt, not refactored** — there's no clean path to a production codebase, plus vendor lock-in.
+The dividing line is **prototype vs production** and **code ownership**. One-shot builders handle standard forms-and-database apps well, but stall on custom logic, odd integrations, or any architecture off their template; apps that outgrow them are **rebuilt, not refactored** — there's no clean path to a production codebase, plus vendor lock-in.
 
 A coding agent has the higher ceiling but demands engineering discipline (git, tests, architecture) in return.
 
-The pragmatic play: prototype on a one-shot builder to validate, then rebuild on Claude Code once it has traction — or start in Claude Code if you're technical and it's meant to live in production. **This guide is about the second mode**: owning and operating the result, not shipping a demo.
+The pragmatic play: prototype on a one-shot builder to validate, then rebuild on Claude Code once it has traction — or start in Claude Code if you're technical and it's meant to live in production. **This guide is about the second mode**: owning and operating the process, the result, and full understanding of both — not shipping a demo.
 
 ---
 
@@ -403,7 +397,7 @@ So: reach for a **skill** to *teach the main thread* a workflow; reach for a **s
 **1.13 Dial effort; don't beg for thoroughness.**
 > **Instead of:** "Think really hard and be exhaustive."
 >
-> **Prefer:** leave it at high (the 4.8 default); add `ultrathink` for one gnarly turn; `/effort ultracode` for big async jobs.
+> **Prefer:** leave it at high (the current default); add `ultrathink` for one gnarly turn; `/effort ultracode` for big async jobs.
 
 <a id="tip-1-14"></a>
 **1.14 Front-load turn 1 instead of hand-holding across many.**
@@ -676,7 +670,9 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 >
 > **Prefer:** Given/When/Then scenarios the agent codes against and runs.
 
-**How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 2.6](#tip-2-6)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md` (your house rules for writing scenarios — one file, checked in, so every agent writes Gherkin the same way), then: *"Generate step definitions for refund.feature, implement until the scenarios pass, and sanity-check by mutation — break the implementation on purpose, confirm the scenario fails, then revert."*
+**How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 2.6](#tip-2-6)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md` (your house rules for writing scenarios — one file, checked in, so every agent writes Gherkin the same way), then: *"Generate step definitions for refund.feature. Implement **one scenario at a time** — red → green → commit before you start the next, not all at once — and sanity-check each by mutation: break the implementation on purpose, confirm the scenario fails, then revert."*
+
+*Pin it to one scenario at a time on purpose: left alone, the agent codes every scenario in a single sprawling pass, blowing up work-in-progress into one diff you can't review. One at a time keeps WIP small and makes every green a checkpoint — the [vertical-slice](#tip-2-5) discipline, at the scenario level.*
 
 *Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin sits between a user story and unit tests. That nesting **is** the [three loops](#big-idea--from-prompts-to-systems): the spec sets the behavior to verify (**feature loop**), the tests turn red to green underneath (**coding loop**). All three give the loop a target it can test itself against.*
 
@@ -701,7 +697,7 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 
 <a id="tip-4-6"></a>
 **4.6 Ask for all findings, not a conservative review.**
-> **Instead of:** "Only flag high-severity issues." (4.8 obeys and hides real ones)
+> **Instead of:** "Only flag high-severity issues." (current models obey and hide real ones)
 >
 > **Prefer:** "List every issue with a severity label and line reference. Don't pre-filter — I'll triage."
 
@@ -997,7 +993,7 @@ the security-reviewer subagent to audit the diff. Each returns a summary.
 
 **How:** interactively, just type the correction mid-run ("you're at ~60% context — stop exploring, implement the top finding only").
 
-In an automated harness on the Agent SDK, push a `system` entry into the live `messages` array — Opus 4.8 accepts mid-conversation system messages, so you change course **without a restart or a cache rebuild**:
+In an automated harness on the Agent SDK, push a `system` entry into the live `messages` array — current Claude models accept mid-conversation system messages, so you change course **without a restart or a cache rebuild**:
 ```json
 { "role": "system", "content": "Permissions update: read-only from here. Summarize findings; make no further edits." }
 ```
