@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Professional agentic product engineering</title>
+<style>
+/* Palette matches assets/nested-loops.svg — a fixed dark "card" on the site.
+   teal #2bd4b0 · amber #f5b342 · coral #ff7a6b · bg #102c27 · text #f4f5f7 */
+:root{
+  --bg:#102c27; --fg:#f4f5f7; --muted:#96999e; --sub:#b2b7bb;
+  --card:#1b2530; --line:#2a3742; --line2:#3a4a44;
+  --teal:#2bd4b0; --amber:#f5b342; --coral:#ff7a6b;
+  --ball:#2bd4b0; --ballstroke:#16a085;
+  --myth-fill:#2e1b18; --real-fill:#12241f;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--mono);
+  display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:32px 16px}
+.ttl{font-size:20px;margin:0 0 28px;text-align:center}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%;max-width:760px;justify-items:center}
+@media (max-width:560px){.cols{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;align-items:center;width:100%;max-width:340px}
+.lab{font-size:16px;margin:0 0 8px}
+.lab.myth{color:var(--coral)}
+.lab.real{color:var(--teal)}
+svg{width:100%;height:auto;display:block;max-width:340px}
+.ball{fill:var(--ball);stroke:var(--ballstroke);stroke-width:1.5}
+.sq{fill:var(--real-fill);stroke:var(--teal);stroke-width:1.3}
+.bnd{fill:var(--myth-fill);stroke:var(--muted);stroke-width:1;stroke-dasharray:5 4}
+.trail{fill:none;stroke:var(--sub);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.lbl{font-family:var(--mono);font-size:13px;fill:var(--fg)}
+.cap{color:var(--muted);font-size:12px;margin:16px 0 0;text-align:center;max-width:100%;line-height:1.6}
+.credit{margin-top:30px;width:100%;max-width:520px;text-align:center}
+.credit hr{border:0;border-top:1px solid var(--line);margin:0 0 12px}
+.credit p{color:var(--muted);font-size:11px;margin:0;line-height:1.5}
+.credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+</style>
+</head>
+<body>
+<h1 class="ttl">Professional Agentic Product Engineering</h1>
+<!--FIG:START-->
+<div class="cols">
+  <div class="col">
+    <p class="lab myth">vibe coding</p>
+    <svg id="svgL" viewBox="-30 0 390 300" aria-hidden="true">
+      <polygon id="bndL" class="bnd" points=""/>
+      <g id="promptsL"></g>
+      <circle id="ballL" class="ball" cx="165" cy="150" r="8"/>
+    </svg>
+    <p class="cap">Prompt after prompt, the model churns out code &mdash; the product sprawls, features drift, and quality slides into slop. Human intelligence is spent operating the model: all motion, little impact.</p>
+  </div>
+  <div class="col">
+    <p class="lab real">agentic system</p>
+    <svg id="svgR" viewBox="-30 0 390 300" aria-hidden="true">
+      <rect class="sq" x="80" y="58" width="170" height="170" rx="20"/>
+      <text class="lbl" x="165" y="42" text-anchor="middle">guidelines</text>
+      <text class="lbl" x="165" y="252" text-anchor="middle">guardrails</text>
+      <text class="lbl" x="24" y="147" text-anchor="middle">workflows</text>
+      <text class="lbl" x="306" y="147" text-anchor="middle">autotests</text>
+      <polyline id="trailR" class="trail" points=""/>
+      <circle id="ballR" class="ball" cx="120" cy="90" r="8"/>
+    </svg>
+    <p class="cap">The model runs inside a harness &mdash; workflows, guidelines, autotests, and guardrails &mdash; bouncing cleanly within well-engineered bounds. Human intelligence is freed for what matters: growing understanding and driving the impact of the work.</p>
+  </div>
+</div>
+
+<div class="credit">
+  <hr>
+  <p>by <a href="https://www.linkedin.com/in/alexeykrivitsky/">Alexey Krivitsky</a>, adapted from <a href="https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj">Denis Turkov</a><br><a href="https://agentic-engineering.guide" style="white-space:nowrap">agentic-engineering.guide</a></p>
+</div>
+<!--FIG:END-->
+
+<script>
+(function(){
+function start(){
+  var SVGNS="http://www.w3.org/2000/svg";
+  var ballLEl=document.getElementById("ballL");
+  var ballREl=document.getElementById("ballR");
+  var trailEl=document.getElementById("trailR");
+  var promptsL=document.getElementById("promptsL");
+  var bndEl=document.getElementById("bndL");
+  if(!ballLEl||!ballREl||!trailEl||!promptsL||!bndEl) return;
+
+  var R={x:120,y:90,vx:1.76,vy:1.24,r:8,minx:88,maxx:242,miny:66,maxy:220};
+  var trail=[[120,90]];
+  function stepR(){
+    R.x+=R.vx; R.y+=R.vy; var hit=false;
+    if(R.x<=R.minx){R.x=R.minx;R.vx=-R.vx;hit=true;}
+    else if(R.x>=R.maxx){R.x=R.maxx;R.vx=-R.vx;hit=true;}
+    if(R.y<=R.miny){R.y=R.miny;R.vy=-R.vy;hit=true;}
+    else if(R.y>=R.maxy){R.y=R.maxy;R.vy=-R.vy;hit=true;}
+    if(hit){ trail.push([Math.round(R.x),Math.round(R.y)]); if(trail.length>6) trail.shift(); }
+    var pts=""; for(var i=0;i<trail.length;i++){pts+=trail[i][0]+","+trail[i][1]+" ";}
+    pts+=Math.round(R.x)+","+Math.round(R.y);
+    trailEl.setAttribute("points",pts);
+    ballREl.setAttribute("cx",R.x); ballREl.setAttribute("cy",R.y);
+  }
+
+  var cx=165,cy=150,rb=8,TAU=6.28318530718,SPEEDL=2.16;
+  var N=24, radii=[], targ=[];
+  for(var k=0;k<N;k++){ radii.push(60+Math.random()*36); targ.push(60+Math.random()*36); }
+  function morph(){
+    for(var k=0;k<N;k++){
+      var d=targ[k]-radii[k];
+      radii[k]+=d*0.03;
+      if(Math.abs(d)<1) targ[k]=58+Math.random()*40;
+    }
+  }
+  function drawBnd(){
+    var p="";
+    for(var k=0;k<N;k++){ var a=k/N*TAU; p+=(cx+Math.cos(a)*radii[k]).toFixed(1)+","+(cy+Math.sin(a)*radii[k]).toFixed(1)+" "; }
+    bndEl.setAttribute("points",p);
+  }
+  function bndAt(a){
+    a=(a%TAU+TAU)%TAU;
+    var f=a/TAU*N, i0=Math.floor(f), t=f-i0, i1=(i0+1)%N;
+    return radii[i0]*(1-t)+radii[i1]*t;
+  }
+  var L={x:165,y:150,vx:2.2,vy:-1.6};
+  function normL(){ var sp=Math.hypot(L.vx,L.vy)||1; L.vx=L.vx/sp*SPEEDL; L.vy=L.vy/sp*SPEEDL; }
+  normL();
+  function spawnPrompt(lx,ly){
+    if(promptsL.childElementCount>4) return;
+    if(lx<28)lx=28; if(lx>302)lx=302; if(ly<20)ly=20; if(ly>288)ly=288;
+    var g=document.createElementNS(SVGNS,"g"); g.style.opacity="0";
+    var rect=document.createElementNS(SVGNS,"rect");
+    rect.setAttribute("x",lx-25);rect.setAttribute("y",ly-11);rect.setAttribute("width",50);rect.setAttribute("height",22);rect.setAttribute("rx",6);
+    rect.setAttribute("fill","var(--card)");rect.setAttribute("stroke","var(--line2)");rect.setAttribute("stroke-width","0.6");
+    var t=document.createElementNS(SVGNS,"text");
+    t.setAttribute("x",lx);t.setAttribute("y",ly);t.setAttribute("text-anchor","middle");t.setAttribute("dominant-baseline","central");
+    t.setAttribute("font-family","var(--mono)");t.setAttribute("font-size","11");t.setAttribute("fill","var(--fg)");
+    t.textContent="prompt";
+    g.appendChild(rect);g.appendChild(t);promptsL.appendChild(g);
+    requestAnimationFrame(function(){ g.style.transition="opacity .16s"; g.style.opacity="1"; });
+    setTimeout(function(){ g.style.transition="opacity .5s"; g.style.opacity="0"; setTimeout(function(){ if(g.parentNode) g.remove(); },520); },620);
+  }
+  function stepL(){
+    morph(); drawBnd();
+    L.x+=L.vx; L.y+=L.vy;
+    var dx=L.x-cx, dy=L.y-cy, d=Math.hypot(dx,dy)||0.001;
+    var ang=Math.atan2(dy,dx);
+    var edge=bndAt(ang);
+    if(d > edge - rb + 6){
+      var nx=dx/d, ny=dy/d, tx=-ny, ty=nx;
+      var tk=(Math.random()*2-1)*1.1;
+      var inMag=0.55+Math.random()*0.6;
+      L.vx = -nx*inMag + tx*tk;
+      L.vy = -ny*inMag + ty*tk;
+      normL();
+      L.x=cx+nx*(edge-rb-2); L.y=cy+ny*(edge-rb-2);
+      spawnPrompt(cx+nx*(edge+7), cy+ny*(edge+7));
+    }
+    ballLEl.setAttribute("cx",L.x); ballLEl.setAttribute("cy",L.y);
+  }
+
+  var reduce = (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) || /[?#&]static/.test(location.href);
+  if(reduce){
+    drawBnd();
+    trailEl.setAttribute("points","110,80 220,120 100,180 235,200 150,90");
+    ballREl.setAttribute("cx",150); ballREl.setAttribute("cy",90);
+    spawnPrompt(cx+70,cy-58); spawnPrompt(cx-74,cy+36); spawnPrompt(cx+28,cy+84);
+    return;
+  }
+  function loop(){ stepL(); stepR(); requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
+}
+if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded",start); } else { start(); }
+})();
+</script>
+</body>
+</html>

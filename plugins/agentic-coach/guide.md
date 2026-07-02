@@ -150,6 +150,10 @@ Then just work; say `coach me` to ask it directly, or `stop coaching` to silence
 
 Professional agentic engineering is **not prompt engineering. It's engineering the system around the model.**
 
+![Vibe coding vs an agentic system: on the left a model poked with prompt after prompt, drifting inside a formless shape; on the right a model bouncing cleanly inside a harness of workflows, guidelines, autotests, and guardrails](assets/vibing-vs-agentic-engineering.png)
+
+*▶ [Watch it animate](assets/vibing-vs-agentic-engineering.gif) · [open the interactive version](https://agentic-engineering.guide/big-idea)*
+
 That system isn't a line — it's **three nested loops** ([the value-factory model](https://www.krivitsky.com/post/value-factory-nested-loops)). A tight **coding loop** (red → green → refactor) sits inside a **feature loop** (specify → refine → verify), inside an **impact loop** (opportunities → hypothesis → impact). Each wider loop is slower, higher-stakes, and longer to close:
 
 ![Three nested loops: an impact loop (find value, test hypotheses, measure & learn) containing a feature loop (specify, refine, verify) containing a coding loop (red, green, refactor)](assets/nested-loops.svg)
@@ -226,10 +230,6 @@ Match the job to a target tier and stop there — climbing higher than the work 
 ## Unlearn the old playbook — so stale advice stops sabotaging you
 
 Before frontier models, prompting was a craft of *coaxing*. Most moves that worked then backfire now. Worth knowing, because half the advice still circulating is from this era.
-
-![Vibe coding vs an agentic system: on the left a model poked with prompt after prompt, drifting inside a formless shape; on the right a model bouncing cleanly inside a harness of workflows, guidelines, autotests, and guardrails](assets/vibing-vs-agentic-engineering.png)
-
-*▶ [Watch it animate](assets/vibing-vs-agentic-engineering.gif) · [open the interactive version](https://agentic-engineering.guide/unlearn-the-old-playbook)*
 
 | The old move | Why it worked then | What to do now |
 |---|---|---|
@@ -1205,6 +1205,7 @@ The *mechanisms* here — `/effort`, `ultracode`, dynamic workflows, hooks, CLAU
 - Playwright MCP (`@playwright/mcp`, Microsoft) — official docs; Builder.io & qaskills setup guides
 - BDD/specs — AutomationPanda *gherkin-guidelines-for-ai*; *ATDD with AI*; *Spec-Driven Development* (Fowler; arXiv 2602.00180; BCMS 2026 guide)
 - Vertical slicing — CODE Magazine *AI-Assisted Greenfield Dev: Vertical Slices*
+- "Vibe coding vs agentic system" figure — original concept by [Denis Turkov](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj); this rendition by Alexey Krivitsky
 - Terminal & session ops — Warp Agents docs (vertical tabs, notifications, code review, Oz orchestration); *Run many Claude Code sessions in parallel* (Towards Data Science); Claude Code-on-VPS + tmux guides (claudefa.st, virtua.cloud, codeongrass, Medium); Claude Code remote-session feature request (#13613)
 - Agent Execution Layer — Northflank & Modal enterprise-deployment + sandbox guides; E2B/Modal/Daytona sandbox comparison (AgentMarketCap); [Linear — teaching an agent to auto-fix bugs](https://linear.app/now/linear-agent-bug-fix) + changelog (cloud coding sessions); Cyrus + Hookdeck (Claude Code as a Linear agent); daily.dev *Huginn* Linear coding agent; Claude Code GitHub Actions + GitHub *Agent HQ*; `ai-boost/awesome-harness-engineering`
 - Pilot-to-production stats — [IDC/Lenovo CIO Playbook 2025, via CIO.com](https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html) (88% of AI POCs); [Gartner, June 2025](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) (40%+ of agentic AI projects canceled by 2027)

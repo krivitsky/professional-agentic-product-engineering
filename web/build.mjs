@@ -74,6 +74,44 @@ function reachBlurb(body) {
 // ------------------------------------------------------------- parse guide ---
 const raw = await readFile(GUIDE, 'utf8');
 
+// --- Animated figure (vibe coding vs agentic system) ------------------------
+// guide.md references the GIF (so GitHub + the plugin get motion); on the
+// website we swap that <img> for the self-contained live widget, its CSS
+// scoped under .pae-fig so its :root vars can't leak into the site theme.
+const animRaw = await readFile(join(ROOT, 'assets', 'vibing-vs-agentic-engineering.html'), 'utf8');
+const animMarkup = (animRaw.match(/<!--FIG:START-->([\s\S]*?)<!--FIG:END-->/) || [, ''])[1].trim();
+const animScript = (animRaw.match(/<script>([\s\S]*?)<\/script>/) || [, ''])[1].trim();
+const ANIM_CSS = `
+.pae-fig{--bg:#102c27;--fg:#f4f5f7;--muted:#96999e;--sub:#b2b7bb;--card:#1b2530;--line:#2a3742;--line2:#3a4a44;--teal:#2bd4b0;--amber:#f5b342;--coral:#ff7a6b;--ball:#2bd4b0;--ballstroke:#16a085;--myth-fill:#2e1b18;--real-fill:#12241f;--mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--bg);color:var(--fg);font-family:var(--mono);display:flex;flex-direction:column;align-items:center;padding:32px 20px;margin:24px 0;border-radius:14px}
+.pae-fig *{box-sizing:border-box}
+.pae-fig .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%;max-width:760px;justify-items:center;margin:0}
+@media (max-width:560px){.pae-fig .cols{grid-template-columns:1fr}}
+.pae-fig .col{display:flex;flex-direction:column;align-items:center;width:100%;max-width:340px}
+.pae-fig .lab{font-size:16px;margin:0 0 8px}
+.pae-fig .lab.myth{color:var(--coral)}
+.pae-fig .lab.real{color:var(--teal)}
+.pae-fig svg{width:100%;height:auto;display:block;max-width:340px}
+.pae-fig .ball{fill:var(--ball);stroke:var(--ballstroke);stroke-width:1.5}
+.pae-fig .sq{fill:var(--real-fill);stroke:var(--teal);stroke-width:1.3}
+.pae-fig .bnd{fill:var(--myth-fill);stroke:var(--muted);stroke-width:1;stroke-dasharray:5 4}
+.pae-fig .trail{fill:none;stroke:var(--sub);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.pae-fig .lbl{font-family:var(--mono);font-size:13px;fill:var(--fg)}
+.pae-fig .cap{color:var(--muted);font-size:12px;margin:16px 0 0;text-align:center;max-width:100%;line-height:1.6}
+.pae-fig .credit{margin-top:30px;width:100%;max-width:520px;text-align:center}
+.pae-fig .credit hr{border:0;border-top:1px solid var(--line);margin:0 0 12px}
+.pae-fig .credit p{color:var(--muted);font-size:11px;margin:0;line-height:1.5}
+.pae-fig .credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}`;
+const ANIM_FIGURE =
+  `<figure class="pae-fig"><style>${ANIM_CSS}</style>${animMarkup}` +
+  `<noscript><img src="assets/vibing-vs-agentic-engineering.png" alt="Vibe coding vs an agentic system" style="width:100%;max-width:760px;border-radius:14px"></noscript>` +
+  `<script>${animScript}</script></figure>`;
+const injectAnim = (html) =>
+  html
+    // swap the static PNG for the live widget on the website…
+    .replace(/(?:<p>\s*)?<img[^>]*src="assets\/vibing-vs-agentic-engineering\.png"[^>]*>(?:\s*<\/p>)?/, ANIM_FIGURE)
+    // …and drop the "watch it animate / interactive" caption (redundant here)
+    .replace(/<p><em>[\s\S]*?vibing-vs-agentic-engineering\.gif[\s\S]*?<\/em><\/p>\s*/, '');
+
 // Split into front matter (before first `## `) + an ordered list of `## ` sections.
 const lines = raw.split('\n');
 let frontEnd = lines.findIndex((l) => /^## /.test(l));
@@ -542,6 +580,8 @@ ASSET_VER = createHash('sha1').update(cssText + jsText).digest('hex').slice(0, 8
 await copyFile(LOGO_SRC, join(DIST, 'assets', 'tutor-caveman.png'));
 await copyFile(join(ROOT, 'assets', 'nested-loops.svg'), join(DIST, 'assets', 'nested-loops.svg'));
 await copyFile(join(ROOT, 'assets', 'nested-loops.png'), join(DIST, 'assets', 'nested-loops.png'));
+await copyFile(join(ROOT, 'assets', 'vibing-vs-agentic-engineering.png'), join(DIST, 'assets', 'vibing-vs-agentic-engineering.png'));
+await copyFile(join(ROOT, 'assets', 'vibing-vs-agentic-engineering.gif'), join(DIST, 'assets', 'vibing-vs-agentic-engineering.gif'));
 await copyFile(join(ROOT, 'assets', 'og.png'), join(DIST, 'og.png'));
 await copyFile(join(ROOT, 'assets', 'og-2x.png'), join(DIST, 'og-2x.png'));
 await copyFile(join(ROOT, 'assets', 'favicon.png'), join(DIST, 'favicon.png'));
@@ -574,6 +614,7 @@ for (const p of pages) {
       `<h1 id="${p.anchorId}" class="page-title">${escapeHtml(p.title)}</h1>` +
       renderMarkdown(body, p.slug);
   }
+  contentHtml = injectAnim(contentHtml);
   await writeFile(join(DIST, p.file), shell({ page: p, contentHtml }));
 }
 
