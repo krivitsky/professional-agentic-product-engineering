@@ -286,9 +286,11 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 
 <a id="tip-1-1"></a>
 **1.1 Hand over the outcome, not a file list.**
-> **Instead of:** "Create these 15 files for auth."
+> **Instead of:** "Add a dark-mode stylesheet, a toggle in the header, and save the choice in the browser."
 >
-> **Prefer:** "Implement JWT auth following the architecture in @src/auth. No new libraries."
+> **Prefer:** "Let users switch to dark mode and remember their choice — match the styling already in the app."
+
+*You give the destination and the guardrails; the agent chooses the parts.*
 
 <a id="tip-1-2"></a>
 **1.2 Be specific — vagueness is now taken literally.**
