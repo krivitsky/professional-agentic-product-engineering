@@ -396,7 +396,7 @@ const tierEnd = lastTier ? lastTier.orderIdx : 999;
 const tierSlugs = pages.filter((p) => p.kind === 'tier').map((p) => p.slug);
 const NAV = [
   { title: 'Start here', slugs: ['index', 'learn-this-with-an-agent'] },
-  { title: 'Get oriented', slugs: ['big-idea', 'the-eight-tiers-at-a-glance', 'climb-the-eight-tiers', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-the-primitives'] },
+  { title: 'Get oriented', slugs: ['big-idea', 'loops-of-agentic-engineering', 'the-eight-tiers-at-a-glance', 'climb-the-eight-tiers', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-the-primitives'] },
   { title: 'The eight tiers', slugs: tierSlugs },
   { title: 'Reference', slugs: ['all-tips', 'port-these-habits-to-any-model', 'sources'] },
 ];

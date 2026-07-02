@@ -25,15 +25,16 @@ Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemin
 ### Contents
 1. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
 2. [Big Idea 💡: From Prompts to Systems](#big-idea--from-prompts-to-systems)
-3. [The eight tiers at a glance](#the-eight-tiers-at-a-glance)
-4. [Climb the eight tiers — to spend effort only where your work needs it](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it)
+3. [Loops of Agentic Engineering](#loops-of-agentic-engineering)
+4. [The eight tiers at a glance](#the-eight-tiers-at-a-glance)
+5. [Climb the eight tiers — to spend effort only where your work needs it](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it)
    - [Which tier do I need?](#which-tier-do-i-need)
-5. [Who this is for](#who-this-is-for)
-6. [TL;DR — if you do only five things](#tldr--if-you-do-only-five-things)
-7. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
-8. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
-9. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
-10. [Tier 1 — Professional Prompting: Write prompts the agent can act on](#tier-1)
+6. [Who this is for](#who-this-is-for)
+7. [TL;DR — if you do only five things](#tldr--if-you-do-only-five-things)
+8. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
+9. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
+10. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
+11. [Tier 1 — Professional Prompting: Write prompts the agent can act on](#tier-1)
     - [1.1 Hand over the outcome, not a file list](#tip-1-1)
     - [1.2 Be specific](#tip-1-2)
     - [1.3 Say what to do, not what to avoid](#tip-1-3)
@@ -48,7 +49,7 @@ Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemin
     - [1.12 Narrow the edit surface](#tip-1-12)
     - [1.13 Dial effort](#tip-1-13)
     - [1.14 Say it all in your first message](#tip-1-14)
-11. [Tier 2 — Shaping & Slicing: Plan and slice before you build](#tier-2)
+12. [Tier 2 — Shaping & Slicing: Plan and slice before you build](#tier-2)
     - [2.1 Investigate before you edit](#tip-2-1)
     - [2.2 Plan the uncertain](#tip-2-2)
     - [2.3 Force an approval checkpoint](#tip-2-3)
@@ -57,7 +58,7 @@ Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemin
     - [2.6 Turn features into a spec](#tip-2-6)
     - [2.7 Plan smart, build cheap](#tip-2-7)
     - [2.8 Draft-and-critique the spec](#tip-2-8)
-12. [Tier 3 — Context Management: Give the agent the right context and tools](#tier-3)
+13. [Tier 3 — Context Management: Give the agent the right context and tools](#tier-3)
     - [3.1 Feed high-signal context](#tip-3-1)
     - [3.2 Keep secrets out of git and context](#tip-3-2)
     - [3.3 `/clear` between tasks](#tip-3-3)
@@ -66,7 +67,7 @@ Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemin
     - [3.6 Put occasional knowledge in Skills](#tip-3-6)
     - [3.7 Add the right MCP servers](#tip-3-7)
     - [3.8 Use external memory](#tip-3-8)
-13. [Tier 4 — Loop Until Done: Make the agent prove it's done](#tier-4)
+14. [Tier 4 — Loop Until Done: Make the agent prove it's done](#tier-4)
     - [4.1 Make Definition of Done executable](#tip-4-1)
     - [4.2 Do TDD](#tip-4-2)
     - [4.3 Use BDD](#tip-4-3)
@@ -76,13 +77,13 @@ Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemin
     - [4.7 Review with fresh eyes](#tip-4-7)
     - [4.8 Run a pre-mortem](#tip-4-8)
     - [4.9 Iterate UI visually](#tip-4-9)
-14. [Tier 5 — Checkpointing & Hardening: Checkpoint in git and harden the harness](#tier-5)
+15. [Tier 5 — Checkpointing & Hardening: Checkpoint in git and harden the harness](#tier-5)
     - [5.1 Commit every working step](#tip-5-1)
     - [5.2 Let Claude drive `gh`](#tip-5-2)
     - [5.3 Use worktrees for disposable checkpoints](#tip-5-3)
     - [5.4 Replace "remember to run tests" with a hook](#tip-5-4)
     - [5.5 Move repetitive engineering into CI](#tip-5-5)
-15. [Tier 6 — Orchestration: Run many agents at once](#tier-6)
+16. [Tier 6 — Orchestration: Run many agents at once](#tier-6)
     - [The model toolkit — bring in more models (any tier)](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)
       - [Assign a model per subagent](#toolkit-model-per-subagent)
       - [Keep a stronger model on call — the advisor](#toolkit-advisor)
@@ -95,19 +96,19 @@ Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemin
     - [6.5 Engineer the long-horizon hand-off](#tip-6-5)
     - [6.6 Steer long runs mid-flight](#tip-6-6)
     - [6.7 Engineer the environment](#tip-6-7)
-16. [Tier 7 — Fleet Ops: Operate your agents as a fleet](#tier-7)
+17. [Tier 7 — Fleet Ops: Operate your agents as a fleet](#tier-7)
     - [7.1 Use an agent-aware terminal](#tip-7-1)
     - [7.2 Isolate with worktrees + one session each](#tip-7-2)
     - [7.3 Host on a box that doesn't sleep](#tip-7-3)
     - [7.4 Drive the fleet from your phone](#tip-7-4)
     - [7.5 Secure the agent server](#tip-7-5)
-17. [Tier 8 — Agent Execution Layer: Put agents into production](#tier-8)
+18. [Tier 8 — Agent Execution Layer: Put agents into production](#tier-8)
     - [8.1 Sandbox the loop](#tip-8-1)
     - [8.2 Gate the plan, not every keystroke](#tip-8-2)
     - [8.3 Cap the strikes](#tip-8-3)
     - [8.4 Make the tracker the state machine](#tip-8-4)
-18. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
-19. [Sources](#sources)
+19. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
+20. [Sources](#sources)
 
 ---
 
@@ -152,13 +153,21 @@ Professional agentic engineering is **not prompt engineering. It's engineering t
 
 ![Vibe coding vs an agentic system: on the left a model poked with prompt after prompt, drifting inside a formless shape; on the right a model bouncing cleanly inside a harness of workflows, guidelines, autotests, and guardrails](assets/vibing-vs-agentic-engineering.png)
 
-*▶ [Watch it animate](assets/vibing-vs-agentic-engineering.gif) · [open the interactive version](https://agentic-engineering.guide/big-idea)*
+*Adapted from [Denis Turkov's illustration](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj). ▶ [Watch it animate](assets/vibing-vs-agentic-engineering.gif) · [open the interactive version](https://agentic-engineering.guide/big-idea)*
 
-That system isn't a line — it's **three nested loops** ([the value-factory model](https://www.krivitsky.com/post/value-factory-nested-loops)). A tight **coding loop** (red → green → refactor) sits inside a **feature loop** (specify → refine → verify), inside an **impact loop** (opportunities → hypothesis → impact). Each wider loop is slower, higher-stakes, and longer to close:
+Prompting alone is **vibe coding**: you poke the model and hope it converges. It can — but only under constant hand-steering, and left to prompts alone the product sprawls, features drift, and quality slides into slop, while your own attention drains into operating the model.
+
+An **agentic system** puts the same model inside a *harness*: a **workflow** — the loop it runs — bounded by three constraints. **Guidelines** shape how it should behave, **autotests** give it ground truth from the environment, and **guardrails** are the limits it can't cross. Inside those bounds the model converges on its own, and your attention is freed for what actually matters: growing understanding and driving impact.
+
+That's the whole shift. As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows. [The eight tiers](#the-eight-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
+
+The harness has a shape — **three nested loops**, from the tight red-green cycle out to real-world impact: **[Loops of Agentic Engineering](#loops-of-agentic-engineering)**.
+
+## Loops of Agentic Engineering
+
+The system you build around the model isn't a line — it's **three nested loops** ([the value-factory model](https://www.krivitsky.com/post/value-factory-nested-loops)). A tight **coding loop** (red → green → refactor) sits inside a **feature loop** (specify → refine → verify), inside an **impact loop** (opportunities → hypothesis → impact). Each wider loop is slower, higher-stakes, and longer to close:
 
 ![Three nested loops: an impact loop (find value, test hypotheses, measure & learn) containing a feature loop (specify, refine, verify) containing a coding loop (red, green, refactor)](assets/nested-loops.svg)
-
-As the work gets harder, your effort moves from *wording one prompt* to *engineering these loops so they close on their own* — the prompt shrinks while the system around it grows. [The eight tiers](#the-eight-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
 
 **Each loop is built by specific tiers.** Tier 4's tests close the innermost **coding loop** (red → green → refactor), and Tier 5 hardens that check so it runs every time. The **feature loop** around it (specify → refine → verify) runs from the spec you shape in Tier 2 to that same Tier 4 check — which is why Tier 4 belongs to both. Tiers 6–8 scale out to the outer **impact loop** (opportunities → hypothesis → impact), once one agent or one machine isn't enough. Tiers 1 and 3 — prompting and context — are the groundwork under all three. Eight tiers, three loops: climbing the ladder is how you build the loops up.
 
@@ -594,7 +603,7 @@ You don't get great output from one prompt — you get it from a **loop**: the a
 
 A loop only works if it has a target it can test itself against — something that reports *done / not done* without you checking every cycle.
 
-That target is **tests**. **Red → green is the ideal loop condition** — this is the [**coding loop**, the innermost of the three](#big-idea--from-prompts-to-systems): unambiguous, automatable, and the agent can run it itself.
+That target is **tests**. **Red → green is the ideal loop condition** — this is the [**coding loop**, the innermost of the three](#loops-of-agentic-engineering): unambiguous, automatable, and the agent can run it itself.
 
 ```mermaid
 flowchart TD
@@ -654,7 +663,7 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 
 *Pin it to one scenario at a time on purpose: left alone, the agent codes every scenario in a single sprawling pass, blowing up work-in-progress into one diff you can't review. One at a time keeps WIP small and makes every green a checkpoint — the [vertical-slice](#tip-2-5) discipline, at the scenario level.*
 
-*Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin sits between a user story and unit tests. That nesting **is** the [three loops](#big-idea--from-prompts-to-systems): the spec sets the behavior to verify (**feature loop**), the tests turn red to green underneath (**coding loop**). All three give the loop a target it can test itself against.*
+*Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin sits between a user story and unit tests. That nesting **is** the [three loops](#loops-of-agentic-engineering): the spec sets the behavior to verify (**feature loop**), the tests turn red to green underneath (**coding loop**). All three give the loop a target it can test itself against.*
 
 <a id="tip-4-4"></a>
 **4.4 Test the UI for real with Playwright MCP — don't eyeball it.**
@@ -1179,7 +1188,7 @@ So treat the execution layer like any production system: scope tools per agent (
 
 Start with one managed loop (PR review), prove it, then expand. This is the top of the arc: the agent stops being a chatbot and becomes an **asynchronous worker operating inside your org's existing system of record.**
 
-**That's the point of the whole climb.** When the inner two loops run themselves — the agent closes the [**coding loop**](#big-idea--from-prompts-to-systems) (red → green) and you shape the **feature loop** around it (specify → verify) — your attention is freed for the loop no agent can close for you: the **impact loop**. What's worth building (**opportunities**), which bet to make (**hypothesis**), and whether shipping it actually helped (**impact**). The tiers automate the *how*; they hand you back time for the *what* and the *why*.
+**That's the point of the whole climb.** When the inner two loops run themselves — the agent closes the [**coding loop**](#loops-of-agentic-engineering) (red → green) and you shape the **feature loop** around it (specify → verify) — your attention is freed for the loop no agent can close for you: the **impact loop**. What's worth building (**opportunities**), which bet to make (**hypothesis**), and whether shipping it actually helped (**impact**). The tiers automate the *how*; they hand you back time for the *what* and the *why*.
 
 ---
 
