@@ -356,9 +356,9 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 
 <a id="tip-1-12"></a>
 **1.12 Narrow the edit surface — a small diff is a reviewable diff.**
-> **Instead of:** "Refactor authentication."
+> **Instead of:** "Refactor the whole checkout flow."
 >
-> **Prefer:** "Change only the middleware layer in @src/mw/auth.ts."
+> **Prefer:** "Change only `@src/checkout/total.ts` — don't touch anything else."
 
 <a id="tip-1-13"></a>
 **1.13 Dial effort; don't beg for thoroughness.**
