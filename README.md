@@ -12,7 +12,7 @@ This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Pro
 > [!TIP]
 > **Formats of the Guide** — read it in whichever form fits how you work; all three stay in sync with this repo:
 > - **📄 Markdown** — [`guide.md`](guide.md), the canonical source. Best for reading in your editor, feeding to an agent, or sending a PR.
-> - **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide/) — a browsable web version: one page per tier, dark/light mode, easy to share. Auto-generated from `guide.md` and rebuilt on every change, so it never drifts.
+> - **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide/) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts.
 > - **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into `[[wikilink]]`-cross-referenced pages (one per tier, concept, and entity). Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph and *study* the material, not just read it top-to-bottom.
 
 The Guide is kept up-to-date to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.

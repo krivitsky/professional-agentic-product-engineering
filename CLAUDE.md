@@ -27,6 +27,15 @@ It's organized as one ladder of **eight tiers, simple → hard**, where the work
 
 The reader is told to climb only as high as their work demands and stop.
 
+## When you edit `guide.md` — keep the derived copies in sync
+
+`guide.md` is the single source of truth. Several things are generated from it or mirror it; **after any `guide.md` change, in the same session**, update all of them:
+
+1. **Re-wikify `wiki/`.** The Obsidian vault under `wiki/` is the wikified view of `guide.md`. Re-run the wikification against the **root** `guide.md` (never copy the guide into the vault — pages reference `../../guide.md`; see `wiki/CLAUDE.md`). Update touched concept/entity pages, `index.md`, and add a `log.md` entry; verify every `[[wikilink]]` still resolves and no page is orphaned.
+2. **Bump the coach plugin + re-sync its bundled guide.** Bump `version` in `plugins/agentic-coach/.claude-plugin/plugin.json` and copy `guide.md` → `plugins/agentic-coach/guide.md`.
+3. **Fix this file's mirror if structure changed.** If tier names/order or tip counts changed, update the tier table above and the progress-map labels/counts below — `guide.md` wins.
+4. **The website rebuilds itself** from `guide.md` on deploy — but if you *added a front-matter `### ` section*, wire its slug into `web/build.mjs`'s `NAV` or it won't appear in the menu.
+
 ---
 
 # Tutor mode for the Professional Agentic Product Engineering Guide

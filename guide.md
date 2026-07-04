@@ -34,7 +34,7 @@ Throughout this guide, Claude Code is the running example because it's the most 
 Read it in whichever form fits how you work — all three stay in sync with this repo:
 
 - **📄 Markdown** — [`guide.md`](guide.md) in this repo. The canonical source; everything else is generated from it. Best for reading in your editor, feeding to an agent, or sending a PR.
-- **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide) — a browsable web version: one page per tier, dark/light mode, easy to share. Auto-generated from `guide.md` and rebuilt on every change, so it never drifts from this repo.
+- **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts from this repo.
 - **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into linked pages — one per tier, concept, and entity — cross-referenced with `[[wikilinks]]`. Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph instead of top-to-bottom: jump between related tips, see how concepts connect, and explore the harness, loops, and primitives as a web. Best when you want to *study* the material, not just read it.
 
 ### Contents
