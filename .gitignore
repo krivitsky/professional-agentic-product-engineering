@@ -17,5 +17,8 @@ specs/
 web/dist/
 web/node_modules/
 
+# Local backlog of topics to discuss (not published)
+backlog.md
+
 # macOS
 .DS_Store

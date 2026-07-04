@@ -1,7 +1,7 @@
 {
   "name": "agentic-coach",
   "description": "Ambient coach for operating a coding agent: catches teachable moments and surfaces the single most relevant tip from the Professional Agentic Product Engineering guide, one nudge at a time.",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "author": {
     "name": "Alexey Krivitsky",
     "email": "alexey@krivitsky.com",

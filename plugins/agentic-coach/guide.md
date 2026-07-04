@@ -11,16 +11,31 @@
 
 ### Goal of this Guide
 
-Get good at operating coding agents — using Claude Code by Anthropic, a popular agentic coding harness, as the running example — to create new software and work on real codebases.
+> *Agentic engineering is a profession, not a prompt.*
 
-It spans the full range: from "fix bug xyz" all the way to autonomous engineering loops running in production.
+Get **professionally good** at operating coding agents to create new software and work on real codebases. The work spans the full range: from "fix bug xyz" all the way to autonomous engineering loops running in production.
 
-Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemini 3.x+**. But the habits are built to outlast any single model — see [Port these habits to any model](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini).
+Why this is now its own profession, not just a knack for prompting:
+
+- **The bottleneck moved.** The scarce skill is no longer typing code — it's specifying the work, bounding the agent, and verifying the result. Different muscles than classic coding.
+- **Leverage cuts both ways.** An agent ships a week of work in a day — and ships bugs just as fast. Method is what turns raw speed into shippable output instead of slop.
+- **Trust has to be engineered.** You can't read every line an agent writes at this volume. Confidence comes from the system around it — tests, guardrails, review loops — not from watching it work.
+- **It compounds.** A prompt is a one-off; a harness you build once keeps paying out across every task and every teammate.
+
+Throughout this guide, Claude Code is the running example because it's the most widely used agentic coding harness as of July 2026 — but the principles and practices carry across harnesses and labs. Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemini 3.x+** — the habits are built to outlast any single model or tool; see [Port these habits to any model](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini).
 
 <div class="testimonial">
 <p>&ldquo;Nice! Thank you for the compact guide where all the basics are in one place.&rdquo;</p>
 <span class="testimonial-cite">— <a href="https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29">Michal Svoboda</a>, Security &amp; Engineering Mentor</span>
 </div>
+
+### Formats of this Guide
+
+Read it in whichever form fits how you work — all three stay in sync with this repo:
+
+- **📄 Markdown** — [`guide.md`](guide.md) in this repo. The canonical source; everything else is generated from it. Best for reading in your editor, feeding to an agent, or sending a PR.
+- **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide) — a browsable web version: one page per tier, dark/light mode, easy to share. Auto-generated from `guide.md` and rebuilt on every change, so it never drifts from this repo.
+- **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into linked pages — one per tier, concept, and entity — cross-referenced with `[[wikilinks]]`. Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph instead of top-to-bottom: jump between related tips, see how concepts connect, and explore the harness, loops, and primitives as a web. Best when you want to *study* the material, not just read it.
 
 ### Contents
 1. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
