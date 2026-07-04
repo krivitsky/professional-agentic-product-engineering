@@ -1,5 +1,5 @@
 # Professional Prompting
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 **Tier 1 — Write prompts the agent can act on, to get the right result the first time.**

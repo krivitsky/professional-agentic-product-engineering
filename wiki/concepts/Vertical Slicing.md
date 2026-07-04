@@ -1,5 +1,5 @@
 # Vertical Slicing
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 A vertical slice is narrow, **end-to-end, independently testable** — UI → API → DB → test — shipped green before the next, not built as horizontal layers.

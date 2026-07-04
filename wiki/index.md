@@ -2,9 +2,9 @@
 
 The central catalog of all wiki pages. Updated on every ingest.
 
-## Sources
+## Source
 
-- [[Professional Agentic Product Engineering Guide]] — Field guide (Alexey Krivitsky, mid-2026, updated continuously) on operating coding agents ([[Claude Code]]) to build software in real repos. Eight-tier ladder from professional prompting to autonomous production loops. The raw source digested into every page below.
+This vault is generated from **[`guide.md`](../guide.md)** — the canonical field guide at the repo root (Alexey Krivitsky, mid-2026, updated continuously) on operating coding agents ([[Claude Code]]) to build software in real repos. Eight-tier ladder from professional prompting to autonomous production loops. The guide lives at the root and is **referenced, never copied** into this vault; every page below links back to it.
 
 ## Concepts
 

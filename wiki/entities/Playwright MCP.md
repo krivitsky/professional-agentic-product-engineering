@@ -1,6 +1,6 @@
 # Playwright MCP
 
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 An MCP server that lets the agent drive a **live browser** to test the UI for real — perform the flow and assert — instead of eyeballing it (Tip 4.4).

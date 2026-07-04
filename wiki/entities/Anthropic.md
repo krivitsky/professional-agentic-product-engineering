@@ -1,6 +1,6 @@
 # Anthropic
 
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 The company behind [[Claude Code]] and the Claude model family used throughout the guide.

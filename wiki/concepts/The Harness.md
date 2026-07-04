@@ -1,5 +1,5 @@
 # The Harness
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 The harness is the system you build *around* the model. It is what turns vibe coding into an agentic system.

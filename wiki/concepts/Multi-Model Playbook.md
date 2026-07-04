@@ -1,5 +1,5 @@
 # Multi-Model Playbook
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 It works for one reason: **different models have different blind spots**, so a second model catches what the first missed. Reach for it when a task is **high-stakes, decomposable, or verifiable**; skip it when one strong model already clears the bar.

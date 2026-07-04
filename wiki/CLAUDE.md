@@ -40,6 +40,15 @@ All wiki pages use plain markdown. No YAML frontmatter.
 - Keep pages focused — one entity/concept/source per page
 - Use bullet points and short paragraphs over long prose
 
+## Source of truth for this vault
+
+This vault is the wikified view of **`guide.md` at the repo root** — the single canonical source. **Never copy or summarize `guide.md` into `wiki/sources/`.** The guide lives at the root; the vault only *references* it:
+
+- Every page's metadata uses `**Source:** [guide.md](../../guide.md)` (from `concepts/` and `entities/`) — a relative link to the root file, not a `[[wikilink]]` to an in-vault copy.
+- Re-run the wikification against the root `guide.md` whenever the guide changes; pages restate/reorganize its ideas for graph navigation, they don't duplicate its text.
+
+This override applies to the repo-native guide only. The generic `raw/` → `sources/` ingest below still holds for *external* documents added to the vault.
+
 ## Workflows
 
 ### Ingest
@@ -49,6 +58,7 @@ When the human adds a source to `raw/` and asks to ingest it:
 1. Read the source document fully
 2. Discuss key takeaways with the human if they want to stay involved
 3. Create a summary page in `wiki/sources/` — key claims, data points, and takeaways
+   *(Exception: for a repo-native doc like the root `guide.md`, do not create a `sources/` page — reference the root file directly per "Source of truth for this vault" above.)*
 4. Create or update entity pages in `wiki/entities/` and concept pages in `wiki/concepts/` — this is automatic, no approval needed. Use judgment: create pages for concepts that are distinct and referenceable, not for generic terms.
 6. Add `[[wikilinks]]` across all touched pages for cross-referencing. **Critically: the source summary page must wikilink to every concept and entity page created during the ingest.** This ensures new pages appear connected in Obsidian's graph view. Pages that only link *to* the source but aren't linked *from* it will appear as disconnected leaf nodes.
 7. Update `wiki/index.md` — add new pages, update summaries of changed pages

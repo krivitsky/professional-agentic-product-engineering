@@ -1,5 +1,5 @@
 # Loop Until Done
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 **Tier 4 — Make the agent prove it's done, so you can trust the output.**

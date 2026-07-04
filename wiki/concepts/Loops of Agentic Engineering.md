@@ -1,5 +1,5 @@
 # Loops of Agentic Engineering
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 The system you build around the model "isn't a line — it's **three nested loops**" (the value-factory model). Each wider loop is "slower, higher-stakes, and longer to close."

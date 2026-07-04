@@ -1,5 +1,5 @@
 # Fleet Ops
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 Tier 7 of [[The Eight Tiers]]. **Operate your agents as a fleet, so long runs don't die on you.**

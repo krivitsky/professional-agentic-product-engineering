@@ -1,5 +1,5 @@
 # Orchestration
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 Tier 6 of [[The Eight Tiers]]. **Run many agents at once, to ship more work in parallel.**

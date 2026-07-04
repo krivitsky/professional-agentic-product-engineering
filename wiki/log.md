@@ -6,7 +6,7 @@ Chronological record of ingests, queries, and lint passes.
 
 First ingest of this vault. Digested `guide.md` (the full eight-tier field guide) into a connected page set:
 
-- **1 source page:** [[Professional Agentic Product Engineering Guide]]
+- **1 source page:** [guide.md](../guide.md)
 - **18 concept pages:** [[From Prompts to Systems]], [[The Harness]], [[Loops of Agentic Engineering]], [[The Eight Tiers]], the 8 tier pages ([[Professional Prompting]], [[Shaping and Slicing]], [[Context Management]], [[Loop Until Done]], [[Checkpointing and Hardening]], [[Orchestration]], [[Fleet Ops]], [[Agent Execution Layer]]), plus [[Agentic Primitives]], [[Executable Definition of Done]], [[The Review-Agent Pattern]], [[Multi-Model Playbook]], [[Vertical Slicing]], [[Context Rot]].
 - **3 entity pages:** [[Claude Code]], [[Anthropic]], [[Playwright MCP]].
 
@@ -21,4 +21,8 @@ Verified vault against schema after a `guide.md` edit:
 
 ## [2026-07-04] update | Guide epigraph "Agentic engineering is a profession, not a prompt"
 
-Guide's "Goal" chapter reframed around the profession / professional attitude and now opens with the epigraph. Reflected on [[Professional Agentic Product Engineering Guide]] — added the epigraph and a professional-attitude paragraph linking [[The Harness]].
+Guide's "Goal" chapter reframed around the profession / professional attitude and now opens with the epigraph. Reflected on [guide.md](../guide.md) — added the epigraph and a professional-attitude paragraph linking [[The Harness]].
+
+## [2026-07-04] refactor | Remove in-vault guide summary — reference root guide.md
+
+Deleted `sources/Professional Agentic Product Engineering Guide.md` (a 44-line summary, not a full copy). The vault now treats the repo-root `guide.md` as the single canonical source: every page's `**Source:**` line links to `../../guide.md` instead of an in-vault page, `index.md` points at `../guide.md`, and the schema (`CLAUDE.md`) codifies "reference the root guide, never copy it in." Removed the now-empty `sources/` directory.

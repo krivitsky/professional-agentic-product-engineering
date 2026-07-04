@@ -1,5 +1,5 @@
 # Shaping and Slicing
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 **Tier 2 — Plan and slice before you build, to keep every change small and safe.**

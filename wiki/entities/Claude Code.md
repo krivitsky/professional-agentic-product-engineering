@@ -1,6 +1,6 @@
 # Claude Code
 
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 [[Anthropic]]'s terminal-native coding agent, and the guide's running example throughout all tiers.

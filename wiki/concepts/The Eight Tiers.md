@@ -1,5 +1,5 @@
 # The Eight Tiers
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 The guide is one ladder: **eight tiers, simple → hard.** A tier is a level of skill *and* a level of where you're applying effort. As you climb, the work shifts from **wording the prompt** to **engineering the system around the model** — prompts shrink, the system carries the intelligence.

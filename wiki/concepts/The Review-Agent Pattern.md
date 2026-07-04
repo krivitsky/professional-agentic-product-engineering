@@ -1,5 +1,5 @@
 # The Review-Agent Pattern
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 A separate agent reviews the PR before a human; findings get fixed first. This is where most teams start — **high value, low risk** — and often their first production loop.

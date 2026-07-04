@@ -1,5 +1,5 @@
 # From Prompts to Systems
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 The Big Idea of the whole guide, in one line:

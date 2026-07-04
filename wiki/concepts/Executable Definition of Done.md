@@ -1,5 +1,5 @@
 # Executable Definition of Done
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 Your Definition of Done, made executable — the machine-checkable contract the loop runs against.

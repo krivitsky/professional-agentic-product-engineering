@@ -1,5 +1,5 @@
 # Agentic Primitives
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 The building blocks of agentic engineering. They're not hidden settings or LLM dark magic — they live as **plain-text files** (Markdown, JSON, a shell script or two). Study them, version them, share them: every teammate and every CI run inherits the same setup, not a config trapped on one laptop.

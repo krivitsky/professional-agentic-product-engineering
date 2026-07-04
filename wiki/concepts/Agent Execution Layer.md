@@ -1,5 +1,5 @@
 # Agent Execution Layer
-**Source:** [[Professional Agentic Product Engineering Guide]]
+**Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
 Tier 8 of [[The Eight Tiers]] — the top of the arc. **Put agents into production, so they work without you.**
