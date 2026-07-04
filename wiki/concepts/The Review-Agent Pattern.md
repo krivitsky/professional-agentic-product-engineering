@@ -22,7 +22,7 @@ A separate agent reviews the PR before a human; findings get fixed first. This i
 - Two models agreeing is strong signal, not proof.
 
 ## Related
-- [[Agent Execution Layer]]
+- [[Tier 8 — Agent Execution Layer]]
 - [[Multi-Model Playbook]]
-- [[Loop Until Done]]
+- [[Tier 4 — Loop Until Done]]
 - [[Executable Definition of Done]]

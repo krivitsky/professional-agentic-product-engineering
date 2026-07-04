@@ -1,4 +1,4 @@
-# Professional Prompting
+# Tier 1 — Professional Prompting
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
@@ -8,20 +8,22 @@
 
 ## The 14 tips
 
-- **1.1 Hand over the outcome, not a file list.** Give the destination and the guardrails; let the agent choose the parts.
-- **1.2 Be specific — vagueness is now taken literally.** Name the exact function, file, and change.
-- **1.3 Say what to do, not what to avoid.** Positive instructions beat prohibitions.
-- **1.4 Give the reason; motivation makes it generalize.** A "because" lets the agent apply the rule to cases you didn't list.
-- **1.5 Specify the output shape, not just the goal.** Route, response format, ordering, limits.
-- **1.6 Show examples instead of describing style.** 3–5 concrete examples work best.
-- **1.7 Follow the house style, don't invent one.** Point at the existing pattern in the repo.
-- **1.8 Show, don't tell — use the input channels.** Paste the screenshot, the component, the raw logs.
-- **1.9 Invite uncertainty instead of forcing an answer.** Ask it to list assumptions and stop on genuine ambiguity.
-- **1.10 Paste raw errors, don't paraphrase them.** Full stack trace → diagnose root cause before changing anything.
-- **1.11 Constrain scope — modern models over-engineer unless you stop them.** Ask for the smallest change that works.
-- **1.12 Narrow the edit surface — a small diff is a reviewable diff.** Scope the change to one file.
-- **1.13 Dial effort; don't beg for thoroughness.** Leave it at high; add `ultrathink` for one gnarly turn; `/effort ultracode` for big async jobs.
-- **1.14 Say it all in your first message.** One complete brief beats ten corrections.
+Each tip has its own page — click through for the Instead/Prefer pair.
+
+- [[Tip 1.1 — Hand over the outcome, not a file list]] — give the destination and the guardrails; let the agent choose the parts.
+- [[Tip 1.2 — Be specific — vagueness is now taken literally]] — name the exact function, file, and change.
+- [[Tip 1.3 — Say what to do, not what to avoid]] — positive instructions beat prohibitions.
+- [[Tip 1.4 — Give the reason; motivation makes it generalize]] — a "because" lets the agent apply the rule to cases you didn't list.
+- [[Tip 1.5 — Specify the output shape, not just the goal]] — route, response format, ordering, limits.
+- [[Tip 1.6 — Show examples instead of describing style]] — 3–5 concrete examples work best.
+- [[Tip 1.7 — Follow the house style, don't invent one]] — point at the existing pattern in the repo.
+- [[Tip 1.8 — Show, don't tell — use the input channels]] — paste the screenshot, the component, the raw logs.
+- [[Tip 1.9 — Invite uncertainty instead of forcing an answer]] — ask it to list assumptions and stop on genuine ambiguity.
+- [[Tip 1.10 — Paste raw errors, don't paraphrase them]] — full stack trace → diagnose root cause before changing anything.
+- [[Tip 1.11 — Constrain scope — modern models over-engineer unless you stop them]] — ask for the smallest change that works.
+- [[Tip 1.12 — Narrow the edit surface — a small diff is a reviewable diff]] — scope the change to one file.
+- [[Tip 1.13 — Dial effort; don't beg for thoroughness]] — leave it at high; add `ultrathink` for one gnarly turn; `/effort ultracode` for big async jobs.
+- [[Tip 1.14 — Say it all in your first message]] — one complete brief beats ten corrections.
 
 ## Key Instead/Prefer pairs
 
@@ -52,5 +54,5 @@
 ## Related
 
 - [[The Eight Tiers]]
-- [[Shaping and Slicing]]
-- [[Context Management]]
+- [[Tier 2 — Shaping and Slicing]]
+- [[Tier 3 — Context Management]]

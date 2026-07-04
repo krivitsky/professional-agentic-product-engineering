@@ -14,6 +14,6 @@ An MCP server that lets the agent drive a **live browser** to test the UI for re
 - **Chrome DevTools MCP** — performance.
 
 ## Related
-- [[Loop Until Done]]
+- [[Tier 4 — Loop Until Done]]
 - [[Agentic Primitives]]
 - [[Claude Code]]

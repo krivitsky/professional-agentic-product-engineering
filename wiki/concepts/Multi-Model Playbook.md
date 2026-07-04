@@ -36,7 +36,7 @@ The advanced case: other frontier labs (GPT-5.5-class, Gemini 3.x), open-weight 
 - **Try the cheaper trick first:** run your *best* model a few times and pick the best answer — research (Self-MoA) finds that often beats mixing in weaker models, which can drag the average down.
 
 ## Related
-- [[Orchestration]]
+- [[Tier 6 — Orchestration]]
 - [[The Review-Agent Pattern]]
-- [[Shaping and Slicing]]
+- [[Tier 2 — Shaping and Slicing]]
 - [[Claude Code]]

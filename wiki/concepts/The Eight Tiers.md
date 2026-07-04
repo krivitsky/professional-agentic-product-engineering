@@ -8,14 +8,14 @@ You don't need all eight. **Climb only as high as your work demands, then stop.*
 
 ## The ladder — what you learn per tier
 
-- **T1 [[Professional Prompting]]** — Write prompts that get the most from the agent's intelligence
-- **T2 [[Shaping and Slicing]]** — Ideate, refine, spec, and plan before you build
-- **T3 [[Context Management]]** — Give the agent the right context and tools
-- **T4 [[Loop Until Done]]** — Make the agent prove it's done
-- **T5 [[Checkpointing and Hardening]]** — Checkpoint in git; run tests and CI automatically
-- **T6 [[Orchestration]]** — Run many agents at once
-- **T7 [[Fleet Ops]]** — Operate your agents as a fleet
-- **T8 [[Agent Execution Layer]]** — Put agents into production
+- **T1 [[Tier 1 — Professional Prompting]]** — Write prompts that get the most from the agent's intelligence
+- **T2 [[Tier 2 — Shaping and Slicing]]** — Ideate, refine, spec, and plan before you build
+- **T3 [[Tier 3 — Context Management]]** — Give the agent the right context and tools
+- **T4 [[Tier 4 — Loop Until Done]]** — Make the agent prove it's done
+- **T5 [[Tier 5 — Checkpointing and Hardening]]** — Checkpoint in git; run tests and CI automatically
+- **T6 [[Tier 6 — Orchestration]]** — Run many agents at once
+- **T7 [[Tier 7 — Fleet Ops]]** — Operate your agents as a fleet
+- **T8 [[Tier 8 — Agent Execution Layer]]** — Put agents into production
 
 ## What pushes you up — read the right column as a diagnostic
 
@@ -44,6 +44,6 @@ The destination, if you go all the way, is **professional agentic product engine
 
 - [[From Prompts to Systems]]
 - [[Loops of Agentic Engineering]]
-- [[Professional Prompting]]
-- [[Loop Until Done]]
-- [[Agent Execution Layer]]
+- [[Tier 1 — Professional Prompting]]
+- [[Tier 4 — Loop Until Done]]
+- [[Tier 8 — Agent Execution Layer]]

@@ -23,7 +23,7 @@ A vertical slice is narrow, **end-to-end, independently testable** — UI → AP
 - Sanity-check each by mutation: break the implementation on purpose, confirm the scenario fails, then revert.
 
 ## Related
-- [[Shaping and Slicing]]
-- [[Loop Until Done]]
+- [[Tier 2 — Shaping and Slicing]]
+- [[Tier 4 — Loop Until Done]]
 - [[Executable Definition of Done]]
 - [[Loops of Agentic Engineering]]

@@ -2,7 +2,7 @@
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
-The mental model under all of [[Context Management]] (Tier 3):
+The mental model under all of [[Tier 3 — Context Management]] (Tier 3):
 
 > **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this **context rot**.
 
@@ -20,7 +20,7 @@ Every Tier 3 tip is a way to spend this budget:
 - **Load just-in-time** over pre-loading.
 - **`/clear` between tasks** so stale context doesn't bleed into the next.
 - **Compact deliberately** rather than trusting it to happen.
-- **Push heavy exploration to subagents** whose context stays isolated (see [[Orchestration]]).
+- **Push heavy exploration to subagents** whose context stays isolated (see [[Tier 6 — Orchestration]]).
 - Check usage any time with `/context`.
 
 ## Watch the hidden costs
@@ -28,6 +28,6 @@ Every Tier 3 tip is a way to spend this budget:
 - Even tool definitions cost budget: "~20k tokens of MCP definitions already eats your working context. Few powerful gateway tools beat many thin REST mirrors."
 
 ## Related
-- [[Context Management]]
-- [[Orchestration]]
+- [[Tier 3 — Context Management]]
+- [[Tier 6 — Orchestration]]
 - [[Agentic Primitives]]

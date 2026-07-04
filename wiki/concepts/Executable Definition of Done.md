@@ -27,7 +27,7 @@ Your Definition of Done, made executable — the machine-checkable contract the 
 A command is what the loop converges to.
 
 ## Related
-- [[Loop Until Done]]
+- [[Tier 4 — Loop Until Done]]
 - [[Loops of Agentic Engineering]]
 - [[The Harness]]
 - [[Vertical Slicing]]

@@ -1,4 +1,4 @@
-# Loop Until Done
+# Tier 4 — Loop Until Done
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
@@ -20,15 +20,17 @@ You don't get great output from one prompt — you get it from a **loop**: the a
 
 ## The 9 tips
 
-- **4.1 Make your Definition of Done executable — a command is what the loop converges to.** Spell out DoD as commands the agent runs itself; loop until all pass; show each output.
-- **4.2 Do TDD — the unit-level check.** Drive the code with a failing test first; commit the failing test as a safety net, then implement to green without editing the tests.
-- **4.3 Use BDD — the behavior-level check.** Given/When/Then scenarios the agent codes against and runs, **one scenario at a time** (red → green → commit), sanity-checked by mutation.
-- **4.4 Test the UI for real with [[Playwright MCP]] — don't eyeball it.** Drive a live browser, perform the flow, assert, and save the run as an e2e spec.
-- **4.5 Demand evidence, not a claim of success.** "Paste the exact test command and its output before you say it's done."
-- **4.6 Ask for all findings, not a conservative review.** "List every issue with a severity label and line reference. Don't pre-filter — I'll triage."
-- **4.7 Review with fresh eyes, not the context that wrote it.** A fresh subagent/session (or a different model) reviews the diff against the criteria; correctness only. See [[The Review-Agent Pattern]].
-- **4.8 Run a pre-mortem; treat it like a teammate.** "What could fail here? What did you assume? What's missing?"
-- **4.9 Iterate UI visually when there's no spec to assert.** Mock → implement → screenshot → compare → fix (2–3 rounds); override the model's default house style with a concrete palette spec.
+Each tip has its own page — click through for the Instead/Prefer pair.
+
+- [[Tip 4.1 — Make your Definition of Done executable — a command is what the loop converges to]] — Spell out DoD as commands the agent runs itself; loop until all pass; show each output.
+- [[Tip 4.2 — Do TDD — the unit-level check]] — Drive the code with a failing test first; commit the failing test as a safety net, then implement to green without editing the tests.
+- [[Tip 4.3 — Use BDD — the behavior-level check]] — Given/When/Then scenarios the agent codes against and runs, **one scenario at a time** (red → green → commit), sanity-checked by mutation.
+- [[Tip 4.4 — Test the UI for real with Playwright MCP — don't eyeball it]] — Drive a live browser, perform the flow, assert, and save the run as an e2e spec. Uses [[Playwright MCP]].
+- [[Tip 4.5 — Demand evidence, not a claim of success]] — "Paste the exact test command and its output before you say it's done."
+- [[Tip 4.6 — Ask for all findings, not a conservative review]] — "List every issue with a severity label and line reference. Don't pre-filter — I'll triage."
+- [[Tip 4.7 — Review with fresh eyes, not the context that wrote it]] — A fresh subagent/session (or a different model) reviews the diff against the criteria; correctness only. See [[The Review-Agent Pattern]].
+- [[Tip 4.8 — Run a pre-mortem; treat it like a teammate]] — "What could fail here? What did you assume? What's missing?"
+- [[Tip 4.9 — Iterate UI visually when there's no spec to assert]] — Mock → implement → screenshot → compare → fix (2–3 rounds); override the model's default house style with a concrete palette spec.
 
 ## Key Instead/Prefer pairs
 

@@ -44,10 +44,72 @@ All wiki pages use plain markdown. No YAML frontmatter.
 
 This vault is the wikified view of **`guide.md` at the repo root** — the single canonical source. **Never copy or summarize `guide.md` into `wiki/sources/`.** The guide lives at the root; the vault only *references* it:
 
-- Every page's metadata uses `**Source:** [guide.md](../../guide.md)` (from `concepts/` and `entities/`) — a relative link to the root file, not a `[[wikilink]]` to an in-vault copy.
+- Every **tier hub, cross-cutting concept, and entity** page uses `**Source:** [guide.md](../../guide.md)` — a relative link to the root file, not a `[[wikilink]]` to an in-vault copy. **Exception: per-tip pages do NOT use that markdown link** — they attribute the guide as *plain text* `` `guide.md #tip-N-M` `` (see the tree rules below). This is deliberate: it's what keeps the graph a tree instead of a flat star.
 - Re-run the wikification against the root `guide.md` whenever the guide changes; pages restate/reorganize its ideas for graph navigation, they don't duplicate its text.
 
 This override applies to the repo-native guide only. The generic `raw/` → `sources/` ingest below still holds for *external* documents added to the vault.
+
+## Vault structure — the guide as a 3-level tree
+
+The vault mirrors `guide.md` as a **tree**, not a flat list. This is the shape to preserve on every re-wikification:
+
+```
+guide.md  (root — the only node the tiers point back to)
+├── Tier 1 — Professional Prompting   ──┬── Tip 1.1 … Tip 1.14
+├── Tier 2 — Shaping and Slicing       ─┼── Tip 2.1 … Tip 2.8
+│   … (8 tier hubs)                     │
+└── Tier 8 — Agent Execution Layer     ─┴── Tip 8.1 … Tip 8.4
+Cross-cutting concepts (The Harness, Vertical Slicing, …) and entities (Claude Code, …) hang off the guide at the tier level.
+```
+
+**Why it matters:** if every tip links the root `guide.md`, the Obsidian graph collapses into a flat star with `guide` at the center and all ~60 tips orbiting it — the tier structure disappears. The rules below keep tips clustered under their tier.
+
+### Tier hub pages — `concepts/Tier N — <Name>.md`
+
+- Filename/H1 uses the guide's own em-dash heading form: `Tier 1 — Professional Prompting` (an em-dash `—`, **not** a colon — a colon is unsafe in macOS/Obsidian filenames).
+- Has a `## The N tips` section that lists **every** tip as a wikilink: `- [[Tip N.M — Title]] — <gloss>`, in guide order, preceded by the line *"Each tip has its own page — click through for the Instead/Prefer pair."*
+- Keeps `**Source:** [guide.md](../../guide.md)` (tier hubs *do* link the root — that's the `guide → tier` edge).
+
+### Per-tip pages — `concepts/Tip N.M — <Title>.md` (one file per tip)
+
+Template (copy structurally, fill from the guide verbatim):
+
+```
+# Tip N.M — <Title>
+**Part of:** [[Tier N — <Name>]] · tip M of <total>
+**Source:** `guide.md #tip-N-M`  (root — canonical, not copied)
+**Created:** YYYY-MM-DD
+
+> **Instead of:** "<guide's exact text>"
+>
+> **Prefer:** "<guide's exact text>"
+
+<one gloss line — the guide's own italic gloss if present, else one faithful sentence; no new claims>
+
+## Related
+- [[Tier N — <Name>]]
+- [[Tip N.(M-1) — …]]   (prev sibling, if any)
+- [[Tip N.(M+1) — …]]   (next sibling, if any)
+- <optionally ONE cross-link to a concept page you have verified exists>
+```
+
+Hard rules for tip pages:
+- **Title = guide's tip title with any trailing period dropped**; keep all other punctuation (em-dashes, commas, semicolons, code spans). **Filename must equal the H1 exactly** or the wikilink won't resolve.
+- **No `[guide.md](../../guide.md)` markdown link** anywhere on a tip page — attribute as the plain-text `` `guide.md #tip-N-M` `` code span. This is the single most important rule for keeping the tree.
+- `**Part of:** [[Tier N — <Name>]]` is the tip's structural parent — the `tier → tip` edge.
+- The `#tip-N-M` anchor is the **stable key**; the title drifts. When syncing, match tips by number, not by title.
+- **`/` is illegal in filenames.** If a tip title contains a slash (e.g. `/clear`, `CI / headless`), substitute a division slash `∕` (U+2215) or reword, and make the filename = H1 = every inbound wikilink **identical** so it still resolves.
+
+### Re-wikifying after a `guide.md` change (keep it granular)
+
+For each tip that was **added / changed / removed / renamed**:
+- **Added** → create its tip page from the template *and* add its bullet to the tier hub's `## The N tips` list.
+- **Changed** (Instead/Prefer or gloss) → update the tip page body verbatim; hub gloss if it moved.
+- **Removed** → delete the tip page and its hub bullet; grep for and fix any inbound `[[links]]`.
+- **Renamed title** → rename the file, update the H1, and update **every** inbound `[[Tip N.M — …]]` link in one pass (hub + sibling tips). Key the match on the stable `#tip-N-M` anchor.
+- **New/removed tier** → add/remove the `Tier N — <Name>` hub and re-tree its tips.
+
+Finish by verifying: **every `[[wikilink]]` resolves, 0 broken links, 0 orphans**, and no tip page hard-links `guide.md`. Update `index.md` (tier level only — do **not** list all ~60 tips there, or `index` becomes a second star) and append a `log.md` entry.
 
 ## Workflows
 

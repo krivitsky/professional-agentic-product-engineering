@@ -1,4 +1,4 @@
-# Context Management
+# Tier 3 — Context Management
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
@@ -14,14 +14,16 @@ Every tip spends that budget: load just-in-time over pre-loading, `/clear` betwe
 
 ## The 8 tips
 
-- **3.1 Feed high-signal context, not the whole repo.** Just the affected modules + relevant docs, loaded just-in-time.
-- **3.2 Keep secrets out of git and out of context — set this up first.** `.env` gitignored and referenced by variable, enforced with a `PreToolUse` hook.
-- **3.3 `/clear` between tasks; reset after repeated failure.** After ~2 failed fixes, `/clear` and rewrite the opening prompt.
-- **3.4 Steer compaction, don't run it blind.** Tell `/compact` what to keep (decisions, failing tests) and what to drop (exploration).
-- **3.5 CLAUDE.md = gotchas + conventions, not an encyclopedia.** Architecture, key commands, forbidden patterns, and the mistakes it keeps repeating — pruned often.
-- **3.6 Put occasional knowledge in Skills — loaded only when the task matches.** A Skill that auto-loads on its description, rather than cramming everything into CLAUDE.md.
-- **3.7 Add the right MCP servers; keep the surface small.** A few high-value servers (browser, DB, issue tracker) beat many thin REST mirrors — >~20k tokens of definitions already eats working context.
-- **3.8 Use external memory for multi-session work.** Compaction won't carry decisions across sessions — write `STATUS.md` at session end; reload it at the next session's start.
+Each tip has its own page — click through for the Instead/Prefer pair.
+
+- [[Tip 3.1 — Feed high-signal context, not the whole repo]] — Just the affected modules + relevant docs, loaded just-in-time.
+- [[Tip 3.2 — Keep secrets out of git and out of context — set this up first]] — `.env` gitignored and referenced by variable, enforced with a `PreToolUse` hook.
+- [[Tip 3.3 — `clear` between tasks; reset after repeated failure]] — After ~2 failed fixes, `/clear` and rewrite the opening prompt.
+- [[Tip 3.4 — Steer compaction, don't run it blind]] — Tell `/compact` what to keep (decisions, failing tests) and what to drop (exploration).
+- [[Tip 3.5 — CLAUDE.md = gotchas + conventions, not an encyclopedia]] — Architecture, key commands, forbidden patterns, and the mistakes it keeps repeating — pruned often.
+- [[Tip 3.6 — Put occasional knowledge in Skills — loaded only when the task matches]] — A Skill that auto-loads on its description, rather than cramming everything into CLAUDE.md.
+- [[Tip 3.7 — Add the right MCP servers; keep the surface small]] — A few high-value servers (browser, DB, issue tracker) beat many thin REST mirrors — >~20k tokens of definitions already eats working context.
+- [[Tip 3.8 — Use external memory for multi-session work — compaction won't carry decisions across sessions]] — Compaction won't carry decisions across sessions — write `STATUS.md` at session end; reload it at the next session's start.
 
 ## Key Instead/Prefer pairs
 
@@ -40,4 +42,4 @@ Skills and slash commands are the same idea (commands are now skills under the h
 - [[Context Rot]]
 - [[Agentic Primitives]]
 - [[The Eight Tiers]]
-- [[Orchestration]]
+- [[Tier 6 — Orchestration]]

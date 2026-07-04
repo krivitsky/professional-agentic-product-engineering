@@ -1,4 +1,4 @@
-# Agent Execution Layer
+# Tier 8 — Agent Execution Layer
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
 
@@ -6,20 +6,20 @@ Tier 8 of [[The Eight Tiers]] — the top of the arc. **Put agents into producti
 
 **Reach for this tier when** the team needs it — agents must pick up tickets and open PRs without anyone babysitting a terminal.
 
-While a local loop is perfect for individual spec-driven development, enterprise agentic loops require a dedicated Agent Execution Layer: the layer beyond your own server ([[Fleet Ops]]), where loops run **hosted, isolated, and event-triggered**.
+While a local loop is perfect for individual spec-driven development, enterprise agentic loops require a dedicated Agent Execution Layer: the layer beyond your own server ([[Tier 7 — Fleet Ops]]), where loops run **hosted, isolated, and event-triggered**.
 
 **Don't be scared — it's the same loop you already built.** Everything from Tier 4 (act → test → fix against a Definition of Done) and Tier 5 (commit, `gh`, CI) is unchanged. The execution layer only answers three new questions: *where does it run, what triggers it, and how do many agents avoid colliding?* You adopt it gradually — start fully managed (GitHub `@claude`, Linear agents, Anthropic-managed cloud VMs), self-host only when you need the control.
 
 ## The stack — four parts when you build your own
 
 - **Runtime sandbox** — run untrusted agent code + tests in throwaway isolation (E2B, Modal, Daytona / Northflank, or Claude Code's `/sandbox` and web VMs), so a runaway loop burns a cheap container, not prod.
-- **Connectivity (MCP)** — let the agent read Slack / Notion / Postgres / Sentry without hardcoded creds (see [[Context Management]]).
+- **Connectivity (MCP)** — let the agent read Slack / Notion / Postgres / Sentry without hardcoded creds (see [[Tier 3 — Context Management]]).
 - **Orchestration / state** — track which phase each agent is in (LangGraph, Claude Agent SDK, Warp Oz, dynamic workflows).
 - **System of record** — the ground truth + state machine (Linear / GitHub issues, whose workflow states *are* the state machine). Make the tracker the agent's memory: the conversation is disposable; the workflow state is durable.
 
 ## The loop — from ticket to merged PR
 
-Just [[Loop Until Done]]'s loop, hosted and gated:
+Just [[Tier 4 — Loop Until Done]]'s loop, hosted and gated:
 
 1. **Trigger & context.** A human moves a ticket to "Agent Todo"; a webhook fires. The agent reads the ticket (MCP) and pulls only the relevant files — *not* the whole repo.
 2. **Plan (spec sub-agent).** A planning subagent drafts a short spec, posts it to the ticket; the loop **pauses for a human "Approve."** Keep this gate.
@@ -39,21 +39,12 @@ PR review is where to start: high value, low risk. The pattern (see [[The Review
 
 ## The four tips
 
-- **8.1 Sandbox the loop; never run autonomous agents on a dev box or prod.**
-  > ❌ Instead of: an unattended agent with write access on your laptop or a shared CI runner.
-  > ✅ Prefer: an ephemeral sandbox (E2B/Modal/Daytona/Northflank, or Claude Code's web VMs) — a runaway loop burns a throwaway container, not your environment.
+Each tip has its own page — click through for the Instead/Prefer pair.
 
-- **8.2 Gate the plan, not every keystroke.**
-  > ❌ Instead of: full autopilot from ticket to merge, or approving every edit.
-  > ✅ Prefer: auto-run the loop but pause for human approval at the spec and before merge. Gate the irreversible; automate the rest.
-
-- **8.3 Cap the strikes — a stuck agent shouldn't burn tokens forever.**
-  > ❌ Instead of: "loop until the tests pass," unbounded.
-  > ✅ Prefer: "loop until green, max 5 attempts, then stop and summarize what's blocking." An exit condition needs a give-up condition too.
-
-- **8.4 Make the tracker the state machine — the agent forgets; the board remembers.**
-  > ❌ Instead of: holding workflow state in the agent's conversation (it gets archived/compacted away).
-  > ✅ Prefer: store state as ticket status/labels (Todo → Planning → Approved → In Review). It survives restarts, and a human can override by moving the card.
+- [[Tip 8.1 — Sandbox the loop; never run autonomous agents on a dev box or prod]] — run the loop in an ephemeral sandbox so a runaway agent burns a throwaway container, not your environment.
+- [[Tip 8.2 — Gate the plan, not every keystroke]] — auto-run the loop but pause for human approval at the spec and before merge; gate the irreversible, automate the rest.
+- [[Tip 8.3 — Cap the strikes — a stuck agent shouldn't burn tokens forever]] — loop until green with a max-attempts cap, then stop and summarize what's blocking.
+- [[Tip 8.4 — Make the tracker the state machine — the agent forgets; the board remembers]] — store workflow state as ticket status/labels so it survives restarts and a human can override by moving the card.
 
 ## The honest part
 
@@ -63,6 +54,6 @@ This is the top of the climb: the agent stops being a chatbot and becomes an **a
 
 ## Related
 - [[The Review-Agent Pattern]]
-- [[Fleet Ops]]
+- [[Tier 7 — Fleet Ops]]
 - [[Loops of Agentic Engineering]]
 - [[The Eight Tiers]]

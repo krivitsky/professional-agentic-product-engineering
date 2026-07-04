@@ -18,7 +18,7 @@ An agentic system "puts the same model inside a *harness*: a **workflow** — th
 
 The harness isn't only prompts and constraints — the surrounding machinery counts:
 
-- "Git isn't bookkeeping here — it's the loop's memory and undo. And the harness around it — hooks that always run your tests, CI, the `gh` CLI — makes the whole loop deterministic and shareable with the team." (see [[Checkpointing and Hardening]])
+- "Git isn't bookkeeping here — it's the loop's memory and undo. And the harness around it — hooks that always run your tests, CI, the `gh` CLI — makes the whole loop deterministic and shareable with the team." (see [[Tier 5 — Checkpointing and Hardening]])
 - The guide's closing move (Tip 6.7) — "Engineer the environment, not the wording": "invest in CLAUDE.md, Skills, MCP, git discipline, tests as the check, hooks, and CI."
 
 ## The system is the product
@@ -28,6 +28,6 @@ The harness isn't only prompts and constraints — the surrounding machinery cou
 
 ## Related
 - [[From Prompts to Systems]]
-- [[Checkpointing and Hardening]]
+- [[Tier 5 — Checkpointing and Hardening]]
 - [[Agentic Primitives]]
 - [[Loops of Agentic Engineering]]

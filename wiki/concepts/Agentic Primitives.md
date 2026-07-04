@@ -10,8 +10,8 @@ The building blocks of agentic engineering. They're not hidden settings or LLM d
 - **Slash command** — a reusable prompt you trigger by hand with `/name`. Lives in `.claude/commands/name.md`. Create it by writing the file.
 - **Skill** — knowledge/workflow the model **auto-loads when the task matches its description**. Lives in `.claude/skills/name/SKILL.md` (a *folder*). Create it by writing SKILL.md; add scripts/assets.
 - **Subagent** — a separate Claude instance with its **own context window**, tools, and model; returns only a summary. Lives in `.claude/agents/name.md`. Create it with `/agents` (recommended) or write the file.
-- **Hook** — a deterministic shell script on a lifecycle event. Lives in `.claude/settings.json` under `hooks`. See [[Checkpointing and Hardening]].
-- **MCP server** — a connector giving Claude external tools (browser, DB, tracker). Lives in `.mcp.json` / `claude mcp add`. See [[Context Management]].
+- **Hook** — a deterministic shell script on a lifecycle event. Lives in `.claude/settings.json` under `hooks`. See [[Tier 5 — Checkpointing and Hardening]].
+- **MCP server** — a connector giving Claude external tools (browser, DB, tracker). Lives in `.mcp.json` / `claude mcp add`. See [[Tier 3 — Context Management]].
 - **Permissions** — allow/deny rules + modes (default / auto / plan / bypass) for what runs without asking. Lives in `.claude/settings.json`. Create with `/permissions` or settings.
 - **Plugin** — one installable unit bundling skills + hooks + subagents + MCP — how teams distribute all of the above. Lives in a marketplace / git repo. Browse & install with `/plugin`.
 
@@ -36,6 +36,6 @@ The building blocks of agentic engineering. They're not hidden settings or LLM d
 
 ## Related
 - [[The Harness]]
-- [[Context Management]]
-- [[Checkpointing and Hardening]]
-- [[Orchestration]]
+- [[Tier 3 — Context Management]]
+- [[Tier 5 — Checkpointing and Hardening]]
+- [[Tier 6 — Orchestration]]
