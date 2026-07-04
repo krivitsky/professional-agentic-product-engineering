@@ -1,12 +1,12 @@
 # Professional Agentic Product Engineering Guide
 
-**Source:** Field guide by [[Anthropic]]-ecosystem practitioner Alexey Krivitsky — `guide.md` in the professional-agentic-product-engineering repo (updated continuously)
+**Source:** [`guide.md`](../../guide.md) — the canonical field guide by Alexey Krivitsky, at the repo root (updated continuously). This page is a **summary**, not a copy; read the root `guide.md` for the full text.
 **Created:** 2026-07-04
 **Updated:** 2026-07-04
 
 > *Agentic engineering is a profession, not a prompt.* — the guide's epigraph
 
-A mid-2026 field guide to getting genuinely good at operating coding agents ([[Claude Code]] as the running example) for building new software and working on real codebases. Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
+A mid-2026 field guide to getting genuinely good at operating coding agents ([[Claude Code]] by [[Anthropic]] as the running example) for building new software and working on real codebases. Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
 
 ## Goal
 
