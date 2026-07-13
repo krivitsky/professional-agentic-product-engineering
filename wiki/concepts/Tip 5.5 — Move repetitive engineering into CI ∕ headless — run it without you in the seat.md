@@ -11,5 +11,5 @@ Use `claude -p "..." --allowedTools "..."`, or the Claude Code GitHub Action on 
 
 ## Related
 - [[Tier 5 — Checkpointing and Hardening]]
-- [[Tip 5.4 — Replace "remember to run tests" with a hook]]
+- [[Tip 5.4 — Replace “remember to run tests” with a hook]]
 - [[The Harness]]
