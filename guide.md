@@ -29,6 +29,16 @@ Throughout this guide, Claude Code is the running example because it's the most 
 <span class="testimonial-cite">— <a href="https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29">Michal Svoboda</a>, Security &amp; Engineering Mentor</span>
 </div>
 
+### Part of the Agentic Shift System
+
+This is a guide to the **technical** side of the agentic shift — how engineers and product teams get genuinely good at building with coding agents. It stops there on purpose.
+
+The shift has a second front: the **structural** one — how organizations, teams, roles, and ways of working reshape themselves around agentic work.
+
+**Technical and structural shifts form one system: they enable and reinforce one another, and cannot be managed in isolation.** A team that masters the tools but keeps its old org design stalls; a reorg with no engineering practice underneath is theatre.
+
+For the structural half — the organizational picture this guide deliberately leaves out — see **[agentic-shift.com](https://agentic-shift.com/)**.
+
 ### Formats of this Guide
 
 Read it in whichever form fits how you work — all three stay in sync with this repo:
