@@ -540,7 +540,7 @@ function shell({ page, contentHtml }) {
   </button>
   <a class="topbar-brand" href="index.html">
     <img src="assets/tutor-caveman.png" alt="">
-    <span class="sidebar-brand-text"><strong>Professional Agentic</strong> Product Engineering</span>
+    <span class="sidebar-brand-text"><strong>Professional</strong> Agentic <strong>Product</strong> Engineering</span>
   </a>
   ${THEME_TOGGLE('theme-top')}
 </header>
