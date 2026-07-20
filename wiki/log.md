@@ -48,3 +48,11 @@ Rebuilt the vault from a flat 22-page view into a **3-level tree**. The old grap
 - **Schema updated** (`CLAUDE.md`): added "Vault structure — the guide as a 3-level tree" codifying the tier-hub + per-tip page format, the plain-text-attribution/no-guide-link rule, and the granular re-wikify procedure so future `guide.md` edits land as tip pages, not a flat vault. Root repo `CLAUDE.md` sync rule #1 updated to match.
 
 Verification: **81 pages** (18 concept + 60 tip in `concepts/`, 3 entity), **0 broken wikilinks, 0 orphans**, no tip page hard-links `guide.md`. `index.md` lists tiers only (not the 60 tips) to avoid a second star.
+
+## [2026-07-05] fix | Tip 5.4 filename/H1 mismatch — Windows-unsafe `"` character
+
+Found while diagnosing a Windows `git clone` failure: the repo's committed filename for Tip 5.4 is `Tip 5.4 — Replace "remember to run tests" with a hook.md`, using literal straight double quotes — invalid on NTFS, so `git clone`/checkout fails outright on Windows (`error: invalid path ...`, `fatal: unable to checkout working tree`). The local working copy had a stale workaround (filename used `_..._` in place of the quotes) that was never applied to the H1 or the 3 inbound `[[wikilinks]]` (Tier 5 hub, Tip 5.3, Tip 5.5) — those still had straight quotes, so the link never resolved in Obsidian either.
+
+Fixed by renaming the file, its H1, and all 3 inbound links to use Windows-safe curly quotes `“ ”` (U+201C/U+201D) instead of straight quotes — same substitution precedent as the division-slash fix for Tip 5.5. `guide.md` itself is untouched (its plain-text tip title isn't a filename, so straight quotes there are fine). Verified: 0 remaining references to the old title in any form, wikilink resolves.
+
+Still needs a PR upstream to `krivitsky/professional-agentic-product-engineering` — this local repo has no `.git`, so the fix only lives here until it's contributed back.

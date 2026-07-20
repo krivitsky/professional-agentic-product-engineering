@@ -23,7 +23,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 - [[Tip 5.1 — Commit every working step — checkpoints are what make a loop safe]] — commit after each green step so every checkpoint is a working state the loop can revert to.
 - [[Tip 5.2 — Let Claude drive `gh` — the collaboration layer is harness too]] — have Claude use the `gh` CLI to open PRs, read issues, check CI, and answer review comments.
 - [[Tip 5.3 — Try risky work in a worktree — a disposable checkpoint you can throw away]] — spike in `git worktree add ../spike-x`; keep it if it works, delete the directory if it doesn't.
-- [[Tip 5.4 — Replace "remember to run tests" with a hook]] — wire the check into `.claude/settings.json` so it always runs and won't let the agent stop on red.
+- [[Tip 5.4 — Replace “remember to run tests” with a hook]] — wire the check into `.claude/settings.json` so it always runs and won't let the agent stop on red.
 - [[Tip 5.5 — Move repetitive engineering into CI ∕ headless — run it without you in the seat]] — run the agent non-interactively in your pipeline, scoped tightly with `claude -p` or the GitHub Action.
 
 ## Related

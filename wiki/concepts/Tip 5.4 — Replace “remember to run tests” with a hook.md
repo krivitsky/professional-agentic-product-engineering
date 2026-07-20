@@ -1,4 +1,4 @@
-# Tip 5.4 — Replace "remember to run tests" with a hook
+# Tip 5.4 — Replace “remember to run tests” with a hook
 **Part of:** [[Tier 5 — Checkpointing and Hardening]] · tip 4 of 5
 **Source:** `guide.md #tip-5-4` (root — canonical, not copied)
 **Created:** 2026-07-04

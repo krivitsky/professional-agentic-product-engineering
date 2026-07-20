@@ -12,5 +12,5 @@ Worktrees also isolate **parallel** agents so they don't clobber each other — 
 ## Related
 - [[Tier 5 — Checkpointing and Hardening]]
 - [[Tip 5.2 — Let Claude drive `gh` — the collaboration layer is harness too]]
-- [[Tip 5.4 — Replace "remember to run tests" with a hook]]
+- [[Tip 5.4 — Replace “remember to run tests” with a hook]]
 - [[Tier 7 — Fleet Ops]]
