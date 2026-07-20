@@ -6,6 +6,8 @@
 
 **Reach for this tier when** you can't trust the output without reading every line, and "done" means nothing concrete. **This is the heart of professional agentic engineering.**
 
+This is the intent slot of [[The Prompt Triad]] made executable: the Given/When/Then you specced in Tier 2 becomes the check the loop has to pass before it can call the work done.
+
 ## The framing
 
 > **Prompts don't make agents reliable. Verification does.**
@@ -46,6 +48,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 
 ## Related
 
+- [[The Prompt Triad]]
 - [[Executable Definition of Done]]
 - [[Loops of Agentic Engineering]]
 - [[The Review-Agent Pattern]]

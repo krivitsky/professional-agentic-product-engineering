@@ -1,6 +1,7 @@
 # Tip 1.11 — Constrain scope — modern models over-engineer unless you stop them
 **Part of:** [[Tier 1 — Professional Prompting]] · tip 11 of 14
 **Source:** `guide.md #tip-1-11` (root — canonical, not copied)
+**Triad slot:** constraint
 **Created:** 2026-07-04
 
 > **Instead of:** "Fix this bug and improve the code."
@@ -13,3 +14,4 @@ Given room, frontier models gold-plate. Bound the scope to the smallest change t
 - [[Tier 1 — Professional Prompting]]
 - [[Tip 1.10 — Paste raw errors, don't paraphrase them]]
 - [[Tip 1.12 — Narrow the edit surface — a small diff is a reviewable diff]]
+- [[The Prompt Triad]]

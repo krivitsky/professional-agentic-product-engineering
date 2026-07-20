@@ -6,6 +6,8 @@
 
 **Reach for this tier when** big asks go sideways — the agent edits the wrong things or tries to do everything in one pass. Plan first, then cut the work into small slices, each one small enough to check and cheap to undo.
 
+This is [[The Prompt Triad]] externalized onto the page: intent becomes a written spec, context comes from investigating first, and each slice is a constraint small enough to check and undo.
+
 ## The 8 tips
 
 Each tip has its own page — click through for the Instead/Prefer pair.
@@ -38,6 +40,7 @@ A vertical slice is narrow, end-to-end, independently testable. It keeps each ag
 
 ## Related
 
+- [[The Prompt Triad]]
 - [[Vertical Slicing]]
 - [[Executable Definition of Done]]
 - [[Multi-Model Playbook]]

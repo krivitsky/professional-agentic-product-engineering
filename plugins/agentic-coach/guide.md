@@ -318,8 +318,18 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 
 **Reach for this tier when** the agent keeps doing *almost* the right thing — vague asks get literal, wrong results. The single request is your cheapest lever: say what you want so it can't guess wrong.
 
+> **📐 The prompt triad — every prompt is three things: intent · context · constraint.**
+>
+> - **Intent** — the outcome, not the steps. You own the destination; the agent owns the route.
+> - **Context** — the world the agent reasons inside. Without it, the model fills the gaps with its priors — it guesses. Context is how you replace guessing with knowing.
+> - **Constraint** — the boundary: what not to do, how far, how much. What keeps a powerful generator small, safe, and reviewable.
+>
+> You give the ends and the edges; the agent works out the means — grounded in the context you supply. Land all three in one message and it runs far on its own.
+>
+> The 14 tips below are how you fill each slot well. Learn the triad here — you'll use it the whole way up: Tier 2 turns it into a spec, Tier 3 scales the context into tools, Tier 5 hardens the constraints.
+
 <a id="tip-1-1"></a>
-**1.1 Hand over the outcome, not a file list.**
+**1.1 Hand over the outcome, not a file list.** — *intent*
 > **Instead of:** "Add a dark-mode stylesheet, a toggle in the header, and save the choice in the browser."
 >
 > **Prefer:** "Let users switch to dark mode and remember their choice — match the styling already in the app."
@@ -327,79 +337,79 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 *You give the destination and the guardrails; the agent chooses the parts.*
 
 <a id="tip-1-2"></a>
-**1.2 Be specific — vagueness is now taken literally.**
+**1.2 Be specific — vagueness is now taken literally.** — *intent*
 > **Instead of:** "Clean up the auth code."
 >
 > **Prefer:** "Extract the token-refresh logic in @src/auth/session.ts into the existing retry helper."
 
 <a id="tip-1-3"></a>
-**1.3 Say what to do, not what to avoid.**
+**1.3 Say what to do, not what to avoid.** — *intent*
 > **Instead of:** "Don't be verbose."
 >
 > **Prefer:** "Write for senior engineers — lead with the technical specifics."
 
 <a id="tip-1-4"></a>
-**1.4 Give the reason; motivation makes it generalize.**
+**1.4 Give the reason; motivation makes it generalize.** — *context*
 > **Instead of:** "Use tabs."
 >
 > **Prefer:** "Use tabs — our linter rejects spaces in this repo."
 
 <a id="tip-1-5"></a>
-**1.5 Specify the output shape, not just the goal.**
+**1.5 Specify the output shape, not just the goal.** — *intent*
 > **Instead of:** "Add a search endpoint."
 >
 > **Prefer:** "Add search: `GET /search?q=`, returns JSON — an array of `{title, url, date}`, newest first, max 20."
 
 <a id="tip-1-6"></a>
-**1.6 Show examples instead of describing style.**
+**1.6 Show examples instead of describing style.** — *context*
 > **Instead of:** "Make the tone professional."
 >
 > **Prefer:** "Match these 3 examples: `<example>…</example>`" (3–5 work best).
 
 <a id="tip-1-7"></a>
-**1.7 Follow the house style, don't invent one.**
+**1.7 Follow the house style, don't invent one.** — *context*
 > **Instead of:** "Write a date parser."
 >
 > **Prefer:** "Parse dates using the pattern already in @utils/date.ts."
 
 <a id="tip-1-8"></a>
-**1.8 Show, don't tell — use the input channels.**
+**1.8 Show, don't tell — use the input channels.** — *context*
 > **Instead of:** describing a layout bug in prose.
 >
 > **Prefer:** paste the screenshot + `@Component.tsx`; pipe the raw logs straight in.
 
 <a id="tip-1-9"></a>
-**1.9 Invite uncertainty instead of forcing an answer.**
+**1.9 Invite uncertainty instead of forcing an answer.** — *fourth move: the gaps in any slot*
 > **Instead of:** "Implement the caching layer."
 >
 > **Prefer:** "Implement caching. List your assumptions first; if a choice is genuinely ambiguous, stop and ask."
 
 <a id="tip-1-10"></a>
-**1.10 Paste raw errors, don't paraphrase them.**
+**1.10 Paste raw errors, don't paraphrase them.** — *context*
 > **Instead of:** "It throws some null error."
 >
 > **Prefer:** paste the full stack trace → "diagnose the root cause before changing anything."
 
 <a id="tip-1-11"></a>
-**1.11 Constrain scope — modern models over-engineer unless you stop them.**
+**1.11 Constrain scope — modern models over-engineer unless you stop them.** — *constraint*
 > **Instead of:** "Fix this bug and improve the code."
 >
 > **Prefer:** "Fix only this bug — smallest change that works. No refactoring, no comments on untouched code, no handling for cases that can't happen."
 
 <a id="tip-1-12"></a>
-**1.12 Narrow the edit surface — a small diff is a reviewable diff.**
+**1.12 Narrow the edit surface — a small diff is a reviewable diff.** — *constraint*
 > **Instead of:** "Refactor the whole checkout flow."
 >
 > **Prefer:** "Change only `@src/checkout/total.ts` — don't touch anything else."
 
 <a id="tip-1-13"></a>
-**1.13 Dial effort; don't beg for thoroughness.**
+**1.13 Dial effort; don't beg for thoroughness.** — *constraint*
 > **Instead of:** "Think really hard and be exhaustive."
 >
 > **Prefer:** leave it at high (the current default); add `ultrathink` for one gnarly turn; `/effort ultracode` for big async jobs.
 
 <a id="tip-1-14"></a>
-**1.14 Say it all in your first message.**
+**1.14 Say it all in your first message.** — *all three at once*
 > **Instead of:** "Add a way to export reports." — then ten messages fixing what it guessed wrong.
 >
 > **Prefer:** "Add report export: a button on the reports page that downloads the current rows as a `.csv`. No new libraries. Work on your own; only stop if you hit a real decision."
@@ -420,6 +430,8 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 ## Tier 2 — Shaping & Slicing: Plan and slice before you build, to keep every change small and safe
 
 **Reach for this tier when** big asks go sideways — the agent edits the wrong things or tries to do everything in one pass. Plan first, then cut the work into small slices, each one small enough to check and cheap to undo.
+
+*This is the triad externalized onto the page: intent becomes a written spec, context comes from investigating before you edit, and each slice is a constraint small enough to check and undo.*
 
 <a id="tip-2-1"></a>
 **2.1 Investigate before you edit — a wrong mental model wrecks the diff.**
@@ -517,6 +529,8 @@ The spec is the contract the whole build runs against (Tier 4), so this is the h
 ## Tier 3 — Context Management: Give the agent the right context and tools, so it stops guessing
 
 **Reach for this tier when** you re-explain the same conventions every session, or the agent can't see your DB, browser, or docs. Engineer that context once — durable project memory plus the right tools — and it stops re-asking and guessing.
+
+*This is the triad's context slot, scaled — from pasting context into a prompt to engineering it: `@files`, tools, MCP, durable memory.*
 
 *The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 6). Check usage any time with `/context`.*
 
@@ -617,6 +631,8 @@ Or commit `.mcp.json` to the repo root:
 **Reach for this tier when** you can't trust the output without reading every line, and "done" means nothing concrete.
 
 **This is the heart of professional agentic engineering, so read the framing first.**
+
+*This is intent made executable: the Given/When/Then you specced in Tier 2 becomes the check the loop has to pass before it can call the work done.*
 
 > **Prompts don't make agents reliable. Verification does.**
 
@@ -735,6 +751,8 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 ## Tier 5 — Checkpointing & Hardening: Checkpoint in git and harden the harness, so you can always roll back
 
 **Reach for this tier when** a long run goes wrong and you've lost good work with nothing to roll back to. With a checkpoint at every green step, a bad run costs minutes to undo, not a rewrite.
+
+*These are the triad's constraints, hardened — from a line in the prompt into checkpoints, CI, and rollback the harness enforces for you.*
 
 *Git isn't bookkeeping here — it's the loop's memory and undo. And the harness around it — hooks that always run your tests, CI, the `gh` CLI — makes the whole loop deterministic and shareable with the team.*
 

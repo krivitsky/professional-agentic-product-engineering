@@ -6,24 +6,28 @@
 
 **Reach for this tier when** the agent keeps doing *almost* the right thing — vague asks get literal, wrong results. The single request is your cheapest lever: say what you want so it can't guess wrong.
 
+## The prompt triad
+
+The tier opens with one frame — [[The Prompt Triad]]: every prompt is three things, **intent · context · constraint**. Fill all three in one message and the agent runs far on its own. The 14 tips below are how you fill each slot well; each is tagged with the slot it serves.
+
 ## The 14 tips
 
 Each tip has its own page — click through for the Instead/Prefer pair.
 
-- [[Tip 1.1 — Hand over the outcome, not a file list]] — give the destination and the guardrails; let the agent choose the parts.
-- [[Tip 1.2 — Be specific — vagueness is now taken literally]] — name the exact function, file, and change.
-- [[Tip 1.3 — Say what to do, not what to avoid]] — positive instructions beat prohibitions.
-- [[Tip 1.4 — Give the reason; motivation makes it generalize]] — a "because" lets the agent apply the rule to cases you didn't list.
-- [[Tip 1.5 — Specify the output shape, not just the goal]] — route, response format, ordering, limits.
-- [[Tip 1.6 — Show examples instead of describing style]] — 3–5 concrete examples work best.
-- [[Tip 1.7 — Follow the house style, don't invent one]] — point at the existing pattern in the repo.
-- [[Tip 1.8 — Show, don't tell — use the input channels]] — paste the screenshot, the component, the raw logs.
-- [[Tip 1.9 — Invite uncertainty instead of forcing an answer]] — ask it to list assumptions and stop on genuine ambiguity.
-- [[Tip 1.10 — Paste raw errors, don't paraphrase them]] — full stack trace → diagnose root cause before changing anything.
-- [[Tip 1.11 — Constrain scope — modern models over-engineer unless you stop them]] — ask for the smallest change that works.
-- [[Tip 1.12 — Narrow the edit surface — a small diff is a reviewable diff]] — scope the change to one file.
-- [[Tip 1.13 — Dial effort; don't beg for thoroughness]] — leave it at high; add `ultrathink` for one gnarly turn; `/effort ultracode` for big async jobs.
-- [[Tip 1.14 — Say it all in your first message]] — one complete brief beats ten corrections.
+- [[Tip 1.1 — Hand over the outcome, not a file list]] *(intent)* — give the destination and the guardrails; let the agent choose the parts.
+- [[Tip 1.2 — Be specific — vagueness is now taken literally]] *(intent)* — name the exact function, file, and change.
+- [[Tip 1.3 — Say what to do, not what to avoid]] *(intent)* — positive instructions beat prohibitions.
+- [[Tip 1.4 — Give the reason; motivation makes it generalize]] *(context)* — a "because" lets the agent apply the rule to cases you didn't list.
+- [[Tip 1.5 — Specify the output shape, not just the goal]] *(intent)* — route, response format, ordering, limits.
+- [[Tip 1.6 — Show examples instead of describing style]] *(context)* — 3–5 concrete examples work best.
+- [[Tip 1.7 — Follow the house style, don't invent one]] *(context)* — point at the existing pattern in the repo.
+- [[Tip 1.8 — Show, don't tell — use the input channels]] *(context)* — paste the screenshot, the component, the raw logs.
+- [[Tip 1.9 — Invite uncertainty instead of forcing an answer]] *(the fourth move — the gaps in any slot)* — ask it to list assumptions and stop on genuine ambiguity.
+- [[Tip 1.10 — Paste raw errors, don't paraphrase them]] *(context)* — full stack trace → diagnose root cause before changing anything.
+- [[Tip 1.11 — Constrain scope — modern models over-engineer unless you stop them]] *(constraint)* — ask for the smallest change that works.
+- [[Tip 1.12 — Narrow the edit surface — a small diff is a reviewable diff]] *(constraint)* — scope the change to one file.
+- [[Tip 1.13 — Dial effort; don't beg for thoroughness]] *(constraint)* — leave it at high; add `ultrathink` for one gnarly turn; `/effort ultracode` for big async jobs.
+- [[Tip 1.14 — Say it all in your first message]] *(all three at once)* — one complete brief beats ten corrections.
 
 ## Key Instead/Prefer pairs
 
@@ -53,6 +57,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 
 ## Related
 
+- [[The Prompt Triad]]
 - [[The Eight Tiers]]
 - [[Tier 2 — Shaping and Slicing]]
 - [[Tier 3 — Context Management]]

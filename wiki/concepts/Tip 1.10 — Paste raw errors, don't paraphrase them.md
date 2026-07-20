@@ -1,6 +1,7 @@
 # Tip 1.10 — Paste raw errors, don't paraphrase them
 **Part of:** [[Tier 1 — Professional Prompting]] · tip 10 of 14
 **Source:** `guide.md #tip-1-10` (root — canonical, not copied)
+**Triad slot:** context
 **Created:** 2026-07-04
 
 > **Instead of:** "It throws some null error."
@@ -14,3 +15,4 @@ The stack trace carries the file, line, and call path a paraphrase drops. Hand o
 - [[Tip 1.9 — Invite uncertainty instead of forcing an answer]]
 - [[Tip 1.8 — Show, don't tell — use the input channels]]
 - [[Tip 1.11 — Constrain scope — modern models over-engineer unless you stop them]]
+- [[The Prompt Triad]]

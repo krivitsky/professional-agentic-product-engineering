@@ -1,6 +1,7 @@
 # Tip 1.9 — Invite uncertainty instead of forcing an answer
 **Part of:** [[Tier 1 — Professional Prompting]] · tip 9 of 14
 **Source:** `guide.md #tip-1-9` (root — canonical, not copied)
+**Triad slot:** the fourth move — the gaps in any slot
 **Created:** 2026-07-04
 
 > **Instead of:** "Implement the caching layer."
@@ -13,3 +14,4 @@ Forcing an answer makes the agent guess silently and commit to the guess. Inviti
 - [[Tier 1 — Professional Prompting]]
 - [[Tip 1.8 — Show, don't tell — use the input channels]]
 - [[Tip 1.10 — Paste raw errors, don't paraphrase them]]
+- [[The Prompt Triad]]

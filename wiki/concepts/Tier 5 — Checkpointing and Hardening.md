@@ -6,6 +6,8 @@ Tier 5 of [[The Eight Tiers]]. **Checkpoint in git and harden the harness, so yo
 
 **Reach for this tier when** a long run goes wrong and you've lost good work with nothing to roll back to. With a checkpoint at every green step, a bad run costs minutes to undo, not a rewrite.
 
+These are the constraints of [[The Prompt Triad]], hardened — from a line in the prompt into checkpoints, CI, and rollback the harness enforces for you.
+
 ## Git as the loop's memory
 
 Git isn't bookkeeping here — it's the loop's memory and undo. And the harness around it (hooks that always run your tests, CI, the `gh` CLI) makes the whole loop deterministic and shareable with the team.
@@ -25,6 +27,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 - [[Tip 5.5 — Move repetitive engineering into CI ∕ headless — run it without you in the seat]] — run the agent non-interactively in your pipeline, scoped tightly with `claude -p` or the GitHub Action.
 
 ## Related
+- [[The Prompt Triad]]
 - [[The Harness]]
 - [[Agentic Primitives]]
 - [[Tier 4 — Loop Until Done]]

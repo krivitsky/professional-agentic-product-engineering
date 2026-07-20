@@ -1,6 +1,7 @@
 # Tip 1.2 — Be specific — vagueness is now taken literally
 **Part of:** [[Tier 1 — Professional Prompting]] · tip 2 of 14
 **Source:** `guide.md #tip-1-2` (root — canonical, not copied)
+**Triad slot:** intent
 **Created:** 2026-07-04
 
 > **Instead of:** "Clean up the auth code."
@@ -13,3 +14,4 @@ Frontier models fill ambiguity with a literal reading, not your intent. Name the
 - [[Tier 1 — Professional Prompting]]
 - [[Tip 1.1 — Hand over the outcome, not a file list]]
 - [[Tip 1.3 — Say what to do, not what to avoid]]
+- [[The Prompt Triad]]

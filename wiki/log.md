@@ -2,6 +2,16 @@
 
 Chronological record of ingests, queries, and lint passes.
 
+## [2026-07-20] re-wikify | Prompt triad added to Tier 1
+
+`guide.md` gained the **prompt triad** frame (intent · context · constraint) as a visible box at the top of Tier 1, per-tip slot tags on all 14 Tier 1 tips, and one threaded line each into Tiers 2–5. Synced the vault:
+
+- New concept page [[The Prompt Triad]] — the three slots, the tip→slot mapping, and how the triad threads up T2–T5.
+- Updated [[Tier 1 — Professional Prompting]] — added a "The prompt triad" section, tagged every tip bullet with its slot, linked the concept.
+- Tagged all 14 Tip 1.x pages with a `**Triad slot:**` line + a `[[The Prompt Triad]]` Related link.
+- Threaded one triad line + Related link into [[Tier 2 — Shaping and Slicing]], [[Tier 3 — Context Management]], [[Tier 4 — Loop Until Done]], [[Tier 5 — Checkpointing and Hardening]].
+- Updated `index.md` (big-idea + Tier 1 entries). Verified every wikilink resolves, no orphans; the concept has 28 inbound links.
+
 ## [2026-07-04] ingest | Professional Agentic Product Engineering Guide
 
 First ingest of this vault. Digested `guide.md` (the full eight-tier field guide) into a connected page set:

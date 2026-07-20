@@ -6,6 +6,8 @@
 
 **Reach for this tier when** you re-explain the same conventions every session, or the agent can't see your DB, browser, or docs. Engineer that context once — durable project memory plus the right tools — and it stops re-asking and guessing.
 
+This is the context slot of [[The Prompt Triad]], scaled — from pasting context into a prompt to engineering it: @files, tools, MCP, durable memory.
+
 ## The context budget
 
 The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this **[[Context Rot]]**. So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result.
@@ -39,6 +41,7 @@ Skills and slash commands are the same idea (commands are now skills under the h
 
 ## Related
 
+- [[The Prompt Triad]]
 - [[Context Rot]]
 - [[Agentic Primitives]]
 - [[The Eight Tiers]]

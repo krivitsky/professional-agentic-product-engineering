@@ -12,12 +12,13 @@ This vault is generated from **`guide.md`** — the canonical field guide at the
 
 ### The big idea
 - [[From Prompts to Systems]] — Professional agentic engineering is engineering the system around the model, not prompt-tuning. Prompt shrinks, system grows.
+- [[The Prompt Triad]] — Every prompt is three things: intent · context · constraint. The opening frame of Tier 1; threads up through T2 (spec), T3 (context), T4 (intent as check), T5 (hardened constraints).
 - [[The Harness]] — A workflow bounded by guidelines, autotests, and guardrails; inside those bounds the model converges on its own.
 - [[Loops of Agentic Engineering]] — Three nested loops: coding (red→green→refactor) inside feature (specify→refine→verify) inside impact (opportunities→hypothesis→impact).
 - [[The Eight Tiers]] — The simple→hard ladder; each tier kills a specific failure of the one below. Climb only as high as the work demands.
 
 ### The eight tiers
-- [[Tier 1 — Professional Prompting]] — T1: write prompts the agent can act on (14 tips). Hand over the outcome, be specific, say what to do not avoid, constrain scope, say it all in the first message.
+- [[Tier 1 — Professional Prompting]] — T1: write prompts the agent can act on (14 tips), opening with [[The Prompt Triad]] (intent · context · constraint). Hand over the outcome, be specific, say what to do not avoid, constrain scope, say it all in the first message.
 - [[Tier 2 — Shaping and Slicing]] — T2: plan and slice before you build (8 tips). Investigate first, approval checkpoints, options not first idea, vertical slices, spec-then-fresh-session.
 - [[Tier 3 — Context Management]] — T3: give the agent the right context and tools (8 tips). High-signal context, secrets out, /clear, CLAUDE.md, Skills, MCP, external memory.
 - [[Tier 4 — Loop Until Done]] — T4: make the agent prove it's done (9 tips). *The heart of the guide* — verification over prompts, TDD/BDD, executable DoD, demand evidence, fresh-eyes review.
