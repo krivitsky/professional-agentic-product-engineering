@@ -4,12 +4,6 @@
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
 **⭐ Star it; submit issues or PRs** — help yourself and the next person learn better.
 
-<a class="community-callout" href="https://agentic-shift.com/community" target="_blank" rel="noopener">
-  <span class="cc-tag">Community</span>
-  <span class="cc-desc">A learning community for senior builders &amp; leaders</span>
-  <span class="cc-link">Apply now →</span>
-</a>
-
 <div class="testimonial testimonial-lead">
 <p>&ldquo;The purpose of knowledge is action, not knowledge.&rdquo;</p>
 <span class="testimonial-cite">— Aristotle</span>

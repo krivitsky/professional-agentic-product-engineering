@@ -233,11 +233,15 @@ for (const part of fmParts) {
   anchorToPage[subSlug] = subSlug;
 }
 
-// Lift the community CTA out of the intro so it can sit ABOVE the hero banner
-// (top of the page). Guide.md stays canonical — we just relocate its own block.
-const ctaMatch = HOME_INTRO_MD.match(/<a class="community-callout"[\s\S]*?<\/a>/);
-const COMMUNITY_CTA = ctaMatch ? ctaMatch[0] : '';
-if (COMMUNITY_CTA) HOME_INTRO_MD = HOME_INTRO_MD.replace(COMMUNITY_CTA, '').replace(/\n{3,}/g, '\n\n');
+// Community CTA — site chrome, NOT guide content. Kept out of guide.md (which
+// stays a clean canonical doc); defined here so it can sit above the hero
+// banner on home and in the footer of every page.
+const COMMUNITY_CTA =
+  `<a class="community-callout" href="https://agentic-shift.com/community" target="_blank" rel="noopener">` +
+  `<span class="cc-tag">Community</span>` +
+  `<span class="cc-desc">A learning community for senior builders &amp; leaders</span>` +
+  `<span class="cc-link">Apply now →</span>` +
+  `</a>`;
 
 for (const s of sections) {
   const meta = shortLabel(s.heading);
