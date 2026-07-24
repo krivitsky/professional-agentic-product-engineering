@@ -29,6 +29,12 @@ Throughout this guide, Claude Code is the running example because it's the most 
 <span class="testimonial-cite">— <a href="https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29">Michal Svoboda</a>, Security &amp; Engineering Mentor</span>
 </div>
 
+<a class="community-cta" href="https://agentic-shift.com/community" target="_blank" rel="noopener">
+  <span class="cta-tag">community</span>
+  <span class="cta-desc">professional learning community for senior builders &amp; leaders</span>
+  <span class="cta-link">applications open →</span>
+</a>
+
 ### Part of the Agentic Shift System
 
 This is a guide to the **technical** side of the agentic shift — how engineers and product teams get genuinely good at building with coding agents. It stops there on purpose.
@@ -92,7 +98,8 @@ Read it in whichever form fits how you work — all three stay in sync with this
     - [3.6 Put occasional knowledge in Skills](#tip-3-6)
     - [3.7 Add the right MCP servers](#tip-3-7)
     - [3.8 Use external memory](#tip-3-8)
-14. [Tier 4 — Loop Until Done: Make the agent prove it's done](#tier-4)
+14. [Common failure patterns — catch them before they cost you](#common-failure-patterns)
+15. [Tier 4 — Loop Until Done: Make the agent prove it's done](#tier-4)
     - [4.1 Make Definition of Done executable](#tip-4-1)
     - [4.2 Do TDD](#tip-4-2)
     - [4.3 Use BDD](#tip-4-3)
@@ -102,13 +109,13 @@ Read it in whichever form fits how you work — all three stay in sync with this
     - [4.7 Review with fresh eyes](#tip-4-7)
     - [4.8 Run a pre-mortem](#tip-4-8)
     - [4.9 Iterate UI visually](#tip-4-9)
-15. [Tier 5 — Checkpointing & Hardening: Checkpoint in git and harden the harness](#tier-5)
+16. [Tier 5 — Checkpointing & Hardening: Checkpoint in git and harden the harness](#tier-5)
     - [5.1 Commit every working step](#tip-5-1)
     - [5.2 Let Claude drive `gh`](#tip-5-2)
     - [5.3 Use worktrees for disposable checkpoints](#tip-5-3)
     - [5.4 Replace "remember to run tests" with a hook](#tip-5-4)
     - [5.5 Move repetitive engineering into CI](#tip-5-5)
-16. [Tier 6 — Orchestration: Run many agents at once](#tier-6)
+17. [Tier 6 — Orchestration: Run many agents at once](#tier-6)
     - [The model toolkit — bring in more models (any tier)](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)
       - [Assign a model per subagent](#toolkit-model-per-subagent)
       - [Keep a stronger model on call — the advisor](#toolkit-advisor)
@@ -121,19 +128,19 @@ Read it in whichever form fits how you work — all three stay in sync with this
     - [6.5 Engineer the long-horizon hand-off](#tip-6-5)
     - [6.6 Steer long runs mid-flight](#tip-6-6)
     - [6.7 Engineer the environment](#tip-6-7)
-17. [Tier 7 — Fleet Ops: Operate your agents as a fleet](#tier-7)
+18. [Tier 7 — Fleet Ops: Operate your agents as a fleet](#tier-7)
     - [7.1 Use an agent-aware terminal](#tip-7-1)
     - [7.2 Isolate with worktrees + one session each](#tip-7-2)
     - [7.3 Host on a box that doesn't sleep](#tip-7-3)
     - [7.4 Drive the fleet from your phone](#tip-7-4)
     - [7.5 Secure the agent server](#tip-7-5)
-18. [Tier 8 — Agent Execution Layer: Put agents into production](#tier-8)
+19. [Tier 8 — Agent Execution Layer: Put agents into production](#tier-8)
     - [8.1 Sandbox the loop](#tip-8-1)
     - [8.2 Gate the plan, not every keystroke](#tip-8-2)
     - [8.3 Cap the strikes](#tip-8-3)
     - [8.4 Make the tracker the state machine](#tip-8-4)
-19. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
-20. [Sources](#sources)
+20. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
+21. [Sources](#sources)
 
 ---
 
@@ -544,6 +551,8 @@ The spec is the contract the whole build runs against (Tier 4), so this is the h
 
 *The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 6). Check usage any time with `/context`.*
 
+### Context Hygiene — managing the active window
+
 <a id="tip-3-1"></a>
 **3.1 Feed high-signal context, not the whole repo.**
 > **Instead of:** "Here's the entire codebase." (even at 1M tokens)
@@ -575,6 +584,8 @@ A coding agent reads your whole tree and everything you paste; both leak.
 > **Instead of:** "/compact"
 >
 > **Prefer:** "/compact keep the data-model decisions and the failing-test list; drop the exploration."
+
+### Knowledge Encoding — engineering what's always available
 
 <a id="tip-3-5"></a>
 **3.5 CLAUDE.md = gotchas + conventions, not an encyclopedia.**
@@ -632,6 +643,36 @@ Or commit `.mcp.json` to the repo root:
 > **Prefer:** write `STATUS.md` at session end; reload it at the next session's start.
 
 *Tier 6 scales this into a full hand-off protocol for multi-session builds — [Tip 6.5](#tip-6-5).*
+
+---
+
+<a id="common-failure-patterns"></a>
+## Common failure patterns — catch them before they cost you
+
+The coach plugin catches these in real time. The table is the fast index; each "Tip T.N" links to the full Instead/Prefer in the guide.
+
+| When you see this… | The fix | Tip |
+|---|---|---|
+| Hands you a file list ("create these 15 files…") | Hand over the *outcome* + constraints, not a file list | [Tip 1.1](#tip-1-1) |
+| Writes a vague ask ("clean up", "improve", "make it work") | Be specific — name the symbol/file/change | [Tip 1.2](#tip-1-2) |
+| Phrases it as "don't do X" | Say what *to do*, not what to avoid | [Tip 1.3](#tip-1-3) |
+| Gives a rule with no reason | Add the *why* — motivation makes it generalize | [Tip 1.4](#tip-1-4) |
+| Describes a bug or layout issue in prose | Show, don't tell — paste the screenshot + `@Component.tsx`; pipe raw logs straight in | [Tip 1.8](#tip-1-8) |
+| Begs "think hard / ultrathink" everywhere | Dial effort instead; reserve ultrathink for one hard turn | [Tip 1.13](#tip-1-13) |
+| Fires a one-liner and steers the whole task turn by turn | Say it all in your first message — one complete brief beats ten corrections | [Tip 1.14](#tip-1-14) |
+| Jumps straight to code in unfamiliar areas | Investigate first (read-only), *then* edit | [Tip 2.1](#tip-2-1) |
+| Lets the agent touch many files unsupervised | Force an approval checkpoint + blast radius | [Tip 2.3](#tip-2-3) |
+| Asks for one big feature in one pass | Slice vertically — thin end-to-end increments | [Tip 2.5](#tip-2-5) |
+| Dumps the whole repo / huge context | Feed high-signal context, not everything | [Tip 3.1](#tip-3-1) |
+| Has secrets/keys in the repo or pastes a key | Keep secrets out of git and context (`.env` + gitignore) | [Tip 3.2](#tip-3-2) |
+| Keeps re-fixing the same bug in one session | `/clear` and rewrite the opening prompt | [Tip 3.3](#tip-3-3) |
+| Re-explains the same conventions each session | Put them in CLAUDE.md | [Tip 3.5](#tip-3-5) |
+| Has no checkable "done" | Make the Definition of Done executable | [Tip 4.1](#tip-4-1) |
+| Implements without a failing test first | Do TDD — failing test first; don't edit tests to pass | [Tip 4.2](#tip-4-2) |
+| Accepts "done, it works" with no proof | Demand evidence — the test command + its output | [Tip 4.5](#tip-4-5) |
+| Asks for a "conservative" review | Ask for *all* findings, severity-labeled — a conservative prompt suppresses real ones | [Tip 4.6](#tip-4-6) |
+| Runs long work that loses progress | Commit every green step — checkpoints to revert to | [Tip 5.1](#tip-5-1) |
+| Puts one agent on a huge audit/refactor | Let it self-orchestrate parallel subagents | [Tip 6.1](#tip-6-1) |
 
 ---
 

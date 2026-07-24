@@ -296,6 +296,30 @@ a:hover { text-decoration: underline; }
 .learn-callout-title { font-weight: 700; font-size: 1.06rem; }
 .learn-callout-link { font-weight: 700; }
 
+/* community CTA banner */
+.community-cta {
+  display: flex; align-items: center; gap: 14px;
+  background: color-mix(in srgb, var(--teal) 7%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--teal) 32%, transparent);
+  border-radius: 12px; padding: 13px 18px; margin: 0 0 22px;
+  text-decoration: none; color: var(--text);
+  transition: border-color .18s, background .18s;
+}
+.community-cta:hover {
+  border-color: var(--teal);
+  background: color-mix(in srgb, var(--teal) 13%, var(--surface));
+  color: var(--text); text-decoration: none;
+}
+.cta-tag {
+  background: var(--teal); color: #05090d;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  border-radius: 5px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0;
+}
+.cta-desc { flex: 1; font-size: 14.5px; }
+.cta-link { color: var(--accent); font-size: 14px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+@media (max-width: 540px) { .cta-desc { display: none; } }
+
 /* testimonial — quiet pull-quote with a thin accent line, deliberately NOT a filled box (avoids stacking with .learn-callout) */
 .testimonial { margin: 0 0 26px; padding: 2px 0 2px 16px; border-left: 3px solid var(--teal); }
 .testimonial p {

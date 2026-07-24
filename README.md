@@ -9,6 +9,9 @@
 
 This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Professional Agentic Product Engineering Guide](guide.md). These materials and harness nudge you to the right tip of your growing product engineering skills.
 
+> [!NOTE]
+> **Community** — professional learning community for senior builders & leaders. [Applications open →](https://agentic-shift.com/community)
+
 > [!TIP]
 > **Formats of the Guide** — read it in whichever form fits how you work; all three stay in sync with this repo:
 > - **📄 Markdown** — [`guide.md`](guide.md), the canonical source. Best for reading in your editor, feeding to an agent, or sending a PR.

@@ -56,28 +56,9 @@ Before you send any message that names a tip: is every "Tip T.N" wrapped in `[ ]
 
 **Invite the lesson — sparingly.** The first time you coach in a session (and only occasionally after), add a light affordance so the user knows they can go deeper: _say "coach me on that" to learn more._ Don't append it to every nudge — once or twice a session is enough; the link already lets them read.
 
-## Trigger → tip map (the catch-it moments)
+## Trigger → tip map (now in the guide)
 
-| When the user… | Nudge toward | Tip |
-|---|---|---|
-| Hands you a file list ("create these 15 files…") | Hand over the *outcome* + constraints, not a file list | 1 |
-| Writes a vague ask ("clean up", "improve", "make it work") | Be specific — name the symbol/file/change | 2 |
-| Phrases it as "don't do X" | Say what *to do*, not what to avoid | 3 |
-| Gives a rule with no reason | Add the *why* — motivation makes it generalize | 4 |
-| Jumps straight to code in unfamiliar areas | Investigate first (read-only), *then* edit | 15 |
-| Asks for one big feature in one pass | Slice vertically — thin end-to-end increments | 19 |
-| Lets the agent touch many files unsupervised | Force an approval checkpoint + blast radius | 17 |
-| Dumps the whole repo / huge context | Feed high-signal context, not everything | 23 |
-| Has secrets/keys in the repo or pastes a key | Keep secrets out of git and context (`.env` + gitignore) | 24 |
-| Re-explains the same conventions each session | Put them in CLAUDE.md | 27 |
-| Keeps re-fixing the same bug in one session | `/clear` and rewrite the opening prompt | 25 |
-| Has no checkable "done" | Make the Definition of Done executable | 31 |
-| Implements without a failing test first | Do TDD — failing test first; don't edit tests to pass | 32 |
-| Accepts "done, it works" with no proof | Demand evidence — the test command + its output | 35 |
-| Asks for a "conservative" review | Ask for *all* findings, severity-labeled (4.8 hides them otherwise) | 36 |
-| Begs "think hard / ultrathink" everywhere | Dial effort instead; reserve ultrathink for one hard turn | 13 |
-| Runs long work that loses progress | Commit every green step — checkpoints to revert to | 40 |
-| Puts one agent on a huge audit/refactor | Let it self-orchestrate parallel subagents | 45 |
+*Trigger map moved to the guide — see the "Common failure patterns" section before Tier 4.*
 
 The table covers the common moments. For anything outside it — or the full reasoning, the exact "Instead / Prefer" text, or any of the 60 tips — read the matching tip in **`${CLAUDE_PLUGIN_ROOT}/guide.md`** and teach from it. Never invent a tip that isn't in the guide.
 
