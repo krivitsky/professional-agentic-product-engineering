@@ -1,5 +1,8 @@
 # Professional Agentic Product Engineering (PAPE) — Field Guide
 
+> [!NOTE]
+> 🧭 **[Join the professional learning community →](https://agentic-shift.com/community)** — for senior builders & leaders. Applications open.
+
 <img src="assets/og-2x.png?v=2" alt="Professional Agentic Product Engineering — From Prompts to Systems: Master The 8 Tiers" width="100%">
 
 > "The purpose of knowledge is action, not knowledge."
@@ -8,9 +11,6 @@
 **Professional agentic engineering is not prompt engineering — it's engineering the system around the model.** As the work gets harder, the effort moves up the ladder: the prompt shrinks while the system around it grows.
 
 This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Professional Agentic Product Engineering Guide](guide.md). These materials and harness nudge you to the right tip of your growing product engineering skills.
-
-> [!NOTE]
-> **Community** — professional learning community for senior builders & leaders. [Applications open →](https://agentic-shift.com/community)
 
 > [!TIP]
 > **Formats of the Guide** — read it in whichever form fits how you work; all three stay in sync with this repo:

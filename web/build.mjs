@@ -233,6 +233,12 @@ for (const part of fmParts) {
   anchorToPage[subSlug] = subSlug;
 }
 
+// Lift the community CTA out of the intro so it can sit ABOVE the hero banner
+// (top of the page). Guide.md stays canonical — we just relocate its own block.
+const ctaMatch = HOME_INTRO_MD.match(/<a class="community-callout"[\s\S]*?<\/a>/);
+const COMMUNITY_CTA = ctaMatch ? ctaMatch[0] : '';
+if (COMMUNITY_CTA) HOME_INTRO_MD = HOME_INTRO_MD.replace(COMMUNITY_CTA, '').replace(/\n{3,}/g, '\n\n');
+
 for (const s of sections) {
   const meta = shortLabel(s.heading);
   const headSlug = slug(s.heading);
@@ -555,6 +561,7 @@ ${contentHtml}
   </article>
   ${prevNext(pageSlug)}
   <footer class="site-footer">
+    ${COMMUNITY_CTA}
     <div class="creditrow">${creditRow()}</div>
     <nav class="footer-links">
       <a href="sitemap.xml">Sitemap</a>
@@ -594,6 +601,7 @@ for (const p of pages) {
     const intro = renderMarkdown(linkifyTiers(HOME_INTRO_MD), 'index');
     contentHtml =
       `<h1 class="sr-only">${escapeHtml(HOME_TITLE)}</h1>` +
+      COMMUNITY_CTA +
       `<img class="hero-banner" src="og-2x.png?v=${ASSET_VER}" alt="${escapeHtml(HOME_TITLE)}" width="1200" height="630">` +
       intro +
       `<div class="learn-callout">` +
