@@ -238,8 +238,7 @@ for (const part of fmParts) {
 // banner on home and in the footer of every page.
 const COMMUNITY_CTA =
   `<a class="community-callout" href="https://agentic-shift.com/community" target="_blank" rel="noopener">` +
-  `<span class="cc-tag">Community</span>` +
-  `<span class="cc-desc">A learning community for senior builders &amp; leaders</span>` +
+  `<span class="cc-desc">Join a <strong>professional learning community</strong> for senior builders &amp; leaders</span>` +
   `<span class="cc-link">Apply now →</span>` +
   `</a>`;
 

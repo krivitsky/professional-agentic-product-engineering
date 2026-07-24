@@ -316,12 +316,8 @@ a:hover { text-decoration: underline; }
   background: color-mix(in srgb, var(--clay) 18%, transparent);
   color: var(--text); text-decoration: none;
 }
-.cc-tag {
-  background: var(--clay); color: #2a1810;
-  font: 700 13px var(--font-sans); letter-spacing: .01em;
-  border-radius: 6px; padding: 3px 11px; white-space: nowrap; flex-shrink: 0;
-}
-.cc-desc { flex: 1; font-size: 14.5px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cc-desc { flex: 1; font-size: 14.5px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cc-desc strong { font-weight: 700; color: var(--clay-link); }
 .cc-link { color: var(--clay-link); font-weight: 700; font-size: 14px; white-space: nowrap; flex-shrink: 0; }
 @media (max-width: 560px) {
   .community-callout { flex-wrap: wrap; gap: 9px; }
