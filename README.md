@@ -1,7 +1,7 @@
 # Professional Agentic Product Engineering (PAPE) — Field Guide
 
 > [!NOTE]
-> 🧭 Join a **professional learning community** for senior builders & leaders — [Apply now →](https://agentic-shift.com/community)
+> 🧭 **Agentic Shift** — Join a **professional learning community** for builders and leaders — [Apply now →](https://agentic-shift.com/community)
 
 <img src="assets/og-2x.png?v=2" alt="Professional Agentic Product Engineering — From Prompts to Systems: Master The 8 Tiers" width="100%">
 
