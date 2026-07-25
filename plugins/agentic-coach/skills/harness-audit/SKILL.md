@@ -41,6 +41,24 @@ Every finding gets a stable ID (`H-001`, in severity order), and this shape. The
 | **Corrective action — now** | The smallest thing that closes it, with the literal lines to paste |
 | **Corrective action — structural** | What stops it recurring |
 
+### The finding asserts. The fix proposes. Keep the voices apart.
+
+A report once recommended the wrong hook event with total confidence. The reader's verdict — *"trust the report's problem, not its wiring"* — is the whole design brief: when diagnosis and prescription speak in one voice, a wrong prescription discredits a correct diagnosis. Separate them and a bad fix costs only the fix.
+
+**Every corrective action carries three things the finding does not:**
+
+| | |
+|---|---|
+| **The requirement, stated before the mechanism** | *"The rule fires at push time; the gate must fire there too."* A reader can then accept the requirement and reject your mechanism — which is the point. Fuse them and they can only accept or reject both. |
+| **The assumption it rests on, written as a refutable sentence** | *"This assumes `npm run verify` is deterministic outside CI — checked at `playwright.config.ts:38`."* This line is the actual control: you cannot write it without opening the file, and once written it can be proved wrong by someone who knows more than you. Unstated assumptions are the ones that ship. |
+| **Its own confidence** | A `Confirmed` finding routinely carries a `Probable` fix. Say so: *"Fix: Probable — I have not run this against your dev-server setup."* Collapsing them into one number is how a solid diagnosis inherits a shaky prescription's risk. |
+
+**Where the reader knows more than the audit, ask instead of answer.** A static review cannot see which server is warm on :3007, how long the suite takes, or which rules the team has already given up on. Turning those into questions — *"before wiring this into a gate, check how your Playwright config resolves the server outside CI"* — gets the right answer from the person holding it, and costs nothing when they already know.
+
+**Still ship the literal lines.** This is not a licence to hand back homework — a corrective action with no runnable content is worthless. Ship the code *and* the requirement it satisfies *and* the assumption it rests on, so the reader can rewrite it rather than paste it blind.
+
+Say it once in §9: **corrective actions are proposals; a finding stands even if its fix is wrong.**
+
 **Say when findings compound.** *"Combined with H-001, the configuration reads as gated to anyone reviewing it, while in practice nothing blocks."* Two findings that multiply are worth more than their sum, and a reader who fixes one and not the other has fixed nothing. Look for these deliberately.
 
 ### Severity — the cost if it goes wrong
@@ -97,7 +115,7 @@ Nine sections:
 6. **Detailed findings** — the full shape above, severity order.
 7. **Observations**
 8. **Recommended sequence** — two columns, **This week** and **Structural**, each item referencing its IDs. Ordered by what unblocks what, not by severity alone.
-9. **Limitations** — what this method cannot see, that the findings are not exhaustive, and that *Not assessed* means no evidence rather than no problem.
+9. **Limitations** — what this method cannot see, that the findings are not exhaustive, that *Not assessed* means no evidence rather than no problem, and that **corrective actions are proposals: a finding stands even if its fix is wrong.**
 
 ### Trend
 
@@ -154,6 +172,7 @@ For **each** corrective action, in order:
 3. **Does it fire only at the moment the rule is about?** A rule about pushing that gates every commit, or every agent turn, costs the user something they didn't agree to. Match the trigger to the moment.
 4. **Would this destroy anything §3 credited?** Grep your own summary. If it praises a habit, no corrective action may tax that habit. A report that contradicts its own praise is discarded on the spot.
 5. **Is the output bounded?** Anything that returns text to the model — a blocking hook, a failing gate — surfaces a tail, never a whole log.
+6. **Have I written the assumption down as a sentence that could be wrong?** Not "this should work" — *"this assumes X, checked at `file:line`"*. If you cannot name the file, you have not checked it. This step is the one that catches reasoning errors, where the evidence is right and the inference is not; the other five only catch evidence errors.
 
 Then apply this skill's own §6 to itself: **the session that wrote a recommendation should not be the only one that checks it.** If any action survives all five and still rests on inference, say so in the finding rather than presenting it as settled.
 
