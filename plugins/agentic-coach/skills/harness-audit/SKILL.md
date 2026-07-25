@@ -141,6 +141,31 @@ keys-closed: (none)
 
 ---
 
+## Prescribing a hook — the audit's most common recommendation, and the easiest to get wrong
+
+A real report recommended a `Stop` hook running the project's full verify command. Every clause of that was wrong, and the reader caught all of it. Before writing any hook into a corrective action:
+
+**1. Match the trigger to the rule's actual moment.**
+
+| The rule says | Trigger |
+|---|---|
+| "before push" | `PreToolUse` on `Bash`, script inspects `tool_input.command` for `git push` — rare, targeted, no loop risk |
+| "before commit" | same, matched on `git commit` — and see §3 below before you do |
+| "after editing a test" | `PostToolUse` on `Edit\|Write` |
+| "don't finish on red" | `Stop` — **and only for a check measured in seconds** |
+
+**`Stop` fires at the end of every agent turn, including pure-chat turns where nothing was edited.** Pair it with a multi-minute build and the user waits minutes after every message; they will remove it within a day. It also has a re-entry footgun — always guard with `stop_hook_active`.
+
+**2. Verify the command is deterministic in the environment the hook runs in.** Open the test and e2e config before you name a command. The common trap is a runner that behaves differently under CI: `playwright.config.ts` with `command: CI ? "npm run start:e2e" : "npm run dev"` and `reuseExistingServer: !CI` means the local path reuses whatever server happens to be up, or cold-compiles routes on demand. A gate that intermittently blocks a good push is worse than no gate — **it cries wolf and gets ripped out.** Prefix with `CI=1` (or the project's equivalent) so the hook takes the deterministic path.
+
+**3. Never merge two stated rules into one gate.** If the instructions say *test before commit* and *build before push*, those are two moments and two costs. And check what you're about to gate: **gating `git commit` with a multi-minute command destroys small-checkpoint discipline** — which the same report may well have just praised. Prefer gating push and leaving commits cheap.
+
+**4. Cap what a blocking hook feeds back.** A `PreToolUse` deny returns stderr to the model. A full build log is thousands of tokens of noise at the exact moment the context is needed for the fix. Log to a file, surface the tail.
+
+**Cross-check before you ship the report: does any corrective action destroy something §3 credited?** If §3 says the commit granularity is the best habit here, a fix that taxes every commit is a contradiction the reader will find first.
+
+---
+
 ## Five rules learned from real runs
 
 1. **Verify the path you recommend against what you already found.** A run once reported "no `.claude/settings.json` anywhere" and routed the fix to `site/.claude/` while its own skills check had found `.claude/` at the root. The file would never have been read.
