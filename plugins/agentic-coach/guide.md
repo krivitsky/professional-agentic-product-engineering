@@ -187,12 +187,19 @@ An **agentic system** puts the same model inside a *harness*: a **workflow** —
 
 That's the whole shift. As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows. [The eight tiers](#the-eight-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
 
-<div class="testimonial">
-<p>&ldquo;What I do &hellip; is to surround the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage&hellip; In the end, I have very high confidence in the code they produce because they&rsquo;ve had to run the gauntlet of all my constraints and tests.&rdquo;</p>
-<span class="testimonial-cite">— <a href="https://x.com/unclebobmartin/status/2080257779395154409">Robert C. &ldquo;Uncle Bob&rdquo; Martin</a></span>
-</div>
+Don't take that from me — take it from the person who spent two decades telling the industry the opposite.
 
-*Same idea, from the other side of the field: you don't earn trust by watching the model — you earn it by building the harness it has to pass through. (The guide keeps a review step the tweet drops — see [Tier 4](#tier-4).)*
+[![Tweet from Robert C. "Uncle Bob" Martin: "I'm significantly older than you. I started coding in the late 60s. My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity. What I do instead is to surround the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage, and a plethora of others. In the end, I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."](assets/uncle-bob-tweet.jpg)](https://x.com/unclebobmartin/status/2080257779395154409)
+
+*— [Robert C. "Uncle Bob" Martin](https://x.com/unclebobmartin/status/2080257779395154409), July 2026*
+
+**Who's saying it matters as much as what's said.** Uncle Bob is a signatory of the [Agile Manifesto](https://agilemanifesto.org/), the author of *Clean Code* and *Clean Architecture*, the one who named the [SOLID](https://en.wikipedia.org/wiki/SOLID) principles, and for a generation the loudest voice for software craftsmanship and test-driven development. His entire life's work was about the quality of the lines a human writes and *reads*.
+
+So when **he** says he no longer reads the code his agents produce — and trusts it anyway — this isn't a hype-chaser cheering a trend. It's the strongest possible version of the Big Idea, from the one person you'd least expect to say it: **confidence doesn't come from reading the output; it comes from the gauntlet the output has to survive.**
+
+And look at *what* his gauntlet is made of — unit tests, gherkin/BDD tests, coverage, mutation testing. Those are the craftsmanship disciplines he's preached for twenty years. **Craftsmanship didn't die with agents; it moved** — from the code you hand-write to the *system you build around the model*. That's this whole guide, said by its most unlikely spokesman.
+
+*(One caveat: this guide keeps a review step that his "read none of it" framing drops — see [Tier 4](#tier-4), especially [4.7](#tip-4-7). Take "engineer the constraints" as the lesson, not "never read the code" as a literal rule.)*
 
 The harness has a shape — **three nested loops**, from the tight red-green cycle out to real-world impact: **[Loops of Agentic Engineering](#loops-of-agentic-engineering)**.
 

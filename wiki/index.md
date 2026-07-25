@@ -40,3 +40,4 @@ This vault is generated from **`guide.md`** — the canonical field guide at the
 - [[Claude Code]] — Anthropic's terminal-native coding agent; the guide's running example. Works in your real repo, makes targeted diffs, opens PRs.
 - [[Anthropic]] — Maker of Claude Code and the Claude model family (Opus / Sonnet / Haiku / Fable) used throughout the guide.
 - [[Playwright MCP]] — MCP server for driving a live browser to test the UI for real, off the accessibility tree.
+- [[Robert C. Martin]] — "Uncle Bob"; Clean Code / Agile Manifesto / SOLID. Cited in the Big Idea as outside validation: he stopped reading his agents' code and trusts the harness instead.

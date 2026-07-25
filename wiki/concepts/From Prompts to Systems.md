@@ -28,13 +28,19 @@ See [[The Harness]] for the full definition.
 - The harness has a shape — three nested loops, from the tight red-green cycle out to real-world impact.
 
 ## External validation
-- Robert C. "Uncle Bob" Martin, arriving at the same idea from the other side of the field: *"surround the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage… I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."* The guide cites this in the Big Idea, with one caveat — it keeps the review step (see [[Tier 4 — Loop Until Done]], Tip 4.7) that the tweet drops.
+
+[[Robert C. Martin]] ("Uncle Bob") — Agile Manifesto signatory, author of *Clean Code*, namer of SOLID, and for a generation the loudest voice for reading and crafting every line — now says he does *not* read the code his agents write, and instead *"surround[s] the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage… I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."*
+
+- **Significance:** the industry's foremost advocate for *reading* code stops reading it — the strongest possible endorsement of this page's thesis that trust is engineered by the harness, not earned by watching the model.
+- **Continuity:** his constraints *are* the craftsmanship disciplines (TDD/BDD/coverage) he preached for decades — craftsmanship didn't die, it moved from the hand-written code to the [[The Harness]] around the model. See [[Tier 4 — Loop Until Done]].
+- **Caveat:** the guide keeps a review step (Tip 4.7) that his "read none of it" framing drops; it cites the *constraints* half, not the *never-read* half.
 
 ## External References
-- [Robert C. Martin (@unclebobmartin) on surrounding agents with extreme constraints](https://x.com/unclebobmartin/status/2080257779395154409) — X, 2026
+- [Robert C. Martin (@unclebobmartin) on surrounding agents with extreme constraints](https://x.com/unclebobmartin/status/2080257779395154409) — X, July 2026
 
 ## Related
 - [[The Harness]]
 - [[Loops of Agentic Engineering]]
 - [[The Eight Tiers]]
 - [[Agentic Primitives]]
+- [[Robert C. Martin]]

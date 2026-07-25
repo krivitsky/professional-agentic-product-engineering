@@ -56,4 +56,5 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 - [[Loops of Agentic Engineering]]
 - [[The Review-Agent Pattern]]
 - [[Playwright MCP]]
+- [[Robert C. Martin]]
 - [[The Eight Tiers]]
