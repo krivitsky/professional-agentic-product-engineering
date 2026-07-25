@@ -18,7 +18,7 @@ In a [July 2026 post](https://x.com/unclebobmartin/status/2080257779395154409) h
 
 - **Authority reversal.** The industry's foremost advocate for *reading* code stops reading it — the strongest possible endorsement of the guide's Big Idea that **trust is engineered by the harness, not earned by watching the model**.
 - **Craftsmanship moved, didn't die.** His constraints *are* the TDD/BDD/coverage disciplines he preached for two decades — now pointed at the harness around the agent instead of the human writing the code. This is exactly the guide's [[Tier 4 — Loop Until Done]] framing: the discipline already existed; the agentic era makes it mandatory.
-- **Caveat the guide keeps.** His "read none of it" is more extreme than the guide, which retains a review step (Tip 4.7). The guide cites the *constraints* half, not the *never-read* half.
+- **Caveat the guide keeps.** His "read none of it" is more extreme than the guide, which retains a review step (Tip 4.7) — noted in the [[Tier 4 — Loop Until Done]] intro.
 
 ## External References
 - [Robert C. Martin (@unclebobmartin) on surrounding agents with extreme constraints](https://x.com/unclebobmartin/status/2080257779395154409) — X, July 2026

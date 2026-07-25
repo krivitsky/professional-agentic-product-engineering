@@ -33,7 +33,7 @@ See [[The Harness]] for the full definition.
 
 - **Significance:** the industry's foremost advocate for *reading* code stops reading it — the strongest possible endorsement of this page's thesis that trust is engineered by the harness, not earned by watching the model.
 - **Continuity:** his constraints *are* the craftsmanship disciplines (TDD/BDD/coverage) he preached for decades — craftsmanship didn't die, it moved from the hand-written code to the [[The Harness]] around the model. See [[Tier 4 — Loop Until Done]].
-- **Caveat:** the guide keeps a review step (Tip 4.7) that his "read none of it" framing drops; it cites the *constraints* half, not the *never-read* half.
+- **Caveat:** his "read none of it" is more extreme than the guide, which retains a review step — see [[Tier 4 — Loop Until Done]], Tip 4.7, where the guide notes it directly.
 
 ## External References
 - [Robert C. Martin (@unclebobmartin) on surrounding agents with extreme constraints](https://x.com/unclebobmartin/status/2080257779395154409) — X, July 2026

@@ -197,11 +197,7 @@ Don't take that from me — take it from the person who spent two decades tellin
 
 So when **he** says he no longer reads the code his agents produce — and trusts it anyway — this isn't a hype-chaser cheering a trend. It's the strongest possible version of the Big Idea, from the one person you'd least expect to say it: **confidence doesn't come from reading the output; it comes from the gauntlet the output has to survive.**
 
-And look at *what* his gauntlet is made of — unit tests, gherkin/BDD tests, coverage, mutation testing. Those are the craftsmanship disciplines he's preached for twenty years. **Craftsmanship didn't die with agents; it moved** — from the code you hand-write to the *system you build around the model*. That's this whole guide, said by its most unlikely spokesman.
-
-*(One caveat: this guide keeps a review step that his "read none of it" framing drops — see [Tier 4](#tier-4), especially [4.7](#tip-4-7). Take "engineer the constraints" as the lesson, not "never read the code" as a literal rule.)*
-
-The harness has a shape — **three nested loops**, from the tight red-green cycle out to real-world impact: **[Loops of Agentic Engineering](#loops-of-agentic-engineering)**.
+And look at *what* his gauntlet is made of — unit tests, gherkin/BDD tests, coverage, mutation testing. Those are the craftsmanship disciplines he's preached for twenty years. **Craftsmanship didn't die with agents; it moved** — from the code you hand-write to the *system you build around the model*.
 
 ## Loops of Agentic Engineering
 
