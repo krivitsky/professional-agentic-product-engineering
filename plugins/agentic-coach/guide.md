@@ -655,28 +655,28 @@ Or commit `.mcp.json` to the repo root:
 
 The coach plugin catches these in real time. The table is the fast index; each "Tip T.N" links to the full Instead/Prefer in the guide.
 
-| When you see this… | The fix | Tip |
+| The habit | The fix | Tip |
 |---|---|---|
-| Hands you a file list ("create these 15 files…") | Hand over the *outcome* + constraints, not a file list | [Tip 1.1](#tip-1-1) |
-| Writes a vague ask ("clean up", "improve", "make it work") | Be specific — name the symbol/file/change | [Tip 1.2](#tip-1-2) |
-| Phrases it as "don't do X" | Say what *to do*, not what to avoid | [Tip 1.3](#tip-1-3) |
-| Gives a rule with no reason | Add the *why* — motivation makes it generalize | [Tip 1.4](#tip-1-4) |
-| Describes a bug or layout issue in prose | Show, don't tell — paste the screenshot + `@Component.tsx`; pipe raw logs straight in | [Tip 1.8](#tip-1-8) |
-| Begs "think hard / ultrathink" everywhere | Dial effort instead; reserve ultrathink for one hard turn | [Tip 1.13](#tip-1-13) |
-| Fires a one-liner and steers the whole task turn by turn | Say it all in your first message — one complete brief beats ten corrections | [Tip 1.14](#tip-1-14) |
-| Jumps straight to code in unfamiliar areas | Investigate first (read-only), *then* edit | [Tip 2.1](#tip-2-1) |
-| Lets the agent touch many files unsupervised | Force an approval checkpoint + blast radius | [Tip 2.3](#tip-2-3) |
-| Asks for one big feature in one pass | Slice vertically — thin end-to-end increments | [Tip 2.5](#tip-2-5) |
-| Dumps the whole repo / huge context | Feed high-signal context, not everything | [Tip 3.1](#tip-3-1) |
-| Has secrets/keys in the repo or pastes a key | Keep secrets out of git and context (`.env` + gitignore) | [Tip 3.2](#tip-3-2) |
-| Keeps re-fixing the same bug in one session | `/clear` and rewrite the opening prompt | [Tip 3.3](#tip-3-3) |
-| Re-explains the same conventions each session | Put them in CLAUDE.md | [Tip 3.5](#tip-3-5) |
-| Has no checkable "done" | Make the Definition of Done executable | [Tip 4.1](#tip-4-1) |
-| Implements without a failing test first | Do TDD — failing test first; don't edit tests to pass | [Tip 4.2](#tip-4-2) |
-| Accepts "done, it works" with no proof | Demand evidence — the test command + its output | [Tip 4.5](#tip-4-5) |
-| Asks for a "conservative" review | Ask for *all* findings, severity-labeled — a conservative prompt suppresses real ones | [Tip 4.6](#tip-4-6) |
-| Runs long work that loses progress | Commit every green step — checkpoints to revert to | [Tip 5.1](#tip-5-1) |
-| Puts one agent on a huge audit/refactor | Let it self-orchestrate parallel subagents | [Tip 6.1](#tip-6-1) |
+| Handing the agent a file list ("create these 15 files…") | Hand over the *outcome* + constraints, not a file list | [Tip 1.1](#tip-1-1) |
+| Writing a vague ask ("clean up", "improve", "make it work") | Be specific — name the symbol/file/change | [Tip 1.2](#tip-1-2) |
+| Phrasing it as "don't do X" | Say what *to do*, not what to avoid | [Tip 1.3](#tip-1-3) |
+| Giving a rule with no reason | Add the *why* — motivation makes it generalize | [Tip 1.4](#tip-1-4) |
+| Describing a bug or layout issue in prose | Show, don't tell — paste the screenshot + `@Component.tsx`; pipe raw logs straight in | [Tip 1.8](#tip-1-8) |
+| Begging "think hard / ultrathink" everywhere | Dial effort instead; reserve ultrathink for one hard turn | [Tip 1.13](#tip-1-13) |
+| Firing a one-liner and steering the whole task turn by turn | Say it all in your first message — one complete brief beats ten corrections | [Tip 1.14](#tip-1-14) |
+| Jumping straight to code in unfamiliar areas | Investigate first (read-only), *then* edit | [Tip 2.1](#tip-2-1) |
+| Letting the agent touch many files unsupervised | Force an approval checkpoint + blast radius | [Tip 2.3](#tip-2-3) |
+| Asking for one big feature in one pass | Slice vertically — thin end-to-end increments | [Tip 2.5](#tip-2-5) |
+| Dumping the whole repo / huge context | Feed high-signal context, not everything | [Tip 3.1](#tip-3-1) |
+| Keeping secrets/keys in the repo, or pasting a key | Keep secrets out of git and context (`.env` + gitignore) | [Tip 3.2](#tip-3-2) |
+| Re-fixing the same bug over and over in one session | `/clear` and rewrite the opening prompt | [Tip 3.3](#tip-3-3) |
+| Re-explaining the same conventions each session | Put them in CLAUDE.md | [Tip 3.5](#tip-3-5) |
+| Working with no checkable "done" | Make the Definition of Done executable | [Tip 4.1](#tip-4-1) |
+| Implementing without a failing test first | Do TDD — failing test first; don't edit tests to pass | [Tip 4.2](#tip-4-2) |
+| Accepting "done, it works" with no proof | Demand evidence — the test command + its output | [Tip 4.5](#tip-4-5) |
+| Asking for a "conservative" review | Ask for *all* findings, severity-labeled — a conservative prompt suppresses real ones | [Tip 4.6](#tip-4-6) |
+| Running long work that loses progress | Commit every green step — checkpoints to revert to | [Tip 5.1](#tip-5-1) |
+| Putting one agent on a huge audit/refactor | Let it self-orchestrate parallel subagents | [Tip 6.1](#tip-6-1) |
 
 ---
 
