@@ -1,14 +1,33 @@
 # agentic-coach
 
-An **ambient coach** for operating coding agents. It catches teachable moments while you work and surfaces the single most relevant tip from the [Professional Agentic Product Engineering guide](https://github.com/krivitsky/professional-agentic-product-engineering) — one nudge at a time, then gets out of the way.
+Two ways to get better at operating coding agents, both drawing on the [Professional Agentic Product Engineering guide](https://agentic-engineering.guide/):
 
-This is the *coaching* counterpart to the repo's CLAUDE.md *tutor*: the tutor runs structured lessons; the coach rides along on real work.
+- **Coach** — catches teachable moments *while you work* and surfaces the single most relevant tip, one nudge at a time, then gets out of the way.
+- **Audit** — reads your repo *on demand* and reports which parts of the harness you have, which you're missing, and the one thing to do next.
 
-## How it triggers
+The coach is reactive, the audit is diagnostic. Together they're the counterpart to the repo's CLAUDE.md *tutor*: the tutor runs structured lessons; these two ride along on real work.
+
+## The skills
+
+### `skills/agentic-coach` — the ambient nudge
+
+Model-invoked. Holds the "nudge, don't nag" protocol. Silence is the default.
+
+### `skills/harness-audit` — the on-demand check
+
+Ask *"audit my harness"*, *"what am I missing"*, or *"run the gauntlet"*. It sweeps the repo for the harness the guide teaches — grouped as **guidelines** (what the agent knows), **autotests** (ground truth), **guardrails** (limits it can't cross) — and reports three states: have it, can't tell, missing.
+
+Judged against the level your work actually needs (`throwaway` / `side project` / `production`), so a personal site isn't told to add sandboxing. Checks above your level don't appear at all; `--full` shows them, along with Uncle Bob's complete gauntlet.
+
+Every run writes `harness-audit/<timestamp>-report.html` and compares against the previous one, so a second run tells you what moved. Commit the folder — a tracked history of your harness maturing is worth having.
+
+It stops at the offer: it recommends one thing, prints the literal lines to paste, and doesn't touch anything else.
+
+## How the coach triggers
 
 Two layers, because skills alone trigger probabilistically:
 
-- **Skill** (`skills/agentic-coach`) — model-invoked. Holds the tip catalog and the "nudge, don't nag" protocol; Claude loads it when it judges the work matches.
+- **Skill** (`skills/agentic-coach`) — model-invoked; Claude loads it when it judges the work matches.
 - **Hooks** (`hooks/hooks.json` → `hooks/coach.sh`) — deterministic trigger surface, three events:
   - **`UserPromptSubmit`** — injects a one-line "consult the coach" reminder on *every* prompt. The skill then decides whether a real anti-pattern applies (one nudge) or stays silent. Always-inject beats keyword-grep, which only caught the few moments where the user happened to type a trigger word and missed semantic ones (no DoD, "it works" with no proof, file-list dumps).
   - **`PostToolUse` (Bash)** — fires after `git commit` / `git push` / build / test runs, nudging toward the checkpoint/verify tips (4.1 executable DoD · 4.5 demand evidence · 5.1 commit every green). Catches the build/commit moments a prompt-only hook can't see.
@@ -40,8 +59,10 @@ claude --plugin-dir ./plugins/agentic-coach
 
 ## Use
 
-Just work. When you write a vague prompt, skip a plan, or accept "done" without proof, you'll get a one-line nudge like:
+**Coaching:** just work. When you write a vague prompt, skip a plan, or accept "done" without proof, you'll get a one-line nudge like:
 
 > 💡 **Tip 4.1 — Make your Definition of Done executable:** spell out "done" as commands the agent runs itself.
 
 Say **"stop coaching"** to silence it for the session.
+
+**Auditing:** ask for it — *"audit my harness"* — or run `/agentic-coach:harness-audit`. Add `--full` for every check including the ones above your level.

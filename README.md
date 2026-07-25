@@ -111,6 +111,14 @@ It catches the *thinking*, not the syntax — one catch, one nudge, one click to
 
 Then just work — it nudges when it catches something. Say `coach me` to ask it directly, or `stop coaching` to silence it. *(Needs `jq` on your PATH.)*
 
+**It also audits.** Ask *"audit my harness"* — or run `/agentic-coach:harness-audit` — and it reads your repo and reports what you have, what you're missing, and the one thing to do next:
+
+> **Your harness is in good shape for this repo** — 8 of 10 solid, one real gap, and you're already at the right ceiling.
+>
+> **DO THIS NEXT — make the agent unable to finish on red.** You already own the hard part: `npm run build` runs the linters, tests and build as one gate, and CI enforces it. But that gate only bites *after* you've pushed. → *here are the six lines to paste*
+
+Judged against the level your work actually needs, so a personal site is never told to add sandboxing. Each run saves a timestamped HTML report and tells you what changed since the last one.
+
 ## What people are saying
 
 > "Nice! Thank you for the compact guide where all the basics are in one place."

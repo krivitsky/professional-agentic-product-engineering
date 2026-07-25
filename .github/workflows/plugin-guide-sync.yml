@@ -1,23 +1,29 @@
 name: plugin-guide-sync
 
-# Fail if the agentic-coach plugin's bundled guide.md has drifted from the
-# canonical guide.md at the repo root. Fix: run ./scripts/sync-plugin.sh and commit.
+# Two invariants for the agentic-coach plugin:
+#   1. its bundled guide.md matches the canonical guide.md at the repo root
+#   2. every tip the plugin's skills cite actually exists in guide.md
+# (2) matters because the skills cite ~25 tips by number; renumber or remove a
+# tip in guide.md and nothing else in the repo notices.
 
 on:
   push:
     paths:
       - "guide.md"
       - "plugins/agentic-coach/guide.md"
+      - "plugins/agentic-coach/skills/**"
   pull_request:
     paths:
       - "guide.md"
       - "plugins/agentic-coach/guide.md"
+      - "plugins/agentic-coach/skills/**"
 
 jobs:
   check-sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Compare bundled guide to canonical
         run: |
           if ! diff -q guide.md plugins/agentic-coach/guide.md; then
@@ -25,3 +31,44 @@ jobs:
             exit 1
           fi
           echo "In sync."
+
+      - name: Every cited tip exists in guide.md
+        run: |
+          fail=0
+
+          # Collect citations in every form the skills use and normalise them
+          # all to a tip-T-N anchor:
+          #   URL/anchor form ..... #tip-4-2
+          #   prose form .......... "Tip 4.2", "[Tip 4.2]"
+          #   registry field ...... "tip: 4.2"
+          {
+            grep -rhoE '#tip-[0-9]+-[0-9]+' plugins/agentic-coach/skills/ 2>/dev/null | sed 's/^#//'
+            grep -rhoE '\bTips? [0-9]+\.[0-9]+' plugins/agentic-coach/skills/ 2>/dev/null \
+              | sed -E 's/.* ([0-9]+)\.([0-9]+)/tip-\1-\2/'
+            grep -rhoE 'tip: +[0-9]+\.[0-9]+' plugins/agentic-coach/skills/ 2>/dev/null \
+              | sed -E 's/tip: +([0-9]+)\.([0-9]+)/tip-\1-\2/'
+          } | sort -u > /tmp/cited.txt || true
+
+          while read -r anchor; do
+            [ -z "$anchor" ] && continue
+            if ! grep -q "<a id=\"$anchor\"></a>" guide.md; then
+              echo "::error::plugin skills cite $anchor, but guide.md has no <a id=\"$anchor\"></a>. A tip was renumbered, renamed away, or invented."
+              fail=1
+            fi
+          done < /tmp/cited.txt
+          echo "checked $(wc -l < /tmp/cited.txt) distinct tip anchors"
+
+          # Live-site links must point at the tier that owns the tip:
+          # tier-5#tip-5-4 is right, tier-4#tip-5-4 is a silent 404-to-nowhere.
+          grep -rhoE 'tier-[0-9]+#tip-[0-9]+-[0-9]+' plugins/agentic-coach/skills/ 2>/dev/null \
+            | sort -u | while read -r link; do
+              page_tier="${link%%#*}"; page_tier="${page_tier#tier-}"
+              tip_tier="${link##*#tip-}"; tip_tier="${tip_tier%%-*}"
+              if [ "$page_tier" != "$tip_tier" ]; then
+                echo "::error::$link points at the wrong tier page — Tip $tip_tier.x lives on tier-$tip_tier."
+                exit 1
+              fi
+            done || fail=1
+
+          [ "$fail" = "0" ] || exit 1
+          echo "All tip citations resolve."
