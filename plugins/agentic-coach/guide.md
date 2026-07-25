@@ -53,7 +53,7 @@ Read it in whichever form fits how you work — all three stay in sync with this
 3. [Loops of Agentic Engineering](#loops-of-agentic-engineering)
 4. [The eight tiers at a glance](#the-eight-tiers-at-a-glance)
 5. [Climb the eight tiers — to spend effort only where your work needs it](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it)
-   - [Which tier do I need?](#which-tier-do-i-need)
+   - [Which tier do you need?](#which-tier-do-you-need)
 6. [Who this is for](#who-this-is-for)
 7. [TL;DR — if you do only five things](#tldr--if-you-do-only-five-things)
 8. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
@@ -187,7 +187,7 @@ An **agentic system** puts the same model inside a *harness*: a **workflow** —
 
 That's the whole shift. As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows. [The eight tiers](#the-eight-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
 
-Don't take that from me — take it from the person who spent two decades telling the industry the opposite.
+Don't take it on faith — take it from the person who spent two decades telling the industry the opposite.
 
 [![Tweet from Robert C. "Uncle Bob" Martin: "I'm significantly older than you. I started coding in the late 60s. My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity. What I do instead is to surround the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage, and a plethora of others. In the end, I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."](assets/uncle-bob-tweet.jpg)](https://x.com/unclebobmartin/status/2080257779395154409)
 
@@ -253,7 +253,7 @@ The trick is knowing *what pushes you to the next tier* — it's always a specif
 
 The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against a clear, testable standard, inside a real repo you own.
 
-### Which tier do I need?
+### Which tier do you need?
 
 Match the job to a target tier and stop there — climbing higher than the work demands is wasted effort.
 
@@ -706,7 +706,7 @@ flowchart TD
   V -->|yes| Done[Done · show evidence]
 ```
 
-This is why we don't need to invent new techniques for agentic quality — the discipline already exists. TDD and BDD were once *highly recommended* practices of professional product engineers.
+This is why agentic quality needs no new techniques — the discipline already exists. TDD and BDD were once *highly recommended* practices of professional product engineers.
 
 In the agentic era they're **mandatory**: they're what turns a wandering agent into one that converges instead of declaring success on vibes.
 
@@ -1187,7 +1187,7 @@ If you run unattended with `--dangerously-skip-permissions`, put it behind a `Pr
 
 > **While running a local loop is perfect for individual spec-driven development, enterprise agentic loops require a dedicated *Agent Execution Layer*.** It's the layer beyond your own server (Tier 7): loops run **hosted, isolated, and event-triggered**.
 
-**Don't be scared — it's the same loop you already built.** Everything from Tier 4 (act → test → fix against a Definition of Done) and Tier 5 (commit, `gh`, CI) is unchanged.
+**Less new than it looks — it's the same loop you already built.** Everything from Tier 4 (act → test → fix against a Definition of Done) and Tier 5 (commit, `gh`, CI) is unchanged.
 
 The execution layer only answers three new questions: *where does it run, what triggers it, and how do many agents avoid colliding?*
 
@@ -1274,7 +1274,7 @@ PR review is where to start: high value, low risk. The pattern:
 >
 > **Prefer:** store state as ticket status/labels (Todo → Planning → Approved → In Review). It survives restarts, and a human can override by moving the card.
 
-### The honest part
+### The reality check
 
 **Most pilots die before production.** IDC found [88% of AI proof-of-concepts never reach wide deployment](https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html); Gartner [predicts over 40% of agentic AI projects will be canceled by end of 2027](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) — costs, unclear value, inadequate risk controls. In practice, for a coding agent, that means the boring parts: isolation, governance, least-privilege permissions, audit, data residency.
 

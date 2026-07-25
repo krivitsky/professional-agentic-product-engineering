@@ -46,7 +46,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 - [[Tip 8.3 — Cap the strikes — a stuck agent shouldn't burn tokens forever]] — loop until green with a max-attempts cap, then stop and summarize what's blocking.
 - [[Tip 8.4 — Make the tracker the state machine — the agent forgets; the board remembers]] — store workflow state as ticket status/labels so it survives restarts and a human can override by moving the card.
 
-## The honest part
+## The reality check
 
 **Most pilots die before production.** IDC found 88% of AI proof-of-concepts never reach wide deployment; Gartner predicts over 40% of agentic AI projects will be canceled by end of 2027 — costs, unclear value, inadequate risk controls. For a coding agent that means the boring parts: isolation, governance, least-privilege permissions, audit, data residency. Treat the execution layer like any production system, and start with one managed loop (PR review), prove it, then expand.
 

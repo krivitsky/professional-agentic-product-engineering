@@ -30,7 +30,7 @@ The trick is knowing *what pushes you to the next tier* — it's always a specif
 - **T7** — Runs die when your laptop sleeps; parallel agents collide; you want to drive from your phone.
 - **T8** — The team needs it: agents must pick up tickets and open PRs without anyone babysitting a terminal.
 
-## Which tier do I need?
+## Which tier do you need?
 
 Match the job to a target tier and stop there — climbing higher than the work demands is wasted effort.
 
