@@ -57,6 +57,33 @@ A report once recommended the wrong hook event with total confidence. The reader
 
 **Still ship the literal lines.** This is not a licence to hand back homework — a corrective action with no runnable content is worthless. Ship the code *and* the requirement it satisfies *and* the assumption it rests on, so the reader can rewrite it rather than paste it blind.
 
+### Write for a reader who can do better than you
+
+This audit is a budgeted, read-only, single-pass review. Whoever acts on it — a person who has worked in the repo for a year, or an agent that can run the suite, read every file, and try three approaches — is very often **better positioned than the audit was.** Design the report so that is an advantage, not a thing it fights.
+
+The failure to avoid is a **ceiling**: hand an agent working JSON and it pastes the JSON. It will not look for the better mechanism, because nothing asked it to — and the one thing this audit was most confident about is the thing it got wrong.
+
+So each corrective action makes the requirement the contract and the code the baseline:
+
+> **Requirement:** the gate must fire at push time, run the same command CI runs, and not tax commits.
+> **Baseline that meets it:** *(the literal lines)*
+> **Better welcome:** if you can satisfy the requirement more cheaply or more robustly with what you can see from inside the repo, do that instead — the requirement is the contract, not this implementation.
+
+And give them what they need to go past you. The `.md` twin's job is not "the same report, machine-readable" — it is a **briefing**, so it carries what the HTML doesn't need:
+
+```
+open-questions:
+  - Does `npm run verify` complete in under 60s on a warm machine?
+    Not measurable statically; decides whether a push gate is tolerable.
+  - Are any of the 56 rules already known-dead? Killing them beats enforcing them.
+  - Is `edge-tts` expected on PATH for other contributors, or is audio a solo task?
+budget-hit: no — 14 files read of ~35 allowed
+```
+
+**Open questions are not hedging.** Each one names something the audit genuinely could not determine and says what it would change. A question that would not change a recommendation is noise; cut it.
+
+**Then say so in §9:** *"If you find a better solution than the one proposed, the finding is what mattered — take it."*
+
 **The correction is altitude, not breadth.** Do not offer three options and let the reader choose — that is decision-dumping, and it is the same mistake as gating by tier. Climb *one rung* above the mechanism, state the requirement there, then commit to a single mechanism that meets it:
 
 > ❌ *"Add a `Stop` hook running `npm run verify`."*
@@ -110,7 +137,7 @@ Both files, every run, same basename in `harness-audit/`:
 | File | For |
 |---|---|
 | `<YYYY-MM-DD-HHMM>-report.html` | humans — self-contained, **no external fonts or assets**, print stylesheet |
-| `<YYYY-MM-DD-HHMM>-report.md` | agents — same findings, stable headings, `file:line` intact |
+| `<YYYY-MM-DD-HHMM>-report.md` | agents — a **briefing**: same findings plus `open-questions` and the budget actually spent, so a better-positioned reader can go past where this pass stopped |
 
 Nine sections:
 
@@ -122,7 +149,7 @@ Nine sections:
 6. **Detailed findings** — the full shape above, severity order.
 7. **Observations**
 8. **Recommended sequence** — two columns, **This week** and **Structural**, each item referencing its IDs. Ordered by what unblocks what, not by severity alone.
-9. **Limitations** — what this method cannot see, that the findings are not exhaustive, that *Not assessed* means no evidence rather than no problem, and that **corrective actions are proposals: a finding stands even if its fix is wrong.**
+9. **Limitations** — what this method cannot see, that the findings are not exhaustive, that *Not assessed* means no evidence rather than no problem, that **corrective actions are proposals: a finding stands even if its fix is wrong**, and that a reader who finds a better solution should take it — the finding was the point.
 
 ### Trend
 
