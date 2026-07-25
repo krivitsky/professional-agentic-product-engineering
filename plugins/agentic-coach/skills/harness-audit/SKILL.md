@@ -1,226 +1,126 @@
 ---
 name: harness-audit
-description: Use when the user asks what their repo is missing to run coding agents well — "audit my harness", "audit this repo", "run the gauntlet", "am I set up right for agents", "what am I missing", "check my agentic setup", "is this repo agent-ready", "do I have the right guardrails" — or right after they install the coach and ask "now what". Sweeps the repo for the harness the Professional Agentic Product Engineering guide teaches (guidelines · autotests · guardrails), and reports have / can't-tell / missing for every check — no tiers, no ceiling — with exactly one recommended next action. Do NOT use for a mid-task one-line nudge — that is the agentic-coach skill. Do NOT use to implement the missing pieces; this audit is read-only and stops at the offer.
-argument-hint: "[--full]"
+description: Use when the user asks what their repo is missing to run coding agents well — "audit my harness", "audit this repo", "run the gauntlet", "am I set up right for agents", "what am I missing", "check my agentic setup", "is this repo agent-ready", "do I have the right guardrails" — or right after they install the coach and ask "now what". Reads the harness configuration checked into the repo and reports findings: what's absent, and — more valuable — what's present but incoherent, unenforced, or failing open. Severity-rated, evidence-backed, with a recommended sequence. Do NOT use for a mid-task one-line nudge — that is the agentic-coach skill. Do NOT use to implement the fixes; the audit reads and reports, then stops.
+argument-hint: "[--quick]"
 ---
 
-# Harness audit — what your repo has, what it's missing, and the one thing to do
+# Harness audit — a static review of the agent configuration in a repo
 
-The guide's Big Idea: a **harness** is a **workflow** bounded by three constraints — **guidelines** (how the agent should behave), **autotests** (ground truth from the environment), and **guardrails** (limits it can't cross). This skill reads a repo and reports which of those it actually has.
+The guide's Big Idea: a **harness** is a **workflow** bounded by three constraints — **guidelines** (how the agent should behave), **autotests** (ground truth from the environment), **guardrails** (limits it can't cross). This skill reviews the one a repo actually has.
 
-The full guide ships with this plugin at **`${CLAUDE_PLUGIN_ROOT}/guide.md`**. The check registry is in **`${CLAUDE_PLUGIN_ROOT}/skills/harness-audit/checks.md`** — **read it before auditing.** It holds every check, its tip, and when it applies.
+The full guide ships at **`${CLAUDE_PLUGIN_ROOT}/guide.md`**. The check catalogue is **`${CLAUDE_PLUGIN_ROOT}/skills/harness-audit/checks.md`** — **read all of it before auditing.**
 
-**Read-only. Always.** Never create, edit, move, or delete a file. Never run tests, builds, installs, or migrations. Never `git add/commit/checkout/stash/clean`. Never write the report to a file. If they want it saved, that is a separate action *after* the audit, which they ask for.
-
----
-
-## The one rule that keeps this from rotting
-
-> **Literal paths only for what the *agent harness* defines. For anything the *project's stack* defines, name the artifact and let your own judgement resolve it.**
-
-`.claude/agents/*.md` is Anthropic's contract — stable for years. `vitest` vs `jest` vs `bun test` churns annually. So `checks.md` hardcodes the first kind and deliberately contains **no list of test frameworks**. You already know what `pytest`, `go test`, `cargo nextest`, and `bundle exec rspec` are — read the manifest and name the command. Don't look for a list here; there isn't one, on purpose.
-
-**Resolving a project command — precedence, highest first:**
-1. **The CI workflow** — the only place the command is *proven* to be the real one
-2. Repo docs — `CLAUDE.md`, `README`, `CONTRIBUTING`
-3. Manifest scripts — `package.json` `.scripts`, `pyproject.toml`, `Makefile`/`justfile`/`Taskfile`, `Rakefile`, `pom.xml`, `build.gradle`, `mix.exs`, `deno.json`, `composer.json`
-4. Language convention — `go test ./...`, `cargo test`
-
-**Budget: one tree listing, ≤25 file reads, ≤12 bash calls.** Hit the cap and everything unexamined is `⚠️` with the region named. An audit that floods its own context while teaching Tip 3.1 has failed Tip 3.1.
+**Read-only, except the report.** Never edit, move, or delete a file. Never run tests, builds, installs, or migrations. Never `git add/commit/checkout/stash/clean`. The only writes are the two report files in `harness-audit/`.
 
 ---
 
-## No tiers, no ceiling — report everything
+## The distinction that makes this an audit and not an inventory
 
-**There is no target tier and no user bucket. Every check runs, every result is shown, all in one list.** Don't infer how ambitious the repo is, don't ask, don't gate on it, don't store it.
+**Presence is the cheap half.** "Is there a hook?" is a glob. The findings worth the reader's time come from opening files and cross-referencing them:
 
-The reason is simple: *"this is a side project"* is a claim about **intent**, and a repo cannot know intent. Commit counts are observable; whether someone wants to run autonomous loops next month is not. An earlier version of this skill guessed — and classified a 561-commit live site as *throwaway*. A guess that can suppress findings hasn't earned the power to.
+- two `CLAUDE.md` files giving contradictory orders, so behaviour depends on working directory
+- nine rules written as "never", one of them enforced
+- a hook that `|| true`s its own failure — so the harness *looks* gated and is not
+- a subagent instructed to dispatch subagents, which the runtime cannot do
+- a `.gitignore` pattern that near-misses the file it was written to exclude
 
-The guide's *climb only as high as your work demands* discipline is still right — but it's **the reader's call, made from complete information**, not a filter the tool applies on their behalf. The audit reports; the reader decides where to stop.
-
-**What replaces the gate: ranking.** Everything is visible; the single recommendation is chosen by leverage (see Step 4). One thing to do, and the whole list to decide from.
-
-**`applies_when` is not a ceiling and stays.** It fires on *fact*, not ambition: a CLI has no browser to test; a repo with no autonomous loop has nothing to sandbox. That's `n/a` because the check doesn't apply, not because someone decided the reader shouldn't want it. Never use `applies_when` to express "you're not ready for this."
-
----
-
-## Step 2 — Run the checks
-
-Work through `checks.md`. Each row carries `group`, `tip`, `applies_when`, and `layer`. Run all of them.
-
-**`applies_when` first.** A precondition that fails yields `– n/a`, never `❌`. Don't nag a Go CLI about browser tests or a docs repo about unit tests.
+Every one passes a presence check. **`checks.md` has two classes and Class C is the point** — a run that reports only Class P has done the easy work and stopped.
 
 ---
 
-## Step 3 — Assign a verdict
+## Findings
 
-Four states: **`✅` have it · `⚠️` can't tell · `❌` missing · `–` n/a** (the check genuinely doesn't apply to this repo).
+Every finding gets a stable ID (`H-001`, in severity order), and this shape. The middle three are what separate a report from a linter.
 
-> **A check may return `❌` only on a *negative observation*, never on the mere absence of a positive one.**
+| | |
+|---|---|
+| **Criteria** | What should be true, stated as a standard — not "you're missing X" |
+| **Condition** | What is true, with `file:line` and a quoted excerpt |
+| **Cause** | *Why it drifted.* Almost always process, not ignorance: "the allowlist grew by accretion — each entry added to unblock one session, and nothing treats a permission change differently from any other config change." Guess honestly and say you're guessing |
+| **Consequence** | What it costs in practice. Name the failure mode, not the rule |
+| **Corrective action — now** | The smallest thing that closes it, with the literal lines to paste |
+| **Corrective action — structural** | What stops it recurring |
 
-- **Layer A** (paths the harness defines) — absence *is* conclusive. `.mcp.json` exists or it doesn't. `❌` allowed.
-- **Layer B** (things the stack defines) — absence is never conclusive alone. `❌` requires **two independent probes both empty**. Exactly one empty → `⚠️` naming the reason: *"found `tests/` but no runnable command declared anywhere — how do you run these?"*
+**Say when findings compound.** *"Combined with H-001, the configuration reads as gated to anyone reviewing it, while in practice nothing blocks."* Two findings that multiply are worth more than their sum, and a reader who fixes one and not the other has fixed nothing. Look for these deliberately.
 
-**Mandatory `⚠️`, no exceptions:**
-- Budget hit → everything unsearched, region named
-- **Monorepo** with the signal in some packages and not others → `⚠️` + package list, **never a repo-wide `❌`**
-- **Shallow clone** (`git log` depth 1) → author and commit-granularity signals are `⚠️`, not "solo throwaway"
-- No git history → every history-derived signal is `⚠️`
-- Anything needing runtime truth ("does CI pass?") → `⚠️` by construction; this audit does not execute
+### Severity — the cost if it goes wrong
 
-**Two wording rules that decide whether the report is believed:**
-1. **Every `❌` prints the evidence under it.** `❌ CI — searched .github/workflows/, .gitlab-ci.yml, .circleci/, Jenkinsfile`. A bare `❌` is a claim, and Tip 4.5 says demand evidence, not a claim. This audit obeys 4.5 about itself.
-2. **Phrase negatives as observations about the search, never verdicts about the repo.** Never *"no tests"* — always *"no test command I could resolve."* When the user knows the tests live in `t/`, that one word is the difference between a bug report and a useful question.
+| | |
+|---|---|
+| **Critical** | A single bad turn is unrecoverable — destroyed work, rewritten shared history, leaked live credential |
+| **High** | Silently wrong behaviour, or a guardrail that doesn't hold |
+| **Medium** | Real cost, recoverable — waste, drift, inconsistency between sessions |
+| **Low** | Friction or a latent trap |
+| **Info** | Worth knowing, no action |
+
+### Confidence — how sure you are, a *separate* axis
+
+- **Confirmed** — read directly from a file. Quote it.
+- **Probable** — inferred, and say from what: *"whether this server is loaded in practice cannot be determined from configuration alone."*
+
+Never collapse these. `Medium / Probable` and `Medium / Confirmed` are different asks. A reader deciding what to do this afternoon needs both numbers.
+
+**A finding may only assert what a file shows.** Absence of a positive is not a negative — if the tests might be in an unusual place, that's `Probable` with the search printed, never a confident miss.
+
+**Redact secrets.** A credential is reported by shape and location, never reproduced: `"sk_live_••••••••••••"`. The report gets committed; do not put the key in it twice.
+
+**Observations (`O-1`…) are not findings.** Things with no measurable effect on behaviour, recorded so they're not mistaken for oversights — including *praise that's actionable*: "the API file uses worked examples rather than prose rules; that's the strongest writing here and worth copying to root." Say explicitly they need no response.
 
 ---
 
-## Step 4 — Cite tips correctly
+## Rating categories
 
-Cite to the **live guide**, which renders the tip in context — not to the raw GitHub markdown:
+Rate each category in `checks.md` **Strong · Satisfactory · Moderate · Weak · Missing · Not assessed**, each with a one-line note that carries the actual meaning.
 
-`[Tip 5.4](https://agentic-engineering.guide/tier-5#tip-5-4)`
+**Never total them.** No overall score, no percentage, no averaged bar. An earlier version drew a fill bar per group; the bars ended up identical and cheerful regardless of content, and a repo with excellent CI and no agent guardrails scored as healthy. **A gauge is read as a grade whatever the caption says** — so it may only ever appear per-category, next to the note that explains it, never summed.
 
-The URL is mechanical: `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`. Tip numbers are `T.N` (Tier.index); the anchor turns the dot into a hyphen. Visible text stays short so rows stay one line.
-
-> **Before printing any tip citation, confirm it exists:** `rg '<a id="tip-4-10">' ${CLAUDE_PLUGIN_ROOT}/guide.md`
-> **No anchor, no citation.** Print the prose form instead. Never a number you didn't confirm.
+**"Not assessed" is a distinct state, rendered differently, and always carries the line that it is not a pass.** Anything needing runtime evidence — does the suite pass, do the rules get followed, which skills ever trigger — is `Not assessed`, not `Weak`.
 
 ---
 
-## Step 5 — Render
+## Report structure
 
-**Three parts, always in this order: ① Overall ② Details ③ Suggestions.**
-
-**Every check, one list, no levels.** No "beyond your level" section, no bucket in the header, no tier range. A `✗` on sandboxing sits in the same list as a `✗` on secrets — ordered by leverage, not by permission to care about it.
-
-**Say what a gap costs, not whether they're allowed to have it.** Instead of *"above your level — skip"*, write *"only matters once agents run unattended"*. Same information, and it leaves the judgement where it belongs. A reader running a static site reads that and moves on; a reader planning a loop reads it and acts.
-
-**Collapse gaps that share one fix.** Several checks can fail on the same absent file — 4.7 (fresh-eyes review) and 6.2/6.4 (subagent roles) are both "no `.claude/agents/`". Report every check honestly in ②, but in ③ they are **one suggestion**, and the count line says so: *"4 gaps, 3 fixes."* Listing one missing file as three problems overstates the damage and makes the report feel like a shakedown.
-
-```
-NEXT → <the one action> · <the file it touches> · Tip N.M
-       <Two lines: what they already own, and what this
-       makes bind.>
-
-<repo> · <n> checks · <date>
-
-━━ ① OVERALL ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  AUTOTESTS   ██████████   3 of 3
-              <one line: what's working>
-
-  GUARDRAILS  ████████░░   3 of 4
-              <what's working>
-              gap: <the gap>                    Tip N.M
-
-  GUIDELINES  ███████░░░   2 of 3
-              <what's working>
-              gap: <the gap>                    Tip N.M
-
-━━ ② DETAILS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  <Every in-scope check, grouped, with the evidence that
-  produced the verdict — the actual file paths, counts,
-  and commands found, or the exact searches that came
-  back empty.>
-
-━━ ③ SUGGESTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  1. <action>                                   Tip N.M
-     <why — one line>
-     <the concrete change, and its size>
-
-  <More, ranked. The one in NEXT is #1.>
-
-  Read-only: working tree unchanged (verified).
-  Not visible from the repo: worktree habits and fleet
-  ops — those live on your machine, not in git.
-```
-
-**Bars are counts, not a score** — `3 of 4` is the truth; the bar just draws it. Never a weighted total, never a percentage.
-
-**Every `Tip N.M` in ③ is a live link** to `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`, so the reader can go read the tip that generated the suggestion. In ① the same number appears as plain text — bars stay scannable.
-
-## The HTML artifact — always written
-
-**Every run writes exactly two files**, same basename, into `harness-audit/` in the audited repo:
+Both files, every run, same basename in `harness-audit/`:
 
 | File | For |
 |---|---|
-| `<YYYY-MM-DD-HHMM>-report.html` | **humans** — self-contained, styled to match the guide (navy `#22303c`, accent `#1abc9c`), no external assets |
-| `<YYYY-MM-DD-HHMM>-report.md` | **agents** — same findings, plain Markdown |
+| `<YYYY-MM-DD-HHMM>-report.html` | humans — self-contained, **no external fonts or assets**, print stylesheet |
+| `<YYYY-MM-DD-HHMM>-report.md` | agents — same findings, stable headings, `file:line` intact |
 
-**Say in the report where both went and that nothing else was touched.**
+Nine sections:
 
-Recommend **committing** the folder rather than gitignoring it: a tracked history of the harness maturing is the same checkpoint logic as [Tip 5.1](https://agentic-engineering.guide/tier-5#tip-5-1).
+1. **Scope and coverage** — three columns: **Read** (every file consulted, counted) · **Absent** (what was looked for and isn't there) · **Not visible to this method** (runtime behaviour, real token cost, whether rules are obeyed). This is the trust device and it goes first.
+2. **Questions this report answers** — 5–7 questions with one-line verdicts and finding pointers. The 90-second read.
+3. **Summary** — three paragraphs of prose. The shape of the problem, the one urgent thing, and the pattern underneath. Credit what's good; a report that only accuses gets discounted.
+4. **Scorecard** — categories, ratings, notes.
+5. **Summary of findings** — severity counts, then a table: ID · finding · category · severity · confidence.
+6. **Detailed findings** — the full shape above, severity order.
+7. **Observations**
+8. **Recommended sequence** — two columns, **This week** and **Structural**, each item referencing its IDs. Ordered by what unblocks what, not by severity alone.
+9. **Limitations** — what this method cannot see, that the findings are not exhaustive, and that *Not assessed* means no evidence rather than no problem.
 
-### The `.md` twin — write it for a machine, not as a downgrade
-
-Same content, but the shape is the point: another agent should be able to answer *"what's missing and what should I do?"* without parsing prose, and the next audit run should be able to diff two of these cheaply.
-
-- **Stable headings** — `## Verdict`, `## Overall`, `## Details`, `## Beyond this repo's level`, `## Suggestions`. Never renamed between runs.
-- **A machine-readable block right after the title**, so nothing has to be inferred:
-  ```
-  repo: krivitskydotcom
-  level: side-project
-  at-level: 7 ok · 2 warn · 2 missing
-  next: tip-5-4
-  ```
-- **One table row per check**, in a fixed column order: `verdict | check | tip | evidence`. Verdicts are the literal words `ok` / `warn` / `missing` / `n/a` — not emoji, which are miserable to match on.
-- **Tip references as bare anchors** (`tip-5-4`) in the data block and full links in the prose. An agent greps the anchor; a human clicks the link.
-- The fix in `## Suggestions` carries **the same literal lines** as the HTML. An agent asked to apply the recommendation must find something to apply.
-
-### Trend — the reason timestamps are worth their clutter
-
-**Before writing, glob `harness-audit/*-report.md` and read the most recent one** — the `.md`, not the HTML; that's what it's for. Compare its data block to this run's. If one exists, open the new report with what changed:
-
-- **Counts moved:** *"Guardrails 3 of 4 → 4 of 4 — you added the Stop hook."*
-- **Something regressed:** *"CI was green last run; the workflow file is gone."* Lead with a regression; it outranks the normal NEXT action.
-- **A number drifted:** *"CLAUDE.md 516 → 604 lines."* Trends in the numbers are more useful than their absolute values.
-- **Nothing changed:** say so plainly — *"No change since 12 Jun. The hooks gap is still the one thing."* Don't manufacture movement.
-
-No prior report → `First run — no earlier report in harness-audit/ to compare against.`
+**Trend.** Glob `harness-audit/*-report.md`, read the most recent, compare **by finding ID**: closed, still open, new, and any rating that moved. Lead with it. No prior report → say so in one line.
 
 ---
 
-## Five rules the first version of this skill got wrong
+## Method
 
-Learned from auditing a real repo. Each one produced a broken report.
+**Resolving a project command — precedence, highest first:** the CI workflow (the only place it's *proven*) → repo docs → manifest scripts → language convention. `checks.md` names no test frameworks on purpose; read the manifest and name what you find.
 
-1. **Verify the path you recommend against what you already found.** The first run said *"no `.claude/settings.json` anywhere"* and then routed the new file to `site/.claude/settings.json` — while its own skills check had found `.claude/skills/` **at the repo root**. Claude would never have read the file. **Put new config next to the `.claude/` that already exists**; if none exists, the repo root, and say why.
-2. **Recommend the real command, not a plausible one.** It praised `npm run build` as the gate for a paragraph, then proposed a hook running `npm test` — silently dropping three-quarters of that gate. **The command in the fix must be the command in the evidence.**
-3. **Ship the artifact, not a description of it.** *"Create settings.json with a `hooks.Stop` entry"* is not an action, it's homework. **Print the literal lines they paste.** If you can't produce them, you don't understand the fix well enough to recommend it.
-4. **Then say how to prove it fires.** An unverified hook is indistinguishable from no hook. Every fix ends with the one concrete check that shows it took — Tip 4.5 applied to your own advice.
-5. **`⚠` is a status, not just a footnote.** A `✓` that carries a criticism (*"CLAUDE.md present — but 516 lines, past the limit"*) makes ① and ③ disagree about how many problems exist. Over-budget → `⚠`. And a genuinely optional gap (no MCP on a solo site) is `⚠`, never a red `✗` — spend red only on things that are actually broken.
+**Budget: ≤35 file reads, ≤15 bash calls.** Class C costs more than Class P — spend it there. Hit the cap and say which region went unexamined; that region is `Not assessed`.
 
-**Also: cut the passing rows.** ② is for findings the reader couldn't have guessed — a computed number, a threshold crossed, a caveat. Checks that passed with nothing to say collapse into one closing sentence. A row that says "fine" costs attention and returns nothing.
+**Verify every tip citation before printing it:** `rg '<a id="tip-5-4">' ${CLAUDE_PLUGIN_ROOT}/guide.md`. No anchor, no citation. Cite the live guide: `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`.
 
-Emoji markers have an ASCII fallback for terminals that mangle them: `[+] [?] [-] [.]`.
-
-**No numeric score.** Ever. "68/100" is fake precision, invites gaming, and fights the guide's core discipline — a throwaway repo with a thin harness is *correct*, not bad. Counts plus the tier lens carry all the signal without the lie.
-
-**Selecting the ONE next action — deterministic, not vibes:**
-1. Only `❌` rows. **Never a `⚠️`** — don't recommend fixing what you're not sure is broken. **Never an `– n/a`** — that check doesn't apply to this repo at all.
-2. **Prefer the fix with the most leverage: the one that makes assets they already own start binding.** A repo with a green suite and a CI gate but no hook is one file away from that gate holding locally — that beats introducing a capability from scratch, because the value is already sitting there unused. Say this in the NEXT box: *"you already own the hard part."*
-3. Only if nothing has that property, prefer the **lowest tier number** — the ladder says fix the lower rung first — tie-breaking on `3.2 → 3.5 → 4.1 → 4.2 → 5.1 → 5.4 → 5.5`.
-4. **No `❌` but some `⚠️`** → the one thing becomes *"point me at X so I can finish the audit."*
-5. **All green** → name the single lowest-cost rung above their level, explicitly optional. "Stop where your work demands" means this must not read as a demand.
-
-*(Rule 2 exists because rule 3 alone gets it wrong. On a repo with tests, CI and no hook, "lowest tier number" picks "add a reviewer subagent" — real work, speculative payoff — over six lines that make an existing gate bind. Leverage is the principle; tier order is only the tie-break.)*
-
-**Then stop.** Make the offer; don't take it. Implementation is the next turn, with ordinary permissions and explicit consent — that's Tip 2.3, and it's what makes the read-only claim true end to end.
-
-**Prove the read-only claim:** capture `git status --porcelain` at start and end; close with *"Read-only: working tree unchanged (verified)."*
+**No tiers, no ceiling.** Don't infer how ambitious the repo is and don't gate on it. *"This is only a side project"* is a claim about intent, which a repo cannot observe — an earlier version guessed and classified a 561-commit live site as throwaway. Severity already carries the ranking. Where something genuinely doesn't apply, say what it depends on — *"only matters once agents run unattended"* — not *"above your level"*.
 
 ---
 
-## `--full` — the whole gauntlet
+## Five rules learned from real runs
 
-Append the six-item gauntlet from Uncle Bob's tweet in the Big Idea, regardless of tier. See the `## The full gauntlet` section of `checks.md`.
+1. **Verify the path you recommend against what you already found.** A run once reported "no `.claude/settings.json` anywhere" and routed the fix to `site/.claude/` while its own skills check had found `.claude/` at the root. The file would never have been read.
+2. **The command in the fix must be the command in the evidence.** Don't praise `npm run build` as the gate and then propose a hook running `npm test`.
+3. **Ship the literal lines, not a description of them.** "Create settings.json with a `hooks.Stop` entry" is homework, not a corrective action.
+4. **Then say how to prove it took.** An unverified hook is indistinguishable from no hook.
+5. **Collapse gaps that share one fix.** Several checks can fail on one absent file. Report each honestly in §6; in §8 they are one item. Three findings, two files — say both numbers.
 
-**Three of the six are not taught by any tip yet.** Cite with exactly three forms — a fourth is forbidden:
-- `[Tip 4.2]` — a real tip covers it
-- `— guide: Big Idea (Uncle Bob's gauntlet)` — from the quoted tweet, linked to the Big Idea anchor, which does exist
-- `— not yet a tip in this guide` — **plain text. No link. No number. Ever.**
-
-Anything you add from outside the guide is tagged `(outside the guide)` — house policy, same as tutor mode.
+**Then stop.** The audit reports and offers. Implementation is the next turn, with explicit consent and ordinary permissions.
