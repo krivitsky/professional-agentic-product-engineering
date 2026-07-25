@@ -57,6 +57,13 @@ A report once recommended the wrong hook event with total confidence. The reader
 
 **Still ship the literal lines.** This is not a licence to hand back homework — a corrective action with no runnable content is worthless. Ship the code *and* the requirement it satisfies *and* the assumption it rests on, so the reader can rewrite it rather than paste it blind.
 
+**The correction is altitude, not breadth.** Do not offer three options and let the reader choose — that is decision-dumping, and it is the same mistake as gating by tier. Climb *one rung* above the mechanism, state the requirement there, then commit to a single mechanism that meets it:
+
+> ❌ *"Add a `Stop` hook running `npm run verify`."*
+> ✅ *"The rule fires at push time, so the gate must too — that means `PreToolUse` matched on `git push`, the only event that fires there."*
+
+Same one recommendation, one sentence longer, and now refutable. The failure it prevents is pattern-matching: *enforcement means hook* reaches for the hook in the tip's example instead of the hook the rule needs. Writing the requirement first forces the mechanism; skipping it lets the example pick.
+
 Say it once in §9: **corrective actions are proposals; a finding stands even if its fix is wrong.**
 
 **Say when findings compound.** *"Combined with H-001, the configuration reads as gated to anyone reviewing it, while in practice nothing blocks."* Two findings that multiply are worth more than their sum, and a reader who fixes one and not the other has fixed nothing. Look for these deliberately.
