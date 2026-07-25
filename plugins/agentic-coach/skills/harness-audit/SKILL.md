@@ -99,7 +99,33 @@ Nine sections:
 8. **Recommended sequence** — two columns, **This week** and **Structural**, each item referencing its IDs. Ordered by what unblocks what, not by severity alone.
 9. **Limitations** — what this method cannot see, that the findings are not exhaustive, and that *Not assessed* means no evidence rather than no problem.
 
-**Trend.** Glob `harness-audit/*-report.md`, read the most recent, compare **by finding ID**: closed, still open, new, and any rating that moved. Lead with it. No prior report → say so in one line.
+### Trend
+
+**Two identifiers per finding, and they do different jobs.**
+
+| | |
+|---|---|
+| **Display ID** — `H-001` | Assigned in severity order, **this run only**. For reading and cross-referencing within the report. |
+| **Key** — `<check>@<primary location>` | e.g. `C-2@CLAUDE.md`, `C-12@ci.yml`, `P-hooks@.claude/settings.json`. Derived from *what the finding is about*. Stable across runs. **This is the only thing trend may compare on.** |
+
+Never compare runs by display ID. Ranks shift as findings close — `H-001` next month is a different finding wearing the same badge, and reporting it as "still open" is a lie the reader can't catch.
+
+**Before writing:** glob `harness-audit/*-report.md`, read the most recent, extract its keys. Then:
+
+- **Closed** — key present before, absent now. Name it: *"C-7@.gitignore closed — the tracked worktree file is gone."*
+- **Still open** — key in both. Say how long: *"C-2@CLAUDE.md open since 25 Jul."* A finding that survives three runs is itself a finding about the process.
+- **New** — key only now.
+- **Moved** — same key, different severity or a rating change, in either direction. **A regression outranks everything and leads the report.**
+- **Drifted numbers** — same key, changed measurement: *"CLAUDE.md 516 → 604 lines."* The direction matters more than the value.
+
+**Placement: a `## Trend` block immediately after the cover, in both files, before §1.** It is the first thing a returning reader wants and the whole reason timestamped reports are worth their clutter. No prior report → one line saying so, in the same place.
+
+Carry the keys in the `.md` so the next run can read them without parsing prose:
+
+```
+keys-open:   C-2@CLAUDE.md · C-12@ci.yml · P-agents@.claude/agents
+keys-closed: (none)
+```
 
 ---
 
