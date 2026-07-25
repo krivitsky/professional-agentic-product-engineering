@@ -1,5 +1,5 @@
 # Tip 4.1 — Make your Definition of Done executable — a command is what the loop converges to
-**Part of:** [[Tier 4 — Loop Until Done]] · tip 1 of 9
+**Part of:** [[Tier 4 — Loop Until Done]] · tip 1 of 11
 **Source:** `guide.md #tip-4-1` (root — canonical, not copied)
 **Created:** 2026-07-04
 

@@ -39,7 +39,7 @@ The hooks guarantee the *reminder* fires; the skill keeps it quiet: **one nudge 
 
 ## Nudge vs lesson
 
-The full guide ships with the plugin (`guide.md`, a snapshot of all 60 tips), kept in sync with the canonical copy by CI.
+The full guide ships with the plugin (`guide.md`, a snapshot of all 62 tips), kept in sync with the canonical copy by CI.
 
 - **Default:** a one-line nudge that cites the tip.
 - **Opt in** ("show the full tip", "teach me this", "why?") and the coach reads the real tip from the bundled guide — exact *Instead / Prefer* text — or runs a single 4C micro-lesson on it. It never auto-lectures.

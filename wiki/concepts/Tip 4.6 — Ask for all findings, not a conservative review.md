@@ -1,5 +1,5 @@
 # Tip 4.6 — Ask for all findings, not a conservative review
-**Part of:** [[Tier 4 — Loop Until Done]] · tip 6 of 9
+**Part of:** [[Tier 4 — Loop Until Done]] · tip 6 of 11
 **Source:** `guide.md #tip-4-6` (root — canonical, not copied)
 **Created:** 2026-07-04
 

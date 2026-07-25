@@ -1,5 +1,5 @@
 # Tip 4.4 — Test the UI for real with Playwright MCP — don't eyeball it
-**Part of:** [[Tier 4 — Loop Until Done]] · tip 4 of 9
+**Part of:** [[Tier 4 — Loop Until Done]] · tip 4 of 11
 **Source:** `guide.md #tip-4-4` (root — canonical, not copied)
 **Created:** 2026-07-04
 

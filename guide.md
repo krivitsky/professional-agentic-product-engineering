@@ -185,7 +185,7 @@ Prompting alone is **vibe coding**: you poke the model and hope it converges. It
 
 An **agentic system** puts the same model inside a *harness*: a **workflow** — the loop it runs — bounded by three constraints. **Guidelines** shape how it should behave, **autotests** give it ground truth from the environment, and **guardrails** are the limits it can't cross. Inside those bounds the model converges on its own, and your attention is freed for what actually matters: growing understanding and driving impact.
 
-That's the whole shift. As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows. [The eight tiers](#the-eight-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
+That's the whole shift. As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows. [The eight tiers](#the-eight-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 62 tips fall into place.
 
 Don't take it on faith — take it from the person who spent two decades telling the industry the opposite.
 
@@ -714,7 +714,7 @@ These old practices are now essential — that's what makes it *engineering* and
 
 **This is just your Definition of Done, made executable.** In agile, the DoD is the shared, explicit checklist a work item must satisfy to count as finished — tests pass, code reviewed, lint clean, types check, docs updated, deployed to staging.
 
-It used to be enforced by team discipline. With agents it becomes the **machine-checkable contract the loop runs against**: every DoD item that *can* be a command (tests, lint, typecheck, build, e2e, coverage threshold) becomes part of the bar the agent iterates toward; the few that can't be automated — "does this actually solve the user's problem?" — stay human gates.
+It used to be enforced by team discipline. With agents it becomes the **machine-checkable contract the loop runs against**: every DoD item that *can* be a command (tests, lint, typecheck, build, e2e, [diff-coverage gate](#tip-4-10)) becomes part of the bar the agent iterates toward; the few that can't be automated — "does this actually solve the user's problem?" — stay human gates.
 
 The whole skill is writing a DoD precise enough that the agent knows, without you, whether it's done.
 
@@ -751,7 +751,7 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 >
 > **Prefer:** Given/When/Then scenarios the agent codes against and runs.
 
-**How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 2.6](#tip-2-6)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md` (your house rules for writing scenarios — one file, checked in, so every agent writes Gherkin the same way), then: *"Generate step definitions for refund.feature. Implement **one scenario at a time** — red → green → commit before you start the next, not all at once — and sanity-check each by mutation: break the implementation on purpose, confirm the scenario fails, then revert."*
+**How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 2.6](#tip-2-6)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md` (your house rules for writing scenarios — one file, checked in, so every agent writes Gherkin the same way), then: *"Generate step definitions for refund.feature. Implement **one scenario at a time** — red → green → commit before you start the next, not all at once — and sanity-check each by mutation: break the implementation on purpose, confirm the scenario fails, then revert."* Automate that check once it's a habit — [Tip 4.11](#tip-4-11).
 
 *Pin it to one scenario at a time on purpose: left alone, the agent codes every scenario in a single sprawling pass, blowing up work-in-progress into one diff you can't review. One at a time keeps WIP small and makes every green a checkpoint — the [vertical-slice](#tip-2-5) discipline, at the scenario level.*
 
@@ -799,6 +799,22 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 > **Instead of:** "Make the dashboard look good."
 >
 > **Prefer:** mock → implement → screenshot → compare → fix (2–3 rounds). Override the model's default house style (on Opus 4.8 currently: cream, serif, terracotta) with a concrete palette spec.
+
+<a id="tip-4-10"></a>
+**4.10 Gate on the coverage of *this change*, not the project's average.**
+> **Instead of:** "keep coverage above 80%." (a big enough codebase absorbs an untested change without moving the number)
+>
+> **Prefer:** "every line you changed must be covered — `--changed-since=HEAD~1`, and it fails the build if not."
+
+*Global coverage is the wrong dial in the agentic era: an agent adding 300 lines to a 50,000-line repo can leave them entirely untested and still raise the percentage. Diff coverage asks the only question that matters at merge time — is the code you just wrote exercised? Add it to the Definition of Done ([4.1](#tip-4-1)) as a command, not a policy.*
+
+<a id="tip-4-11"></a>
+**4.11 Mutation-test the suite itself — coverage proves the line ran, not that anything checked it.**
+> **Instead of:** trusting a green suite because coverage is high.
+>
+> **Prefer:** break the implementation on purpose and confirm a test goes red. Automate it — Stryker (JS/TS), mutmut (Python), cargo-mutants (Rust), PIT (Java) — on the changed files.
+
+*This is the check that catches **tests that don't test anything** — the signature failure of agent-written tests, which call the function, assert nothing meaningful, and light up coverage anyway. A surviving mutant is a line your suite executes but does not defend. Start by mutating only what the change touched; whole-repo mutation runs are slow enough to get switched off.*
 
 ---
 

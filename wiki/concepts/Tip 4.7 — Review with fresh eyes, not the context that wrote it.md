@@ -1,5 +1,5 @@
 # Tip 4.7 — Review with fresh eyes, not the context that wrote it
-**Part of:** [[Tier 4 — Loop Until Done]] · tip 7 of 9
+**Part of:** [[Tier 4 — Loop Until Done]] · tip 7 of 11
 **Source:** `guide.md #tip-4-7` (root — canonical, not copied)
 **Created:** 2026-07-04
 

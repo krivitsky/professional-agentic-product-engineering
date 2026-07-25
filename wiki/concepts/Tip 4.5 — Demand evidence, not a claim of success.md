@@ -1,5 +1,5 @@
 # Tip 4.5 — Demand evidence, not a claim of success
-**Part of:** [[Tier 4 — Loop Until Done]] · tip 5 of 9
+**Part of:** [[Tier 4 — Loop Until Done]] · tip 5 of 11
 **Source:** `guide.md #tip-4-5` (root — canonical, not copied)
 **Created:** 2026-07-04
 

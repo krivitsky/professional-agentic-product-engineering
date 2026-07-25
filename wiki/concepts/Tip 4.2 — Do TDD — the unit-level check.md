@@ -1,5 +1,5 @@
 # Tip 4.2 — Do TDD — the unit-level check
-**Part of:** [[Tier 4 — Loop Until Done]] · tip 2 of 9
+**Part of:** [[Tier 4 — Loop Until Done]] · tip 2 of 11
 **Source:** `guide.md #tip-4-2` (root — canonical, not copied)
 **Created:** 2026-07-04
 

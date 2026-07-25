@@ -1,5 +1,5 @@
 # Tip 4.3 — Use BDD — the behavior-level check
-**Part of:** [[Tier 4 — Loop Until Done]] · tip 3 of 9
+**Part of:** [[Tier 4 — Loop Until Done]] · tip 3 of 11
 **Source:** `guide.md #tip-4-3` (root — canonical, not copied)
 **Created:** 2026-07-04
 

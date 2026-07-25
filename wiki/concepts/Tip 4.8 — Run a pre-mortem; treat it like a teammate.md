@@ -1,5 +1,5 @@
 # Tip 4.8 — Run a pre-mortem; treat it like a teammate
-**Part of:** [[Tier 4 — Loop Until Done]] · tip 8 of 9
+**Part of:** [[Tier 4 — Loop Until Done]] · tip 8 of 11
 **Source:** `guide.md #tip-4-8` (root — canonical, not copied)
 **Created:** 2026-07-04
 

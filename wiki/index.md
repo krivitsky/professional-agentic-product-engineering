@@ -8,7 +8,7 @@ This vault is generated from **`guide.md`** — the canonical field guide at the
 
 ## Concepts
 
-> **Tip pages live under their tier.** Each of the 8 tier pages below is a hub that links every one of its tips (`[[Tip N.M — …]]`, ~60 pages total). Open a tier to reach its tips — they're intentionally not listed here, to keep this index (and the graph) from flattening.
+> **Tip pages live under their tier.** Each of the 8 tier pages below is a hub that links every one of its tips (`[[Tip N.M — …]]`, ~62 pages total). Open a tier to reach its tips — they're intentionally not listed here, to keep this index (and the graph) from flattening.
 
 ### The big idea
 - [[From Prompts to Systems]] — Professional agentic engineering is engineering the system around the model, not prompt-tuning. Prompt shrinks, system grows.
@@ -21,7 +21,7 @@ This vault is generated from **`guide.md`** — the canonical field guide at the
 - [[Tier 1 — Professional Prompting]] — T1: write prompts the agent can act on (14 tips), opening with [[The Prompt Triad]] (intent · context · constraint). Hand over the outcome, be specific, say what to do not avoid, constrain scope, say it all in the first message.
 - [[Tier 2 — Shaping and Slicing]] — T2: plan and slice before you build (8 tips). Investigate first, approval checkpoints, options not first idea, vertical slices, spec-then-fresh-session.
 - [[Tier 3 — Context Management]] — T3: give the agent the right context and tools (8 tips). High-signal context, secrets out, /clear, CLAUDE.md, Skills, MCP, external memory.
-- [[Tier 4 — Loop Until Done]] — T4: make the agent prove it's done (9 tips). *The heart of the guide* — verification over prompts, TDD/BDD, executable DoD, demand evidence, fresh-eyes review.
+- [[Tier 4 — Loop Until Done]] — T4: make the agent prove it's done (11 tips). *The heart of the guide* — verification over prompts, TDD/BDD, executable DoD, demand evidence, fresh-eyes review, diff-coverage and mutation gates.
 - [[Tier 5 — Checkpointing and Hardening]] — T5: checkpoint in git, harden the harness (5 tips). Commit every green step, drive `gh`, worktrees, test hooks, CI/headless.
 - [[Tier 6 — Orchestration]] — T6: run many agents at once (7 tips). Self-orchestrate, isolate context in subagents, race agents, specialist roles, long-horizon hand-off.
 - [[Tier 7 — Fleet Ops]] — T7: operate agents as a fleet (5 tips). Agent-aware terminal, worktree isolation, non-sleeping box + tmux, drive from phone, secure the server.

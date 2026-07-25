@@ -1,10 +1,10 @@
 ---
 name: harness-audit
-description: Use when the user asks what their repo is missing to run coding agents well — "audit my harness", "audit this repo", "run the gauntlet", "am I set up right for agents", "what am I missing", "check my agentic setup", "is this repo agent-ready", "do I have the right guardrails" — or right after they install the coach and ask "now what". Sweeps the repo for the harness the Professional Agentic Product Engineering guide teaches (guidelines · autotests · guardrails), judges it against the tier their work actually needs, and reports have / can't-tell / missing with exactly one recommended next action. Do NOT use for a mid-task one-line nudge — that is the agentic-coach skill. Do NOT use to implement the missing pieces; this audit is read-only and stops at the offer.
-argument-hint: "[--full] [--tier=throwaway|side-project|production]"
+description: Use when the user asks what their repo is missing to run coding agents well — "audit my harness", "audit this repo", "run the gauntlet", "am I set up right for agents", "what am I missing", "check my agentic setup", "is this repo agent-ready", "do I have the right guardrails" — or right after they install the coach and ask "now what". Sweeps the repo for the harness the Professional Agentic Product Engineering guide teaches (guidelines · autotests · guardrails), and reports have / can't-tell / missing for every check — no tiers, no ceiling — with exactly one recommended next action. Do NOT use for a mid-task one-line nudge — that is the agentic-coach skill. Do NOT use to implement the missing pieces; this audit is read-only and stops at the offer.
+argument-hint: "[--full]"
 ---
 
-# Harness audit — what your repo has, what it's missing, at your tier
+# Harness audit — what your repo has, what it's missing, and the one thing to do
 
 The guide's Big Idea: a **harness** is a **workflow** bounded by three constraints — **guidelines** (how the agent should behave), **autotests** (ground truth from the environment), and **guardrails** (limits it can't cross). This skill reads a repo and reports which of those it actually has.
 
@@ -30,45 +30,31 @@ The full guide ships with this plugin at **`${CLAUDE_PLUGIN_ROOT}/guide.md`**. T
 
 ---
 
-## Step 1 — Establish the target tier
+## No tiers, no ceiling — report everything
 
-The guide's "Which tier do you need?" gives three buckets. Classify into three, never guess one-of-eight:
+**There is no target tier and no user bucket. Every check runs, every result is shown, all in one list.** Don't infer how ambitious the repo is, don't ask, don't gate on it, don't store it.
 
-| Bucket | Target | 
-|---|---|
-| Throwaway / one-off | **T1–2** |
-| Side project you intend to keep | **T1–4** |
-| Production code in a shared team repo | **T1–5**, reaching 6–8 as scale demands |
+The reason is simple: *"this is a side project"* is a claim about **intent**, and a repo cannot know intent. Commit counts are observable; whether someone wants to run autonomous loops next month is not. An earlier version of this skill guessed — and classified a 561-commit live site as *throwaway*. A guess that can suppress findings hasn't earned the power to.
 
-**Ladder — first match wins:**
-1. ≥2 recent authors **OR** `CODEOWNERS`/PR template **OR** (deploy config **AND** CI) → **production**
-2. Solo but >~3 months old **AND** (tags **OR** `CHANGELOG` **OR** CI **OR** deploy target) → **side project**
-3. Otherwise → **throwaway**
+The guide's *climb only as high as your work demands* discipline is still right — but it's **the reader's call, made from complete information**, not a filter the tool applies on their behalf. The audit reports; the reader decides where to stop.
 
-Signals: `git shortlog -sne --since=12.months`, `.github/CODEOWNERS`, PR templates, CI files, `Dockerfile`/`k8s/`/`terraform/`/`vercel.json`/`fly.toml`, `git tag`, `CHANGELOG.md`, first-commit date. **A stated intent in CLAUDE.md or README beats every heuristic.**
+**What replaces the gate: ranking.** Everything is visible; the single recommendation is chosen by leverage (see Step 4). One thing to do, and the whole list to decide from.
 
-**Confirm in ONE step, confidence-gated:**
-- **Confident** (≥3 agreeing signals, no conflict) → no question. One banner with the evidence and a correction affordance.
-- **Ambiguous or conflicting** → one `AskUserQuestion`, the three buckets as options, inferred one first, evidence in the body.
-- **`--tier=` given** → skip inference.
-
-**Detection is tier-independent; only the verdict label is tier-dependent.** Run every check once, apply the tier lens at render time — so "wrong? just say so" costs a re-render, not a re-scan.
+**`applies_when` is not a ceiling and stays.** It fires on *fact*, not ambition: a CLI has no browser to test; a repo with no autonomous loop has nothing to sandbox. That's `n/a` because the check doesn't apply, not because someone decided the reader shouldn't want it. Never use `applies_when` to express "you're not ready for this."
 
 ---
 
 ## Step 2 — Run the checks
 
-Work through `checks.md`. Each row carries `group`, `tip`, `expected_at`, `applies_when`, and `layer`.
+Work through `checks.md`. Each row carries `group`, `tip`, `applies_when`, and `layer`. Run all of them.
 
 **`applies_when` first.** A precondition that fails yields `– n/a`, never `❌`. Don't nag a Go CLI about browser tests or a docs repo about unit tests.
-
-**Note `expected_at` is not the tip's tier.** Tip 3.2 (secrets) sits in Tier 3 but the guide says *"set this up first"* — it's expected even on a throwaway.
 
 ---
 
 ## Step 3 — Assign a verdict
 
-Four states: **`✅` have it · `⚠️` can't tell · `❌` missing · `–` skipped** (above tier, or n/a).
+Four states: **`✅` have it · `⚠️` can't tell · `❌` missing · `–` n/a** (the check genuinely doesn't apply to this repo).
 
 > **A check may return `❌` only on a *negative observation*, never on the mere absence of a positive one.**
 
@@ -79,7 +65,7 @@ Four states: **`✅` have it · `⚠️` can't tell · `❌` missing · `–` sk
 - Budget hit → everything unsearched, region named
 - **Monorepo** with the signal in some packages and not others → `⚠️` + package list, **never a repo-wide `❌`**
 - **Shallow clone** (`git log` depth 1) → author and commit-granularity signals are `⚠️`, not "solo throwaway"
-- No git history → tier inference falls to the question branch
+- No git history → every history-derived signal is `⚠️`
 - Anything needing runtime truth ("does CI pass?") → `⚠️` by construction; this audit does not execute
 
 **Two wording rules that decide whether the report is believed:**
@@ -105,16 +91,18 @@ The URL is mechanical: `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`.
 
 **Three parts, always in this order: ① Overall ② Details ③ Suggestions.**
 
-**Rows above the user's bucket do not appear at all.** Not as `–`, not as "n/a" — they are absent. Showing a Tier 8 row to someone auditing a side project is what makes the bucket look decorative. They live in `--full` only, and one closing line says they were skipped.
+**Every check, one list, no levels.** No "beyond your level" section, no bucket in the header, no tier range. A `✗` on sandboxing sits in the same list as a `✗` on secrets — ordered by leverage, not by permission to care about it.
 
-**Name the bucket, never a tier range.** Say *"side project you intend to keep"*, not *"→ T1–4"*. Scope comes from `expected_at`, not from tip numbers — printing a tier range next to a Tier 5 check that is in scope is a contradiction the reader will catch.
+**Say what a gap costs, not whether they're allowed to have it.** Instead of *"above your level — skip"*, write *"only matters once agents run unattended"*. Same information, and it leaves the judgement where it belongs. A reader running a static site reads that and moves on; a reader planning a loop reads it and acts.
+
+**Collapse gaps that share one fix.** Several checks can fail on the same absent file — 4.7 (fresh-eyes review) and 6.2/6.4 (subagent roles) are both "no `.claude/agents/`". Report every check honestly in ②, but in ③ they are **one suggestion**, and the count line says so: *"4 gaps, 3 fixes."* Listing one missing file as three problems overstates the damage and makes the report feel like a shakedown.
 
 ```
 NEXT → <the one action> · <the file it touches> · Tip N.M
        <Two lines: what they already own, and what this
        makes bind.>
 
-<repo> · <bucket>
+<repo> · <n> checks · <date>
 
 ━━ ① OVERALL ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -155,13 +143,36 @@ NEXT → <the one action> · <the file it touches> · Tip N.M
 
 ## The HTML artifact — always written
 
-**Every run writes exactly one file:** `harness-audit/<YYYY-MM-DD-HHMM>-report.html` in the audited repo. Self-contained — same three parts, styled to match the guide (navy `#22303c`, accent `#1abc9c`), every tip a live link, no external assets. **Say in the report where it was written and that nothing else was touched.**
+**Every run writes exactly two files**, same basename, into `harness-audit/` in the audited repo:
+
+| File | For |
+|---|---|
+| `<YYYY-MM-DD-HHMM>-report.html` | **humans** — self-contained, styled to match the guide (navy `#22303c`, accent `#1abc9c`), no external assets |
+| `<YYYY-MM-DD-HHMM>-report.md` | **agents** — same findings, plain Markdown |
+
+**Say in the report where both went and that nothing else was touched.**
 
 Recommend **committing** the folder rather than gitignoring it: a tracked history of the harness maturing is the same checkpoint logic as [Tip 5.1](https://agentic-engineering.guide/tier-5#tip-5-1).
 
+### The `.md` twin — write it for a machine, not as a downgrade
+
+Same content, but the shape is the point: another agent should be able to answer *"what's missing and what should I do?"* without parsing prose, and the next audit run should be able to diff two of these cheaply.
+
+- **Stable headings** — `## Verdict`, `## Overall`, `## Details`, `## Beyond this repo's level`, `## Suggestions`. Never renamed between runs.
+- **A machine-readable block right after the title**, so nothing has to be inferred:
+  ```
+  repo: krivitskydotcom
+  level: side-project
+  at-level: 7 ok · 2 warn · 2 missing
+  next: tip-5-4
+  ```
+- **One table row per check**, in a fixed column order: `verdict | check | tip | evidence`. Verdicts are the literal words `ok` / `warn` / `missing` / `n/a` — not emoji, which are miserable to match on.
+- **Tip references as bare anchors** (`tip-5-4`) in the data block and full links in the prose. An agent greps the anchor; a human clicks the link.
+- The fix in `## Suggestions` carries **the same literal lines** as the HTML. An agent asked to apply the recommendation must find something to apply.
+
 ### Trend — the reason timestamps are worth their clutter
 
-**Before writing, glob `harness-audit/*-report.html` and read the most recent one.** If it exists, open the new report with what changed since — this is what makes a second run worth doing:
+**Before writing, glob `harness-audit/*-report.md` and read the most recent one** — the `.md`, not the HTML; that's what it's for. Compare its data block to this run's. If one exists, open the new report with what changed:
 
 - **Counts moved:** *"Guardrails 3 of 4 → 4 of 4 — you added the Stop hook."*
 - **Something regressed:** *"CI was green last run; the workflow file is gone."* Lead with a regression; it outranks the normal NEXT action.
@@ -189,11 +200,13 @@ Emoji markers have an ASCII fallback for terminals that mangle them: `[+] [?] [-
 **No numeric score.** Ever. "68/100" is fake precision, invites gaming, and fights the guide's core discipline — a throwaway repo with a thin harness is *correct*, not bad. Counts plus the tier lens carry all the signal without the lie.
 
 **Selecting the ONE next action — deterministic, not vibes:**
-1. Only `❌` rows at or below the target tier. **Never a `⚠️`** — don't recommend fixing what you're not sure is broken.
-2. Prefer the **lowest tier number** — the ladder says fix the lower rung first.
-3. Tie-break on the guide's dependency order: `3.2 → 3.5 → 4.1 → 4.2 → 5.1 → 5.4 → 5.5`.
+1. Only `❌` rows. **Never a `⚠️`** — don't recommend fixing what you're not sure is broken. **Never an `– n/a`** — that check doesn't apply to this repo at all.
+2. **Prefer the fix with the most leverage: the one that makes assets they already own start binding.** A repo with a green suite and a CI gate but no hook is one file away from that gate holding locally — that beats introducing a capability from scratch, because the value is already sitting there unused. Say this in the NEXT box: *"you already own the hard part."*
+3. Only if nothing has that property, prefer the **lowest tier number** — the ladder says fix the lower rung first — tie-breaking on `3.2 → 3.5 → 4.1 → 4.2 → 5.1 → 5.4 → 5.5`.
 4. **No `❌` but some `⚠️`** → the one thing becomes *"point me at X so I can finish the audit."*
-5. **All green at tier** → name the single lowest-cost rung of the *next* tier, explicitly optional. "Stop where your work demands" means this must not read as a demand.
+5. **All green** → name the single lowest-cost rung above their level, explicitly optional. "Stop where your work demands" means this must not read as a demand.
+
+*(Rule 2 exists because rule 3 alone gets it wrong. On a repo with tests, CI and no hook, "lowest tier number" picks "add a reviewer subagent" — real work, speculative payoff — over six lines that make an existing gate bind. Leverage is the principle; tier order is only the tie-break.)*
 
 **Then stop.** Make the offer; don't take it. Implementation is the next turn, with ordinary permissions and explicit consent — that's Tip 2.3, and it's what makes the read-only claim true end to end.
 

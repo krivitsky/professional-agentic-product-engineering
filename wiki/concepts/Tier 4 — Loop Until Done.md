@@ -20,7 +20,7 @@ You don't get great output from one prompt — you get it from a **loop**: the a
 - **The spec is the new source code.** When the loop regenerates the implementation on demand against an executable spec, the code becomes throwaway output and `SPEC.md` + tests become the artifact you author, version, and review. Your job moves up — from writing syntax to writing the rules the agent executes against.
 - **You decide what to test for; the agent doesn't.** The tests that catch real bugs are usually integration and end-to-end. You say what they must check; the agent writes them to your spec and adds them to CI; you confirm they check the right things. Build the rails; don't let the agent build its own.
 
-## The 9 tips
+## The 11 tips
 
 Each tip has its own page — click through for the Instead/Prefer pair.
 
@@ -33,6 +33,8 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 - [[Tip 4.7 — Review with fresh eyes, not the context that wrote it]] — A fresh subagent/session (or a different model) reviews the diff against the criteria; correctness only. See [[The Review-Agent Pattern]].
 - [[Tip 4.8 — Run a pre-mortem; treat it like a teammate]] — "What could fail here? What did you assume? What's missing?"
 - [[Tip 4.9 — Iterate UI visually when there's no spec to assert]] — Mock → implement → screenshot → compare → fix (2–3 rounds); override the model's default house style with a concrete palette spec.
+- [[Tip 4.10 — Gate on the coverage of this change, not the project's average]] — Diff coverage on the changed lines, failing the build; a global percentage hides an untested change in a big repo.
+- [[Tip 4.11 — Mutation-test the suite itself — coverage proves the line ran, not that anything checked it]] — Break the implementation on purpose and confirm a test goes red; catches agent-written tests that assert nothing.
 
 ## Key Instead/Prefer pairs
 
