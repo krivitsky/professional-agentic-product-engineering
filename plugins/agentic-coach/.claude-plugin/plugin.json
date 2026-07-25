@@ -1,7 +1,7 @@
 {
   "name": "agentic-coach",
   "description": "Coach and auditor for operating a coding agent, from the Professional Agentic Product Engineering guide: catches teachable moments one nudge at a time, and audits your repo's harness — guidelines, autotests, guardrails — against the tier your work actually needs.",
-  "version": "0.15.2",
+  "version": "0.16.0",
   "author": {
     "name": "Alexey Krivitsky",
     "email": "alexey@krivitsky.com",

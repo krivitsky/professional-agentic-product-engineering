@@ -141,32 +141,31 @@ keys-closed: (none)
 
 ---
 
-## Prescribing a hook — the audit's most common recommendation, and the easiest to get wrong
+## Before you ship: walk your own corrective actions
 
-A real report recommended a `Stop` hook running the project's full verify command. Every clause of that was wrong, and the reader caught all of it. Before writing any hook into a corrective action:
+**This is a step, not advice. Run it after drafting the report and before writing either file.**
 
-**1. Match the trigger to the rule's actual moment.**
+Every failure this skill has shipped came from the same place: naming a mechanism without reading the thing that decides whether the mechanism works. It has never once been a novel mistake — it has been that mistake wearing a new costume. So the fix is a gate, not another rule.
 
-| The rule says | Trigger |
-|---|---|
-| "before push" | `PreToolUse` on `Bash`, script inspects `tool_input.command` for `git push` — rare, targeted, no loop risk |
-| "before commit" | same, matched on `git commit` — and see §3 below before you do |
-| "after editing a test" | `PostToolUse` on `Edit\|Write` |
-| "don't finish on red" | `Stop` — **and only for a check measured in seconds** |
+For **each** corrective action, in order:
 
-**`Stop` fires at the end of every agent turn, including pure-chat turns where nothing was edited.** Pair it with a multi-minute build and the user waits minutes after every message; they will remove it within a day. It also has a re-entry footgun — always guard with `stop_hook_active`.
+1. **Did I open the file this touches?** Not glob it, not infer it from a manifest — read it. If the action names a test runner, you have read its config. If it names a hook event, you know when that event fires. **If you cannot say which file you read, the action is not ready and becomes `Probable`, or is cut.**
+2. **Does the command behave the same where the fix runs it?** CI-conditional config is the standard trap — a runner that starts a prebuilt server under CI and a dev server locally makes an identical command mean two different things. Read the branch, name the flag.
+3. **Does it fire only at the moment the rule is about?** A rule about pushing that gates every commit, or every agent turn, costs the user something they didn't agree to. Match the trigger to the moment.
+4. **Would this destroy anything §3 credited?** Grep your own summary. If it praises a habit, no corrective action may tax that habit. A report that contradicts its own praise is discarded on the spot.
+5. **Is the output bounded?** Anything that returns text to the model — a blocking hook, a failing gate — surfaces a tail, never a whole log.
 
-**2. Verify the command is deterministic in the environment the hook runs in.** Open the test and e2e config before you name a command. The common trap is a runner that behaves differently under CI: `playwright.config.ts` with `command: CI ? "npm run start:e2e" : "npm run dev"` and `reuseExistingServer: !CI` means the local path reuses whatever server happens to be up, or cold-compiles routes on demand. A gate that intermittently blocks a good push is worse than no gate — **it cries wolf and gets ripped out.** Prefix with `CI=1` (or the project's equivalent) so the hook takes the deterministic path.
+Then apply this skill's own §6 to itself: **the session that wrote a recommendation should not be the only one that checks it.** If any action survives all five and still rests on inference, say so in the finding rather than presenting it as settled.
 
-**3. Never merge two stated rules into one gate.** If the instructions say *test before commit* and *build before push*, those are two moments and two costs. And check what you're about to gate: **gating `git commit` with a multi-minute command destroys small-checkpoint discipline** — which the same report may well have just praised. Prefer gating push and leaving commits cheap.
+### The three instances that produced this gate
 
-**4. Cap what a blocking hook feeds back.** A `PreToolUse` deny returns stderr to the model. A full build log is thousands of tokens of noise at the exact moment the context is needed for the fix. Log to a file, surface the tail.
+Kept as worked examples, not as separate rules — they are what step 1 through 4 look like when skipped.
 
-**Cross-check before you ship the report: does any corrective action destroy something §3 credited?** If §3 says the commit granularity is the best habit here, a fix that taxes every commit is a contradiction the reader will find first.
+- **A `Stop` hook running a multi-minute build.** `Stop` fires at the end of *every* agent turn, including pure conversation. Minutes of waiting after every message; removed within a day. The rule said "before push", so it was `PreToolUse` matched on `git push` all along. *(step 3)*
+- **`npm run verify` with no `CI=1`.** `playwright.config.ts` selected `start:e2e` under CI and `npm run dev` otherwise, with `reuseExistingServer: !CI`. The gate would have blocked good pushes at random, and a gate that cries wolf gets ripped out. *(step 2 — the config was never opened)*
+- **Merging "test before commit" and "build before push" into one gate**, in a report whose summary had just praised 561 small checkpoint commits. *(step 4)*
 
----
-
-## Five rules learned from real runs
+## Five specifics, subordinate to the gate above
 
 1. **Verify the path you recommend against what you already found.** A run once reported "no `.claude/settings.json` anywhere" and routed the fix to `site/.claude/` while its own skills check had found `.claude/` at the root. The file would never have been read.
 2. **The command in the fix must be the command in the evidence.** Don't praise `npm run build` as the gate and then propose a hook running `npm test`.
