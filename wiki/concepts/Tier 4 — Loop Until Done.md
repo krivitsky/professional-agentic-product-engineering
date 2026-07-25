@@ -46,6 +46,9 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 
 **Mental model:** TDD = test first (developer level) · BDD = behavior first in business language (acceptance level) · SDD = whole spec first, agent generates code + tests + docs. They nest — that nesting *is* the [[Loops of Agentic Engineering]].
 
+## External References
+- [Robert C. Martin (@unclebobmartin) on surrounding agents with extreme constraints](https://x.com/unclebobmartin/status/2080257779395154409) — the exact TDD/BDD/coverage/mutation gauntlet this tier builds; the guide cites it while keeping the review step (Tip 4.7) that the tweet drops.
+
 ## Related
 
 - [[The Prompt Triad]]

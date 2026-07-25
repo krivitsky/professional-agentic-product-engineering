@@ -187,6 +187,13 @@ An **agentic system** puts the same model inside a *harness*: a **workflow** —
 
 That's the whole shift. As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows. [The eight tiers](#the-eight-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 60 tips fall into place.
 
+<div class="testimonial">
+<p>&ldquo;What I do &hellip; is to surround the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage&hellip; In the end, I have very high confidence in the code they produce because they&rsquo;ve had to run the gauntlet of all my constraints and tests.&rdquo;</p>
+<span class="testimonial-cite">— <a href="https://x.com/unclebobmartin/status/2080257779395154409">Robert C. &ldquo;Uncle Bob&rdquo; Martin</a></span>
+</div>
+
+*Same idea, from the other side of the field: you don't earn trust by watching the model — you earn it by building the harness it has to pass through. (The guide keeps a review step the tweet drops — see [Tier 4](#tier-4).)*
+
 The harness has a shape — **three nested loops**, from the tight red-green cycle out to real-world impact: **[Loops of Agentic Engineering](#loops-of-agentic-engineering)**.
 
 ## Loops of Agentic Engineering
@@ -700,7 +707,7 @@ This is why we don't need to invent new techniques for agentic quality — the d
 
 In the agentic era they're **mandatory**: they're what turns a wandering agent into one that converges instead of declaring success on vibes.
 
-These old practices are now essential — that's what makes it *engineering* and not just generation.
+These old practices are now essential — that's what makes it *engineering* and not just generation. It's why practitioners like [Robert C. "Uncle Bob" Martin report](https://x.com/unclebobmartin/status/2080257779395154409) surrounding agents with "extreme constraints — unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage" and trusting the result *because* it cleared that gauntlet. (Just don't drop the review step to get there — see [4.7](#tip-4-7).)
 
 **This is just your Definition of Done, made executable.** In agile, the DoD is the shared, explicit checklist a work item must satisfy to count as finished — tests pass, code reviewed, lint clean, types check, docs updated, deployed to staging.
 

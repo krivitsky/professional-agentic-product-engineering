@@ -27,6 +27,12 @@ See [[The Harness]] for the full definition.
 - The eight tiers are that climb: "from a single request (T1) to whole loops running autonomously in production (T8)."
 - The harness has a shape — three nested loops, from the tight red-green cycle out to real-world impact.
 
+## External validation
+- Robert C. "Uncle Bob" Martin, arriving at the same idea from the other side of the field: *"surround the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage… I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."* The guide cites this in the Big Idea, with one caveat — it keeps the review step (see [[Tier 4 — Loop Until Done]], Tip 4.7) that the tweet drops.
+
+## External References
+- [Robert C. Martin (@unclebobmartin) on surrounding agents with extreme constraints](https://x.com/unclebobmartin/status/2080257779395154409) — X, 2026
+
 ## Related
 - [[The Harness]]
 - [[Loops of Agentic Engineering]]

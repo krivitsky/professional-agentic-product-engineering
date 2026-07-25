@@ -56,3 +56,7 @@ Found while diagnosing a Windows `git clone` failure: the repo's committed filen
 Fixed by renaming the file, its H1, and all 3 inbound links to use Windows-safe curly quotes `“ ”` (U+201C/U+201D) instead of straight quotes — same substitution precedent as the division-slash fix for Tip 5.5. `guide.md` itself is untouched (its plain-text tip title isn't a filename, so straight quotes there are fine). Verified: 0 remaining references to the old title in any form, wikilink resolves.
 
 Still needs a PR upstream to `krivitsky/professional-agentic-product-engineering` — this local repo has no `.git`, so the fix only lives here until it's contributed back.
+
+## [2026-07-25] update | Uncle Bob Martin tweet → Big Idea + Tier 4
+
+Added an external-validation reference to Robert C. "Uncle Bob" Martin's tweet (https://x.com/unclebobmartin/status/2080257779395154409) — "surround the agents with extreme constraints… run the gauntlet of all my constraints and tests" — which independently restates the guide's Big Idea ("engineering the system around the model"). In `guide.md`: a testimonial pull-quote in the **Big Idea** section and a shorter inline citation in the **Tier 4** intro, both flagged with the one caveat that the guide keeps the review step (Tip 4.7) the tweet drops. Wiki: `## External validation` + `## External References` on [[From Prompts to Systems]], `## External References` on [[Tier 4 — Loop Until Done]]. Coach plugin guide re-synced; plugin bumped 0.13.6 → 0.13.7. No tip added/removed — tier/tip counts unchanged, so CLAUDE.md mirror untouched.
