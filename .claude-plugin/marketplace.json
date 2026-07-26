@@ -1,5 +1,5 @@
 {
-  "name": "pae",
+  "name": "pape",
   "owner": {
     "name": "Alexey Krivitsky",
     "email": "alexey@krivitsky.com",
@@ -7,9 +7,9 @@
   },
   "plugins": [
     {
-      "name": "agentic-coach",
-      "source": "./plugins/agentic-coach",
-      "description": "Coach and auditor from the Professional Agentic Product Engineering guide: catches teachable moments while you operate a coding agent and surfaces the single most relevant tip, and on demand audits your repo's harness — guidelines, autotests, guardrails — against the level your work actually needs."
+      "name": "pape",
+      "source": "./plugins/pape",
+      "description": "Professional Agentic Product Engineering — two skills for operating a coding agent well. /pape:agentic-coach catches teachable moments while you work and surfaces the single most relevant tip from the guide. /pape:harness-audit reads the harness checked into your repo — guidelines, autotests, guardrails — and reports which of the eight tiers hold, which don't, and the one next thing to fix."
     }
   ]
 }

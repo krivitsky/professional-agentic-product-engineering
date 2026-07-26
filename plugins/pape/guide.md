@@ -140,7 +140,7 @@ Read it in whichever form fits how you work — all three stay in sync with this
 
 ## Learn this with an agent (the fastest way through)
 
-You don't have to read this alone. The same material comes in **three modes** — **read it**, get **tutored** through it, or get **coached** while you work. Pick by how hands-on you want to be.
+You don't have to read this alone. The same material comes in **four modes** — **read it**, get **tutored** through it, get **coached** while you work, or have your repo **audited** against it. Pick by how hands-on you want to be.
 
 ### 1) The Guide — `guide.md`
 
@@ -159,15 +159,19 @@ It diagnoses your level and — with your consent — glances at your past promp
 > "First impressions? Good :) It reads my history and estimates my current level, but is also transparent and asks me for my self assessment. Tell tell sign of quality — right there."
 > — [Magnus Vestin](https://www.linkedin.com/feed/update/urn:li:activity:7477965874549739520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477965874549739520%2C7477975689984442368%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287477975689984442368%2Curn%3Ali%3Aactivity%3A7477965874549739520%29)
 
-### 3) The Coach — `agentic-coach`
+### 3) The Coach — `/pape:agentic-coach`
 
 An ambient plugin: install once, then work in Claude Code as usual. It stays silent until it catches a learning moment mid-task, then drops **one nudge linked straight to the fix** — the thinking, not the syntax.
 ```shell
 /plugin marketplace add krivitsky/professional-agentic-product-engineering
-/plugin install agentic-coach@pae
+/plugin install pape@pape
 /reload-plugins
 ```
 Then just work; say `coach me` to ask it directly, or `stop coaching` to silence it. Best when you'd rather learn **in the flow of real work**. *(Needs `jq` on your PATH.)*
+
+### 4) The Audit — `/pape:harness-audit`
+
+Ships with the same plugin. Point it at a repo you actually work in and it reads the harness you've checked in — instructions, tests, hooks, permissions, CI — then rates all eight tiers, names the gaps with the evidence for each, and picks **the one next thing to fix**. Best when you want to know **where you stand** before deciding what to learn. See [Audit your harness](#audit-your-harness).
 
 *Harness-agnostic: the repo ships both `CLAUDE.md` and `AGENTS.md`, so any agent that reads them works. No repo handy? Paste this guide into any capable model and tell it to tutor you one concept at a time — Connection → Concept → Concrete practice → Conclusion, tier by tier, not advancing until you pass.*
 
@@ -198,6 +202,75 @@ Don't take it on faith — take it from the person who spent two decades telling
 So when **he** says he no longer reads the code his agents produce — and trusts it anyway — this isn't a hype-chaser cheering a trend. It's the strongest possible version of the Big Idea, from the one person you'd least expect to say it: **confidence doesn't come from reading the output; it comes from the gauntlet the output has to survive.**
 
 And look at *what* his gauntlet is made of — unit tests, gherkin/BDD tests, coverage, mutation testing. Those are the craftsmanship disciplines he's preached for twenty years. **Craftsmanship didn't die with agents; it moved** — from the code you hand-write to the *system you build around the model*.
+
+## Audit your harness
+
+You can read this whole guide and still not know where your own setup stands. So the guide ships an audit: point it at a repo you actually work in, and it rates that harness against the eight tiers and names the one rung to fix next.
+
+> "I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."
+> — [Robert C. "Uncle Bob" Martin](https://x.com/unclebobmartin/status/2080257779395154409), July 2026 *(the full tweet is in [the Big Idea](#big-idea))*
+
+Uncle Bob no longer reading his agents' code is not a provocation to stop reading code and start being careless. It is the opposite — a call to **invest in the harness** until you can trust whatever comes out of it. He trusts the output *because* of what he makes it survive.
+
+Which leaves the question the tweet doesn't answer: **how do you know whether your own harness is any good?** Where is it strong, where does it leak, and what should you build next? You are the worst-placed person to judge it, because you wrote it — every gap looks intentional from the inside.
+
+Run **`/pape:harness-audit`** and it reads what is actually checked in — instruction files, skills, agent definitions, hooks, permissions, tests, CI — rather than what you meant to set up.
+
+### What's missing is the easy half
+
+Absence is cheap to find: no `CLAUDE.md`, no tests, no CI. You probably already know. The valuable half is what's **present but incoherent, unenforced, or failing open** — where the harness looks complete and isn't:
+
+- Two instruction layers that **contradict each other**, with nothing that reconciles them when one changes.
+- A rule written down that **nothing checks** — so it holds exactly as long as the agent feels like it.
+- A gate that only bites **after** you've pushed, which is a report, not a gate.
+- A verify command that behaves **differently in CI than locally**, so green means two different things.
+- Delegation dispatched from five places with **no versioned agent definition** behind it.
+
+Each finding names the file and line it came from and cites the tip it comes from, so a rating is always traceable to something you can open and disagree with.
+
+### It rates the ladder, then names one lever
+
+All eight tiers get a rating and a one-line note. Then — the part that matters — the report walks the rungs from T1 up and names **the lowest one that doesn't hold yet**. That single rung is the recommendation.
+
+That rule falls out of the ladder itself: each rung rests on the ones below, so a weak lower rung caps everything above it. Hardening your CI while nothing tells the agent what "done" means is effort spent on a rung that cannot hold.
+
+> *"T1 and T2 hold, so the next lever is T3. T4 and T5 are weak too, but both rest on T3, so it goes first."*
+
+Where a tier genuinely doesn't apply — nothing runs unattended, so there is no fleet to operate — it says what the tier depends on, rather than pretending it's a gap. **Climbing only as far as your work needs is the advice**, so an audit that manufactured eight problems would be arguing against the guide it comes from.
+
+### What the report contains
+
+Two files per run, written to `harness-audits/` — one for you, one for an agent that picks up where the audit stopped. The human report runs in this order, decisions first and evidence last:
+
+| § | Section | What it's for |
+|---|---|---|
+| 1 | **Scorecard** | The eight tiers rated, what's genuinely good, and the next lever. The only section that says several findings are really *one* thing. |
+| 2 | **Issues Summary** | Severity counts, then one table: ID, finding, tier, severity, confidence. The whole audit at a glance. |
+| 3 | **Recommended backlog** | One flat ranked list, ordered by rung — so the sequence matches the ladder, not the severity column. |
+| 4 | **Trend** | What changed since the last run: fixed, still open, newly found, or withdrawn because the earlier finding didn't hold. |
+| 5 | **Observations** | Things worth knowing that need no response. Explicitly labelled as such. |
+| 6 | **Method and limits** | What was read, what was looked for and absent, what this method cannot see at all, and the questions left open. |
+| 7 | **Issues** | The long appendix — every finding with its evidence, its cited tip, and two proposed fixes. Last, because every reference to it is a link. |
+
+Commit the folder. The second run compares itself against the first, so §4 tells you what actually moved rather than what you meant to do.
+
+### Why you can trust it
+
+An audit's failure mode isn't missing things — it's **confidently reporting something untrue**, which costs you an afternoon and your trust in the tool. Two agents given the same instructions make the *same* shortcut, so running more of them in parallel doesn't catch it.
+
+So the passes are deliberately asymmetric. Finders sweep the repo for candidates. Then a **separate agent, whose only job is to refute them**, opens the file behind every quoted line and every printed number. Anything it can't stand up gets cut or narrowed — and the report says what it cut, because a withdrawn claim changes what you should trust.
+
+That check is not optional and there is no flag that skips it. `--quick` buys speed by looking at *less*, never by checking less.
+
+### Where it fits
+
+The audit is **diagnostic**, and the other three ways into this material pick up from it:
+
+- Its next lever tells you **which tier to read**.
+- If that lever is [T1](#tier-1) or [T2](#tier-2) — prompting and shaping — there's nothing to add to the repo, so it points you at the coach or the tutor instead. Those two rungs live in how you work, not in your files.
+- The **tutor** can read an audit report and start teaching at the rung it named, using your own findings as the examples.
+
+See [Learn this with an agent](#learn-this-with-an-agent) for all four, and [`plugins/pape`](https://github.com/krivitsky/professional-agentic-product-engineering/tree/main/plugins/pape) for the skill itself.
 
 ## Loops of Agentic Engineering
 

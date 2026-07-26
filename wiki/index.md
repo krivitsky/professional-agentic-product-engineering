@@ -14,6 +14,7 @@ This vault is generated from **`guide.md`** — the canonical field guide at the
 - [[From Prompts to Systems]] — Professional agentic engineering is engineering the system around the model, not prompt-tuning. Prompt shrinks, system grows.
 - [[The Prompt Triad]] — Every prompt is three things: intent · context · constraint. The opening frame of Tier 1; threads up through T2 (spec), T3 (context), T4 (intent as check), T5 (hardened constraints).
 - [[The Harness]] — A workflow bounded by guidelines, autotests, and guardrails; inside those bounds the model converges on its own.
+- [[Harness Audit]] — The diagnostic counterpart: rate a real repo's harness against the eight tiers, and name the lowest rung that doesn't hold yet. Absence is the easy half; incoherent-and-unenforced is the valuable half.
 - [[Loops of Agentic Engineering]] — Three nested loops: coding (red→green→refactor) inside feature (specify→refine→verify) inside impact (opportunities→hypothesis→impact).
 - [[The Eight Tiers]] — The simple→hard ladder; each tier kills a specific failure of the one below. Climb only as high as the work demands.
 
@@ -40,4 +41,4 @@ This vault is generated from **`guide.md`** — the canonical field guide at the
 - [[Claude Code]] — Anthropic's terminal-native coding agent; the guide's running example. Works in your real repo, makes targeted diffs, opens PRs.
 - [[Anthropic]] — Maker of Claude Code and the Claude model family (Opus / Sonnet / Haiku / Fable) used throughout the guide.
 - [[Playwright MCP]] — MCP server for driving a live browser to test the UI for real, off the accessibility tree.
-- [[Robert C. Martin]] — "Uncle Bob"; Clean Code / Agile Manifesto / SOLID. Cited in the Big Idea as outside validation: he stopped reading his agents' code and trusts the harness instead.
+- [[Robert C. Martin]] — "Uncle Bob"; Clean Code / Agile Manifesto / SOLID. Cited in the Big Idea as outside validation: he stopped reading his agents' code and trusts the harness instead. His quote also opens [[Harness Audit]].

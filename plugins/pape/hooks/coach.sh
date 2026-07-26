@@ -25,8 +25,10 @@ emit() { # $1 = text, $2 = hookEventName
 explicit=0
 if [ "$ev" = "prompt" ]; then
   pr="$(printf '%s' "$in" | jq -r '.prompt // empty' 2>/dev/null)"
-  # match "coach" as a whole word, but NOT "coaching" (so "stop coaching" doesn't trip it)
-  printf '%s' "$pr" | grep -qiE '(^|[^a-z])coach([^a-z]|$)' && explicit=1
+  # match "coach" as a whole word, but NOT "coaching" (so "stop coaching" doesn't
+  # trip it) and NOT a hyphenated name ending in it — "/pape:agentic-coach" and
+  # "the agentic-coach skill" name the skill, they don't ask to be coached.
+  printf '%s' "$pr" | grep -qiE '(^|[^a-z-])coach([^a-z]|$)' && explicit=1
 fi
 
 # Off-switch: silent — UNLESS the user is explicitly asking to be coached this turn.

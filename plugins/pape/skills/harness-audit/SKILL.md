@@ -94,7 +94,7 @@ The verifier **may not add findings.** Anything it notices in passing goes to Ob
 
 | How they invoke | Resolve by |
 |---|---|
-| **Slash command** — `/agentic-coach:harness-audit --deep` | Read the literal flag. It wins over everything, including contradicting prose |
+| **Slash command** — `/pape:harness-audit --deep` | Read the literal flag. It wins over everything, including contradicting prose |
 | **Natural language** — *"audit my harness"*, *"is this repo agent-ready"* | Map intent: *quick · fast · just a look · rough* → `--quick` · *thorough · deep · comprehensive · don't miss anything · be exhaustive* → `--deep` · **anything else, including a bare request, is the default** |
 
 **The default is the default — never silently upgrade it.** A plain *"audit this repo"* gets two finders, not four. Spending four agents because the request sounded important is a cost the user did not agree to.
@@ -286,6 +286,8 @@ The rule falls out of the ladder itself: each rung rests on the ones below, so a
 
 **Higher weak rungs get named as resting on the lever, never as parallel priorities.** A range — *"the weight sits on T3–T5"* — is not an answer to *what do I do next*, and it contradicts the sentence above it by implying T1 and T2 were skipped. **Where lower rungs hold, say they hold**; they were passed, not ignored.
 
+**When the lever lands on T1 or T2, the fix is a person, not a file.** Those two rungs are how the operator prompts and shapes work — there is nothing to add to the repo, so the usual corrective action has nothing to act on and *"write better prompts"* is not one. Name the two things that do work, in one line: **the coach** (`/pape:agentic-coach`, catches it in the flow of real work) and **the tutor** (the guide repo's `CLAUDE.md`, which teaches the rung and reads real prompts to tailor it). This is the only place in the report where the recommendation is a tool rather than a change.
+
 ### The lead's whole order
 
 `what this repo is` → `how it is doing` → `how it is rated and where the weight sits`. Roughly 130 words, three paragraphs.
@@ -407,6 +409,18 @@ The kicker's two links are the guide (`agentic-engineering.guide`) and its sourc
 **The kicker carries the brand, never a description of the report.** *"Professional Agentic Product Engineering"* names where the method comes from and says nothing the title says — that is why it earns the line. A kicker that describes the report instead is both duplication and a decorative constant nobody re-checks when the method changes.
 
 The kicker was also quietly false: once a run reads session transcripts to rate T1, *"static configuration review"* stops being true. Method belongs in `auditor`, where it is one string that changes with the run instead of a decorative constant nobody re-checks.
+
+### The footer carries the way onward, in one line
+
+The kicker at the top says where the method comes from. The footer says what to do with it, for the reader who has now read sixteen findings and wants somewhere to go:
+
+> Method: the [Professional Agentic Product Engineering guide](https://agentic-engineering.guide/) — 62 tips across eight tiers. To get these caught while you work, install the coach (`/pape:agentic-coach`); to learn a rung properly, the guide repo tutors you through it.
+
+**One line, in the `footer`, and only there.** Not in §1, not in the backlog, not repeated per tier. A report whose *findings* advertise are an advertisement with findings attached, and the reader stops crediting the findings.
+
+**It is a pointer, never a pitch.** No benefit claims, no "supercharge", no second sentence. It earns its line the same way the kicker does: a reader who disagrees with a rating, or wants the rung explained rather than scored, currently has nowhere to go — this is the way back to the material the ratings came from.
+
+**The exception that outranks this** is §The scorecard's T1/T2 rule: when the next lever is a rung no file can fix, the tools *are* the recommendation and belong in the lead. That is not promotion, it is the only correct corrective action — and it does not remove the footer line.
 
 ### The HTML is designed, not derived
 
@@ -561,6 +575,19 @@ keys-open:   C-2@CLAUDE.md · C-12@ci.yml · P-agents@.claude/agents
 keys-closed: (none)
 ```
 
+### The `.md` states the next lever as a field
+
+The `.md` is read by agents, and the most common one is a **tutor deciding where to start teaching**. Make the answer a field rather than a sentence it has to parse out of §1:
+
+```
+next-lever:  T3
+ratings:     T1 Satisfactory · T2 Satisfactory · T3 Weak · T4 Moderate · T5 Weak · T6 Missing · T7 n/a · T8 Weak
+```
+
+Same values as §1's prose and the scorecard table — this is the machine-readable copy, not a second opinion. If they disagree, §1 is right and the fence is a bug.
+
+`ratings` carries all eight so a reader can see which rungs hold without re-reading the table; `next-lever` is one rung, derived by the rule above. Where T1/T2 are unrated, write `not-assessed` rather than omitting them — a missing key reads as an oversight, and the reason belongs in the rung's note.
+
 ---
 
 ## Method
@@ -631,3 +658,40 @@ Kept as worked examples, not as separate rules — they are what steps 1 through
 5. **Collapse gaps that share one fix.** Several checks can fail on one absent file. Report each honestly in §6; in §7 they are one item. Three findings, two files — say both numbers.
 
 **Then stop.** The audit reports and offers. Implementation is the next turn, with explicit consent and ordinary permissions.
+
+---
+
+## The hand-off — what to say in the chat when it's done
+
+The report is a document; this is the message beside it. **Four short lines, in this order, and nothing else:**
+
+```
+Wrote harness-audits/2026-07-26-1420-report.html  ← open this one
+      harness-audits/2026-07-26-1420-report.md    ← for an agent to pick up
+
+Sixteen issues, five High. T1 and T2 hold; the next lever is T3 —
+two instruction layers with nothing reconciling them.
+
+Want me to: fix ISSUE-1 now · turn on the coach so this gets caught
+as you work · or teach you T3 properly?
+```
+
+**Name the file, always.** A run that writes a report and doesn't say where it is has hidden its own deliverable. Path first, before the verdict — it's the thing they need and the thing they'll scroll back for.
+
+**One sentence of verdict, and it is the lead's sentence, not a new one.** Do not re-summarise the report in the chat; the report exists. Say the count and the next lever. If the chat version disagrees with §1 by a word, the reader now has two verdicts and trusts neither.
+
+**Then offer the three ways forward — but only the ones that fit:**
+
+| Offer | When it's the right one |
+|---|---|
+| **Fix it now** — name the single top issue by ID | Nearly always. It's the shortest path from report to changed repo, and the reader is already here. |
+| **`/pape:agentic-coach`** — let the coach catch it in the flow | The gaps are habits — vague asks, no runnable "done", claims without proof. A hook fires on those tomorrow; a report doesn't. |
+| **The tutor** — `git clone` the guide repo, open Claude Code, say `hi` | The next lever is a rung they need to *learn*, not a file they need to write. Point it at the rung: *"start at T3."* |
+
+**Offer at most two.** Three options is a menu and a menu defers the decision; pick the two the report actually argues for. **Never all three plus a re-run** — the audit doesn't sell its own second run.
+
+**When the next lever is T1 or T2, the tutor and the coach are the answer — say so plainly.** Those rungs are prompting and shaping, so there is no file to add and no gate to wire; a corrective action that says *"write better prompts"* is not one. This is the single case where the hand-off outranks "fix it now", and §The scorecard says the same thing from the rating side.
+
+**If the audit couldn't rate T1/T2 at all** — no consent for transcript access — say what would change that, once: *"T1 and T2 are unrated; the tutor reads your real prompts (with consent) and rates them, or re-run this with transcript access."* One line, not a pitch.
+
+**Not in this message:** how many finders ran, what the verifier cut, the budget, the theme, how long it took. All of that is on the cover for anyone who wants it. **The chat message is for deciding what to do next, and nothing that isn't a decision belongs in it.**

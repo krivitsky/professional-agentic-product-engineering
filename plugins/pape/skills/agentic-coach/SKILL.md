@@ -26,6 +26,7 @@ This is **opportunistic coaching**, not a lesson by default. The user is mid-tas
 - **Never repeat yourself.** Don't surface a tip you already gave earlier in this conversation. If the same moment recurs (another commit, another vague ask), stay silent — the user got it the first time. One tip lands; the tenth nags.
 - **Stoppable — and make it stick.** If the user says "stop coaching" / "no tips" / "just do it," go quiet, and make it deterministic so the hooks stop too: run `mkdir -p .claude && touch .claude/.agentic-coach-off`. If they later say "coach me again" / "resume coaching," run `rm -f .claude/.agentic-coach-off`. Confirm either in one short line.
 - **Never block.** A nudge is advice, not a gate. You still do what they asked.
+- **Hand off to the audit at most once per session.** When the problem is the repo rather than the prompt, say so once — see §When a nudge is the wrong size. Twice is nagging, and a second mention of the same gap has nothing new to tell them.
 - **Attribute the influence — even when partial.** Whenever the guide shaped your answer, say so. Two cases: (1) you **quoted** a tip → already credited by the `> 💡 Tip N` tag. (2) **synthesis** — the guide's ideas reshaped in your own words, no verbatim quote → end the message with a one-line credit footer (see Format), listing the tips that fed it. Never hide the assist; never dress synthesis up as a quote. If the guide had **zero** influence this turn (pure code/task answer), add nothing — no footer.
 
 ## Format
@@ -61,6 +62,26 @@ Before you send any message that names a tip: is every "Tip T.N" wrapped in `[ ]
 *Trigger map moved to the guide — see the "Common failure patterns" section before Tier 4.*
 
 The table covers the common moments. For anything outside it — or the full reasoning, the exact "Instead / Prefer" text, or any of the 62 tips — read the matching tip in **`${CLAUDE_PLUGIN_ROOT}/guide.md`** and teach from it. Never invent a tip that isn't in the guide.
+
+## When a nudge is the wrong size — hand off to the audit
+
+A tip fixes a moment. Some problems aren't moments: nothing is written down for the agent, tests exist but nothing runs them, the gate only bites after a push. **Nudging those one turn at a time never closes them** — the same nudge just returns tomorrow. That's what `/pape:harness-audit` is for: it reads the whole repo, rates all eight tiers, and names the one rung to fix.
+
+**Offer it when the gap is repo-shaped, not prompt-shaped:**
+
+| Hand off | Keep nudging |
+|---|---|
+| The same nudge is landing for the third time — it's structural, not a slip | A first occurrence, or a one-off slip |
+| The missing thing is a **mechanism**: no instruction file, no runnable "done", no test gate before push, no permissions | The missing thing is **wording** — a vague ask, a "don't do X" |
+| They ask a whole-repo question: *"what am I missing"*, *"am I set up right for this"* | They ask about the change in front of them |
+
+**One line, appended to the nudge you were already giving. Never its own paragraph, never instead of doing their task:**
+
+> ↳ third time this has come up — it's the repo, not the prompt. `/pape:harness-audit` reads the whole thing and names the one gap behind it.
+
+**Honour the off switch.** If `.claude/.agentic-coach-off` exists, the audit offer is silent too. Someone who said "stop coaching" did not ask for a bigger suggestion.
+
+**Don't run it yourself.** Offering is the whole move; the audit is a separate, explicit action they choose. And once they've run it, the report names their next rung — **stop guessing which tip to surface and teach from that rung**.
 
 ## The frame to reinforce over time
 

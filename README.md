@@ -39,7 +39,9 @@ The eight tiers are how you make these loops close on their own — from wording
 
 ## What's inside
 
-**Three in one** — the same material in three forms: read it, get tutored through it, or get coached *while you work*.
+**Four in one** — the same material in four forms: read it, get tutored through it, get coached *while you work*, or have a real repo **audited** against it.
+
+Not sure where you stand? **Start with the audit (4)** — it rates all eight tiers on a repo you actually work in and names the one rung to fix. The tutor and the coach both pick up from there.
 
 ### 1) The Guide — [`guide.md`](guide.md)
 
@@ -84,10 +86,12 @@ Then it tailors each lesson's examples to *your* stack and repos — and aims it
 
 Read-only and local — nothing leaves your machine.
 
+**Your prompts show T1–T2; your repo shows T3–T8.** So the tutor also offers to audit a repo you actually work in, and uses the two together to place you — no self-assessment quiz. Already run the audit? It reads that report and starts at the rung it named. See **(4)** below.
+
 > "First impressions? Good :) It reads my history and estimates my current level, but is also transparent and asks me for my self assessment. Tell tell sign of quality — right there."
 > — [Magnus Vestin](https://www.linkedin.com/feed/update/urn:li:activity:7477965874549739520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477965874549739520%2C7477975689984442368%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287477975689984442368%2Curn%3Ali%3Aactivity%3A7477965874549739520%29)
 
-### 3) The Coach — [`agentic-coach`](plugins/agentic-coach)
+### 3) The Coach — [`/pape:agentic-coach`](plugins/pape)
 
 An ambient coach — install it once, then work in Claude Code as you normally would. It watches silently; most turns it says nothing. It speaks up *only* when it catches a learning opportunity, and links you straight to the fix.
 
@@ -105,19 +109,69 @@ It catches the *thinking*, not the syntax — one catch, one nudge, one click to
 
 ```shell
 /plugin marketplace add krivitsky/professional-agentic-product-engineering
-/plugin install agentic-coach@pae
+/plugin install pape@pape
 /reload-plugins
 ```
 
 Then just work — it nudges when it catches something. Say `coach me` to ask it directly, or `stop coaching` to silence it. *(Needs `jq` on your PATH.)*
 
-**It also audits.** Ask *"audit my harness"* — or run `/agentic-coach:harness-audit` — and it reads your repo and reports what you have, what you're missing, and the one thing to do next:
+**`pape`** is this guide's acronym — Professional Agentic Product Engineering. It names the marketplace *and* the plugin, which is why the install line reads `pape@pape` and why both skills are namespaced under it:
 
-> **Your harness is in good shape for this repo** — 8 of 10 solid, one real gap, and you're already at the right ceiling.
->
-> **DO THIS NEXT — make the agent unable to finish on red.** You already own the hard part: `npm run build` runs the linters, tests and build as one gate, and CI enforces it. But that gate only bites *after* you've pushed. → *here are the six lines to paste*
+| Command | What it is |
+|---|---|
+| **`/pape:agentic-coach`** | the ambient coach — this section |
+| **`/pape:harness-audit`** | the audit — the next section |
 
-Judged against the level your work actually needs, so a personal site is never told to add sandboxing. Each run saves a timestamped HTML report and tells you what changed since the last one.
+One install, both skills. The coach and the audit are the two halves of the same idea: one catches the moment, the other reads the whole repo.
+
+### 4) The Audit — [`/pape:harness-audit`](plugins/pape/skills/harness-audit)
+
+<a href="https://x.com/unclebobmartin/status/2080257779395154409"><img src="assets/uncle-bob-tweet.jpg" width="620" alt="Tweet from Robert C. &quot;Uncle Bob&quot; Martin: his strategy is to not read any of the code written by his agents, and instead to surround them with extreme constraints — unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage — so that he has very high confidence in the code they produce, because it has had to run the gauntlet of all his constraints and tests."></a>
+
+*— [Robert C. "Uncle Bob" Martin](https://x.com/unclebobmartin/status/2080257779395154409), July 2026*
+
+When Uncle Bob says he no longer reads the code his agents write, that is not a provocation to stop reading code and start being careless. It is the opposite — a call to **invest in the harness around the agent** until you can trust whatever comes out of it. He trusts his agents' output *because* of what he makes it survive: unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, coverage.
+
+Which leaves the question his tweet doesn't answer: **how do you know whether your own harness is any good?** Where is it strong, where does it leak, and what should you build next?
+
+That's what the audit is for. Ask *"audit my harness"* — or run `/pape:harness-audit` — and it reads the harness you've checked into a repo and tells you exactly that.
+
+**What's absent is the easy half.** The valuable half is what's **present but incoherent, unenforced, or failing open** — the gaps you can't see precisely because you wrote them yourself:
+
+> **`CLAUDE.md` and five skills both define "done", and they disagree.** Two skills forbid `npm run dev`; the recommended verify command starts it. Nothing reconciles the two layers when one changes.
+
+Every finding names the file and line it came from and cites the guide tip behind it, so a rating always traces to something you can open and argue with.
+
+**Then it picks one thing.** All eight tiers get rated, and the report names the **next lever** — the lowest rung that doesn't hold yet, because each rung rests on the ones below and a weak one caps everything above it:
+
+> **T1 and T2 hold, so the next lever is T3.** T4 and T5 are weak too, but both rest on T3 — so it goes first.
+
+**It doesn't touch your repo.** Read-only except the report: it never edits a file, never runs your tests or builds, never touches git. It stops at the offer — applying a fix is a separate turn you consent to. Secrets it finds are reported by shape and location (`"sk_live_••••••••"`), never reproduced.
+
+**Findings are verified, not just generated.** Parallel finders sweep the repo, then a *separate* agent gets one job: try to refute each finding by opening the file behind it. Anything it can't stand up doesn't ship — and the report says what got cut.
+
+Two files per run, in `harness-audits/`:
+
+| File | For |
+|---|---|
+| `<timestamp>-report.html` | **you** — a self-contained designed report; travels by email, prints cleanly |
+| `<timestamp>-report.md` | **agents** — the same findings as a briefing, so an agent with more context can carry on where the audit stopped |
+
+Commit the folder and the next run tells you what moved — fixed, still open, or newly found.
+
+**Flags:**
+
+| Flag | What changes |
+|---|---|
+| *(none)* | 2 finders + the verifier — the default |
+| `--quick` | 1 finder + the verifier; looks at less, checks it just as hard |
+| `--deep` | 4 finders + the verifier; two extra lenses |
+| `--theme:light` | light report *(default)* |
+| `--theme:dark` | dark report — cosmetic only, the audit is identical |
+
+There is no flag that skips verification. Cheap mode buys speed by looking at less, never by checking less.
+
+*Where the audit meets the other three doors:* if your next lever turns out to be **T1 or T2** — prompting and shaping — there is no file to add, so the audit points you at the tutor or the coach instead. And the tutor can read an audit report to decide where to start teaching, so a repo you've already audited skips the "what's your level?" conversation entirely.
 
 ## What people are saying
 

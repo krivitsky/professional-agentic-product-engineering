@@ -26,8 +26,13 @@ The harness isn't only prompts and constraints — the surrounding machinery cou
 - "Every methodology converges on **research → plan → execute → review → ship**, human-gated — build the system that runs that loop."
 - "That system, not the prompt, is the product of professional agentic engineering."
 
+## Knowing whether yours holds
+
+A harness you built yourself is the hardest one to judge — every gap looks intentional from the inside. The guide's answer is the [[Harness Audit]]: read the harness as checked in, rate it against [[The Eight Tiers]], and name the lowest rung that doesn't hold yet.
+
 ## Related
 - [[From Prompts to Systems]]
+- [[Harness Audit]]
 - [[Tier 5 — Checkpointing and Hardening]]
 - [[Agentic Primitives]]
 - [[Loops of Agentic Engineering]]

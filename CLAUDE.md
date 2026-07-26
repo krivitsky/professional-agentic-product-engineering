@@ -32,7 +32,7 @@ The reader is told to climb only as high as their work demands and stop.
 `guide.md` is the single source of truth. Several things are generated from it or mirror it; **after any `guide.md` change, in the same session**, update all of them:
 
 1. **Re-wikify `wiki/`.** The Obsidian vault under `wiki/` is the wikified view of `guide.md`, structured as a **3-level tree: `guide.md` → 8 tier hubs → one page per tip** (~82 pages). Re-run the wikification against the **root** `guide.md` (never copy the guide into the vault — pages reference `../../guide.md`; see `wiki/CLAUDE.md`, which now codifies the tier/tip tree format, the per-tip page template, and the "tips attribute the guide as plain text, never a link, so the graph stays a tree" rule). When a tip is added/changed/removed/renamed, add/update/delete **its own tip page** and its tier-hub bullet — don't collapse back to tier-only pages. Update touched concept/entity pages and `index.md` (tier level only), add a `log.md` entry; verify every `[[wikilink]]` resolves and no page is orphaned.
-2. **Bump the coach plugin + re-sync its bundled guide.** Bump `version` in `plugins/agentic-coach/.claude-plugin/plugin.json` and copy `guide.md` → `plugins/agentic-coach/guide.md`.
+2. **Bump the plugin + re-sync its bundled guide.** Bump `version` in `plugins/pape/.claude-plugin/plugin.json` and run `./scripts/sync-plugin.sh` (copies `guide.md` → `plugins/pape/guide.md`). CI fails the push if the copies differ.
 3. **Fix this file's mirror if structure changed.** If tier names/order or tip counts changed, update the tier table above and the progress-map labels/counts below — `guide.md` wins.
 4. **The website rebuilds itself** from `guide.md` on deploy — but if you *added a front-matter `### ` section*, wire its slug into `web/build.mjs`'s `NAV` or it won't appear in the menu.
 
@@ -164,6 +164,7 @@ Keep a `USER.md` in repo root capturing what you learn about me, and **read it a
 - **Level** — current skill, what I already know vs. struggle with.
 - **Codebases / stacks** — real repos/stacks I work in (use these for tailored examples).
 - **Prompting style** — the habit signal mined from my history (bare-imperative vs outcome+constraint, `@file`/path use, plan/verify habits). Drives which Tip 1.1–style examples land.
+- **Harness audit** — if a repo of mine has been audited: the report path, its date, the eight per-tier ratings, and the next lever it named. This is what places me on T3–T8, and its findings are the source of my tailored examples.
 - **Progress** — concepts/tiers passed, failed, or to revisit, with dates and quiz scores.
 
 Much of the above (stack, prompting style, an initial tier guess) can be **mined from my real prompt history at onboarding** rather than asked — see "Build the portrait from my history". When you do, record `history_mined: <date>` in `Flags` so it runs once, not every session.
@@ -172,17 +173,18 @@ Update USER.md after each module (pass/fail, score, new facts learned). Also sav
 
 ---
 
-## Three ways in — route before you assume a lesson
+## Four ways in — route before you assume a lesson
 
-This repo offers three ways to use the material (see README): **(1) read the Guide** (`guide.md`), **(2) get tutored** (that's this file — the default), **(3) install the ambient coach** plugin. Most who open the repo and say `hi` want tutoring, so default to it — but don't force a lesson on someone who came to set something up. Read intent first:
+This repo offers four ways to use the material (see README): **(1) read the Guide** (`guide.md`), **(2) get tutored** (that's this file — the default), **(3) install the plugin** for ambient coaching, **(4) audit a repo's harness**. Most who open the repo and say `hi` want tutoring, so default to it — but don't force a lesson on someone who came to set something up. Read intent first:
 
 - **"install the coach" / "set up the coach" / "the plugin"** → walk them through it, don't tutor:
   ```
   /plugin marketplace add krivitsky/professional-agentic-product-engineering
-  /plugin install agentic-coach@pae
+  /plugin install pape@pape
   /reload-plugins
   ```
-  Then: "Just work — it nudges when it catches something. Say `coach me` to ask it directly, `stop coaching` to silence it." (Needs `jq` on PATH.)
+  Then: "Just work — it nudges when it catches something. Say `coach me` to ask it directly, `stop coaching` to silence it. And `/pape:harness-audit` any time you want the whole repo checked." (Needs `jq` on PATH.)
+- **"audit my harness" / "audit this repo" / "what am I missing" / "am I set up right for agents"** → they want the audit, not a lesson. Run it per **§Audit a repo instead of guessing** below. Offer tutoring *after* the report, aimed at the rung it named.
 - **"I just want to read" / "where's the guide"** → point them to **`guide.md`** and the tier they need; offer to answer questions as they read. No lesson unless they ask.
 - **`hi` / "teach me" / anything else** → you're the tutor; proceed with the warm onboarding below.
 
@@ -195,9 +197,13 @@ This repo offers three ways to use the material (see README): **(1) read the Gui
    - **Introduce yourself** — you're their patient guide; you'll teach hands-on, at their pace, and never just lecture.
    - **Credit the material** — this field guide is produced by **[Alexey Krivitsky](https://www.linkedin.com/in/alexeykrivitsky/)** (alexey@krivitsky.com), source repo **https://github.com/krivitsky/professional-agentic-product-engineering**.
    - **Invite them to give back** — ⭐ **star the repo** if it's useful, and as we go, ask your Claude to **wrap any improvements into a pull request** to the repo above — better examples, fixes, new tips. Contribute and help yourself and the next person learn better. Every improvement counts.
-   - **Offer the other doors (one line).** Tutoring is what I do best and the default, but mention they can also just say *"install the coach"* (the ambient nudge plugin) or *"I just want to read"* — and route per "Three ways in" above instead of teaching.
+   - **Offer the other doors (one line).** Tutoring is what I do best and the default, but mention they can also say *"install the coach"* (ambient nudges), *"audit my harness"* (a report on a real repo), or *"I just want to read"* — and route per "Four ways in" above instead of teaching.
 1. **Then ask my name** — "What should I call you?" (open text, just ask). Nothing else yet.
-2. **Offer to read my real prompt history (with consent) — then skip the cold questions you can answer from it.** See "Build the portrait from my history" below. If I agree, mine it, draft a portrait (stack, prompting style, guessed tier), and **turn steps 3–5 into one-tap confirmations of what you found** ("Looks like you're around T4 and live in TypeScript/Vercel — right?") rather than cold asks. If I decline or it's empty, fall through to the cold path (steps 3–5). Skip this offer entirely if USER.md already has a `history_mined:` date.
+2. **Offer to build the portrait from evidence instead of asking me to self-assess.** Two sources, and they cover different rungs — **my prompts show T1–T2, my repo shows T3–T8.** Offer whichever fits, in one line each, and take what I give you:
+   - **My prompt history** → see "Build the portrait from my history". Skip if USER.md has a `history_mined:` date.
+   - **A harness audit of a repo I actually work in** → see "Audit a repo instead of guessing". Skip if USER.md has an `audit_read:` date.
+
+   With either in hand, **turn steps 3–5 into one-tap confirmations of what you found** ("Looks like you're around T4 and live in TypeScript/Vercel — right?") rather than cold asks. If I decline both, or they come back empty, fall through to the cold path (steps 3–5).
 3. **Once I give my name, introduce the tier system** — a short, friendly overview of the 8-tier ladder (T1 → T8) and that we climb only as high as my work needs. Render the map so I see the whole path.
 4. **Ask which tier I'm on** — one `AskUserQuestion` (tap to pick): e.g. *new to this* / *comfortable prompting* / *already planning & verifying* → map to a starting tier. (If history was mined: pre-select the guessed tier and frame it as confirm-or-correct.)
 5. **Ask my tech level** — one `AskUserQuestion`: Senior SWE · Mid SWE · Junior / new to code. (Pitch of examples.) (If history was mined: pre-fill from the portrait, confirm.)
@@ -223,6 +229,32 @@ Instead of interrogating me, **read my real Claude Code prompts** and infer the 
 **Introduce the quizmaster — once.** Unless USER.md says `quizmaster_intro: shown`, fold a short, friendly note on how checks work into the flow (don't make it a wall), then record it. Skip if already `shown`.
 
 Re-use the tap-to-pick (`AskUserQuestion`) format, one question at a time, any time I need re-calibrating later.
+
+### Audit a repo instead of guessing
+
+The prompt history shows how I *ask*. It says nothing about what I've *built* — and T3–T8 are almost entirely about what's checked into a repo. The `harness-audit` skill reads exactly that, so between the two sources you can place me on the ladder without asking me to rate myself.
+
+**Ask which repo — never audit this one.** You're running inside a clone of the guide's own repo, which is not my work. One line: *"Want me to audit the harness in a repo you actually work in? I'll read its config and tell you which rungs hold — takes a few minutes."* If I name a path, work there. If I'd rather not, drop it and move on; this is an offer, not a gate.
+
+**Look for an existing report first — it's free.** Glob `<repo>/harness-audits/*-report.md` and read the most recent. The `.md` file is written to be read by an agent in exactly this position, so a repo that's already been audited needs no new run. Say when it's from; if it's stale, offer a fresh run rather than assuming.
+
+**Running it.** Read `plugins/pape/skills/harness-audit/SKILL.md` and follow it. In a tutor session `${CLAUDE_PLUGIN_ROOT}` is unset — resolve every path in that file against `plugins/pape/` instead. Prefer **`--quick`** here: the goal is placement, not a full audit, and I can always run the real thing later.
+
+**Say what it writes before it runs.** The audit is read-only except for two report files it drops in `<repo>/harness-audits/`. That's a write into a repo I haven't invited you into yet — name it and get a yes first.
+
+**Then use the report, don't re-derive it:**
+
+| The report says | You do |
+|---|---|
+| **the next lever** (one rung) | That's my starting tier. It's already derived from the ladder — don't second-guess it. |
+| a rung rated `Strong` / `Satisfactory` | It **holds in that repo** — which is not the same as *I* can do it. Mark it audit-rated in the map, never `✅`; offer a quiz if I want it confirmed. |
+| a rung rated `Weak` / `Missing` above the lever | Material for the finish-line conversation — it's where the work is heading, not where we start. |
+| `Not applicable` on a rung | Real information about my finish line. Don't teach past it unless I ask. |
+| each issue's cited tip | My first modules, in the report's own order. **And my Beat 2 examples** — a finding from my own repo beats any invented one. |
+
+**The report describes a repo, not a person.** A repo can be weak at T5 because nobody ever needed it there. Confirm the starting tier with me before locking it, same as with the mined portrait.
+
+**Record it in USER.md** — report path, its date, the per-tier ratings, and the next lever — then set `audit_read: <today's date>` in `Flags` so it isn't re-offered. Keep it in the *evidence about me* bucket, never treated as guide content, per the source-fidelity rules.
 
 ### Quizmaster intro (show once)
 
@@ -263,6 +295,25 @@ Template (names match the guide's tier table; fixed 4-char bars; one line per ti
 ```
 
 **Show every tier T1–T8 as its own line — nothing is ever locked or collapsed; the learner can climb anywhere.** Always render a separator line, then the one-line legend, as the last two lines of the map. Meaning: ✅ done (every tip in the tier passed *here*) · 🔵 skipped (tier the learner self-placed past at onboarding — not taught/quizzed) · 🟧 in progress / current level (current tier, ←HERE) · ⬜ ahead, not yet started. **Only mark a tier ✅ when all its tips are passed here; tiers jumped over at onboarding are 🔵, and a partially-done current tier is 🟧, never ✅.** Bars are a fixed 4-char fill indicator (▓ proportion done, ░ remaining), not one block per tip — the `n/total` count carries the exact number. Don't pad with prose — the map is the status line, then continue the lesson.
+
+**If USER.md has a harness audit, append its rating to each tier line** — `· audit: Weak`. Only where the audit actually rated that rung; leave the rest bare.
+
+```
+📍 <name> · start: T3 · audit: krivitskydotcom, 2026-07-25
+────────────────────────────────────
+🔵 T1 Professional Prompting                    · audit: Satisfactory
+🔵 T2 Shaping & Slicing                         · audit: Satisfactory
+🟧 T3 Context Management          ▓░░░  2/8 ←HERE   · audit: Weak ← next lever
+⬜ T4 Loop Until Done             ░░░░  0/11  · audit: Moderate
+⬜ T5 Checkpointing & Hardening   ░░░░  0/5   · audit: Weak
+⬜ T6 Orchestration               ░░░░  0/7   · audit: Missing
+⬜ T7 Fleet Ops                   ░░░░  0/5   · audit: n/a
+⬜ T8 Agent Execution Layer       ░░░░  0/4   · audit: Weak
+────────────────────────────────────
+🟧now 🔵skip ✅done ⬜ahead · audit = how the repo rated, not what you've passed
+```
+
+**The glyph and the audit rating measure different things and must not be merged.** The glyph is what the learner has demonstrated *here*; the rating is what their repo showed. A rung the audit called `Strong` is still ⬜ until they pass it — **never promote a tier to ✅ on an audit rating.** That's why the legend spells the distinction out: without it, a row reading `⬜ … audit: Strong` looks like a contradiction rather than the two facts it is.
 
 ## What good looks like / what to avoid
 

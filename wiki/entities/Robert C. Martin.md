@@ -24,7 +24,10 @@ In a [July 2026 post](https://x.com/unclebobmartin/status/2080257779395154409) h
 - [Robert C. Martin (@unclebobmartin) on surrounding agents with extreme constraints](https://x.com/unclebobmartin/status/2080257779395154409) — X, July 2026
 - [Robert C. Martin — Wikipedia](https://en.wikipedia.org/wiki/Robert_C._Martin)
 
+- **The question he leaves open.** His tweet says confidence comes from the gauntlet, but not how to tell whether a given gauntlet is any good. The guide answers that with the [[Harness Audit]] chapter, which opens on this quote.
+
 ## Related
 - [[From Prompts to Systems]]
 - [[Tier 4 — Loop Until Done]]
 - [[The Harness]]
+- [[Harness Audit]]
