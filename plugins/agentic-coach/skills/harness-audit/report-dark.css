@@ -1,0 +1,39 @@
+/* harness-audit dark theme — an OVERRIDE LAYER, not a second stylesheet.
+   Inline report.css first, then this. It redefines the palette and the few
+   places report.css hardcodes a colour; every layout rule stays in one file so
+   a fix cannot land in one theme and miss the other.
+
+   This is a CHOSEN theme (`--theme:dark`), never prefers-color-scheme. A report is a
+   frozen record: it must look the same to everyone who opens it, not change
+   with the viewer's OS setting. report.css says the same thing from the other
+   side — do not add a media query to either file. */
+
+:root{
+  --paper:#101318; --sheet:#191d23; --ink:#e7eaee; --ink-soft:#a5adb8;
+  --ink-faint:#767f8b; --rule:#2a3038; --rule-hard:#e7eaee; --link:#8ab4f8;
+  --crit:#ff8f84; --high:#f0a86a; --med:#dfc072; --low:#8fbde8; --info:#8d959f;
+  --strong:#7fce9b; --sat:#9cc48f; --mod:#dfc072; --weak:#f0a86a;
+  --missing:#ff8f84; --none:#767f8b;
+}
+
+/* report.css hardcodes these three — everything else is variable-driven */
+pre{background:#0b0e12;border-color:#2a3038}
+.limit{background:#0f1318;border-color:#2a3038}
+pre .hl{background:#4a3d17;color:#f4e7bd}
+
+/* the sheet needs a softer edge on dark; a 1px near-white border glares */
+.sheet{border-color:#2a3038}
+.counts{background:#2a3038;border-color:#2a3038}
+
+/* MISSING is the only inverted chip in light; keep it readable rather than loud */
+.r-missing{color:var(--missing)}
+
+@media print{
+  /* print is always the light document — ink on paper, whatever the screen was */
+  :root{
+    --paper:#fff; --sheet:#fff; --ink:#000; --ink-soft:#333; --ink-faint:#555;
+    --rule:#ccc; --rule-hard:#000; --link:#000;
+  }
+  pre,.limit{background:#f4f4f2;border-color:#ccc}
+  pre .hl{background:#e3d9b4;color:#000}
+}

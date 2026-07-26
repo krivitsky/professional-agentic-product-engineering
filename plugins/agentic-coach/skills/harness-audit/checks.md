@@ -8,21 +8,29 @@ A run that reports only Class P has done the inventory and called it an audit.
 
 ## Categories
 
-Every finding is filed under one, and every category gets a rating in §4 of the report.
+Every finding is filed under one, and every category gets a rating in the report's §3 Scorecard.
 
-| Category | Code | Covers |
-|---|---|---|
-| Instruction architecture | INSTR | `CLAUDE.md` hierarchy — scope, conflicts, overrides |
-| Context economy | CTX | What's in the always-loaded budget and whether it earns its place |
-| Permission model | PERM | Tool grants, allow/deny, per-agent narrowing |
-| Deterministic enforcement | ENFORCE | Hooks, CI, and whether stated rules have anything behind them |
-| Autotests | TEST | Suite, e2e, coverage, mutation — the ground truth the loop converges to |
-| Delegation design | DELEG | Subagents — roles, tool scoping, runtime feasibility |
-| Extension surface | EXT | Skills, commands — overlap and trigger collisions |
-| External integrations | MCP | MCP servers, scope, trust boundary |
-| Repo hygiene | HYGIENE | Secrets, machine-specific state, what's tracked |
-| Verification and feedback | VERIFY | Evals, golden outputs, recorded regressions |
-| Runtime behaviour | RUNTIME | **Always `Not assessed`** — needs session traces. Listed so its absence isn't read as a pass |
+| Category | Code | Tier | Covers |
+|---|---|---|---|
+| Instruction architecture | INSTR | T3 | `CLAUDE.md` hierarchy — scope, conflicts, overrides |
+| Context economy | CTX | T3 · T6 | What's in the always-loaded budget and whether it earns its place |
+| Permission model | PERM | T8 | Tool grants, allow/deny, per-agent narrowing |
+| Deterministic enforcement | ENFORCE | T5 · T4 | Hooks, CI, and whether stated rules have anything behind them |
+| Autotests | TEST | T4 | Suite, e2e, coverage, mutation — the ground truth the loop converges to |
+| Delegation design | DELEG | T6 · T4 | Subagents — roles, tool scoping, runtime feasibility |
+| Extension surface | EXT | T3 | Skills, commands — overlap and trigger collisions |
+| External integrations | MCP | T3 | MCP servers, scope, trust boundary |
+| Repo hygiene | HYGIENE | T3 | Secrets, machine-specific state, what's tracked |
+| Verification and feedback | VERIFY | T4 · T7 | Evals, golden outputs, recorded regressions |
+| Runtime behaviour | RUNTIME | T1 · T2 | Prompting and shaping habits, which skills ever fire, whether rules are followed. **Not visible in files; visible in local transcripts with consent** — see below |
+
+**The Tier column feeds the scorecard**, which is indexed T1–T8 (see SKILL.md §The scorecard). A finding's authoritative tier is the tier of the tip it cites; this column is the coarse default for checks whose tip varies.
+
+**Two rungs no *file* reaches — but the transcript does.** **T1 Professional Prompting** and **T2 Shaping & Slicing** are invisible in checked-in configuration: prompt quality and shaping both happen before the commit. They are **not** invisible to this method. The local session transcripts at `~/.claude/projects/<slug>/*.jsonl` record every prompt the user typed in this project, and `scripts/mine-prompts.sh` in the guide repo already extracts them read-only. **With consent, rate T1 and T2 from real prompts** — bare imperatives versus outcome-plus-constraint, `@file` use, plan-mode and verify habits — against Tier 1 and Tier 2's tips. Static proxies (`specs/`, `*.plan.md`, commit granularity) are the fallback, not the ceiling.
+
+**`Not assessed` must name which reason.** *"Consent not given"* and *"nothing in the repo runs unattended"* and *"needs evidence this method cannot reach"* are three different states, and only the last is a limit of the audit. Writing the blanket phrase for all three hides a choice as a constraint — an earlier run marked T1 unassessable while the auditing session was itself reading transcripts for other purposes.
+
+**T7 Fleet Ops** stays `Not assessed` unless something in the repo actually runs unattended — say that, rather than scoring an absent fleet as a weakness.
 
 ---
 

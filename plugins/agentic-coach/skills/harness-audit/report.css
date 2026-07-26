@@ -1,0 +1,207 @@
+/* harness-audit report stylesheet — canonical source.
+   INLINE this file into each report's <style> block. Never link it.
+   Reports travel (email, tickets, ~/Downloads) and timestamped reports are
+   immutable records: a shared stylesheet would silently re-render every past
+   report the next time it is edited.
+
+   This is the LIGHT theme and the default — a printed-document design, warm
+   paper with a white sheet on it. `report-dark.css` is an override layer
+   inlined after this file when the run passes `--theme:dark`; every layout rule
+   lives here, so a fix cannot land in one theme and miss the other.
+
+   Theme is CHOSEN at build time, never sniffed. Do not add
+   prefers-color-scheme to either file: a report is a frozen record and must
+   look the same to everyone who opens it, not flip with the viewer's OS.
+
+   Serif body at 16.5px/1.62. The report is prose and gets read, not skimmed;
+   a system sans stack measurably degrades it. Do not swap the body font.
+
+   NO GAUGES. There is no fill-bar class here and none may be added — see
+   SKILL.md §Rating categories. An earlier report drew eleven of them and they
+   read as a grade regardless of the caption. */
+
+:root{
+  --paper:#E6E8E3; --sheet:#FAFAF8; --ink:#14161A; --ink-soft:#5A5F66;
+  --ink-faint:#8B9097; --rule:#C9CCC4; --rule-hard:#14161A; --link:#1F3A5F;
+  --crit:#8E1D18; --high:#B0521A; --med:#8C7016; --low:#3D5F80; --info:#71767D;
+  --strong:#2C6249; --sat:#5B7F4E; --mod:#8C7016; --weak:#B0521A;
+  --missing:#8E1D18; --none:#9BA0A4;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --disp:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --body:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.62;padding:32px 16px 96px}
+.sheet{max-width:900px;margin:0 auto;background:var(--sheet);border:1px solid var(--rule-hard);padding:0 clamp(20px,5vw,64px) 64px}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.01em;margin:0}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+p{margin:0 0 14px}
+a{color:var(--link)}
+code,.mono{font-family:var(--mono);font-size:.88em}
+strong{font-weight:700}
+em{font-style:italic}
+.small{font-size:14px}.soft{color:var(--ink-soft)}
+
+/* Cover */
+.cover{padding:44px 0 28px;border-bottom:3px solid var(--rule-hard)}
+.cover h1{font-size:clamp(34px,6.2vw,58px);line-height:.98;text-transform:uppercase;margin-bottom:6px}
+.cover .target{font-family:var(--mono);font-size:clamp(15px,2.4vw,19px);font-weight:500;color:var(--ink-soft);margin-bottom:30px}
+/* Four short fields, label stacked above value. An earlier inline dt/dd flex
+   row wrapped unevenly on long values and put labels beside the wrong data. */
+/* Columns sized to their content, not equal: branch is one short word, auditor
+   is a sentence. Deliberately coupled to the fixed four-field cover in SKILL.md
+   (target · branch · audited · auditor) — change the fields, change this. */
+.meta{display:grid;grid-template-columns:1.15fr .45fr .95fr 2.15fr;gap:0 26px;
+      border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0}
+.meta div{padding:4px 0}
+.meta dt{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px}
+.meta dd{margin:0;font-family:var(--mono);font-size:13px;line-height:1.45}
+
+/* Sections */
+section{padding-top:44px}
+.sechead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule-hard);padding-bottom:8px;margin-bottom:22px}
+.sechead .num{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink-faint)}
+.sechead h2{font-size:23px;text-transform:uppercase;letter-spacing:.02em}
+h3.sub{font-size:17px;margin:26px 0 10px}
+
+/* §Method — coverage columns */
+.cov{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px}
+.cov h4{font-size:12px;font-family:var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;font-weight:600}
+.cov ul{margin:0;padding:0;list-style:none;font-family:var(--mono);font-size:12.5px;line-height:1.85}
+.cov .absent{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--ink-faint)}
+.cov .prose li{font-family:var(--body);font-size:14.5px;line-height:1.55;margin-bottom:4px}
+
+/* §Questions this report answers */
+ol.q{counter-reset:q;list-style:none;margin:0;padding:0}
+ol.q li{counter-increment:q;position:relative;padding:12px 0 12px 46px;border-bottom:1px solid var(--rule)}
+ol.q li:first-child{border-top:1px solid var(--rule)}
+ol.q li::before{content:"Q" counter(q);position:absolute;left:0;top:13px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-faint)}
+ol.q .verdict{display:block;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:4px}
+
+/* §Scorecard — ratings only, never a gauge */
+.score{border-top:1px solid var(--rule-hard)}
+.row{display:grid;grid-template-columns:1fr 132px;gap:16px;align-items:start;padding:13px 0;border-bottom:1px solid var(--rule)}
+.row .cat{font-family:var(--disp);font-size:15.5px;font-weight:600}
+/* Each rung says three things, labelled so they can't blur: what it is (.cat),
+   what the tier is for (.goal — verbatim from the guide), and what is true of
+   this repo (.note). A reader once read a fused goal+finding as one muddle. */
+.row .goal,.row .note{padding-left:74px;position:relative}
+.row .goal{font-size:13.5px;color:var(--ink-soft);margin-top:5px;line-height:1.45}
+.row .k{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.13em;
+        text-transform:uppercase;color:var(--ink-faint);position:absolute;left:0;top:3px}
+.row .note{font-size:14px;color:var(--ink-soft);line-height:1.5;margin-top:3px}
+.rating{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding-top:5px;color:currentColor;text-align:right}
+.r-strong{color:var(--strong)}.r-sat{color:var(--sat)}.r-mod{color:var(--mod)}
+.r-weak{color:var(--weak)}.r-missing{color:var(--missing)}
+.r-none{color:var(--none);font-style:italic;text-transform:none;letter-spacing:.04em}
+.legend{margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+
+/* Severity counts */
+.counts{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:26px}
+.counts div{background:var(--sheet);padding:13px 14px}
+.counts .n{font-family:var(--disp);font-size:29px;font-weight:700;line-height:1}
+.counts .l{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-top:5px}
+
+/* Tables */
+.tblwrap{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px}
+.tbl th{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);text-align:left;padding:0 10px 8px 0;border-bottom:1px solid var(--rule-hard)}
+.tbl td{padding:10px 10px 10px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.tbl td:first-child{font-family:var(--mono);font-size:12.5px;font-weight:600;white-space:nowrap}
+.tbl .cat-c{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);white-space:nowrap}
+.chip{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border:1px solid currentColor;white-space:nowrap;display:inline-block}
+.s-crit{color:var(--crit)}.s-high{color:var(--high)}.s-med{color:var(--med)}.s-low{color:var(--low)}.s-info{color:var(--info)}
+.conf{font-family:var(--mono);font-size:11px;color:var(--ink-soft);white-space:nowrap}
+
+/* Findings */
+.finding{border-left:4px solid currentColor;padding:2px 0 2px 20px;margin:34px 0 0}
+/* Divider between consecutive findings. A pseudo-element rather than a
+   border-top, so the hairline sits inside the padding and never miters into
+   the coloured severity bar on the left edge. */
+.finding + .finding{margin-top:46px}
+.finding + .finding::before{content:"";display:block;height:1px;background:var(--rule);margin:0 0 30px}
+.f-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:4px}
+.f-id{font-family:var(--mono);font-size:12px;font-weight:600}
+.finding h3{font-size:20px;color:var(--ink);margin:2px 0 12px;line-height:1.25}
+.f-meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--rule)}
+.f-meta b{font-weight:500;color:var(--ink)}
+/* .finding carries the severity colour so the left bar can use currentColor.
+   Every descendant must reset to ink, or body copy inherits the severity hue. */
+.finding > p,.finding > ul,.finding > ol,.finding > pre,.finding > .limit,.finding > .tblwrap{color:var(--ink)}
+.attr{margin-bottom:13px;color:var(--ink)}
+.attr .k{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:2px}
+.attr p{margin:0 0 8px}
+.attr p:last-child{margin-bottom:0}
+.attr ul,.attr ol{margin:6px 0;padding-left:20px}
+.tips{font-family:var(--mono);font-size:11px;margin-top:10px}
+
+/* Code */
+pre{font-family:var(--mono);font-size:12.5px;line-height:1.6;background:#F0F1EC;border:1px solid var(--rule);padding:12px 14px;overflow-x:auto;margin:8px 0 12px;white-space:pre}
+pre code{font-size:inherit;font-family:inherit}
+pre .path{color:var(--ink-faint);display:block;margin-bottom:6px;font-size:11px}
+pre .hl{background:#E3D9B4;padding:0 2px}
+
+/* Requirement / limitation boxes */
+.limit{background:#F0F1EC;border:1px solid var(--rule);padding:18px 20px;font-size:14.5px;margin:12px 0}
+.limit p:last-child{margin-bottom:0}
+.limit .k{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:6px}
+
+/* §Recommended sequence */
+.seq{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px}
+.seq h4{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);border-bottom:1px solid var(--rule-hard);padding-bottom:7px;margin-bottom:12px}
+.seq ol{margin:0;padding-left:19px;font-size:15px}
+.seq li{margin-bottom:9px}
+.seq .ref{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+
+/* §Observations */
+.obs{border-top:1px solid var(--rule);margin:0;padding:0}
+.obs li{list-style:none;padding:11px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:74px 1fr;gap:14px;font-size:15px}
+.obs .oid{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);padding-top:3px}
+
+/* Trend */
+.trend{border-top:1px solid var(--rule);margin:0;padding:0;list-style:none}
+.trend li{padding:10px 0;border-bottom:1px solid var(--rule);font-size:15px}
+.trend .tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border:1px solid currentColor;margin-right:9px;white-space:nowrap}
+.trend .subs{margin:9px 0 2px;padding-left:0;list-style:none}
+.trend .subs li{font-size:14px;color:var(--ink-soft);padding:3px 0 3px 14px;border:0;position:relative}
+.trend .subs li::before{content:"";position:absolute;left:2px;top:11px;width:5px;height:1px;background:var(--ink-faint)}
+.t-withdrawn{color:var(--crit)}.t-open{color:var(--med)}.t-closed{color:var(--strong)}
+.t-new{color:var(--low)}.t-carried{color:var(--info)}
+
+/* A block that opens a section must not draw its own top rule — .sechead
+   already closed with one, and the two stack into a visible double line. */
+.sechead + .score,
+.sechead + .trend,
+.sechead + .obs,
+.sechead + .cov,
+.sechead + .tblwrap .tbl th{border-top:0}
+.sechead + ol.q > li:first-child{border-top:0}
+
+footer{margin-top:52px;padding-top:18px;border-top:3px solid var(--rule-hard);display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+
+@media (max-width:620px){
+  body{padding:12px 8px 60px}
+  .row{grid-template-columns:1fr;gap:6px}
+  .rating{text-align:left;padding-top:0}
+  .obs li{grid-template-columns:1fr;gap:2px}
+  .meta{grid-template-columns:1fr 1fr;gap:0 20px}
+}
+@media print{
+  body{background:#fff;padding:0;font-size:10.5pt}
+  .sheet{border:0;max-width:none}
+  .finding,.limit,pre,.row{break-inside:avoid}
+  .sechead{break-after:avoid}
+  a{color:#000}
+}
+
+/* One line under the cover telling the reader the other theme exists. */
+.themenote{margin:14px 0 0;font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+.themenote code{font-size:inherit;background:none;padding:0;color:var(--ink-soft)}
+
+/* Brand kicker above the title — the source, not a restatement of it. */
+.eyebrow a{color:inherit;text-decoration:none;border-bottom:1px solid transparent}
+.eyebrow a:hover{border-bottom-color:currentColor}
+.eyebrow .sep{margin:0 10px;color:var(--rule)}

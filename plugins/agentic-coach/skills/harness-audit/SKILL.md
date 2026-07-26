@@ -1,7 +1,7 @@
 ---
 name: harness-audit
 description: Use when the user asks what their repo is missing to run coding agents well — "audit my harness", "audit this repo", "run the gauntlet", "am I set up right for agents", "what am I missing", "check my agentic setup", "is this repo agent-ready", "do I have the right guardrails" — or right after they install the coach and ask "now what". Reads the harness configuration checked into the repo and reports findings: what's absent, and — more valuable — what's present but incoherent, unenforced, or failing open. Severity-rated, evidence-backed, with a recommended sequence. Do NOT use for a mid-task one-line nudge — that is the agentic-coach skill. Do NOT use to implement the fixes; the audit reads and reports, then stops.
-argument-hint: "[--quick]"
+argument-hint: "[--quick | --deep] [--theme:light | --theme:dark]"
 ---
 
 # Harness audit — a static review of the agent configuration in a repo
@@ -10,7 +10,7 @@ The guide's Big Idea: a **harness** is a **workflow** bounded by three constrain
 
 The full guide ships at **`${CLAUDE_PLUGIN_ROOT}/guide.md`**. The check catalogue is **`${CLAUDE_PLUGIN_ROOT}/skills/harness-audit/checks.md`** — **read all of it before auditing.**
 
-**Read-only, except the report.** Never edit, move, or delete a file. Never run tests, builds, installs, or migrations. Never `git add/commit/checkout/stash/clean`. The only writes are the two report files in `harness-audit/`.
+**Read-only, except the report.** Never edit, move, or delete a file. Never run tests, builds, installs, or migrations. Never `git add/commit/checkout/stash/clean`. The only writes are the two report files in `harness-audits/`.
 
 ---
 
@@ -28,14 +28,136 @@ Every one passes a presence check. **`checks.md` has two classes and Class C is 
 
 ---
 
+## Three passes: find wide, then falsify
+
+An independent review of a shipped report re-checked every claim against the working tree and returned: *diagnosis sound · three of seven findings misstated · one false.* **Its architecture held; its citations did not.** The single pass that wrote it had used 14 of its 35 allowed reads — budget was never the constraint. A grep hit was being treated as a read.
+
+That is not fixable by trying harder in one context, and the skill already knew why: *the session that wrote a recommendation should not be the only one that checks it.* This is [Tip 4.7](https://agentic-engineering.guide/tier-4#tip-4-7) — *review with fresh eyes, not the context that wrote it* — applied to the audit itself.
+
+| Pass | Job | Count |
+|---|---|---|
+| **1 · Finders** | Produce candidate findings. Run **in parallel**, each with a different lens, each read-only | 2 by default |
+| **2 · Pooling** | Merge, dedupe, flag conflicts. Mechanical — done in the orchestrating context, no agent | — |
+| **3 · Verifier** | Falsify every pooled finding against the tree. Returns verdicts, not opinions | 1, always |
+
+### Pass 1 — finders, for recall
+
+Fan-out buys **coverage**, not correctness. Class C checks are open-ended — *"find contradictions between instruction files"* has no fixed answer set, and one pass finds what its lens is shaped for. The shipped report cited `ci.yml` **and** `playwright.config.ts` and never noticed that a comment in one contradicts the ternary in the other; a finder told to cross-read pairs would plausibly have caught it.
+
+Spawn each as a subagent with the read-only constraint, `checks.md`, and one lens:
+
+| Lens | Told to look for |
+|---|---|
+| **Enforcement** | Class P absences, C-2, C-4, C-5, C-10, C-12 — what is stated versus what holds |
+| **Coherence** | C-1, C-3, C-6, C-8, C-9, C-11 — contradictions *between* files. **Every claim must rest on two files read together** |
+
+Under `--deep`, add **Hygiene** (C-7, secrets, tracked state, machine paths) and **Economy** (context budget, always-loaded cost, duplication between instruction files and skills).
+
+Each finder returns candidate findings in the §Findings shape, each with the `file:line` it rests on. **Finders do not write the report.**
+
+### Pass 2 — pooling, and what agreement is not
+
+Merge on the **key** (`<check>@<location>`). Then:
+
+- **Same key, same claim** → one finding. **Agreement is not corroboration.** Two finders that took the same shortcut reach the same wrong answer — the false `edge-tts` finding, the gitlink read as an empty file, and the blind-spot violation would each have been produced by both lenses identically. Never write *"both passes confirmed"*; it converts a shared method error into manufactured confidence.
+- **Same key, incompatible claims** → mark `conflict`. This is high-signal and goes to the verifier **first**, but conflict sets *priority*, never *eligibility* — pass 3 verifies everything either way. A conflict that survives verification is often itself the finding: *"two passes read this file differently; the ambiguity is the problem."*
+
+### Pass 3 — the verifier, for precision
+
+**It re-derives from the tree. It does not review the finders' reasoning** — reviewing reasoning inherits the error that produced it. Hand it the claims and their cited locations, nothing else. This is exactly what the review that produced this design did, and why it worked.
+
+Two claim types, falsified two different ways:
+
+| Claim | How to falsify |
+|---|---|
+| **Quote claim** — *"`file:24` says X"* | Open the file **in full context**, far enough around the line to see what it belongs to. A report quoted `"/Users/alexey/.local/bin/edge-tts";` as a hardcoded path; the line above was `process.env.EDGE_TTS_BIN ||`, making it the fallback and the finding false. **A quote beginning mid-expression is not evidence.** |
+| **Absence claim** — *"nothing reviews a diff"* | You cannot open a file that isn't there, so check it against the **scope declaration** instead. An absence asserted inside a declared blind spot is refuted on its face: that report declared `~/.claude/` invisible, then rated the claim `Confirmed` against eight subagents living there. |
+
+It applies the checks in §Gate 1 and returns one verdict per finding:
+
+| Verdict | Effect on what ships |
+|---|---|
+| **Holds** | Ships as written. `Confirmed` is permitted only here |
+| **Misstated** | Ships **corrected**, downgraded to `Probable`, with the correction applied — not the original claim |
+| **Over-scoped** | Renarrowed to what the evidence supports, confidence dropped. Don't delete a finding that survives at a smaller scope |
+| **False** | **Cut.** It does not appear in the report, not even as an Observation |
+
+The verifier **may not add findings.** Anything it notices in passing goes to Observations or open questions, marked unverified — its own additions would be the one thing in the report nobody checked.
+
+**Then the orchestrating context writes both files.** Writing is never delegated: the report's voice, trend keys, and cross-finding compounding all need the whole picture.
+
+---
+
+## Flags
+
+**Determine the mode before spawning anything.** Two ways a user arrives, and both must resolve to exactly one row of the table below:
+
+| How they invoke | Resolve by |
+|---|---|
+| **Slash command** — `/agentic-coach:harness-audit --deep` | Read the literal flag. It wins over everything, including contradicting prose |
+| **Natural language** — *"audit my harness"*, *"is this repo agent-ready"* | Map intent: *quick · fast · just a look · rough* → `--quick` · *thorough · deep · comprehensive · don't miss anything · be exhaustive* → `--deep` · **anything else, including a bare request, is the default** |
+
+**The default is the default — never silently upgrade it.** A plain *"audit this repo"* gets two finders, not four. Spending four agents because the request sounded important is a cost the user did not agree to.
+
+**Say which mode ran, once, before pass 1** — *"Running the default: 2 finders + verifier. `--deep` adds two more lenses."* One line. It sets expectations on cost and tells a user who wanted `--deep` that they didn't get it, while it is still cheap to say so.
+
+The `auditor` field on the report cover carries the resolved shape, so the mode is also verifiable after the fact.
+
+| Flag | Finders | Gauntlet | Budget | Verifier |
+|---|---|---|---|---|
+| *(none)* | 2 — Enforcement, Coherence | rendered | ≤20 reads each | **always** |
+| `--quick` | 1 — Enforcement only | dropped | ≤12 reads | **always** |
+| `--deep` | 4 — adds Hygiene, Economy | rendered | ≤25 reads each | **always** |
+
+**`--theme:light` · `--theme:dark`** is orthogonal to the three above and combines with any of them. It changes the report's appearance and nothing about the audit.
+
+| Value | Build |
+|---|---|
+| `--theme:light` *(default)* | inline `report.css` |
+| `--theme:dark` | inline `report.css`, then `report-dark.css` after it |
+
+**Both themes are named.** Not a bare `--dark` — a boolean flag leaves the other theme with no way to ask for it, so the report can only tell a reader to *remove* something rather than to request what they want.
+
+**The report says which theme it is and how to get the other**, in one line under the cover — *"Light theme. For the dark version, re-run the audit with `--theme:dark`."* Whoever opens the HTML is often not whoever ran the skill, and a frozen record cannot offer a toggle.
+
+**Cheap mode reduces recall, never precision.** `--quick` buys speed by looking at less, never by checking less — there is no flag that skips verification, because unverified findings are the failure this design exists to prevent. A user who wants it faster gets fewer lenses and the same standard of evidence.
+
+---
+
+## Write it plainly
+
+**The report's default register drifts abstract, and abstract prose reads as authoritative while saying nothing.** A shipped scorecard note read: *"Two instruction layers, neither authoritative and both resident, with no step that reconciles them when one changes."* The reader's verdict was *"I don't understand this."* They were right — three nominalisations, no picture, nothing a person could point at.
+
+> ❌ *"Two instruction layers, neither authoritative and both resident, with no step that reconciles them when one changes."*
+> ✅ *"`CLAUDE.md` and five skills both hold rules. Neither one wins, both load every session, and when one changes nothing updates the other."*
+
+Same claim, same length, and the second one can be pictured.
+
+- **Name the thing.** `CLAUDE.md`, not *"the instruction layer"*. Five skills, not *"the extension surface"*.
+- **Verbs, not nominalisations.** *"nothing updates the other"* beats *"no reconciliation step exists"*.
+- **One idea per sentence.** A clause stack joined by commas is where meaning goes to hide.
+- **Words to distrust in your own draft:** *surface · layer · resident · authoritative · reconcile · instance of · structural · leverage · posture · in practice.* Each is sometimes right and usually a sign you stopped at the first phrasing.
+- **No compressed triplets.** *"right context, proof it's done, a way back"* — the reader asked what "a way back" meant. It meant rollback. Three noun phrases in a row read as cadence, and cadence hides that one of them stopped being a description. Write the sentence: *"giving the agent the right context, checking that work is actually finished, and being able to undo a bad change."*
+- **No aphorisms.** *"You can't harden a gate you don't have."* *"Climb only as far as the work needs."* They sound settled and carry nothing a reader can act on. Cut them; the sentence before them was already finished.
+- **Never use a severity word as a bare noun.** *"every High below"* — High what, and below where? The scorecard opens the report, so a reader meets the severity scale a section later. Write *"all five high-severity issues."* The same goes for `Confirmed`, `Probable` and `Not assessed`: they are labels in a table, not nouns in a sentence.
+- **"Below" must point at something on the same screen.** Once sections moved, half the cross-references pointed a section away. Name the section or name the thing.
+
+This applies everywhere — scorecard notes, summary, issue prose, backlog items. **Evidence gets to be technical; the sentence around it does not.** `LINK_CHECK_SKIP=1` is precise and belongs; *"disables a deterministic verification pathway"* is fog around it.
+
+---
+
 ## Findings
 
-Every finding gets a stable ID (`H-001`, in severity order), and this shape. The middle three are what separate a report from a linter.
+Every finding gets a display ID — **`ISSUE-1`, `ISSUE-2`, …** — unpadded, assigned in table order. And this shape; the middle three are what separate a report from a linter.
+
+**Sort by severity, then by tier ascending.** Severity alone interleaves rungs inside a band — a High on T3 sitting under a High on T5 — which contradicts the scorecard's lever and the backlog's order in the same document. The lower rung comes first because the higher one rests on it. **The backlog uses the same key**, and each backlog item carries its rung (`— T3 · ISSUE-1`) so the ordering is visible rather than asserted.
+
+**Not `H-`.** An earlier version used it (for *harness*), never defined it anywhere, and put it one column away from a severity column containing **High** — so `H-013 · Low` read as a contradiction to anyone scanning the table. **A prefix that collides with a value in the neighbouring column is a bad prefix however defensible its etymology**, and an abbreviation the report never expands is a decoding tax on every reader to save four characters. Spell it.
 
 | | |
 |---|---|
-| **Criteria** | What should be true, stated as a standard — not "you're missing X" |
-| **Condition** | What is true, with `file:line` and a quoted excerpt |
+| **Criteria** | The standard, stated positively — not "you're missing X". **Take it from the guide tip the finding cites**, so the bar is the guide's and not this pass's invention. A criteria line the audit made up is the first place a wrong finding hides |
+| **Condition** | What is true, with `file:line` and an excerpt **quoted from the file read in full context** — never lifted from a grep hit. Where two files bear on one claim, read both and say what the pair shows; a contradiction between them is usually the better finding |
 | **Cause** | *Why it drifted.* Almost always process, not ignorance: "the allowlist grew by accretion — each entry added to unblock one session, and nothing treats a permission change differently from any other config change." Guess honestly and say you're guessing |
 | **Consequence** | What it costs in practice. Name the failure mode, not the rule |
 | **Corrective action — now** | The smallest thing that closes it, with the literal lines to paste |
@@ -55,11 +177,13 @@ A report once recommended the wrong hook event with total confidence. The reader
 
 **Where the reader knows more than the audit, ask instead of answer.** A static review cannot see which server is warm on :3007, how long the suite takes, or which rules the team has already given up on. Turning those into questions — *"before wiring this into a gate, check how your Playwright config resolves the server outside CI"* — gets the right answer from the person holding it, and costs nothing when they already know.
 
-**Still ship the literal lines.** This is not a licence to hand back homework — a corrective action with no runnable content is worthless. Ship the code *and* the requirement it satisfies *and* the assumption it rests on, so the reader can rewrite it rather than paste it blind.
+**Ship runnable content, at the altitude you can defend.** This is not a licence to hand back homework — a corrective action with nothing executable in it is worthless. But the mechanism is the part this pass is most often wrong about, and the acting reader can check it in seconds where the audit could not. So the requirement binds, the lines illustrate, and the check that would falsify them is named. *"Baseline — confirm `X` before applying"* is worth more than a confident block of JSON, because the confident block is what shipped wrong twice.
 
 ### Write for a reader who can do better than you
 
-This audit is a budgeted, read-only, single-pass review. Whoever acts on it — a person who has worked in the repo for a year, or an agent that can run the suite, read every file, and try three approaches — is very often **better positioned than the audit was.** Design the report so that is an advantage, not a thing it fights.
+**Design target: a report an agent with more context can trust and act on.** Whoever acts on this — a person who has worked in the repo for a year, or an agent that can run the suite, read every file, and try three approaches — is very often **better positioned than this pass was.** That sets the altitude for everything below. This audit is a budgeted, read-only, single-pass review; where it descends into specifics it cannot check, it manufactures exactly the claims a better-positioned reader will refute, and each refuted claim spends trust the sound findings needed.
+
+**So state the standard, state what was seen, and mark the uncertainty — then stop descending.** Requirement-level statements anchored in a guide tip survive review; mechanism-level assertions are what get overturned.
 
 The failure to avoid is a **ceiling**: hand an agent working JSON and it pastes the JSON. It will not look for the better mechanism, because nothing asked it to — and the one thing this audit was most confident about is the thing it got wrong.
 
@@ -93,7 +217,7 @@ Same one recommendation, one sentence longer, and now refutable. The failure it 
 
 Say it once in §9: **corrective actions are proposals; a finding stands even if its fix is wrong.**
 
-**Say when findings compound.** *"Combined with H-001, the configuration reads as gated to anyone reviewing it, while in practice nothing blocks."* Two findings that multiply are worth more than their sum, and a reader who fixes one and not the other has fixed nothing. Look for these deliberately.
+**Say when findings compound.** *"Combined with ISSUE-1, the configuration reads as gated to anyone reviewing it, while in practice nothing blocks."* Two findings that multiply are worth more than their sum, and a reader who fixes one and not the other has fixed nothing. Look for these deliberately.
 
 ### Severity — the cost if it goes wrong
 
@@ -120,36 +244,253 @@ Never collapse these. `Medium / Probable` and `Medium / Confirmed` are different
 
 ---
 
-## Rating categories
+## The scorecard rates the guide's eight tiers
 
-Rate each category in `checks.md` **Strong · Satisfactory · Moderate · Weak · Missing · Not assessed**, each with a one-line note that carries the actual meaning.
+**The axis is the tier ladder, not the check catalogue.** `checks.md` categories stay where they are good — filing a finding — but the scorecard is indexed **T1–T8**, so a reader who sees a weak rung knows which part of the guide to open. Take the names from `guide.md`'s `## Tier N —` headings, never from a mirror:
 
-**Never total them.** No overall score, no percentage, no averaged bar. An earlier version drew a fill bar per group; the bars ended up identical and cheerful regardless of content, and a repo with excellent CI and no agent guardrails scored as healthy. **A gauge is read as a grade whatever the caption says** — so it may only ever appear per-category, next to the note that explains it, never summed.
+`T1 Professional Prompting · T2 Shaping & Slicing · T3 Context Management · T4 Loop Until Done · T5 Checkpointing & Hardening · T6 Orchestration · T7 Fleet Ops · T8 Agent Execution Layer`
 
-**"Not assessed" is a distinct state, rendered differently, and always carries the line that it is not a pass.** Anything needing runtime evidence — does the suite pass, do the rules get followed, which skills ever trigger — is `Not assessed`, not `Weak`.
+Each finding already cites a tip; the tip number gives its tier. **A finding that blocks two tiers counts against both** — a missing `.claude/settings.json` genuinely stops you doing T5's hardening *and* T8's permission work, and a rating reads as *"can this repo do this tier's work"*, not as a fault tally.
+
+Rate each **Strong · Satisfactory · Moderate · Weak · Missing · Not assessed**, with a one-line note.
+
+**This is not tier-gating.** `## Method` forbids inferring *how ambitious a repo should be* and withholding findings above an imagined ceiling — a claim about intent a repo cannot support. Reporting where the harness currently sits is an observation, and the guide's own *"which tier do you need?"* exists so the reader sets their own finish line.
+
+### Recommend where to focus — from evidence, never from guessed intent
+
+**Close the lead with a short "where that is, for this repo" paragraph.** Which rungs carry this repo's weight is the most useful thing the tier axis can produce, and leaving the reader to derive it from eight ratings wastes the axis.
+
+Three conditions make it a recommendation rather than the ceiling `## Method` bans:
+
+| | |
+|---|---|
+| **Built on what the repo shows** | *"All 561 commits are by one author and only three are merges, so work lands on `main` directly."* Countable. Not *"this looks like a side project"* — an earlier run guessed exactly that about a 561-commit live site and was wrong. |
+| **Marked as an assumption** | Say plainly it is drawn from the repo's shape and can be wrong. The reader knows their own plans; the audit is offering a reading, not a verdict. |
+| **Changes nothing that ships** | **State outright that no issue was withheld, renamed, or downgraded because of it.** Every issue is listed at its own severity regardless of which rung it lands on. The moment focus starts filtering findings, it has become the ceiling. |
+
+Signals worth reading for this: author count and merge ratio (`git log --format=%an`, `--merges`), whether anything runs unattended, whether a push reaches production directly, whether skills already dispatch subagents. **Where a rung genuinely doesn't bite, say what it depends on** — *"nothing here runs unattended, so T7 has nothing to operate"* — never *"above your level."* That belongs in the rung's own note, not the lead.
+
+**Name only the rungs that carry the weight.** A draft went on to say *"T7 has nothing to operate. T8 matters in one way only…"* — both of which are the table's own rows, in the table's own words, eight lines above the table. **The lead says where to look; every other rung speaks for itself in its row.**
+
+### Name one next lever, and derive it
+
+**Walk the rungs from T1 upward. The next lever is the lowest one not rated `Strong` or `Satisfactory`.** Name that rung and no other.
+
+The rule falls out of the ladder itself: each rung rests on the ones below, so a weak lower rung caps everything above it. Working on T5 while T3 is broken is effort spent on a rung that cannot hold.
+
+| Ratings | The lead says |
+|---|---|
+| T1 Satisfactory · T2 Satisfactory · T3 Weak · T4 Moderate · T5 Weak | *"T1 and T2 hold, so the next lever is T3. T4 and T5 are weak too, but both rest on T3, so it goes first."* |
+| T1 Weak, anything above | *"T1 is the next lever"* — even if the interesting problems look higher up |
+| Everything holds to where the work stops | Say so plainly; no lever is a real answer |
+
+**Higher weak rungs get named as resting on the lever, never as parallel priorities.** A range — *"the weight sits on T3–T5"* — is not an answer to *what do I do next*, and it contradicts the sentence above it by implying T1 and T2 were skipped. **Where lower rungs hold, say they hold**; they were passed, not ignored.
+
+### The lead's whole order
+
+`what this repo is` → `how it is doing` → `how it is rated and where the weight sits`. Roughly 130 words, three paragraphs.
+
+Context comes first because it frames everything after it, and a draft that opened with the verdict and put the methodology second read as three disconnected blocks — the reader's verdict was that it did not hold together. Rating machinery is never the second thing anyone needs.
+
+**Where a tier genuinely doesn't bite yet, say what it depends on** — *"nothing here runs unattended, so T7 has nothing to operate"* — never *"above your level."* That is `Not assessed` with a reason, and it is a real answer, not a gap.
+
+### The note describes a condition, not an incident
+
+**The failure to avoid: notes written as findings-in-miniature**, which turn the scorecard into another index of the same events.
+
+> ❌ *"Four live contradictions between `CLAUDE.md` and the skills, one of which already produced a false 'done' in production."*
+> ✅ *"Two instruction layers — `CLAUDE.md` and five skills — with no reconciliation step between them."*
+
+The first is an event and belongs in the findings table. The second is a standing condition, and a rating is a rating *of* a condition. **Test each note: if it could be pasted into the findings table unchanged, it is written wrong.** Findings say what happened; the scorecard says what the repo is like.
+
+This matters most for tiers with **no** findings — those notes are the section's actual contribution, and they have nothing to restate. A tier where the audit looked and found the work already done should say so plainly; *"checked, and it holds"* is information the findings list structurally cannot carry.
+
+**Never total them.** No overall score, no percentage, no averaged bar, and **no "you are at T4" sentence.** An earlier version drew a fill bar per group; the bars ended up identical and cheerful regardless of content, and a repo with excellent CI and no agent guardrails scored as healthy. **A gauge is read as a grade whatever the caption says** — so a rating may only ever appear per tier, next to the note that explains it, never summed and never collapsed into a level.
+
+### Three non-ratings, not one
+
+`Not assessed` was doing three incompatible jobs, and a reader could not tell them apart. Use the one that is true:
+
+| Mark | Means | Test |
+|---|---|---|
+| **Not applicable** | This rung does not apply to this work — *"nothing here runs unattended, so there is no fleet to operate."* **Explicitly not a gap.** | Would the mature version of this repo still have nothing here? Then it applies |
+| **Not assessed** | The audit did not reach the evidence. **Always name why** — *"consent for transcript access was not given"* is a different state from *"needs evidence this method cannot reach"*, and only the second is a limit of the audit rather than a choice | Could another pass have got this? Then say what it would take |
+| **A real rating** | The audit looked and found the answer, **including when the answer is "nothing is there."** | Is this backed by a finding? Then it is assessed |
+
+**The trap: marking a confirmed finding as `Not assessed` because the thing is absent.** A rung where delegation is dispatched from three skills but no agent definition is versioned has been *assessed* — the answer is that it does not hold. That is `Weak`, and a run once wrote `Not assessed` over exactly that, burying a Medium finding behind a non-rating. **Absence you looked for and confirmed is evidence, not a gap in evidence.**
+
+Render the two non-ratings visibly but neutrally — they are answers, not footnotes, and a mark that whispers reads as a pass.
+
+**Link every tier name to its chapter** — `https://agentic-engineering.guide/tier-<N>` — and the section's opening line to `…/climb-the-eight-tiers`. A weak rung that does not tell the reader where to read is the tier axis doing none of the work it was chosen for.
+
+### The report never promises what it did not do
+
+**A guarantee is addressed to a suspicion, and printing it is how the suspicion arrives.** Three separate lines were cut for this, all saying the same kind of thing to the wrong audience:
+
+> ❌ *"That is a reading, not a filter: every issue below keeps its own severity."*
+> ❌ *"Ratings are per tier, never totalled, and never collapsed into a level."*
+> ❌ *"19 candidate claims · 15 hold · 2 misstated · 0 cut."*
+
+Each states a rule this file already enforces at write time. Nothing is totalled, so the reader can see nothing is totalled; nothing was filtered, so there is nothing to reassure them about. **A report that behaves correctly does not need to announce that it did.**
+
+The test: *who is this sentence addressed to?* If the answer is "someone worried the audit cheated," cut it — the sentence creates that reader rather than serving one.
+
+The exception is a fact that changes what to trust: **what verification removed** — *"one candidate was cut: the quoted line was a fallback"* — belongs in §6, because a reader deciding whether to act on this report is better off knowing a claim was withdrawn. That is information, not reassurance.
+
+### Never print this skill's own rules in the report
+
+A run once opened the scorecard with *"Ratings are per tier, never totalled, and never collapsed into a level."* Nothing is totalled, so the reader can see that; the sentence exists to stop **the author** doing something, and it was addressed to the wrong person. Same defect as the verification tallies on the cover — the audit narrating its own machinery instead of the repo.
+
+**Rules that constrain how the report is written stay in this file.** The report explains only what the reader cannot infer from the page in front of them: what a mark means, what a tier is, where to read next.
 
 ---
 
 ## Report structure
 
-Both files, every run, same basename in `harness-audit/`:
+Both files, every run, same basename in `harness-audits/`:
 
 | File | For |
 |---|---|
 | `<YYYY-MM-DD-HHMM>-report.html` | humans — self-contained, **no external fonts or assets**, print stylesheet |
 | `<YYYY-MM-DD-HHMM>-report.md` | agents — a **briefing**: same findings plus `open-questions` and the budget actually spent, so a better-positioned reader can go past where this pass stopped |
 
-Nine sections:
+### The cover carries four facts
 
-1. **Scope and coverage** — three columns: **Read** (every file consulted, counted) · **Absent** (what was looked for and isn't there) · **Not visible to this method** (runtime behaviour, real token cost, whether rules are obeyed). This is the trust device and it goes first.
-2. **Questions this report answers** — 5–7 questions with one-line verdicts and finding pointers. The 90-second read.
-3. **Summary** — three paragraphs of prose. The shape of the problem, the one urgent thing, and the pattern underneath. Credit what's good; a report that only accuses gets discounted.
-4. **Scorecard** — categories, ratings, notes.
-5. **Summary of findings** — severity counts, then a table: ID · finding · category · severity · confidence.
-6. **Detailed findings** — the full shape above, severity order.
-7. **Observations**
-8. **Recommended sequence** — two columns, **This week** and **Structural**, each item referencing its IDs. Ordered by what unblocks what, not by severity alone.
-9. **Limitations** — what this method cannot see, that the findings are not exhaustive, that *Not assessed* means no evidence rather than no problem, that **corrective actions are proposals: a finding stands even if its fix is wrong**, and that a reader who finds a better solution should take it — the finding was the point.
+**`target` · `branch` · `audited` · `auditor`.** That is the whole HTML cover:
+
+```
+target    krivitskydotcom
+branch    main
+audited   2026-07-25 21:35
+auditor   harness-audit v0.21 · 2 finders + verifier · claude-opus-5 · xhigh
+```
+
+**The `auditor` value is `<skill> v<version> · <shape> · <model id> · <effort>`.** No `effort` label — beside a model ID, `xhigh` can only be one thing. Shape is one of `1 finder + verifier` (`--quick`) · `2 finders + verifier` (default) · `4 finders + verifier` (`--deep`).
+
+**Count agents, not steps.** Pooling is bookkeeping in the orchestrating context — no agent, no model, no tokens — so it is not a pass. An earlier cover said *"three-pass (2 finders · pooling · verifier)"*, which inflated the number and spent a line saying nothing.
+
+**Record the resolved model ID and the effort level — never an alias.** Which model ran the finders, and how hard it was allowed to think, decide what the output is worth; a reader comparing two reports needs both. `opus` is a request, not a fact: it is what you *passed*, and it resolves to something else.
+
+Resolve it from the session transcript rather than assuming — the values are recorded per turn:
+
+```bash
+f=$(ls -t ~/.claude/projects/"$(pwd | tr '/.' '--')"/*.jsonl | head -1)
+grep -o '"model":"[^"]*"'  "$f" | sort | uniq -c | sort -rn | head -3
+grep -o '"effort":"[^"]*"' "$f" | sort | uniq -c | sort -rn | head -3
+```
+
+The alias you passed appears alongside the resolved ID — take the resolved one. If passes ran different models, write `finders <id> / verifier <id>`. **If effort was inherited rather than overridden, it is still a fact about the run and still gets recorded** — inherited is not unknown, and the command above tells you which it was. What is forbidden is printing a level you did not verify.
+
+`target` is the repo name alone. **No `(local checkout)` qualifier** — this skill only ever reads the working directory, so the parenthetical distinguishes against alternatives that do not exist, and `branch` already says where in the repo. Add a qualifier the day a run can target something else.
+
+Not `findings` — the severity counts are already tiles in §3, and a cover that repeats them is a cover doing §3's job.
+
+Everything else the run knows — `keys-open`, `keys-withdrawn`, verification tallies, per-pass read budgets, the method sentence — goes **only** in the `.md` cover fence. It is provenance written for the next run to parse, not for a person.
+
+**The audit does not report on itself in the human file.** *"19 candidate claims · 15 hold · 2 misstated · 2 over-scoped · 0 cut"* is the audit admiring its own machinery; the reader came to learn about their repo. The one place verification belongs in the HTML is a single line in §8 stating what it removed — *"one candidate was cut: the quoted line was a fallback"* — because that changes what they should trust, and a tally does not.
+
+A cover that fills a screen has already failed. If it does not fit in three lines of a grid, cut fields, not font size.
+
+**Nothing on the cover appears twice.** It accumulated a kicker reading *"Agent Harness Audit — Static Configuration Review"* above a title reading *"Harness Audit Report"*, and the repo name as a subtitle above a `target` field holding the same string. **If a line restates the title or a field, cut the line.**
+
+The whole cover, in order:
+
+```
+Professional Agentic Product Engineering | See on GitHub   ← 11px kicker, both linked
+HARNESS AUDIT REPORT                                       ← title
+target · branch · audited · auditor                        ← the four fields
+Light theme. For the dark version, …                       ← theme note
+```
+
+The kicker's two links are the guide (`agentic-engineering.guide`) and its source repo. A reader who finds a rule wrong or a check missing can go straight to where it is written and open a PR — the report is the most likely place someone meets this material, so it carries the way back.
+
+**The kicker carries the brand, never a description of the report.** *"Professional Agentic Product Engineering"* names where the method comes from and says nothing the title says — that is why it earns the line. A kicker that describes the report instead is both duplication and a decorative constant nobody re-checks when the method changes.
+
+The kicker was also quietly false: once a run reads session transcripts to rate T1, *"static configuration review"* stops being true. Method belongs in `auditor`, where it is one string that changes with the run instead of a decorative constant nobody re-checks.
+
+### The HTML is designed, not derived
+
+**Inline `${CLAUDE_PLUGIN_ROOT}/skills/harness-audit/report.css` verbatim into a `<style>` block.** Never link it, never rewrite it, never invent a stylesheet per run.
+
+Two rules, and the second is the one with teeth:
+
+- **Self-contained** — reports travel. Emailed, dropped in a ticket, opened from `~/Downloads`. A linked stylesheet breaks the moment the HTML moves without its neighbour.
+- **A timestamped report is an immutable record.** If every report linked one shared file, editing that file would silently re-render *every past report* — a report from three months ago gaining a palette it was never written under. The stylesheet is the source of truth; the copy inside each report is a frozen build artifact.
+
+This exists because the design was left unspecified once, and the next run reinvented it: a markdown dump in a system sans stack, with a dark-mode block that rendered the whole thing dark on a dark-themed browser. The reader's verdict was *"we lost the style — it was white and more readable."* **Unspecified means reinvented**, the same way `Scorecard` grew into *Maturity scorecard* and the first-run Trend line grew into an essay.
+
+`report.css` carries its own constraints in comments — light-only, serif body, and **no gauge class**. Honour them. The report before last rendered eleven fill bars that §Rating categories forbids in prose; the rule lived in this file and the CSS lived in the output, so nothing reconciled them. Now the prohibition is in both.
+
+### Every ID is a link, in both files
+
+`ISSUE-3` is clickable **everywhere it appears** — the §5 table, the Trend entries, the compounding notes, the §7 recommended sequence. All of them are same-document anchors; the report never links out to another file for its own content.
+
+**Emit the anchor explicitly. Do not rely on heading slugs.**
+
+| File | Anchor target | Link |
+|---|---|---|
+| `.html` | `<h3 id="issue-3" class="finding">` | `<a href="#issue-3">ISSUE-3</a>` |
+| `.md` | `<a id="issue-3"></a>` on its own line, immediately above the `###` heading | `[ISSUE-3](#issue-3)` |
+
+The markdown case is the one that bites. A heading reading `### ISSUE-3 · Skills declare "done" off Vercel alone` slugifies on GitHub to `#issue-3--skills-declare-done-off-vercel-alone` — so a bare `[ISSUE-3](#issue-3)` points at nothing, and renders as a live link that goes nowhere. **`guide.md` already uses the explicit-anchor pattern for every tip**; follow it. Renaming a finding then silently breaks every reference to it, which is why the anchor must not be derived from the title.
+
+Check before shipping: every `#issue-N` referenced has a matching anchor emitted, and every finding has one.
+
+**The HTML must carry the class contract** — `.cover` + `.meta`, `.sechead` with a `.num`, `.trend` with `.tag`, `.cov` columns, `ol.q`, `.score`/`.row`/`.rating`, `.counts`, `.tbl` + `.chip`, `.finding` + `.f-meta` + `.attr`, `.limit` for requirement boxes, `.seq`, `.obs`, `footer`. The markup is what carries the design; `report.css` styles almost none of a bare `<h2>`/`<table>` document.
+
+*How* you emit it is open — typed directly, or built by a converter that knows this report's structure. **What fails is a generic markdown-to-HTML pass**, which can only produce headings, paragraphs, and tables, and silently downgrades the report to a styled document dump. That has happened; it is what replaced a designed report with a markdown render in a system sans stack.
+
+**The check is on the output, not the method:** if the emitted HTML contains no `.finding`, no `.attr`, and no `.sechead`, it does not ship regardless of how it was made.
+
+**Three blocks: the news, the evidence and what to do about it, then the method.** Same order in both files.
+
+An earlier version opened with scope, then open questions — two screens in which the reader learned nothing about their own repo, reaching the first fact about it in section four. **Method is a lookup, consulted when a finding surprises the reader; it is not a preamble.** The cover block already carries `budget: N files read of ~35`, which is the trust signal doing its job in one line.
+
+**Register: the decision half carries no evidence.** §§1–4 state *shape*; §6 carries the proof. This is the report's most persistent defect — every section drifts toward finding-level detail, because that is the register the issues were written in and it leaks upward.
+
+**In §§1–4: no `file:line`, no code spans, no quoted config, no dates, no counts of occurrences.** A number appears only where the number *is* the shape, and then approximately — *"roughly two-thirds of the always-loaded file"*, not *"346 of 516 lines (67%)"*. The precise figure lives in the issue, where its command is printed beside it.
+
+**Test:** a reader who stops after §4 should hold a correct mental model of the repo and be unable to quote a single line number. If a sentence in §§1–4 could be moved into an issue unchanged, it belongs there instead.
+
+**Decide** — everything the reader needs to act on, before any evidence
+
+1. **Scorecard** — the eight tiers, rated. See §The scorecard above. **It opens the report**, and its lead paragraph carries the two jobs a separate summary used to do:
+
+   | | |
+   |---|---|
+   | **Credit** | The only place the report says what is *good*. Everything below is a ranked list of problems, a backlog of fixes and a long appendix; without this line the document is pure accusation and gets discounted as one. |
+   | **Synthesis** | The only place that says several issues are *one* thing — *"every High below comes from one gap."* Each issue is local by construction and each rung is separate, so nothing else in the report can say it. |
+
+   **Two or three sentences, and no issue-level detail.** A standalone `Summary` section was cut for restating what the ranked sections already said. Naming *which* files disagree, or *which* rule contradicts which, is an issue — the lead states the shape and stops. **If a sentence here could be a finding, it is a finding.**
+
+2. **Issues Summary** — severity counts, then a table: ID · finding · tier · severity · confidence. Every row has cleared pass 3; a row that did not, isn't here.
+3. **Recommended backlog** — one flat ranked list, each item naming the IDs it closes.
+
+**Context** — how this run relates to the last, and what the method could see
+
+4. **Trend** — what changed since the last run. See §Trend below.
+5. **Observations** — explicitly labelled as needing no response.
+6. **Method and limits** — **Read** · **Absent** · **Not visible to this method** · the **open questions** · and the limits: that issues are not exhaustive, that *Not assessed* means the evidence was not reached, that **corrective actions are proposals — an issue stands even if its fix is wrong**, and that a reader who finds a better solution should take it.
+
+**Evidence** — the reference appendix
+
+7. **Issues** — the full shape above, severity order. **Last.** It is the longest section by far and nobody reads it front-to-back; every reference to it is a link, so it sits under everything decision-shaped rather than pushing that below the fold.
+
+These were once the first and last sections, saying the same thing twice at opposite ends of the report, which is why neither landed: *"whether the stated rules are followed at runtime"* in one and *"a rule can be present, correct, and still ignored at runtime"* in the other. **Open questions belong in §7 too, never at the front** — *"if solo by design, ISSUE-6 is a non-issue"* is unreadable before ISSUE-6 exists, and opening with five things the audit could not determine discounts every issue behind it.
+
+**An index does not need to sit beside its detail once both are anchored.** An earlier version kept the findings table welded above the detailed findings for exactly that reason — a rule written before every row became a link. With anchors, adjacency buys nothing and costs the lead position. **Read** (every file consulted, counted) · **Absent** (what was looked for and isn't there) · **Not visible to this method** (runtime behaviour, real token cost, whether rules are obeyed) · the **open questions** · and the limits: that findings are not exhaustive, that *Not assessed* means no evidence rather than no problem, that **corrective actions are proposals — a finding stands even if its fix is wrong**, and that a reader who finds a better solution should take it.
+
+These were once the first and last sections, saying the same thing twice at opposite ends of the report, which is why neither landed: *"whether the stated rules are followed at runtime"* in one and *"a rule can be present, correct, and still ignored at runtime"* in the other. **Open questions belong here too, never at the front** — *"if solo by design, ISSUE-6 is a non-issue"* is unreadable before ISSUE-6 exists, and opening with five things the audit could not determine discounts every finding behind it.
+
+### Cut: "Questions this report answers"
+
+A former section, removed. It posed 5–7 questions with verdicts and finding pointers, sold as the 90-second read — and every question turned out to be a finding title with a question mark: *"Does the done check match the repo's definition of done?"* → the top finding. *"Can a bad turn reach the live site?"* → another one. Same content as §3, same ranking, one extra phrasing.
+
+Its one distinct move was the **"checked, and it's fine"** answer, which a findings list structurally cannot carry. **That belongs in the scorecard note**, which exists precisely to cover ground where nothing was found. Do not reintroduce the section to say it.
+
+**The scope declaration binds the report that writes it.** Whatever §9 lists as not visible, no finding may assert a negative about — see Gate 1, step 2. A report that declares a blind spot and then rates a finding `Confirmed` inside it has done worse than not declaring one.
+
+**§9 also reports what verification removed**, in one line: `verification: 9 candidates · 7 hold · 1 corrected · 1 cut`. Cut findings are named by subject, not restated as claims — *"one candidate about a hardcoded path was cut: the quoted line was a fallback."* This is the report's strongest trust signal and it costs a sentence. A run where the verifier cut nothing should say so plainly rather than omitting the line; silence there reads as the check not having run.
 
 ### Trend
 
@@ -157,20 +498,61 @@ Nine sections:
 
 | | |
 |---|---|
-| **Display ID** — `H-001` | Assigned in severity order, **this run only**. For reading and cross-referencing within the report. |
+| **Display ID** — `ISSUE-1` | Assigned in severity order, **this run only**. For reading and cross-referencing within the report. Anchor is the lowercased ID: `#issue-1`. |
 | **Key** — `<check>@<primary location>` | e.g. `C-2@CLAUDE.md`, `C-12@ci.yml`, `P-hooks@.claude/settings.json`. Derived from *what the finding is about*. Stable across runs. **This is the only thing trend may compare on.** |
 
-Never compare runs by display ID. Ranks shift as findings close — `H-001` next month is a different finding wearing the same badge, and reporting it as "still open" is a lie the reader can't catch.
+Never compare runs by display ID. Ranks shift as findings close — `ISSUE-1` next month is a different finding wearing the same badge, and reporting it as "still open" is a lie the reader can't catch.
 
-**Before writing:** glob `harness-audit/*-report.md`, read the most recent, extract its keys. Then:
+**Keys never appear in the HTML.** Not as a heading, not as a sentence subject, not as trailing metadata on a finding line. `C-7@generate-audio.mjs` is undecodable without `checks.md` open beside it — `C-7` is the seventh check in the Class C catalogue, which the reader has never seen and does not have. A report that prints it is asking the reader to hold a lookup table they were never given.
 
-- **Closed** — key present before, absent now. Name it: *"C-7@.gitignore closed — the tracked worktree file is gone."*
+Keys exist for exactly one job: letting the next run compare findings across reports without relying on display IDs, which shift as findings close. That job is done entirely by the `keys-open` / `keys-withdrawn` / `keys-carried` block in the **`.md` cover fence**, which is written for a machine to parse.
+
+So Trend entries in the HTML read in plain words, and stop there:
+
+> ❌ *"`C-7@generate-audio.mjs` withdrawn — the quoted line was a fallback."*
+> ❌ *"**The hardcoded audio path — withdrawn.** …the earlier finding was false, not fixed." · `key: C-7@generate-audio.mjs`*
+> ✅ *"**The hardcoded audio path — withdrawn.** The quoted line was a fallback behind an environment variable; the earlier finding was false, not fixed."*
+
+The second form was a half-fix — demoting an undecodable token to the end of the line does not make it decodable. **If the reader cannot resolve an identifier from the document in front of them, it does not go in the document.**
+
+**A re-render is not a run. It replaces its source; it never adds a file.**
+
+Re-presenting an existing finding set — new section order, new scorecard axis, corrected register — spawns no agents and gathers no evidence. It is the same audit wearing a new layout, and it **overwrites the report it came from** rather than earning a fresh timestamp. Two files whose cover `auditor` lines match are the same run by definition, and leaving both makes the directory claim an audit that never happened.
+
+The failure this prevents is quiet and compounding: trend globs the newest file, so a re-render becomes the baseline the *next* real run compares against — reporting "still open since 22:45" for a finding first seen at 21:35, and silently resetting how long anything has been open.
+
+**Check before writing:** if the newest existing report carries the same `auditor` value the run is about to write, and no new pass was spawned, overwrite it. Only a run that actually gathered evidence takes a new timestamp.
+
+**Before writing:** glob `harness-audits/*-report.md`, read the most recent **whose `auditor` line differs from this run's**, extract its keys. Then:
+
+**Tag every entry with one plain word.** `fixed` · `was wrong` · `open` · `new` · `carried`. Not *closed*, not *withdrawn*, not *regressed* — a reader asked outright what "withdrawn" meant, which is the answer on whether it was carrying its meaning. These sit beside each other in one list, so each has to be readable without a key.
+
+- **fixed** — the key is gone because someone did the work. Name the evidence: *"the tracked worktree file is gone."*
+- **was wrong** — the key is gone because the earlier finding did not hold up. **A false finding and a fixed problem look identical from key-diffing alone**, and calling a retraction *fixed* credits the reader with work they never did while quietly burying the audit's own error. Say what was wrong: *"the quoted line was the fallback, not the value; the fix suggested was what the code already did."*
+
+**When a key disappears, establish which of the two it is before writing either word.**
+
+**Open the tagged list with `What changed since the last run — <YYYY-MM-DD HH:MM>:`** — the section's job stated, not implied, and the baseline named. *"The last run"* is a pointer the reader cannot resolve; the timestamp of the report being compared against makes the whole section checkable, and tells them at a glance whether they are looking at yesterday's drift or last quarter's.
+
+**Trend owns cross-run state, and nothing else repeats it.** No `open since …` markers in the issues table, no run history in the issue bodies. A run added those markers so persistence would sit beside severity; they were a second copy of what the tagged `open` rows already say, in the one column that should carry an ID and nothing else. **Which issues survived is a fact about the runs, and the runs have a section.**
+
+### Trend never lists the new issues
+
+**`new` is a count, never an enumeration.** On a run where twelve of sixteen issues are new, listing them reproduces the issues table one section later — the reader's verdict was *"this just duplicates the issues list, this is not a trend."* They were right: when most issues are new, "what's new" is simply the report.
+
+**The durable signal is the opposite one — which issues have survived across runs.** There are always few of those, and being open for three runs is a fact about the process that severity alone never shows. **Mark them in the issues table** (`open since <timestamp>`), where the reader sees persistence next to severity, and let Trend carry the count.
 - **Still open** — key in both. Say how long: *"C-2@CLAUDE.md open since 25 Jul."* A finding that survives three runs is itself a finding about the process.
 - **New** — key only now.
 - **Moved** — same key, different severity or a rating change, in either direction. **A regression outranks everything and leads the report.**
 - **Drifted numbers** — same key, changed measurement: *"CLAUDE.md 516 → 604 lines."* The direction matters more than the value.
 
-**Placement: a `## Trend` block immediately after the cover, in both files, before §1.** It is the first thing a returning reader wants and the whole reason timestamped reports are worth their clutter. No prior report → one line saying so, in the same place.
+**Placement: §1, immediately after the cover, in both files.** It is the first thing a returning reader wants and the whole reason timestamped reports are worth their clutter.
+
+**First run — write exactly this line and nothing more:**
+
+> **First run.** No earlier report in `harness-audits/` to compare against.
+
+A run produced five lines here plus an explainer on display IDs versus keys, on a first run with nothing to compare. **The display-ID/key distinction is specification, not report content** — it belongs in this file and never in a report. One sentence, then §2.
 
 Carry the keys in the `.md` so the next run can read them without parsing prose:
 
@@ -185,7 +567,9 @@ keys-closed: (none)
 
 **Resolving a project command — precedence, highest first:** the CI workflow (the only place it's *proven*) → repo docs → manifest scripts → language convention. `checks.md` names no test frameworks on purpose; read the manifest and name what you find.
 
-**Budget: ≤35 file reads, ≤15 bash calls.** Class C costs more than Class P — spend it there. Hit the cap and say which region went unexamined; that region is `Not assessed`.
+**Budget is per pass, not per run** — see §Flags for the finder allowance. The verifier gets **≤25 reads** and must spend them opening the file behind every cited claim; it is the one pass whose budget is not a ceiling to economise against. Class C costs more than Class P — spend the finder budget there. Hit a cap and say which region went unexamined; that region is `Not assessed`.
+
+**Report the budget actually spent, per pass**, in the cover block: `finders: 18 + 14 reads · verifier: 21 · caps not hit`. The shipped report that failed used 14 of 35 — a low number next to a high cap is the signature of under-reading, and it is only visible if both numbers are printed.
 
 **Verify every tip citation before printing it:** `rg '<a id="tip-5-4">' ${CLAUDE_PLUGIN_ROOT}/guide.md`. No anchor, no citation. Cite the live guide: `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`.
 
@@ -193,37 +577,57 @@ keys-closed: (none)
 
 ---
 
-## Before you ship: walk your own corrective actions
+## The two gates
 
-**This is a step, not advice. Run it after drafting the report and before writing either file.**
+**These are steps, not advice. Nothing is written until both have run.**
 
-Every failure this skill has shipped came from the same place: naming a mechanism without reading the thing that decides whether the mechanism works. It has never once been a novel mistake — it has been that mistake wearing a new costume. So the fix is a gate, not another rule.
+Every failure this skill has shipped came from one place: **naming a thing without reading what decides whether the naming is true.** Never a novel mistake — that mistake wearing a new costume. It happens in two places, and a gate on the prescription catches nothing in the diagnosis: a report can reason impeccably about a file it misquoted.
+
+**Gate 1 is administered by pass 3, not by the context that wrote the finding.** That is the whole difference. A self-check does not hold here and there is direct evidence: the report that shipped a false finding *already contained the rule* — *"a finding may only assert what a file shows"* — and broke it anyway. A rule you recite to yourself while holding the conclusion you want is not a gate. Gate 2 stays with the writing context, because it is about a proposal that context is authoring.
+
+Finders should apply Gate 1 to their own candidates as a matter of craft. **The verifier's application is the binding one.**
+
+### Gate 1 — every finding · run by the verifier
+
+The brief, from the review that produced this design: **"trust its architecture, verify its citations."**
+
+For **each** finding, before it may ship:
+
+1. **Did I read the quoted line in full file context?** Not the grep hit, not the diff hunk — the file, far enough around the line to see what the line belongs to. A shipped report quoted `"/Users/alexey/.local/bin/edge-tts";` and called it a hardcoded path. The line above it was `process.env.EDGE_TTS_BIN ||`, which makes it the *fallback*. The finding was false, and its corrective action recommended reading the value from an env var — which is what the code already did. **A quote that begins mid-expression is not evidence.**
+2. **Does this finding stay inside the scope §9 declared?** Grep the coverage section. Where it lists something as *not visible to this method*, no finding may assert a negative about it. The same report declared user-scope `~/.claude/` invisible, then rated *"nothing reviews a diff with fresh eyes"* as `Confirmed` — against eight subagents living exactly there. **A declared blind spot binds the report that declared it.** Where the finding survives at a narrower scope, narrow it and drop the confidence; don't delete it.
+3. **Is the object the kind of thing I called it?** Mode `160000` in `git ls-files -s` is a gitlink, not "an empty file". When a finding names a file's *kind* — empty, tracked, generated, executable — the command establishing that kind must have been run.
+4. **Can I reproduce every number I print?** *"56 rules phrased never/always/must/do not"* re-grepped to 50, or 65 counting *don't*. **Print the command beside the count**, or give a range. A figure carrying more precision than the method supports discredits an argument that never needed it.
+5. **Could I have answered my own open question from a file I already read?** One shipped question — *"how long does `verify` take? Not measurable statically"* — sat answered as `~1-2m` in a comment in a file the report cited by line number. An open question the audit could have closed is not epistemics; it is abdication. Close it or cut it.
+
+**`Confirmed` means read in full file context.** Short of that it is `Probable` with the search printed, or it does not ship.
+
+### Gate 2 — every corrective action
 
 For **each** corrective action, in order:
 
 1. **Did I open the file this touches?** Not glob it, not infer it from a manifest — read it. If the action names a test runner, you have read its config. If it names a hook event, you know when that event fires. **If you cannot say which file you read, the action is not ready and becomes `Probable`, or is cut.**
 2. **Does the command behave the same where the fix runs it?** CI-conditional config is the standard trap — a runner that starts a prebuilt server under CI and a dev server locally makes an identical command mean two different things. Read the branch, name the flag.
 3. **Does it fire only at the moment the rule is about?** A rule about pushing that gates every commit, or every agent turn, costs the user something they didn't agree to. Match the trigger to the moment.
-4. **Would this destroy anything §3 credited?** Grep your own summary. If it praises a habit, no corrective action may tax that habit. A report that contradicts its own praise is discarded on the spot.
+4. **Would this destroy anything §2 credited?** Grep your own summary. If it praises a habit, no corrective action may tax that habit. A report that contradicts its own praise is discarded on the spot.
 5. **Is the output bounded?** Anything that returns text to the model — a blocking hook, a failing gate — surfaces a tail, never a whole log.
 6. **Have I written the assumption down as a sentence that could be wrong?** Not "this should work" — *"this assumes X, checked at `file:line`"*. If you cannot name the file, you have not checked it. This step is the one that catches reasoning errors, where the evidence is right and the inference is not; the other five only catch evidence errors.
 
-Then apply this skill's own §6 to itself: **the session that wrote a recommendation should not be the only one that checks it.** If any action survives all five and still rests on inference, say so in the finding rather than presenting it as settled.
+If an action survives all six and still rests on inference, say so in the finding rather than presenting it as settled. **Gate 2 is the one check still administered by the context that authored the thing being checked** — pass 3 verifies findings, not fixes, because a static verifier cannot run a proposed hook either. Treat its verdicts as weaker evidence than Gate 1's and let the confidence reflect that.
 
-### The three instances that produced this gate
+### The three instances that produced Gate 2
 
-Kept as worked examples, not as separate rules — they are what step 1 through 4 look like when skipped.
+Kept as worked examples, not as separate rules — they are what steps 1 through 4 look like when skipped.
 
 - **A `Stop` hook running a multi-minute build.** `Stop` fires at the end of *every* agent turn, including pure conversation. Minutes of waiting after every message; removed within a day. The rule said "before push", so it was `PreToolUse` matched on `git push` all along. *(step 3)*
 - **`npm run verify` with no `CI=1`.** `playwright.config.ts` selected `start:e2e` under CI and `npm run dev` otherwise, with `reuseExistingServer: !CI`. The gate would have blocked good pushes at random, and a gate that cries wolf gets ripped out. *(step 2 — the config was never opened)*
 - **Merging "test before commit" and "build before push" into one gate**, in a report whose summary had just praised 561 small checkpoint commits. *(step 4)*
 
-## Five specifics, subordinate to the gate above
+## Five specifics, subordinate to the gates above
 
 1. **Verify the path you recommend against what you already found.** A run once reported "no `.claude/settings.json` anywhere" and routed the fix to `site/.claude/` while its own skills check had found `.claude/` at the root. The file would never have been read.
 2. **The command in the fix must be the command in the evidence.** Don't praise `npm run build` as the gate and then propose a hook running `npm test`.
-3. **Ship the literal lines, not a description of them.** "Create settings.json with a `hooks.Stop` entry" is homework, not a corrective action.
+3. **Ship the literal lines, not a description of them.** "Create settings.json with a `hooks.Stop` entry" is homework, not a corrective action. The lines are a baseline under a binding requirement, not a paste-ready answer — see §*Ship runnable content, at the altitude you can defend*.
 4. **Then say how to prove it took.** An unverified hook is indistinguishable from no hook.
-5. **Collapse gaps that share one fix.** Several checks can fail on one absent file. Report each honestly in §6; in §8 they are one item. Three findings, two files — say both numbers.
+5. **Collapse gaps that share one fix.** Several checks can fail on one absent file. Report each honestly in §6; in §7 they are one item. Three findings, two files — say both numbers.
 
 **Then stop.** The audit reports and offers. Implementation is the next turn, with explicit consent and ordinary permissions.
