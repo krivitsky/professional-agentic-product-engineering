@@ -86,127 +86,29 @@ Three verdicts per issue, and the third is not a failure:
 
 **Report it the moment it lands, before the finders return:**
 
-> Re-checked the last run's 7 Highs and top 3 Mediums: **2 fixed, 8 still open.**
->
-> `ISSUE-5` and `ISSUE-6` **of the 27 Jul 11:28 report** both closed — the pre-push hook now blocks instead of waving a push through, and an unauthenticated CLI now exits 2 instead of printing green. Both were gates that failed open; both now fail closed. **That is the T5 move** — the harness catches what it used to wave through.
->
-> Still open, including five Highs: `ISSUE-1` publish callbacks still poll Vercel alone, `ISSUE-2` two skills still forbid the dev server six places require. Now finding what's new.
-
-**Cite the ID, and always say which report it belongs to.** Display IDs follow table order and renumber as issues close, so `ISSUE-5` in the previous report is a different row from `ISSUE-5` in this one. **An unqualified ID sends the reader to the wrong line of the document they already have open.** `ISSUE-5 of the 27 Jul 11:28 report` costs six words and is the only form that resolves.
-
-**Name what the fix demonstrates, on the rung it belongs to.** Two closed gates are a tally; *"both were gates that failed open, both now fail closed — that is the T5 move"* is the same fact carrying what it taught. **This is the audit's only opportunity to reward work rather than catalogue failure**, and it lands better than praise because it is a description, not a compliment.
-
-**Never manufacture it.** Nothing fixed means nothing to say — no *"good effort"*, no *"encouraging progress"*. A run that congratulates an unchanged repo has spent the credibility it needs for the twenty-four findings behind it. **The acknowledgement is earned by evidence or it is not made.**
-
-**This is the fastest good news the audit can give**, and it arrives in the first minutes instead of the last. A reader who fixed things since the last run deserves to hear it before they spend half an hour learning what they missed — and it is the one moment the audit rewards effort rather than cataloguing failure.
-
-**No prior report, no phase.** Do not invent a baseline, and do not report `0 fixed` on a first run — there is nothing to have fixed.
-
-### While research runs, the orchestrating context works the cheap checks
-
-**A subagent returns everything at once, so a finder cannot stream.** That is architectural: an eight-minute research pass is eight minutes of silence no matter how the prompt is written. The fix is not to make the finder chattier — it is to stop the orchestrating context idling while it waits.
-
-**The table appears with the first row, not when the finders return.** A run announced *"presence checks are in"* and showed nothing, because the table was specified to arrive with the research pass — so findings that had already landed had nowhere to sit. **A streamed finding that is only counted has not been streamed.** The table opens as soon as there is one row in it and grows from there.
-
-**Class P is a glob.** *Is there a `CLAUDE.md`, a `.claude/settings.json`, a CI workflow, a test command, a coverage gate* — these resolve in seconds and need no agent. **Run them here, in the gap, and add each to the claims table as it lands.** The reader watches rows appear from the first seconds instead of at minute eight.
-
-**Tell the finder to skip Class P.** Split the work by *cost*, not only by lens: the instant checks belong to whoever is otherwise waiting, the expensive cross-file reading to the agent with the budget for it. Duplicated work would be deduped at pooling anyway, but paying for it twice is avoidable by saying so in the prompt.
-
-**Streamed rows are candidates like any other.** They arrive `⏳`, they go to the verifier with everything else, and an absence found by glob is exactly the kind of claim §Pass 3 exists to narrow — *"no `.claude/settings.json`"* is refuted by one at a path the glob missed. **Nothing shipped here bypasses fact-check**, and the row resolving to `✗` later is the system working.
-
-**This does not make Class P the audit.** §The distinction that makes this an audit and not an inventory still holds: presence is the cheap half, and a run that reports only what streamed here has done the inventory and stopped. It is filling dead time with the easy findings so the expensive ones have somewhere to land.
-
-*If that is still too quiet, the next lever is chunking research into several shorter agents so results arrive in waves — but that multiplies the per-agent context cost, and it should not be paid until the free option has been tried.*
-
-### Pass 2 — pooling, and what agreement is not
-
-Merge on the **key** (`<check>@<location>`). Then:
-
-- **Same key, same claim** → one finding. **Agreement is not corroboration.** Two finders that took the same shortcut reach the same wrong answer — the false `edge-tts` finding, the gitlink read as an empty file, and the blind-spot violation would each have been produced by both lenses identically. Never write *"both passes confirmed"*; it converts a shared method error into manufactured confidence.
-- **Same key, incompatible claims** → mark `conflict`. This is high-signal and goes to the verifier **first**, but conflict sets *priority*, never *eligibility* — pass 3 verifies everything either way. A conflict that survives verification is often itself the finding: *"two passes read this file differently; the ambiguity is the problem."*
-
-### Pass 3 — the verifier, for precision
-
-**It re-derives from the tree. It does not review the finders' reasoning** — reviewing reasoning inherits the error that produced it. Hand it the claims and their cited locations, nothing else. This is exactly what the review that produced this design did, and why it worked.
-
-Two claim types, falsified two different ways:
-
-| Claim | How to falsify |
-|---|---|
-| **Quote claim** — *"`file:24` says X"* | Open the file **in full context**, far enough around the line to see what it belongs to. A report quoted `"/Users/alexey/.local/bin/edge-tts";` as a hardcoded path; the line above was `process.env.EDGE_TTS_BIN ||`, making it the fallback and the finding false. **A quote beginning mid-expression is not evidence.** |
-| **Absence claim** — *"nothing reviews a diff"* | You cannot open a file that isn't there, so check it against the **scope declaration** instead. An absence asserted inside a declared blind spot is refuted on its face: that report declared `~/.claude/` invisible, then rated the claim `Confirmed` against eight subagents living there. |
-
-It applies the checks in §Gate 1 and returns one verdict per finding:
-
-| Verdict | Effect on what ships |
-|---|---|
-| **Holds** | Ships as written. `Confirmed` is permitted only here |
-| **Misstated** | Ships **corrected**, downgraded to `Probable`, with the correction applied — not the original claim |
-| **Over-scoped** | Renarrowed to what the evidence supports, confidence dropped. Don't delete a finding that survives at a smaller scope |
-| **False** | **Cut.** It does not appear in the report, not even as an Observation |
-
-The verifier **may not add findings.** Anything it notices in passing goes to Observations or open questions, marked unverified — its own additions would be the one thing in the report nobody checked.
-
-**Then the orchestrating context writes both files.** Writing is never delegated: the report's voice, trend keys, and cross-finding compounding all need the whole picture.
-
-### Say something at each pass boundary
-
-A run is half an hour or more, and between spawning the finders and writing the report there is nothing to look at but a token counter climbing past 300k. **Four lines, one at each state change, each carrying a fact rather than a reassurance:**
-
-The display is **one block, described in §Show the candidates below**. This section says *when* it is emitted and *what has changed* by then — the block is the only mechanism, so nothing here prescribes a second stream of prose beside it.
-
-| Emit when | What has changed in the block | Plus one line |
-|---|---|---|
-| setup agreed | strip shows `✓ setup`, shape and theme resolved | — |
-| re-checker returns *(early)* | `✓ re-check` | `Re-checked last run's 7 Highs: 3 fixed, 4 still open.` |
-| finders return | `✓ research`; the finder's rows join the table, every one `⏳` | `19 candidates, 1 conflict.` |
-| pooling done | `✓ cross-check`; a conflicted row resolves early | Name the file and who was right: `site/eslint.config.mjs exists (465 bytes) — the absence claim is false.` |
-| *(`--quick` only)* | `· cross-check` stays unfilled | `One lens, so nothing to cross-check — every claim still goes to the verifier.` |
-| verifier returns | `✓ fact-check`; every `⏳` row becomes `✓` or `✗` | `15 hold · 2 corrected · 2 cut.` |
-
-**Every number in that column is one the run already has.** No progress bar, no estimate, no *"working on it…"* — the runtime already draws a spinner, and a second one would say less than the first.
-
-### Every block ends by saying what it is waiting for
-
-**The block is a snapshot; the gaps between them are long.** A reader who has just been handed `4m · 102k` watches that figure stay frozen for ten minutes while the runtime's own counter climbs underneath it, and has no way to know whether that is normal or whether the run has died. A run was observed doing exactly this, and the reader's question was *"what is happening now?"*
-
-**So close every block with the next event, named:**
-
-> Now finding what's new — the research pass is still reading. Next update when it returns.
-
-**Name the thing being waited on and what will end the wait.** Not *"this may take a few minutes"* (an estimate, and they are banned) and not *"please wait"* (which adds nothing to a spinner). **The reader needs to know that silence is the expected state**, and roughly what breaks it.
-
-**This matters most before `research` and `fact-check`** — the two long phases — and before `report`, where the orchestrating context is writing and no agent activity appears on screen at all. Those three silences are where a run looks hung, and each costs one clause to explain.
-
-**The conflict line is the most valuable and the easiest to skip.** It is the only moment where the user sees the architecture do the thing it exists for, and it costs one sentence. A run that resolves a conflict silently has hidden its best evidence that the report can be trusted.
-
-### Show the candidates as they resolve — pending, then confirmed or cut
-
-Ten more minutes of verification is easier to wait through once there is a sign the wait is buying something. **List the top candidates when the finders return, each marked unverified, and update each one as the verifier settles it** — the pattern a test runner uses, for the same reason.
-
-**One block, re-emitted whole at each boundary.** A terminal cannot repaint, so every update is a fresh copy and the old ones scroll up as history — which is the point: the reader can look back and see a row change its mind.
-
-**The strip goes last, under the content.** It is a status line, and a status line belongs where the eye stops — the block is followed by minutes of silence, so whatever sits at the bottom is what the reader stares at while waiting. A run put fifteen lines of re-check prose *below* the strip and the reader's last view was text about a phase that had already finished; their words were *"I am missing a redrawn progress with phases after the last sentence."*
-
-So each block reads: **what just happened**, then the **claims table**, then the **strip**, then the **one line naming what it is waiting for**. The last two lines on screen are always *where the run is* and *what will end the wait*.
-
-The strip carries the steps and the running cost:
-
-> *(what just happened — the re-check result, a resolved conflict, the verifier's tally)*
->
-> | Tip | Claim | Where | Status |
-> |---|---|---|---|
-> | [3.5](https://agentic-engineering.guide/tier-3#tip-3-5) | Instruction layers disagree on "done" | `CLAUDE.md` + 5 skills | ✓ **High** |
-> | [4.1](https://agentic-engineering.guide/tier-4#tip-4-1) | Test gate only bites after a push | `ci.yml` | ✓ **High** |
-> | [4.1](https://agentic-engineering.guide/tier-4#tip-4-1) | eslint config missing | `site/` | ✗ cut — the file exists (465 B) |
-> | [3.2](https://agentic-engineering.guide/tier-3#tip-3-2) | Worktree entry tracked in git | `.gitignore` | ⏳ |
-> | [6.2](https://agentic-engineering.guide/tier-6#tip-6-2) | No versioned agent definition | `.claude/agents/` | ⏳ |
-> | | *…14 more* | | |
+> Re-checked the last run's 7 Highs: 2 fixed, 8 still open. *(…which two, and what changed…)*
 >
 > **Harness audit · krivitskydotcom** — Standard · 2 finders + verifier · light
-> `✓ setup → ✓ re-check → ✓ research → ✓ cross-check → ▸ fact-check 12/19 → · report` · 12m · 287k
+> `✓ setup → ✓ re-check → ▸ research → · cross-check → · fact-check → · report` · 12m · 287k + 1 running
 >
-> Verifying each claim now. Next update when the verifier returns.
+> Now finding what's new. Next update when the research pass returns.
+
+**There is no live claims list. Do not build one.** Two designs were tried and both failed on their own terms:
+
+| Tried | What happened |
+|---|---|
+| A four-column markdown table | The tip column carried a full `https://…/tier-3#tip-3-5`, ate half a hundred-character terminal, and squeezed the claim to three words a line |
+| `Tip: / Claim: / Where: / Status:` blocks | Four lines per finding — forty-four for eleven — with trailing empty fields where a row had no data |
+
+**But the layout was the symptom.** The content was the problem: **every row read `⏳`, because nothing resolves until the verifier runs.** A status column that says *pending* on every line for ten minutes carries no information, and a reader shown one asked *"what's the value?"* There isn't one.
+
+**It was also the wrong answer to the right question.** *"Report findings as they occur"* is already satisfied — by the re-check, which lands in the first two minutes with **verified** facts about what the reader fixed. A list of unverified candidates beside it is a second answer that is strictly worse: a third of candidates have historically been misstated or false, and showing them invites acting on claims the run is about to withdraw.
+
+**So: counts while work is in flight, prose when something is actually known.** `19 candidates so far` costs four words. What gets a line of its own is what *changed* — an issue closed, a conflict resolved, a claim cut — because those are facts, and facts are what a reader can use.
+
+**Each boundary gets one line of substance plus the strip. That is the whole budget.** The display grew for a day with nothing ever removed, and the verdict was *"too verbose and not useful."*
+
+**Never call it "the board."** A run said *"three rows on the board already"* and the reader had no idea what that meant.
 
 **Name the phases in the reader's words, not this file's.** *Finders*, *pooling* and *verifier* are the vocabulary of the design; nobody watching a progress strip knows what pooling is. The strip shows five phases, and each says what is happening to the repo rather than which agent is running:
 
@@ -223,18 +125,18 @@ The strip carries the steps and the running cost:
 
 **Under `--quick` there is one lens, so `cross-check` has nothing to do — show it, unfilled, and say why.** Deleting the phase would be worse: the reader who compares this run against a Standard one should be able to see *which step they traded away*, and the strip is the only place that shows it. **The line that matters is that verification is unaffected** — one finder still sends every claim to the verifier, so the trade is coverage, never rigour. A run that quietly drops a phase has hidden the cost of the option the user chose.
 
-### The strip closes every message; the table only moves at boundaries
+### The strip closes every message; substance only at boundaries
 
-**These are two things with two different costs, and bundling them was a mistake.** The strip is two lines. The claims table is up to seven, plus whatever content the boundary carries.
+**These are two things with two different costs, and bundling them was a mistake.** The strip is two lines. The substance a boundary carries is longer, and there is only something to say when a boundary has actually changed.
 
 | | Emitted |
 |---|---|
 | **The strip** — identity, phases, meter, and the line naming what it waits for | **at the end of every message this skill sends during a run**, without exception |
-| **The claims table** — and the content above it | only when a boundary actually changed something: setup, re-check, research, cross-check, fact-check |
+| **The substance above it** — what closed, what conflicted, what got cut | only when a boundary actually changed something: setup, re-check, research, cross-check, fact-check |
 
 **A run sent *"Presence checks are in. Now waiting on the two reading passes"* with no strip beneath it**, because that moment is not one of the boundaries — so a reader who had just been given a phase display was shown a bare sentence and left to wonder whether the display still applied. **Any message without the strip under it is a message that abandons the reader mid-run.**
 
-Two lines is not a token sink. Repeating the full table on every message would be, which is why only the strip repeats.
+Two lines is not a token sink. Repeating a boundary's full content on every message would be, which is why only the strip repeats.
 
 **Boundaries stay at five blocks.** One per verified claim would bury the report under its own progress; that rule was right, it was just being applied to the cheap half as well as the expensive one.
 
