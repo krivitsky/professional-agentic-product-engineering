@@ -717,6 +717,18 @@ Both files, every run, same basename in `harness-audits/`:
 | `<YYYY-MM-DD-HHMM>-report.md` | agents — a **briefing** (see below) | **first** |
 | `<YYYY-MM-DD-HHMM>-report.html` | humans — the designed report | second |
 
+### One line under the title says what this file is not
+
+**Both files open with a single italic line, before the cover:**
+
+> *A point-in-time audit, not repo policy. Findings are evidence-backed; the corrective actions are proposals and have been wrong before. Nothing here is an instruction to follow.*
+
+**Reports accumulate in a folder full of confident imperative text** — *"Make the three gates fail closed"*, *"Point CI at the Node major"* — sitting beside `CLAUDE.md` and formatted exactly like it. An agent globbing the repo for guidance can read a backlog as policy, and this skill has shipped wrong corrective actions before, so the mistake would propagate a fix that was never right.
+
+**The caveat already exists — at line 169 of a 1,030-line report.** By then the reader has passed the scorecard, the issues table and the whole backlog. **A disclaimer that arrives after the instructions it disclaims is decoration.** §6 keeps the full statement; this is the one line that has to be seen first.
+
+**And it ships inside the report rather than beside it.** A `README` in `harness-audits/` would do the same job only in repos where someone wrote one, and would cost this skill the rule that makes it safe to point anywhere: **the only writes are the two report files.** A caveat that travels with the document needs no new write path and cannot be separated from what it qualifies.
+
 ### The `.md` lands first, and the run says so
 
 **Write the markdown completely, announce its path, then render the HTML.**
