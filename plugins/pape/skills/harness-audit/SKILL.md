@@ -435,7 +435,7 @@ The `auditor` field on the report cover carries the resolved shape, so the mode 
 
 **Both themes are named.** Not a bare `--dark` — a boolean flag leaves the other theme with no way to ask for it, so the report can only tell a reader to *remove* something rather than to request what they want.
 
-**The report says which theme it is and how to get the other**, in one line under the cover — *"Light theme. For the dark version, re-run the audit with `--theme:dark`."* Whoever opens the HTML is often not whoever ran the skill, and a frozen record cannot offer a toggle.
+**The report never advertises its own theme.** A line reading *"Dark theme. For the light version, re-run the audit with `--theme:light`"* spends the most-read position in the document telling the reader how to regenerate what they are already holding. The `auditor` field on the cover records the resolved flags, which is where a fact about how the run was configured belongs.
 
 **Cheap mode reduces recall, never precision.** `--quick` buys speed by looking at less, never by checking less — there is no flag that skips verification, because unverified findings are the failure this design exists to prevent. A user who wants it faster gets fewer lenses and the same standard of evidence.
 
@@ -626,6 +626,24 @@ Context comes first because it frames everything after it, and a draft that open
 
 **Where a tier genuinely doesn't bite yet, say what it depends on** — *"nothing here runs unattended, so T7 has nothing to operate"* — never *"above your level."* That is `Not assessed` with a reason, and it is a real answer, not a gap.
 
+**The lead names the pattern and at most one instance of it. It never recites the findings.** A shipped lead spent its middle paragraph on three issues in near-full detail — the palette contradiction with its thirty-one colours, the two files disagreeing about publishing, the outbound-link checker and which caller skips it. Measured across that report, `palette`, `outbound-link` and `eslint` each appeared **four times**: the lead, the tier cell, the summary row, and the finding itself. **Three restatements before the one place that carries the evidence.**
+
+**Each restatement was worded differently**, so a reader could not tell whether they were meeting one issue four times or four related issues once each — which is the specific cost, beyond the length.
+
+| Level | Says | Never |
+|---|---|---|
+| **Lead** | the standing condition, its shape, and how much of the report it accounts for | a list of instances |
+| **Rating cell** (`HERE`) | what the grade rests on — count and kind | a findings index in prose |
+| **Summary row** | the issue's one-line identity | — |
+| **Finding** | the evidence | — |
+
+> ❌ *"Two files load into every session and disagree about what finishing means. A third disagreement is new and louder: the always-loaded file declares a colour palette the single source of truth and says never to go outside it, while a second palette in the slides spec ships thirty-one colours that are not in it. And the outbound-link checker…"*
+> ✅ *"The instructions are where it hurts, and wider than the last run showed. Two layers load into every session — `CLAUDE.md` and five skills — and nothing reconciles them when either changes: nine of the twelve T3 issues are one of them contradicting another, the newest being a colour palette declared single-source-of-truth that a second palette already overrides. The pattern now reaches past instructions into the gates themselves."*
+
+**One instance, and it must be doing a job abstraction can't.** Stripping every specific is the opposite failure — §Write it plainly exists because abstract prose reads as authoritative while saying nothing. The lead earns one concrete anchor; the second and third are the table's.
+
+**The distributional facts are the lead's own material, and nothing else has them:** *nine of twelve*, *wider than the last run*, *the pattern reaches past instructions into the gates*. **A count of how the issues cluster is a statement about the repo; a list of the issues is a statement the table already makes better.**
+
 ### The note describes a condition, not an incident
 
 **The failure to avoid: notes written as findings-in-miniature**, which turn the scorecard into another index of the same events.
@@ -634,6 +652,10 @@ Context comes first because it frames everything after it, and a draft that open
 > ✅ *"Two instruction layers — `CLAUDE.md` and five skills — with no reconciliation step between them."*
 
 The first is an event and belongs in the findings table. The second is a standing condition, and a rating is a rating *of* a condition. **Test each note: if it could be pasted into the findings table unchanged, it is written wrong.** Findings say what happened; the scorecard says what the repo is like.
+
+**This rule keeps being read as applying to one sentence.** A shipped `T3` cell obeyed it for its opening clause and then enumerated four findings in a row — *"Two instruction files give opposite orders about finishing a publish. A palette declared the single source of truth is contradicted by a second palette that already ships. Two skills forbid a dev server that two other places require. Three pointers…"* Each of those is an incident; four of them is an index.
+
+**The grade rests on count and kind, not on instances.** *"Twelve issues, nine of which are one instruction file contradicting another, and three of which are pointers to things that no longer exist"* tells the reader what `Weak` is measuring and sends them to §2 for which twelve. **A reader who can reconstruct the findings table from the scorecard has been given the same list twice at different lengths.**
 
 ### Every rung says what would lift it
 
@@ -704,18 +726,6 @@ Both files, every run, same basename in `harness-audits/`:
 |---|---|---|
 | `<YYYY-MM-DD-HHMM>-report.md` | agents — a **briefing** (see below) | **first** |
 | `<YYYY-MM-DD-HHMM>-report.html` | humans — the designed report | second |
-
-### One line under the title says what this file is not
-
-**Both files open with a single italic line, before the cover:**
-
-> *A point-in-time audit, not repo policy. Findings are evidence-backed; the corrective actions are proposals and have been wrong before. Nothing here is an instruction to follow.*
-
-**Reports accumulate in a folder full of confident imperative text** — *"Make the three gates fail closed"*, *"Point CI at the Node major"* — sitting beside `CLAUDE.md` and formatted exactly like it. An agent globbing the repo for guidance can read a backlog as policy, and this skill has shipped wrong corrective actions before, so the mistake would propagate a fix that was never right.
-
-**The caveat already exists — at line 169 of a 1,030-line report.** By then the reader has passed the scorecard, the issues table and the whole backlog. **A disclaimer that arrives after the instructions it disclaims is decoration.** §6 keeps the full statement; this is the one line that has to be seen first.
-
-**And it ships inside the report rather than beside it.** A `README` in `harness-audits/` would do the same job only in repos where someone wrote one, and would cost this skill the rule that makes it safe to point anywhere: **the only writes are the two report files.** A caveat that travels with the document needs no new write path and cannot be separated from what it qualifies.
 
 ### The `.md` lands first, and the run says so
 
