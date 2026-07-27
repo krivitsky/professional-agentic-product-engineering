@@ -114,13 +114,13 @@ A **status strip** carrying the steps and the running cost, then a **claims tabl
 > **Harness audit · krivitskydotcom** — Standard · 2 finders + verifier · light
 > `✓ setup → ✓ research → ✓ cross-check → ▸ fact-check 12/19 → · report` · 12m · 287k
 >
-> | # | Claim | Where | Status |
+> | Tip | Claim | Where | Status |
 > |---|---|---|---|
-> | 1 | Instruction layers disagree on "done" | `CLAUDE.md` + 5 skills | ✓ **High** |
-> | 2 | Test gate only bites after a push | `ci.yml` | ✓ **High** |
-> | 3 | eslint config missing | `site/` | ✗ cut — the file exists (465 B) |
-> | 4 | Worktree entry tracked in git | `.gitignore` | ⏳ |
-> | 5 | No versioned agent definition | `.claude/agents/` | ⏳ |
+> | [3.5](https://agentic-engineering.guide/tier-3#tip-3-5) | Instruction layers disagree on "done" | `CLAUDE.md` + 5 skills | ✓ **High** |
+> | [4.1](https://agentic-engineering.guide/tier-4#tip-4-1) | Test gate only bites after a push | `ci.yml` | ✓ **High** |
+> | [4.1](https://agentic-engineering.guide/tier-4#tip-4-1) | eslint config missing | `site/` | ✗ cut — the file exists (465 B) |
+> | [3.2](https://agentic-engineering.guide/tier-3#tip-3-2) | Worktree entry tracked in git | `.gitignore` | ⏳ |
+> | [6.2](https://agentic-engineering.guide/tier-6#tip-6-2) | No versioned agent definition | `.claude/agents/` | ⏳ |
 > | | *…14 more* | | |
 
 **Name the phases in the reader's words, not this file's.** *Finders*, *pooling* and *verifier* are the vocabulary of the design; nobody watching a progress strip knows what pooling is. The strip shows five phases, and each says what is happening to the repo rather than which agent is running:
@@ -142,6 +142,16 @@ A **status strip** carrying the steps and the running cost, then a **claims tabl
 **Cap the table at five rows plus a `…N more`.** Every displayed row must reach a terminal state (see below), and twenty rows cannot. Order by the finders' proposed severity — but **display severity only once verified**, because a `High` on a `⏳` row is the settled half of an unsettled claim.
 
 **Three status values, and the third earns its width:** `⏳` · `✓ <severity>` · `✗ cut — <one clause saying why>`. The cut reason is the most informative cell in the table and the one most likely to be trimmed for space. Trim the claim text instead.
+
+**The first column is the cited tip, linked — not a row number.** A row index is decoration; the tip is both a stable identifier *and* somewhere to go. Every finding already carries a tip citation, so this costs no extra work and turns ten minutes of waiting into the best reading moment the guide ever gets: the reader is looking at a real gap in their own repo and can go find out why it matters, instead of browsing a ladder cold.
+
+Link the live guide, `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`, exactly as §Method requires everywhere else.
+
+**Verify the anchor before printing it here too.** `rg '<a id="tip-6-2">' ${CLAUDE_PLUGIN_ROOT}/guide.md` — **no anchor, no link.** A dead link in the one place the reader is most likely to click is worse than a bare tip number, and the rule that governs citations in the report does not stop applying because the surface is a progress table.
+
+**A tip on a `⏳` row is fine, and on a `✗` row it stays.** The claim may die; the tip that made it worth checking was still real. Severity is withheld until verification because it is a judgement about *this* claim — the tip is not.
+
+**When several rows cite one tip, that is signal, not repetition.** Three claims all pointing at 4.1 says the gap is one gap wearing three faces, which is exactly what §1's lead has to say later. Do not dedupe the column to make it look tidier.
 
 **Carry elapsed time and tokens in the strip.** It is the only place the user sees the cost accruing against the estimate they agreed to, and *"12m · 287k"* against a quoted *"18m · 340k"* tells them it is on track without anyone saying so.
 
