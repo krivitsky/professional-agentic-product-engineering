@@ -86,14 +86,20 @@ Three verdicts per issue, and the third is not a failure:
 
 **Report it the moment it lands, before the finders return:**
 
-> Re-checked the last run's 7 Highs: 2 fixed, 8 still open. *(…which two, and what changed…)*
+> Re-checked the last run's 7 Highs: 2 fixed, 8 still open.
+>
+> Closed: the pre-push hook now blocks on a failing build, and `verify` exits non-zero when the link checker can't reach the network. Still open, worst first: `CLAUDE.md` and `STYLE.md` still define disjoint palettes · the outbound-link check is still skipped on every automated path · `"lint": "eslint"` is still invoked by nothing.
 >
 > **Harness audit · krivitskydotcom** — Standard · 2 finders + verifier · light
 > `✓ setup → ✓ re-check → ▸ research → · cross-check → · fact-check → · report` · 12m · 287k + 1 running
 >
-> Now finding what's new. Next update when the research pass returns.
+> Now finding what's new. Next update when research returns.
 
-**There is no live claims list. Do not build one.** Two designs were tried and both failed on their own terms:
+**Name them. A count is not a finding.** *"8 still open"* tells the reader a number about a document they have not opened; three named conditions tell them about their repo. **These are the most reportable facts the whole run produces** — verified against files minutes ago, about issues the reader already agreed were real, available before anything else exists. Reporting them as an integer is the single largest waste in the display.
+
+**Three still-open, worst first, one clause each.** Not eight — the tail of a re-check list is where interest dies. The full set is in the report.
+
+**Never build a live tracker of the candidates.** Two designs were tried and both failed on their own terms:
 
 | Tried | What happened |
 |---|---|
@@ -102,11 +108,29 @@ Three verdicts per issue, and the third is not a failure:
 
 **But the layout was the symptom.** The content was the problem: **every row read `⏳`, because nothing resolves until the verifier runs.** A status column that says *pending* on every line for ten minutes carries no information, and a reader shown one asked *"what's the value?"* There isn't one.
 
-**It was also the wrong answer to the right question.** *"Report findings as they occur"* is already satisfied — by the re-check, which lands in the first two minutes with **verified** facts about what the reader fixed. A list of unverified candidates beside it is a second answer that is strictly worse: a third of candidates have historically been misstated or false, and showing them invites acting on claims the run is about to withdraw.
+**A third of candidates have historically been misstated or cut**, so anything shown before the verifier runs must say so plainly and once — *"none verified yet"* — and must not carry a severity, which is a judgement about a claim that is not yet settled.
 
-**So: counts while work is in flight, prose when something is actually known.** `19 candidates so far` costs four words. What gets a line of its own is what *changed* — an issue closed, a conflict resolved, a claim cut — because those are facts, and facts are what a reader can use.
+**But not naming the candidates was over-correction.** The claims *are* known at cross-check — pooled, deduped, ranked. Withholding them is not caution, it is a fifteen-minute wait with nothing in it. **What failed was tracking them through states in a live table, not saying what they are.**
 
-**Each boundary gets one line of substance plus the strip. That is the whole budget.** The display grew for a day with nothing ever removed, and the verdict was *"too verbose and not useful."*
+**So name three at cross-check, in prose, once:**
+
+> Strongest of the eleven, none verified yet: `CLAUDE.md` calls its palette the single source of truth and forbids going outside it, while `specs/slides/STYLE.md` defines a second, disjoint one — 31 off-palette hexes already ship. The outbound-link checker is skipped on every automated path, and the one invocation that runs it is the one your own docs say not to trust. `"lint": "eslint"` is defined, configured and installed — and invoked by nothing.
+>
+> Now re-opening the file behind each of these. If any is wrong, you'll know before I do — say so.
+
+| Kept | Dropped |
+|---|---|
+| Three claims, prose, at one boundary | Rows, a status column, `…N more`, a live tracker |
+| *"none verified yet"*, said once for all three | `⏳` repeated on every line, which was the only thing the column ever said |
+| The claim in the reader's terms | A `https://…/tier-3#tip-3-5` column eating a third of the width |
+
+**The invitation is the point.** A reader who works in that repo settles *"eslint is invoked by nothing"* in two seconds — faster and more reliably than a subagent re-deriving it. Withholding the claim to protect them from a possible error also denies the run its best available check.
+
+**Whatever is named must be accounted for in the report.** If the verifier cuts one, §6 says so by name. A claim shown live and then never mentioned again reads as quietly true, which is worse than never showing it.
+
+**Three, and only at cross-check.** Not at research (nothing is pooled yet, so the ranking is one lens's opinion) and not repeated at fact-check (the reader has them; what they want next is which survived).
+
+**The budget is facts about their repo, not lines.** An earlier version of this rule capped each boundary at one line, which is how *"8 still open"* got written where three named conditions belonged. **Prose that says what is wrong with their repo is never the thing to cut** — cut the sentences about how the audit works, the reassurances about options they already chose, and the counts standing in for content.
 
 **Do not name the display.** A run said *"three rows on the board already"* — coining a noun for its own progress readout, which the reader had never heard and could not look up. The reader has a screen, not a board; there is nothing here that needs a name.
 
