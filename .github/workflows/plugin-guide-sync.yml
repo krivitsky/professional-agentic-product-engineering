@@ -157,6 +157,19 @@ jobs:
       # The site is generated from guide.md, and build.mjs fails on an unresolved
       # anchor. It also silently ships a page that is in no NAV group — reachable
       # by URL and sitemap, but with no sidebar link and a wrong "next" pager.
+      # `web/node_modules/` is gitignored, so the runner has no `marked` until
+      # this step installs it. The build worked locally and failed on the first
+      # push that reached it — the classic "works on my machine" shape, in the
+      # job whose whole job is catching drift between what ships and what runs.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install the site's build dependency
+        run: npm ci --prefix web
+
       - name: Site builds, and every page is reachable
         run: |
           cd web && node build.mjs > /tmp/build.log || { cat /tmp/build.log; exit 1; }
