@@ -444,7 +444,7 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 > **Harness audit · krivitskydotcom** — Quick look · 1 finder + verifier · markdown only
 > `✓ setup → · re-check → · research → · cross-check → · fact-check → · report`
 >
-> This takes a while and only reads, so `ctrl+b` backgrounds it safely. Spawning both passes now.
+> This takes a while. Spawning both passes now.
 
 **A run given both forms emitted the sentence and skipped the block**, then produced the strip two minutes later once the agents were already out — so the reader spent the opening with no phase display at all, which is the one moment it is most needed. **One mechanism: the block is the confirmation.**
 
@@ -452,7 +452,11 @@ The header echoes the **resolved** config, so a misread is catchable while it is
 
 **Describe the lenses, never name them.** *"1 finder (Enforcement)"* tells the reader nothing — `Enforcement` is this file's word for a bundle of check IDs, and it leaks the same way `pooling` and `finders` did before the strip was rewritten. Say what the pass is doing: *"one pass, reading what's declared against what actually holds"*. Under Standard, *"two passes reading independently — one for what holds, one for what contradicts"*.
 
-**Recommend `ctrl+b`, don't merely allow it.** Twenty minutes of watching a spinner is not a thing to leave to the user to figure out; the runtime's own `(ctrl+b to run in background)` is an affordance, not advice.
+**Never mention `ctrl+b`.** The runtime already prints `(ctrl+b to run in background)` beneath every agent it spawns, so saying it again is a second spinner — the same duplication §Say something at each pass boundary forbids for progress bars, applied to a keybinding.
+
+**And it is not reliably true.** That affordance backgrounds the *agent* the runtime is showing, not the skill invocation; the orchestrating context still holds the session. A run that promises `ctrl+b` *"backgrounds it safely"* is describing behaviour it does not control.
+
+**The wait no longer needs escaping anyway.** Findings stream, the re-check lands in the first minutes, and the strip closes every message. Telling the reader to look away is an argument against everything else in this section.
 
 **No preamble before any of this — including a plan.** The introduction is the first thing said; the frame is the second. Nothing precedes them.
 
