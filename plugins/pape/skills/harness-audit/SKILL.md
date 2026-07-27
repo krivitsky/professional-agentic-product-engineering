@@ -186,10 +186,13 @@ Ten more minutes of verification is easier to wait through once there is a sign 
 
 **One block, re-emitted whole at each boundary.** A terminal cannot repaint, so every update is a fresh copy and the old ones scroll up as history — which is the point: the reader can look back and see a row change its mind.
 
-A **status strip** carrying the steps and the running cost, then a **claims table**:
+**The strip goes last, under the content.** It is a status line, and a status line belongs where the eye stops — the block is followed by minutes of silence, so whatever sits at the bottom is what the reader stares at while waiting. A run put fifteen lines of re-check prose *below* the strip and the reader's last view was text about a phase that had already finished; their words were *"I am missing a redrawn progress with phases after the last sentence."*
 
-> **Harness audit · krivitskydotcom** — Standard · 2 finders + verifier · light
-> `✓ setup → ✓ research → ✓ cross-check → ▸ fact-check 12/19 → · report` · 12m · 287k
+So each block reads: **what just happened**, then the **claims table**, then the **strip**, then the **one line naming what it is waiting for**. The last two lines on screen are always *where the run is* and *what will end the wait*.
+
+The strip carries the steps and the running cost:
+
+> *(what just happened — the re-check result, a resolved conflict, the verifier's tally)*
 >
 > | Tip | Claim | Where | Status |
 > |---|---|---|---|
@@ -199,6 +202,11 @@ A **status strip** carrying the steps and the running cost, then a **claims tabl
 > | [3.2](https://agentic-engineering.guide/tier-3#tip-3-2) | Worktree entry tracked in git | `.gitignore` | ⏳ |
 > | [6.2](https://agentic-engineering.guide/tier-6#tip-6-2) | No versioned agent definition | `.claude/agents/` | ⏳ |
 > | | *…14 more* | | |
+>
+> **Harness audit · krivitskydotcom** — Standard · 2 finders + verifier · light
+> `✓ setup → ✓ re-check → ✓ research → ✓ cross-check → ▸ fact-check 12/19 → · report` · 12m · 287k
+>
+> Verifying each claim now. Next update when the verifier returns.
 
 **Name the phases in the reader's words, not this file's.** *Finders*, *pooling* and *verifier* are the vocabulary of the design; nobody watching a progress strip knows what pooling is. The strip shows five phases, and each says what is happening to the repo rather than which agent is running:
 
