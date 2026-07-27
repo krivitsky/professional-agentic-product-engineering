@@ -86,6 +86,27 @@ The verifier **may not add findings.** Anything it notices in passing goes to Ob
 
 **Then the orchestrating context writes both files.** Writing is never delegated: the report's voice, trend keys, and cross-finding compounding all need the whole picture.
 
+### Say something at each pass boundary
+
+A run is 15–20 minutes, and between spawning the finders and writing the report there is nothing to look at but a token counter climbing past 300k. **Four lines, one at each state change, each carrying a fact rather than a reassurance:**
+
+| Moment | Line |
+|---|---|
+| finders spawned | `Pass 1 — Enforcement and Coherence reading in parallel.` |
+| finders return | `Both finders back: 19 candidates, 1 conflict to resolve.` |
+| pooling settles a conflict | Name the file and who was right: `site/eslint.config.mjs exists (465 bytes) — the absence claim is false.` |
+| verifier returns | `15 hold · 2 corrected · 2 cut. Writing the report.` |
+
+**Every one of these is a number the run already has.** None is a progress bar, none is an estimate, and none is *"working on it…"* — the runtime already draws a spinner, and a second one would say less than the first.
+
+**The conflict line is the most valuable and the easiest to skip.** It is the only moment where the user sees the architecture do the thing it exists for, and it costs one sentence. A run that resolves a conflict silently has hidden its best evidence that the report can be trusted.
+
+### Keep the subagents' tool calls legible
+
+**Finders and the verifier already start in the repo root — tell them not to `cd`.** Runs have been observed emitting `cd /Users/alexey/src/aidy/repos/<repo>` before every command, which spends the visible width of the line on a constant, and then the actual command is what gets truncated. The reader is left with a path they already know and an ellipsis where the evidence was.
+
+**Ask for short tool descriptions too.** A finder's Bash calls are the only window into what it is doing while it runs; `rg for hook definitions` tells the watcher something, and a truncated multi-line `echo` banner does not.
+
 ---
 
 ## Flags
@@ -97,9 +118,57 @@ The verifier **may not add findings.** Anything it notices in passing goes to Ob
 | **Slash command** — `/pape:harness-audit --deep` | Read the literal flag. It wins over everything, including contradicting prose |
 | **Natural language** — *"audit my harness"*, *"is this repo agent-ready"* | Map intent: *quick · fast · just a look · rough* → `--quick` · *thorough · deep · comprehensive · don't miss anything · be exhaustive* → `--deep` · **anything else, including a bare request, is the default** |
 
-**The default is the default — never silently upgrade it.** A plain *"audit this repo"* gets two finders, not four. Spending four agents because the request sounded important is a cost the user did not agree to.
+**Never upgrade *silently*.** A plain *"audit this repo"* may pre-select two finders, and *"don't miss anything"* may pre-select four — but neither spawns anything until the user has seen the shape and its cost and said go. The word doing the work is *silently*: mapping intent is fine, spending on it unasked is not.
 
-**Say which mode ran, once, before pass 1** — *"Running the default: 2 finders + verifier. `--deep` adds two more lenses."* One line. It sets expectations on cost and tells a user who wanted `--deep` that they didn't get it, while it is still cheap to say so.
+### Confirm before spawning — every run
+
+**This costs 15–20 minutes and several hundred thousand tokens.** That is far past the point where guessing on someone's behalf is acceptable, so every run opens with a two-line frame and one `AskUserQuestion`. Short: they came for an audit, not a form.
+
+```
+Harness audit — rates this repo's agent config against the eight tiers.
+Read-only; writes two reports to harness-audits/. Last run here: 18m · 340k tokens.
+```
+
+Then **one** `AskUserQuestion` call carrying **two** questions, so it is a single interaction:
+
+| Question | Options | Default |
+|---|---|---|
+| **How deep?** | *Quick look* · *Standard* · *Thorough* | pre-select whatever the flag or the phrasing implied — **`Standard` when nothing did** |
+| **Report theme?** | *Light* · *Dark* | `Light`, unless `--theme:dark` was passed |
+
+**Recommend `Standard`, and say why it is the recommendation** — the reason is not "more coverage", and stating it wrong oversells the other two:
+
+| Option | What to tell them |
+|---|---|
+| **Quick look** | One lens. Every finding is still verified, so nothing unchecked ships — you just see less of the repo, and **no finding gets flagged as contested**, because there is no second reading to disagree with it. |
+| **Standard — recommended** | Two lenses read independently. **Where they disagree, the clash itself is the signal**: pooling flags it and the verifier takes it first. A real run had one finder report `site/eslint.config.mjs` missing when it exists — the second lens is what turned that from a shipped finding into a caught error. |
+| **Thorough** | Four lenses, adding hygiene and context-economy. Roughly double the time and spend. Worth it when you want the sweep to be exhaustive, not when you want it to be right. |
+
+**Do not claim the second finder is what makes findings true.** The verifier does that, and it runs in every mode. What the second lens buys is *disagreement* — a contested claim surfaced before the verifier sees it, and prioritised when it gets there. Say that, not more.
+
+**Pre-select, don't interrogate.** A user who typed `--deep` has answered the first question; show it answered and let them confirm with one tap. The interview exists to make the spend visible, not to make them specify it twice.
+
+**Ask for intent, never for a number.** *"Quick look / Standard / Thorough"*, not *"how many finders?"* — nobody's first question is how many agents they want, because nothing has told them what a finder is. The mapping to `--quick` / default / `--deep` is this skill's job.
+
+**Cost belongs in the option labels**, where the choice is actually made: *"Quick look — 1 finder, roughly half the time"*. A cost mentioned two paragraphs above the buttons is a cost nobody reads.
+
+**Say what it writes before it writes it.** Two files into `harness-audits/`, and nothing else touched. That is the only write this skill makes, and it lands in the user's repo — it is the real consent moment, more than the finder count is.
+
+### The estimate comes from the last run, not from this file
+
+**Glob `harness-audits/*-report.md` and read the `cost:` line off the most recent cover.** A number measured in *this* repo beats any figure written here, and it improves every run. Only when there is no prior report, fall back to the generic: *"first run — expect 15–20 minutes and a few hundred thousand tokens."*
+
+**A hardcoded estimate in this file will be wrong.** An earlier version of this section claimed 5–10 minutes; the first real run took over 20. Numbers about a run belong in the record a run writes, not in its instructions.
+
+### Then say what is running, and recommend backgrounding
+
+One line after the answers come back, echoing the **resolved** config so a misread is catchable while it is still cheap:
+
+> Running Standard — 2 finders + verifier, light theme. ~18m. It only reads, so `ctrl+b` backgrounds it safely.
+
+**Recommend `ctrl+b`, don't merely allow it.** Twenty minutes of watching a spinner is not a thing to leave to the user to figure out; the runtime's own `(ctrl+b to run in background)` is an affordance, not advice.
+
+**No preamble before any of this.** *"I'll run the harness audit on this repo"* restates the command back at the person who just typed it, and pushes the first informative line below a tool-use summary. The frame above is the first thing said.
 
 The `auditor` field on the report cover carries the resolved shape, so the mode is also verifiable after the fact.
 
@@ -202,7 +271,10 @@ open-questions:
   - Are any of the 56 rules already known-dead? Killing them beats enforcing them.
   - Is `edge-tts` expected on PATH for other contributors, or is audio a solo task?
 budget-hit: no — finders 18 + 14 of 20 each · verifier 21 of 25
+cost:       18m · 340k tokens · 2 finders + verifier
 ```
+
+**`cost:` is what the next run quotes back to the user**, so it is not optional bookkeeping — it is the input to the confirmation step in §Flags. Wall time from start to report written, total tokens across every pass, and the shape that produced them. Without it the next run has nothing to say but a guess, and the guess has already been wrong once.
 
 **Open questions are not hedging.** Each one names something the audit genuinely could not determine and says what it would change. A question that would not change a recommendation is noise; cut it.
 
