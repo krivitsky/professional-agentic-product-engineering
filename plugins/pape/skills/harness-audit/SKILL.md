@@ -97,7 +97,7 @@ Three verdicts per issue, and the third is not a failure:
 
 **Name them. A count is not a finding.** *"8 still open"* tells the reader a number about a document they have not opened; three named conditions tell them about their repo. **These are the most reportable facts the whole run produces** — verified against files minutes ago, about issues the reader already agreed were real, available before anything else exists. Reporting them as an integer is the single largest waste in the display.
 
-**Three still-open, worst first, one clause each.** Not eight — the tail of a re-check list is where interest dies. The full set is in the report.
+**Three to five still-open, worst first, one clause each.** Never all eight — the tail of a re-check list is where interest dies. Take five only when the fifth is a distinct condition rather than another face of the first. The full set is in the report.
 
 **Never build a live tracker of the candidates.** Two designs were tried and both failed on their own terms:
 
@@ -128,7 +128,7 @@ Three verdicts per issue, and the third is not a failure:
 
 **Whatever is named must be accounted for in the report.** If the verifier cuts one, §6 says so by name. A claim shown live and then never mentioned again reads as quietly true, which is worse than never showing it.
 
-**Three, and only at cross-check.** Not at research (nothing is pooled yet, so the ranking is one lens's opinion) and not repeated at fact-check (the reader has them; what they want next is which survived).
+**Three to five, and only at cross-check.** Same rule as the re-check list: five only if the fifth says something the other four did not. Not at research (nothing is pooled yet, so the ranking is one lens's opinion) and not repeated at fact-check (the reader has them; what they want next is which survived).
 
 **The budget is facts about their repo, not lines.** An earlier version of this rule capped each boundary at one line, which is how *"8 still open"* got written where three named conditions belonged. **Prose that says what is wrong with their repo is never the thing to cut** — cut the sentences about how the audit works, the reassurances about options they already chose, and the counts standing in for content.
 
