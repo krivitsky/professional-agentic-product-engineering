@@ -260,6 +260,26 @@ Four rules keep that from becoming a liability:
 
 **Ask for short tool descriptions too.** A finder's Bash calls are the only window into what it is doing while it runs; `rg for hook definitions` tells the watcher something, and a truncated multi-line `echo` banner does not.
 
+### Name each subagent after the phase it belongs to
+
+The runtime prints every subagent's description directly beneath the strip, so the two are read together. A run showed `▸ research` in the strip and `Agent(Enforcement lens finder)` on the next line — **two vocabularies for one activity, stacked, with nothing connecting them.** A reader who has just been taught five phase names is then shown a word from none of them and cannot tell whether it is the same step or a different one.
+
+**Every subagent description begins with its phase name:**
+
+| Phase | Agent description |
+|---|---|
+| re-check | `re-check · last run's open issues` |
+| research | `research · what's declared vs what actually holds` · `research · contradictions between files` |
+| fact-check | `fact-check · try to break each claim` |
+
+**The phase word does the joining; the clause after it says which pass this is.** Under `--quick` there is one research agent, so it carries both jobs: `research · what holds, and what contradicts`.
+
+**Lens names never appear here either.** `Enforcement` and `Coherence` are this file's labels for bundles of check IDs — useful when spawning, meaningless to whoever is watching. The same rule that keeps `pooling` out of the strip keeps it out of the agent list.
+
+**Only three of the five phases spawn anything** — `re-check`, `research`, `fact-check`. `cross-check` and `report` run in the orchestrating context, so **the screen shows no agent activity at all while they work**, and those are the two phases most likely to look hung. They are also, not coincidentally, where a reader has most recently been promised something: the candidates have just appeared, or every claim has just resolved and the file is being written.
+
+**So the strip is the only signal during those two, which is why the block must be emitted at both boundaries** — and why the report phase says where the file will land rather than going quiet until it exists.
+
 ---
 
 ## Flags
