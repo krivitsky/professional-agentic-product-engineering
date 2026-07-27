@@ -10,21 +10,37 @@ name: plugin-guide-sync
 # copied across five docs by hand; a rename that misses one ships a command
 # nobody can run.
 
+# The paths list must cover every file the jobs below READ, not just the ones
+# they're "about". The name check greps README.md, CLAUDE.md, AGENTS.md and the
+# plugin README — a rename that misses one of those is the exact failure this
+# workflow exists to catch, so a trigger list that omits them makes the check
+# unreachable from the most likely commit.
+# (GitHub Actions does not support YAML anchors, so the list is written twice.)
 on:
   push:
     paths:
       - "guide.md"
-      - "plugins/pape/guide.md"
-      - "plugins/pape/skills/**"
+      - "plugins/pape/**"
       - ".claude-plugin/marketplace.json"
-      - "plugins/pape/.claude-plugin/plugin.json"
+      - "README.md"
+      - "CLAUDE.md"
+      - "AGENTS.md"
+      - "scripts/**"
+      - "web/**"
+      - "wiki/**"
+      - ".github/workflows/plugin-guide-sync.yml"
   pull_request:
     paths:
       - "guide.md"
-      - "plugins/pape/guide.md"
-      - "plugins/pape/skills/**"
+      - "plugins/pape/**"
       - ".claude-plugin/marketplace.json"
-      - "plugins/pape/.claude-plugin/plugin.json"
+      - "README.md"
+      - "CLAUDE.md"
+      - "AGENTS.md"
+      - "scripts/**"
+      - "web/**"
+      - "wiki/**"
+      - ".github/workflows/plugin-guide-sync.yml"
 
 jobs:
   check-sync:
@@ -80,6 +96,62 @@ jobs:
 
           [ "$fail" = "0" ] || exit 1
           echo "All tip citations resolve."
+
+      # A `: ` inside an unquoted description silently invalidated harness-audit's
+      # frontmatter once. Claude Code's lenient reader still loaded it, so nothing
+      # surfaced — but a strict parser drops every field, taking the description
+      # (and with it every natural-language trigger) with it.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Every SKILL.md has parseable frontmatter
+        run: |
+          python -m pip install --quiet pyyaml
+          python - <<'PY'
+          import sys, pathlib, yaml
+          fail = False
+          for p in sorted(pathlib.Path('plugins/pape/skills').glob('*/SKILL.md')):
+              raw = p.read_text()
+              if not raw.startswith('---\n'):
+                  print(f"::error file={p}::no YAML frontmatter"); fail = True; continue
+              block = raw.split('---\n', 2)[1]
+              try:
+                  meta = yaml.safe_load(block)
+              except yaml.YAMLError as e:
+                  print(f"::error file={p}::frontmatter does not parse: {e}"); fail = True; continue
+              for key in ('name', 'description'):
+                  if not meta.get(key):
+                      print(f"::error file={p}::frontmatter is missing '{key}'"); fail = True
+              if meta.get('name') != p.parent.name:
+                  print(f"::error file={p}::frontmatter name '{meta.get('name')}' "
+                        f"!= directory '{p.parent.name}' — the slash command would not resolve")
+                  fail = True
+              print(f"  ok {p} -> /pape:{meta.get('name')}")
+          sys.exit(1 if fail else 0)
+          PY
+
+      # The site is generated from guide.md, and build.mjs fails on an unresolved
+      # anchor. It also silently ships a page that is in no NAV group — reachable
+      # by URL and sitemap, but with no sidebar link and a wrong "next" pager.
+      - name: Site builds, and every page is reachable
+        run: |
+          cd web && node build.mjs > /tmp/build.log || { cat /tmp/build.log; exit 1; }
+          node - <<'JS'
+          const { readFileSync, readdirSync } = require('fs');
+          const src = readFileSync('build.mjs', 'utf8');
+          const nav = [...src.matchAll(/slugs:\s*\[([^\]]*)\]/g)]
+            .flatMap(m => [...m[1].matchAll(/'([^']+)'/g)].map(x => x[1]));
+          const built = readdirSync('dist').filter(f => f.endsWith('.html')).map(f => f.replace(/\.html$/, ''));
+          const tiers = built.filter(s => /^tier-\d+$/.test(s));            // NAV takes these from tierSlugs
+          const known = new Set([...nav, ...tiers]);
+          const orphans = built.filter(s => !known.has(s));
+          if (orphans.length) {
+            console.log(`::error::built but absent from NAV (no sidebar link, wrong pager): ${orphans.join(', ')}`);
+            process.exit(1);
+          }
+          console.log(`  ${built.length} pages built, all reachable from NAV`);
+          JS
 
       - name: Manifests, docs and skill dirs agree on the names
         run: |

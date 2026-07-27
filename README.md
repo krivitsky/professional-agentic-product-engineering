@@ -184,7 +184,24 @@ There is no flag that skips verification. Cheap mode buys speed by looking at le
 
 Found a better example, a fix, or a new tip? **Submit an issue or PR** — or just ask your harness (Claude, etc.) to open one for you. Help yourself and the next person learn better.
 
+By submitting a contribution you agree it's licensed on the same terms as the part of the repo it touches — MIT for code, CC BY 4.0 for written material. No CLA to sign.
+
 <img src="assets/tutor-caveman.png" width="320" alt="pixel-art caveman tutor at a flipchart">
+
+## License
+
+Two licenses, because this repo is half tool and half writing:
+
+| What | License |
+|---|---|
+| **The writing** — `guide.md`, the skill instructions, `CLAUDE.md`, `README.md`, the `wiki/` vault, and the built site | [CC BY 4.0](LICENSE-CONTENT) |
+| **The code** — hook scripts, stylesheets, the site generator in `web/`, `scripts/`, CI, and the plugin manifests | [MIT](LICENSE) |
+
+Share it, adapt it, use it commercially, teach from it. The only condition on the writing is credit:
+
+> "Professional Agentic Product Engineering Guide" by [Alexey Krivitsky](https://www.linkedin.com/in/alexeykrivitsky/), licensed under CC BY 4.0 — https://github.com/krivitsky/professional-agentic-product-engineering
+
+**Not mine to license**, and excluded from both: the Uncle Bob tweet screenshot (`assets/uncle-bob-tweet.jpg`), the vibe-coding illustration adapted from [Denis Turkov](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj), and the reader quotations. Those are quoted with attribution and belong to their authors — see [LICENSE-CONTENT](LICENSE-CONTENT).
 
 ## Credits
 

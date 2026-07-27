@@ -238,7 +238,7 @@ The prompt history shows how I *ask*. It says nothing about what I've *built* �
 
 **Look for an existing report first — it's free.** Glob `<repo>/harness-audits/*-report.md` and read the most recent. The `.md` file is written to be read by an agent in exactly this position, so a repo that's already been audited needs no new run. Say when it's from; if it's stale, offer a fresh run rather than assuming.
 
-**Running it.** Read `plugins/pape/skills/harness-audit/SKILL.md` and follow it. In a tutor session `${CLAUDE_PLUGIN_ROOT}` is unset — resolve every path in that file against `plugins/pape/` instead. Prefer **`--quick`** here: the goal is placement, not a full audit, and I can always run the real thing later.
+**Running it.** Capture this repo's absolute path first — `pwd` before you go anywhere — because the audit runs in *my* repo, where a path relative to the guide repo resolves to nothing. Then read `<guide-repo>/plugins/pape/skills/harness-audit/SKILL.md` and follow it, resolving every `${CLAUDE_PLUGIN_ROOT}` in that file against `<guide-repo>/plugins/pape/` (it's unset in a tutor session). Prefer **`--quick`** here: the goal is placement, not a full audit, and I can always run the real thing later.
 
 **Say what it writes before it runs.** The audit is read-only except for two report files it drops in `<repo>/harness-audits/`. That's a write into a repo I haven't invited you into yet — name it and get a yes first.
 

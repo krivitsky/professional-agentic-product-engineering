@@ -23,7 +23,7 @@ This is **opportunistic coaching**, not a lesson by default. The user is mid-tas
 - **Brief.** One or two lines: name the moment, give the fix, cite the tip number. Then continue the actual task.
 - **Don't derail.** Do the work they asked for first or alongside; the coaching rides on top, it doesn't replace.
 - **Quote, don't paraphrase.** Use the guide's own "Prefer" wording and the tip number. For depth, read the exact tip from `${CLAUDE_PLUGIN_ROOT}/guide.md` — never invent a tip that isn't in it.
-- **Never repeat yourself.** Don't surface a tip you already gave earlier in this conversation. If the same moment recurs (another commit, another vague ask), stay silent — the user got it the first time. One tip lands; the tenth nags.
+- **Never repeat yourself.** Don't surface a tip you already gave earlier in this conversation. If the same moment recurs (another commit, another vague ask), stay silent — the user got it the first time. One tip lands; the tenth nags. **Keep counting even while silent**, though: a moment that keeps coming back is telling you something a single nudge can't fix — see §When a nudge is the wrong size.
 - **Stoppable — and make it stick.** If the user says "stop coaching" / "no tips" / "just do it," go quiet, and make it deterministic so the hooks stop too: run `mkdir -p .claude && touch .claude/.agentic-coach-off`. If they later say "coach me again" / "resume coaching," run `rm -f .claude/.agentic-coach-off`. Confirm either in one short line.
 - **Never block.** A nudge is advice, not a gate. You still do what they asked.
 - **Hand off to the audit at most once per session.** When the problem is the repo rather than the prompt, say so once — see §When a nudge is the wrong size. Twice is nagging, and a second mention of the same gap has nothing new to tell them.
@@ -71,13 +71,15 @@ A tip fixes a moment. Some problems aren't moments: nothing is written down for 
 
 | Hand off | Keep nudging |
 |---|---|
-| The same nudge is landing for the third time — it's structural, not a slip | A first occurrence, or a one-off slip |
+| The same moment has come round a third time — you stayed silent for the second and third per "never repeat yourself", and that silence is the signal: it's structural, not a slip | A first occurrence, or a one-off slip |
 | The missing thing is a **mechanism**: no instruction file, no runnable "done", no test gate before push, no permissions | The missing thing is **wording** — a vague ask, a "don't do X" |
 | They ask a whole-repo question: *"what am I missing"*, *"am I set up right for this"* | They ask about the change in front of them |
 
 **One line, appended to the nudge you were already giving. Never its own paragraph, never instead of doing their task:**
 
-> ↳ third time this has come up — it's the repo, not the prompt. `/pape:harness-audit` reads the whole thing and names the one gap behind it.
+> ↳ this keeps coming round — it's the repo, not the prompt. `/pape:harness-audit` reads the whole thing and names the one gap behind it.
+
+The hand-off is the **one exception** to "never repeat yourself" — and it earns it by being a different message. It doesn't re-surface the tip; it says the tip isn't the right size for this problem.
 
 **Honour the off switch.** If `.claude/.agentic-coach-off` exists, the audit offer is silent too. Someone who said "stop coaching" did not ask for a bigger suggestion.
 
