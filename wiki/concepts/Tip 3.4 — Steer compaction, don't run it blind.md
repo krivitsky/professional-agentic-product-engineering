@@ -11,5 +11,5 @@ Tell compaction what to keep and what to drop, so the summary retains the decisi
 
 ## Related
 - [[Tier 3 — Context Management]]
-- [[Tip 3.3 — `clear` between tasks; reset after repeated failure]]
+- [[Tip 3.3 — `∕clear` between tasks; reset after repeated failure]]
 - [[Tip 3.5 — CLAUDE.md = gotchas + conventions, not an encyclopedia]]

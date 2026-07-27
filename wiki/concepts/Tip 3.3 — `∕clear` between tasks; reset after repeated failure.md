@@ -1,4 +1,4 @@
-# Tip 3.3 — `/clear` between tasks; reset after repeated failure
+# Tip 3.3 — `∕clear` between tasks; reset after repeated failure
 **Part of:** [[Tier 3 — Context Management]] · tip 3 of 8
 **Source:** `guide.md #tip-3-3` (root — canonical, not copied)
 **Created:** 2026-07-04

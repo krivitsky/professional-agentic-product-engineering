@@ -20,7 +20,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 
 - [[Tip 3.1 — Feed high-signal context, not the whole repo]] — Just the affected modules + relevant docs, loaded just-in-time.
 - [[Tip 3.2 — Keep secrets out of git and out of context — set this up first]] — `.env` gitignored and referenced by variable, enforced with a `PreToolUse` hook.
-- [[Tip 3.3 — `clear` between tasks; reset after repeated failure]] — After ~2 failed fixes, `/clear` and rewrite the opening prompt.
+- [[Tip 3.3 — `∕clear` between tasks; reset after repeated failure]] — After ~2 failed fixes, `/clear` and rewrite the opening prompt.
 - [[Tip 3.4 — Steer compaction, don't run it blind]] — Tell `/compact` what to keep (decisions, failing tests) and what to drop (exploration).
 - [[Tip 3.5 — CLAUDE.md = gotchas + conventions, not an encyclopedia]] — Architecture, key commands, forbidden patterns, and the mistakes it keeps repeating — pruned often.
 - [[Tip 3.6 — Put occasional knowledge in Skills — loaded only when the task matches]] — A Skill that auto-loads on its description, rather than cramming everything into CLAUDE.md.

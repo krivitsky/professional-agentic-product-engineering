@@ -12,4 +12,4 @@ A coding agent reads your whole tree and everything you paste; both leak. Gitign
 ## Related
 - [[Tier 3 — Context Management]]
 - [[Tip 3.1 — Feed high-signal context, not the whole repo]]
-- [[Tip 3.3 — `clear` between tasks; reset after repeated failure]]
+- [[Tip 3.3 — `∕clear` between tasks; reset after repeated failure]]

@@ -208,7 +208,7 @@ And look at *what* his gauntlet is made of — unit tests, gherkin/BDD tests, co
 You can read this whole guide and still not know where your own setup stands. So the guide ships an audit: point it at a repo you actually work in, and it rates that harness against the eight tiers and names the one rung to fix next.
 
 > "I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."
-> — [Robert C. "Uncle Bob" Martin](https://x.com/unclebobmartin/status/2080257779395154409), July 2026 *(the full tweet is in [the Big Idea](#big-idea))*
+> — [Robert C. "Uncle Bob" Martin](https://x.com/unclebobmartin/status/2080257779395154409), July 2026 *(the full tweet is in [the Big Idea](#big-idea--from-prompts-to-systems))*
 
 Uncle Bob no longer reading his agents' code is not a provocation to stop reading code and start being careless. It is the opposite — a call to **invest in the harness** until you can trust whatever comes out of it. He trusts the output *because* of what he makes it survive.
 
@@ -270,7 +270,7 @@ The audit is **diagnostic**, and the other three ways into this material pick up
 - If that lever is [T1](#tier-1) or [T2](#tier-2) — prompting and shaping — there's nothing to add to the repo, so it points you at the coach or the tutor instead. Those two rungs live in how you work, not in your files.
 - The **tutor** can read an audit report and start teaching at the rung it named, using your own findings as the examples.
 
-See [Learn this with an agent](#learn-this-with-an-agent) for all four, and [`plugins/pape`](https://github.com/krivitsky/professional-agentic-product-engineering/tree/main/plugins/pape) for the skill itself.
+See [Learn this with an agent](#learn-this-with-an-agent-the-fastest-way-through) for all four, and [`plugins/pape`](https://github.com/krivitsky/professional-agentic-product-engineering/tree/main/plugins/pape) for the skill itself.
 
 ## Loops of Agentic Engineering
 

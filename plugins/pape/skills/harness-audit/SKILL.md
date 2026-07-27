@@ -201,7 +201,7 @@ open-questions:
     Not measurable statically; decides whether a push gate is tolerable.
   - Are any of the 56 rules already known-dead? Killing them beats enforcing them.
   - Is `edge-tts` expected on PATH for other contributors, or is audio a solo task?
-budget-hit: no — 14 files read of ~35 allowed
+budget-hit: no — finders 18 + 14 of 20 each · verifier 21 of 25
 ```
 
 **Open questions are not hedging.** Each one names something the audit genuinely could not determine and says what it would change. A question that would not change a recommendation is noise; cut it.
@@ -364,10 +364,10 @@ Both files, every run, same basename in `harness-audits/`:
 target    krivitskydotcom
 branch    main
 audited   2026-07-25 21:35
-auditor   harness-audit v0.21 · 2 finders + verifier · claude-opus-5 · xhigh
+auditor   harness-audit v0.24 · 2 finders + verifier · claude-opus-5 · xhigh
 ```
 
-**The `auditor` value is `<skill> v<version> · <shape> · <model id> · <effort>`.** No `effort` label — beside a model ID, `xhigh` can only be one thing. Shape is one of `1 finder + verifier` (`--quick`) · `2 finders + verifier` (default) · `4 finders + verifier` (`--deep`).
+**The `auditor` value is `<skill> v<version> · <shape> · <model id> · <effort>`.** **Read `<version>` from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` at run time** — never from the example above, which is a sample cover and goes stale every release. No `effort` label — beside a model ID, `xhigh` can only be one thing. Shape is one of `1 finder + verifier` (`--quick`) · `2 finders + verifier` (default) · `4 finders + verifier` (`--deep`).
 
 **Count agents, not steps.** Pooling is bookkeeping in the orchestrating context — no agent, no model, no tokens — so it is not a pass. An earlier cover said *"three-pass (2 finders · pooling · verifier)"*, which inflated the number and spent a line saying nothing.
 
@@ -387,7 +387,7 @@ The alias you passed appears alongside the resolved ID — take the resolved one
 
 Not `findings` — the severity counts are already tiles in §2, and a cover that repeats them is a cover doing §2's job.
 
-Everything else the run knows — `keys-open`, `keys-withdrawn`, verification tallies, per-pass read budgets, the method sentence — goes **only** in the `.md` cover fence. It is provenance written for the next run to parse, not for a person.
+Everything else the run knows — `keys-open`, `keys-was-wrong`, verification tallies, per-pass read budgets, the method sentence — goes **only** in the `.md` cover fence. It is provenance written for the next run to parse, not for a person.
 
 **The audit does not report on itself in the human file.** *"19 candidate claims · 15 hold · 2 misstated · 2 over-scoped · 0 cut"* is the audit admiring its own machinery; the reader came to learn about their repo. The one place verification belongs in the HTML is a single line in §6 stating what it removed — *"one candidate was cut: the quoted line was a fallback"* — because that changes what they should trust, and a tally does not.
 
@@ -523,9 +523,9 @@ Keys exist for exactly one job: letting the next run compare findings across rep
 
 So Trend entries in the HTML read in plain words, and stop there:
 
-> ❌ *"`C-7@generate-audio.mjs` withdrawn — the quoted line was a fallback."*
-> ❌ *"**The hardcoded audio path — withdrawn.** …the earlier finding was false, not fixed." · `key: C-7@generate-audio.mjs`*
-> ✅ *"**The hardcoded audio path — withdrawn.** The quoted line was a fallback behind an environment variable; the earlier finding was false, not fixed."*
+> ❌ *"`C-7@generate-audio.mjs` was wrong — the quoted line was a fallback."*
+> ❌ *"**The hardcoded audio path — was wrong.** …the earlier finding was false, not fixed." · `key: C-7@generate-audio.mjs`*
+> ✅ *"**The hardcoded audio path — was wrong.** The quoted line was a fallback behind an environment variable; the earlier finding was false, not fixed."*
 
 The second form was a half-fix — demoting an undecodable token to the end of the line does not make it decodable. **If the reader cannot resolve an identifier from the document in front of them, it does not go in the document.**
 
@@ -539,7 +539,18 @@ The failure this prevents is quiet and compounding: trend globs the newest file,
 
 **Before writing:** glob `harness-audits/*-report.md`, read the most recent **whose `auditor` line differs from this run's**, extract its keys. Then:
 
-**Tag every entry with one plain word.** `fixed` · `was wrong` · `open` · `new` · `carried`. Not *closed*, not *withdrawn*, not *regressed* — a reader asked outright what "withdrawn" meant, which is the answer on whether it was carrying its meaning. These sit beside each other in one list, so each has to be readable without a key.
+**Four tags, and there is no fifth.** A key either appeared, persisted, or disappeared — and when it disappeared, *why* is the only thing worth a separate word:
+
+| Tag | Means |
+|---|---|
+| **new** | Key only in this run |
+| **open** | Key in both runs |
+| **fixed** | Key gone because someone did the work |
+| **was wrong** | Key gone because the earlier finding did not hold up |
+
+Not *closed*, not *withdrawn*, not *regressed*, not *carried* — a reader asked outright what "withdrawn" meant, which answered whether it was carrying its meaning, and "carried" was in an earlier list without ever being defined, which answered the same question about it. **A tag nobody can define on sight is not a status; it's a synonym.** These sit beside each other in one list, so each has to read without a key.
+
+**Severity changes and changed numbers are not tags** — they are notes on an `open` row, because the key persisted either way: *"still open, now High"* · *"still open, CLAUDE.md 516 → 604 lines."* A rating that got **worse** leads the section; that is emphasis, not a fifth status.
 
 - **fixed** — the key is gone because someone did the work. Name the evidence: *"the tracked worktree file is gone."*
 - **was wrong** — the key is gone because the earlier finding did not hold up. **A false finding and a fixed problem look identical from key-diffing alone**, and calling a retraction *fixed* credits the reader with work they never did while quietly burying the audit's own error. Say what was wrong: *"the quoted line was the fallback, not the value; the fix suggested was what the code already did."*
@@ -557,10 +568,12 @@ The failure this prevents is quiet and compounding: trend globs the newest file,
 **`new` is a count, never an enumeration.** On a run where twelve of sixteen issues are new, listing them reproduces the issues table one section later — the reader's verdict was *"this just duplicates the issues list, this is not a trend."* They were right: when most issues are new, "what's new" is simply the report.
 
 **The durable signal is the opposite one — which issues have survived across runs.** There are always few of those, and being open for three runs is a fact about the process that severity alone never shows. That is why persistence is the one cross-run fact marked in the issues table rather than only here; **Trend carries the count, the table carries the `open since`.**
-- **Still open** — key in both. Say how long: *"C-2@CLAUDE.md open since 25 Jul."* A finding that survives three runs is itself a finding about the process.
-- **New** — key only now.
-- **Moved** — same key, different severity or a rating change, in either direction. **A regression outranks everything and leads the report.**
-- **Drifted numbers** — same key, changed measurement: *"CLAUDE.md 516 → 604 lines."* The direction matters more than the value.
+Write each one the way §Keys never appear in the HTML requires — **name the thing, not its key**:
+
+> ✅ *"The two instruction layers still disagree — open since 25 Jul, and now High."*
+> ❌ *"C-2@CLAUDE.md open since 25 Jul, moved to High."*
+
+A reader shown the second asked *"what is C-2? sounds like noise to me."* That is the whole rule, confirmed by the only test that counts: `C-2` is decodable only with `checks.md` open beside the report, and nobody reads a report that way.
 
 **Placement: §4, in both files** — after the backlog, before Observations. It is what a returning reader looks for first, but it only means something once they have seen the ratings and the backlog it refers to.
 

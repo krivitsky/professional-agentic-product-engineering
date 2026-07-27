@@ -56,6 +56,29 @@ jobs:
           fi
           echo "In sync."
 
+      # Syncing the bundled guide without bumping the version ships nothing:
+      # the marketplace sees no new version, so every installed plugin keeps
+      # serving the old copy. CI green, users stale.
+      - name: A changed guide bumps the plugin version
+        if: github.event_name == 'pull_request'
+        run: |
+          set -euo pipefail
+          base="origin/${{ github.base_ref }}"
+          git fetch --quiet --depth=1 origin "${{ github.base_ref }}"
+          if git diff --quiet "$base" HEAD -- guide.md; then
+            echo "guide.md unchanged — no bump required."; exit 0
+          fi
+          old=$(git show "$base:plugins/pape/.claude-plugin/plugin.json" 2>/dev/null | jq -r .version || echo "")
+          new=$(jq -r .version plugins/pape/.claude-plugin/plugin.json)
+          if [ "$old" = "$new" ]; then
+            echo "::error::guide.md changed but plugins/pape/.claude-plugin/plugin.json is still $new. Bump it, or installed plugins keep serving the old guide."
+            exit 1
+          fi
+          echo "guide.md changed; version $old -> $new."
+
+      - name: Wiki vault is intact
+        run: ./scripts/lint-wiki.sh --ci
+
       - name: Every cited tip exists in guide.md
         run: |
           fail=0
@@ -155,7 +178,17 @@ jobs:
 
       - name: Manifests, docs and skill dirs agree on the names
         run: |
+          # Each check below collects its matches into a file FIRST, asserts the
+          # file is non-empty, then loops over it by redirect. `grep | while` was
+          # wrong twice over: a zero-match grep made the check pass vacuously,
+          # and the loop ran in a subshell where `fail=1` could not escape.
+          # (`set -o pipefail` alone would invert the first bug into a spurious
+          # failure, since a zero-match grep exits 1.)
           fail=0
+          # An explicit array, not a space-joined string: unquoted word-splitting
+          # is a bash-ism, and a check whose correctness depends on the shell's
+          # splitting rules is a check waiting to silently match nothing.
+          DOCS=(README.md guide.md CLAUDE.md AGENTS.md plugins/pape/README.md)
           market=$(jq -r '.name' .claude-plugin/marketplace.json)
           entry=$(jq -r '.plugins[0].name' .claude-plugin/marketplace.json)
           source=$(jq -r '.plugins[0].source' .claude-plugin/marketplace.json)
@@ -174,26 +207,34 @@ jobs:
 
           # Every documented install line must be the real <plugin>@<marketplace>.
           want="/plugin install ${plugin}@${market}"
-          grep -rhoE '/plugin install [a-z0-9-]+@[a-z0-9-]+' \
-            README.md guide.md CLAUDE.md AGENTS.md plugins/pape/README.md 2>/dev/null \
-            | sort -u | while read -r got; do
-              if [ "$got" != "$want" ]; then
-                echo "::error::docs say '$got' but the manifests say '$want'."
-                exit 1
-              fi
-            done || fail=1
+          grep -rhoE '/plugin install [a-z0-9-]+@[a-z0-9-]+' "${DOCS[@]}" 2>/dev/null | sort -u > /tmp/install.txt || true
+          if [ ! -s /tmp/install.txt ]; then
+            echo "::error::no '/plugin install ...' line found in any of: ${DOCS[*]}. The install snippet vanished, or this check is grepping the wrong files."
+            fail=1
+          fi
+          while read -r got; do
+            [ -z "$got" ] && continue
+            if [ "$got" != "$want" ]; then
+              echo "::error::docs say '$got' but the manifests say '$want'."
+              fail=1
+            fi
+          done < /tmp/install.txt
 
           # Every /<plugin>:<skill> command referenced anywhere must resolve to a
           # skill directory that exists.
-          grep -rhoE "/${plugin}:[a-z0-9-]+" \
-            README.md guide.md CLAUDE.md AGENTS.md plugins/pape/README.md plugins/pape/skills/ 2>/dev/null \
-            | sort -u | while read -r cmd; do
-              skill="${cmd##*:}"
-              if [ ! -f "plugins/pape/skills/${skill}/SKILL.md" ]; then
-                echo "::error::'$cmd' is referenced but plugins/pape/skills/${skill}/SKILL.md does not exist."
-                exit 1
-              fi
-            done || fail=1
+          grep -rhoE "/${plugin}:[a-z0-9-]+" "${DOCS[@]}" plugins/pape/skills/ 2>/dev/null | sort -u > /tmp/cmds.txt || true
+          if [ ! -s /tmp/cmds.txt ]; then
+            echo "::error::no '/${plugin}:<skill>' reference found anywhere. Either every command reference was lost, or the plugin was renamed and this check wasn't."
+            fail=1
+          fi
+          while read -r cmd; do
+            [ -z "$cmd" ] && continue
+            skill="${cmd##*:}"
+            if [ ! -f "plugins/pape/skills/${skill}/SKILL.md" ]; then
+              echo "::error::'$cmd' is referenced but plugins/pape/skills/${skill}/SKILL.md does not exist."
+              fail=1
+            fi
+          done < /tmp/cmds.txt
 
           # A stale plugin path in the docs means a rename missed a file.
           if grep -rn 'plugins/agentic-coach' \
