@@ -316,7 +316,7 @@ Six phases. This strip closes every message, so you always know where it is:
 
 · setup → · re-check → · research → · cross-check → · fact-check → · report
 
-There's a run from earlier today. Reading its cover for the baseline, then two
+There's a run from earlier today. Reading its cover for the baseline, then three
 questions before anything spawns.
 ```
 
@@ -330,7 +330,7 @@ questions before anything spawns.
 
 **Name the version, and read it from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`** — the same source the report cover uses. A user comparing two reports, or reporting a bug, needs to know which version produced what, and the cover is too late: it arrives half an hour in, and only if the run finishes.
 
-**Say what happens next, in one clause.** Not a plan, not a numbered procedure — *"checking for a previous run, then two questions"* is enough to tell someone the tool calls they are about to see are not the audit starting without them.
+**Say what happens next, in one clause.** Not a plan, not a numbered procedure — *"checking for a previous run, then three questions"* is enough to tell someone the tool calls they are about to see are not the audit starting without them.
 
 ### Confirm before spawning — every run
 
@@ -349,6 +349,9 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 |---|---|---|
 | **How deep?** | *Quick look* · *Standard* · *Thorough* | pre-select whatever the flag or the phrasing implied — **`Standard` when nothing did** |
 | **What output?** | *Markdown only* · *Markdown + light HTML* · *Markdown + dark HTML* | `Markdown + light HTML`, or whichever theme `--theme:` named |
+| **Rate T1 too?** | *No — repo only* · *Yes, read this project's prompt history* | **No.** The only read outside the repo, and the one most worth refusing |
+
+**Three questions, still one interaction.** The T1 question is the difference between eight rated rungs and seven, and it cannot be inferred from anything in the tree — so it is asked once, here, where the reader is already deciding what the run may do.
 
 **Format and theme are one question, not two.** Theme is the least consequential axis in the run and asking it separately spends a decision on it. Folded in, it is only asked where it means something — and the *Markdown only* path never has to answer it at all.
 
@@ -369,6 +372,8 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 **Ask for intent, never for a number.** *"Quick look / Standard / Thorough"*, not *"how many finders?"* — nobody's first question is how many agents they want, because nothing has told them what a finder is. The mapping to `--quick` / default / `--deep` is this skill's job.
 
 **Say the cost structurally, in the option labels** — *"one lens instead of two"*, *"twice the finders"*. **That is a fact about what runs, not a prediction about the clock**, and it is the honest way to make the trade visible where the choice is made. A number nobody can stand behind belongs nowhere; a number two paragraphs above the buttons belongs nowhere either.
+
+**Say what the T1 option reads, in the option label itself.** *"reads this project's prompt history"* — not *"enables T1"*. A permission question whose label describes the feature rather than the access is not a permission question.
 
 **Say what it writes before it writes it.** Two files into `harness-audits/`, and nothing else touched. That is the only write this skill makes, and it lands in the user's repo — it is the real consent moment, more than the finder count is.
 
@@ -620,9 +625,26 @@ The rule falls out of the ladder itself: each rung rests on the ones below, so a
 
 ### The lead's whole order
 
-`what this repo is` → `how it is doing` → `how it is rated and where the weight sits`. Roughly 130 words, three paragraphs.
+`what this repo is` → `the verdict, and the mechanism behind it` → `the direction` → `the lever, and why that rung`. Four beats, roughly 200 words.
 
 Context comes first because it frames everything after it, and a draft that opened with the verdict and put the methodology second read as three disconnected blocks — the reader's verdict was that it did not hold together. Rating machinery is never the second thing anyone needs.
+
+**The middle beat used to be `how it is doing`, and that is what went wrong.** It is a prompt with no test attached, so it got filled with whichever findings were freshest — and the result passed for a summary while being the findings table at greater length. **Replacing it with `the verdict, and the mechanism` gives the beat something it can fail at:** a paragraph either names the cause behind the cluster or it does not, and one that lists symptoms is now visibly missing its second half.
+
+**The mechanism is the single most valuable thing the lead produces.** Every tier cell describes symptoms on its own rung; nothing else in the report is allowed to look across rungs and say *why*. A reader who learns that twelve issues are one uncontrolled layer can fix the layer; a reader given twelve issues fixes twelve issues and gets twelve more.
+
+**Each beat carries a disqualifying test:**
+
+| Beat | Fails if |
+|---|---|
+| **What this repo is** | it does not say what an agent can reach from here — the stakes are the orientation |
+| **Verdict + mechanism** | it names symptoms without a cause, or the cause does not account for the count it just cited |
+| **Direction** | it states a delta the baseline cannot support (see below) |
+| **Lever** | it names a rung without saying why that one before the others the reader can see are also weak |
+
+**The reader can see the other weak rungs**, because the tier table is directly below. A lead that names T3 and says nothing about the other `Weak` row has left the most obvious question in the report unanswered.
+
+**`New` means new to the audit unless the baseline can prove otherwise.** A run reported *eleven new issues* against a baseline from **ninety-nine minutes earlier**, in a different mode, at a different version — nothing was introduced into that repo in ninety-nine minutes. **Say which one it is**, and where a re-check left keys untested, say the direction is partly unknown rather than quietly counting unknowns as closed.
 
 **Where a tier genuinely doesn't bite yet, say what it depends on** — *"nothing here runs unattended, so T7 has nothing to operate"* — never *"above your level."* That is `Not assessed` with a reason, and it is a real answer, not a gap.
 
@@ -704,19 +726,22 @@ This matters most for tiers with **no** findings — those notes are the section
 | **Not assessed** | The audit did not reach the evidence. **Always name why** — *"consent for transcript access was not given"* is a different state from *"needs evidence this method cannot reach"*, and only the second is a limit of the audit rather than a choice | Could another pass have got this? Then say what it would take |
 | **A real rating** | The audit looked and found the answer, **including when the answer is "nothing is there."** | Is this backed by a finding? Then it is assessed |
 
-**T1 is never assessed, and the row must say so as a permanent property — not as this run's omission.** Prompting lives in session transcripts. This skill reads a repo. No depth flag, no consent, and no second pass changes that, so a row reading *"the audit did not ask to read your prompts"* implies a run that could have and chose not to.
+**T1 is assessable, and a run that skips it must say the reader declined — not that the audit couldn't.** Prompting lives in session transcripts rather than in the repo, so it needs a source outside the tree; the plugin ships one. `${CLAUDE_PLUGIN_ROOT}/scripts/mine-prompts.sh <filter>` reads `~/.claude/projects/*/**.jsonl` read-only and prints a digest of real prompts, and its positional argument is a substring filter — **pass the repo's directory name so it reads only this project's history**, never a sweep of every local project.
 
-It also produced the emptiest line in the report:
+**Ask for it in the same `AskUserQuestion` as depth and output — a third question, still one interaction:** *"Rate T1 as well? It reads this project's prompt history — read-only, scoped to this repo, nothing leaves the machine."* **Default no.** It is the only read this skill makes outside the repo it was pointed at, and it is the one a reader has the strongest right to refuse.
 
-> ❌ `TO LIFT IT` — *"Nothing to change in the repo; this rung is about how you write the ask."*
+**On yes**, rate T1 from the digest against the tips in [Tier 1](https://agentic-engineering.guide/tier-1): bare imperatives against outcome-plus-constraint, whether files and paths are named, whether scope is bounded, whether the ask arrives in one message or in five. **The digest is a sample, so the rating is a rating of a sample — say so**, and cite prompts rather than characterising them.
 
-**Drop `TO LIFT IT` on T1 entirely** — there is nothing in a repo to lift — and spend `HERE` on the one useful thing, which is where the answer actually is:
+**On no, the row says what was declined and how to get it:**
 
-> ✅ `HERE` — *"Prompting lives in your session history, not your repo, so this instrument cannot see it. `/pape:agentic-coach` reads that history and answers this rung."*
+> ✅ `HERE` — *"Not rated: reading your prompt history was declined at setup. Re-run and accept the T1 question, or ask `/pape:agentic-coach` — it reads the same history."*
+> ❌ *"The audit did not ask to read your prompts, so this rung was not reached."*
 
-**That is the difference between a non-rating and a dead row.** The reader leaves knowing which tool answers the question, instead of being told twice that this one doesn't.
+**The second sentence shipped, and it is wrong twice** — it implies a run that could have asked and chose not to, and it leaves the reader with no way to get the answer. It then spent a `TO LIFT IT` line on *"nothing to change in the repo"*, which tells them a third time that nothing is happening here.
 
-**Distinguish it from a rung this run happened not to reach.** T7 went unrated because the schedulers publishing to that site live in the surrounding workspace, outside what was read — **contingent, and another run pointed elsewhere would answer it.** Say what would answer it. T1's limit is the instrument's, and permanent. Both print `Not assessed`; only one gets a *"what would answer it"* clause, and neither gets `TO LIFT IT`.
+**`TO LIFT IT` is dropped on any unrated rung.** There is nothing to lift until there is a rating, and the line was reliably producing filler.
+
+**Distinguish it from a rung this run happened not to reach.** T7 went unrated because the schedulers publishing to that site live in the surrounding workspace, outside what was read — **contingent on where the audit was pointed, and another run would answer it.** T1's gap is consent, T7's is scope, and both are recoverable. Say which, and say what recovers it.
 
 **The trap: marking a confirmed finding as `Not assessed` because the thing is absent.** A rung where delegation is dispatched from three skills but no agent definition is versioned has been *assessed* — the answer is that it does not hold. That is `Weak`, and a run once wrote `Not assessed` over exactly that, burying a Medium finding behind a non-rating. **Absence you looked for and confirmed is evidence, not a gap in evidence.**
 
