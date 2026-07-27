@@ -108,7 +108,7 @@ Three verdicts per issue, and the third is not a failure:
 
 **Each boundary gets one line of substance plus the strip. That is the whole budget.** The display grew for a day with nothing ever removed, and the verdict was *"too verbose and not useful."*
 
-**Never call it "the board."** A run said *"three rows on the board already"* and the reader had no idea what that meant.
+**Do not name the display.** A run said *"three rows on the board already"* — coining a noun for its own progress readout, which the reader had never heard and could not look up. The reader has a screen, not a board; there is nothing here that needs a name.
 
 **Name the phases in the reader's words, not this file's.** *Finders*, *pooling* and *verifier* are the vocabulary of the design; nobody watching a progress strip knows what pooling is. The strip shows five phases, and each says what is happening to the repo rather than which agent is running:
 
@@ -120,6 +120,17 @@ Three verdicts per issue, and the third is not a failure:
 | **cross-check** | pass 2 · pooling | comparing what the lenses found, resolving disagreements |
 | **fact-check** | pass 3 · verifier | re-opening the file behind every claim, trying to break it |
 | **report** | writing | both files land in `harness-audits/` |
+
+**These six words are the only words for these six things — in the strip, in the prose beside it, and in every agent description.** A run's strip read `▸ research` and the sentence directly beneath it said *"waiting on the re-check, then the reading pass"*: a synonym invented one line below the word it was a synonym for, leaving the reader to work out whether *the reading pass* meant `research`, `cross-check`, or both.
+
+> ❌ *"Presence checks done here. Waiting on the re-check, then the reading pass."*
+> ✅ *"The quick file-and-config checks are done in this session. Waiting on re-check, then research."*
+
+**This is the `Enforcement`-under-`▸ research` defect one layer in.** The strip was rewritten into the reader's vocabulary and the sentence beside it was left in the design's — so the fix moved the leak rather than closing it.
+
+**It binds every term in the block, not only the phase nouns.** *"Presence checks"* shipped in that same line: it is this file's name for a glob that answers a question without opening a file, and it names nothing the reader has been told about.
+
+**Test before sending: every noun in the message either appears in the six-row legend the introduction printed, or is ordinary English.** A third label is never the answer — use the phase name, or describe the activity plainly.
 
 **`fact-check` carries a counter — `fact-check 12/19` — because it is the long one.** It is the phase where the user has already seen the candidates and is waiting to learn which survive, and it is the only phase whose progress is a number the run actually knows.
 
@@ -134,27 +145,11 @@ Three verdicts per issue, and the third is not a failure:
 | **The strip** — identity, phases, meter, and the line naming what it waits for | **at the end of every message this skill sends during a run**, without exception |
 | **The substance above it** — what closed, what conflicted, what got cut | only when a boundary actually changed something: setup, re-check, research, cross-check, fact-check |
 
-**A run sent *"Presence checks are in. Now waiting on the two reading passes"* with no strip beneath it**, because that moment is not one of the boundaries — so a reader who had just been given a phase display was shown a bare sentence and left to wonder whether the display still applied. **Any message without the strip under it is a message that abandons the reader mid-run.**
+**A run sent a bare one-line status with no strip beneath it**, because that moment was not one of the boundaries — so a reader who had just been given a phase display was shown a loose sentence and left to wonder whether the display still applied. **Any message without the strip under it is a message that abandons the reader mid-run.**
 
 Two lines is not a token sink. Repeating a boundary's full content on every message would be, which is why only the strip repeats.
 
-**Boundaries stay at five blocks.** One per verified claim would bury the report under its own progress; that rule was right, it was just being applied to the cheap half as well as the expensive one.
-
-**The strip is the steps, the table is the claims.** Keep them apart: a reader glances at the strip to see *where the run is*, and at the table to see *what it found*. Merging them produces a table where half the rows are machinery.
-
-**Cap the table at five rows plus a `…N more`.** Every displayed row must reach a terminal state (see below), and twenty rows cannot. Order by the finders' proposed severity — but **display severity only once verified**, because a `High` on a `⏳` row is the settled half of an unsettled claim.
-
-**Three status values, and the third earns its width:** `⏳` · `✓ <severity>` · `✗ cut — <one clause saying why>`. The cut reason is the most informative cell in the table and the one most likely to be trimmed for space. Trim the claim text instead.
-
-**The first column is the cited tip, linked — not a row number.** A row index is decoration; the tip is both a stable identifier *and* somewhere to go. Every finding already carries a tip citation, so this costs no extra work and turns ten minutes of waiting into the best reading moment the guide ever gets: the reader is looking at a real gap in their own repo and can go find out why it matters, instead of browsing a ladder cold.
-
-Link the live guide, `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`, exactly as §Method requires everywhere else.
-
-**Verify the anchor before printing it here too.** `rg '<a id="tip-6-2">' ${CLAUDE_PLUGIN_ROOT}/guide.md` — **no anchor, no link.** A dead link in the one place the reader is most likely to click is worse than a bare tip number, and the rule that governs citations in the report does not stop applying because the surface is a progress table.
-
-**A tip on a `⏳` row is fine, and on a `✗` row it stays.** The claim may die; the tip that made it worth checking was still real. Severity is withheld until verification because it is a judgement about *this* claim — the tip is not.
-
-**When several rows cite one tip, that is signal, not repetition.** Three claims all pointing at 4.1 says the gap is one gap wearing three faces, which is exactly what §1's lead has to say later. Do not dedupe the column to make it look tidier.
+**Boundaries stay at five blocks — one per phase, never one per finding.** A block for each claim would bury the report under its own progress before the report existed.
 
 ### Say what the audit looks for, once, while it looks
 
@@ -213,23 +208,6 @@ One line, drawn from what the finders actually counted, never invented. **It cha
 
 **Elapsed time needs no qualifier** — it is wall clock and always true.
 
-**The user is a better verifier than the verifier, for their own repo.** Shown *"eslint config missing — pending"*, someone who works there says *"no it isn't"* in two seconds, faster and more reliably than a subagent re-deriving it from scratch. Withholding the claim to protect them from it also denies the run its fastest available check.
-
-Four rules keep that from becoming a liability:
-
-| Rule | Why |
-|---|---|
-| **The state marker sits on every row, never in a header above them** | Rows get read one at a time and scroll apart. A caveat twenty lines up is not attached to anything. |
-| **A pending row carries its location but never a severity** | Severity is assigned after verification. A `High` on an unsettled row is the settled part of a claim that has not been settled. |
-| **Every pending row must reach ✓ or ✗ in the output** | A row left ⏳ when the report lands reads as *"we forgot"* or, worse, as quietly true. Cap the list at about five so this stays possible. |
-| **Cut rows stay visible as cut** | Deleting a falsified row hides the best evidence the run has. |
-
-**The ✗ line is the payoff, not the embarrassment.** Showing a candidate and then killing it in front of the reader is the strongest demonstration available that verification is real rather than a step the report claims to have run. **A run that lists candidates and then goes quiet has spent the trust without repaying it.**
-
-**The list is progress, never the record.** It scrolls; the report does not. Nothing may appear only in this list — if the verifier confirms it, it is in the report, and a reader who walked away and came back should lose nothing by having missed the live view.
-
-**Nothing here loosens §Pass 3.** A `False` verdict still means the finding does not appear in the report, not even as an Observation. Having shown it live earns it a `✗` row and a sentence in §6 recording what was cut — never a place among the findings.
-
 ### Keep the subagents' tool calls legible
 
 **Nothing `cd`s — not the subagents, and not the orchestrating context.** Everything already starts in the repo root. Runs have been observed emitting `cd /Users/alexey/src/aidy/repos/<repo>` before every command, which spends the visible width of the line on a constant, and then the actual command is what gets truncated. The reader is left with a path they already know and an ellipsis where the evidence was.
@@ -280,14 +258,34 @@ The runtime prints every subagent's description directly beneath the strip, so t
 The test is what the user sees first. A directory listing that resolves instantly, then the introduction, is fine. A tool-use summary standing alone at the top of the transcript is not.
 
 ```
-harness-audit v0.34 · from the Professional Agentic Product Engineering (PAPE) guide
+harness-audit v0.44 · from the Professional Agentic Product Engineering (PAPE) guide
 
 I read the agent setup checked into this repo — instruction files, skills,
 hooks, permissions, tests, CI — and rate it against the guide's eight tiers.
 I change nothing: read-only, apart from the report I write to harness-audits/.
 
-Checking for a previous run here, then two questions before anything spawns.
+Six phases. This strip closes every message, so you always know where it is:
+
+  setup        agree the depth and the output format — nothing spawns until you do
+  re-check     re-test the issues the last run here left open
+  research     read the repo, collect candidate findings
+  cross-check  line up what research found, resolve where it disagrees with itself
+  fact-check   re-open the file behind every claim and try to break it
+  report       write it to harness-audits/
+
+· setup → · re-check → · research → · cross-check → · fact-check → · report
+
+There's a run from earlier today. Reading its cover for the baseline, then two
+questions before anything spawns.
 ```
+
+**Spell the phases out here, once, before anything runs.** A reader watching `▸ research → · cross-check → · fact-check` has been given six words and no key to them, and *cross-check* and *fact-check* are near-synonyms in ordinary English — nothing in the strip says which one re-opens the files. **The strip is a position indicator, not an explanation**, and it was being asked to be both.
+
+**It costs six lines at the one moment a reader is deciding whether to commit half an hour**, and it buys the rest of the run: every later message can then say `research` on its own, because the word has a definition the reader has already seen. This is the same trade as §Say what the audit looks for — orientation once, early, never repeated.
+
+**Say the strip will recur.** *"This strip closes every message"* is what turns it from a thing that appeared once into a thing the reader tracks — and a run that then drops it has visibly broken a promise rather than quietly omitted a display.
+
+**When there is no prior report, drop the `re-check` row and its arrow.** Showing a phase that will never fill teaches the reader to distrust the strip. Say why in the closing line instead: *"No previous run here, so nothing to re-check — starting from scratch."*
 
 **Name the version, and read it from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`** — the same source the report cover uses. A user comparing two reports, or reporting a bug, needs to know which version produced what, and the cover is too late: it arrives half an hour in, and only if the run finishes.
 
@@ -352,7 +350,9 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 
 The header echoes the **resolved** config, so a misread is catchable while it is still cheap.
 
-**Describe the lenses, never name them.** *"1 finder (Enforcement)"* tells the reader nothing — `Enforcement` is this file's word for a bundle of check IDs, and it leaks the same way `pooling` and `finders` did before the strip was rewritten. Say what the pass is doing: *"one pass, reading what's declared against what actually holds"*. Under Standard, *"two passes reading independently — one for what holds, one for what contradicts"*.
+**Describe the lenses, never name them.** *"1 finder (Enforcement)"* tells the reader nothing — `Enforcement` is this file's word for a bundle of check IDs, and it leaks the same way `pooling` and `finders` did before the strip was rewritten. Say what it is doing, anchored to the phase word: *"research reads what's declared against what actually holds"*. Under Standard, *"research runs twice, independently — one for what holds, one for what contradicts"*.
+
+**Anchor it to `research`, because a loose description becomes a name.** An earlier version of this line said *"two passes reading independently"*, and a run compressed that into *"then the reading pass"* — a seventh phase word, invented from a sentence meant to explain the third one. Descriptions get shortened by whoever repeats them; if the phase name is not the thing being shortened, the shortening replaces it.
 
 **Never mention `ctrl+b`.** The runtime already prints `(ctrl+b to run in background)` beneath every agent it spawns, so saying it again is a second spinner — the same duplication §Say something at each pass boundary forbids for progress bars, applied to a keybinding.
 
