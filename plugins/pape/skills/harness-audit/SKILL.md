@@ -349,7 +349,7 @@ The runtime prints every subagent's description directly beneath the strip, so t
 The test is what the user sees first. A directory listing that resolves instantly, then the introduction, is fine. A tool-use summary standing alone at the top of the transcript is not.
 
 ```
-harness-audit v0.27 · from the Professional Agentic Product Engineering guide
+harness-audit v0.34 · from the Professional Agentic Product Engineering (PAPE) guide
 
 I read the agent setup checked into this repo — instruction files, skills,
 hooks, permissions, tests, CI — and rate it against the guide's eight tiers.
