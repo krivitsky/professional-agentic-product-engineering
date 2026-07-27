@@ -494,6 +494,25 @@ A run once opened the scorecard with *"Ratings are per tier, never totalled, and
 
 Both files, every run, same basename in `harness-audits/`:
 
+| File | For | Written |
+|---|---|---|
+| `<YYYY-MM-DD-HHMM>-report.md` | agents — a **briefing** (see below) | **first** |
+| `<YYYY-MM-DD-HHMM>-report.html` | humans — the designed report | second |
+
+### The `.md` lands first, and the run says so
+
+**Write the markdown completely, announce its path, then render the HTML.**
+
+> Findings written to `harness-audits/2026-07-27-1142-report.md` — readable now. Rendering the HTML.
+
+Two reasons, and the second is the one that matters:
+
+**Latency.** The markdown is the content; the HTML is the presentation of it. A reader who has been waiting twenty-five minutes can open the content while the render finishes, instead of waiting on a layout pass for a document they already paid for.
+
+**Durability.** Everything expensive has already happened by this point — two finders, a verifier, ~480k tokens, half an hour. Until something is on disk, all of it is held in one context and an interrupt, a crash, or a context limit loses the entire run. **Writing the `.md` first makes the audit survivable at the earliest moment it can be**, and the HTML is then re-derivable from it at any time by a fresh session at trivial cost.
+
+**This is not the re-render exemption.** §*A re-render is not a run* governs re-presenting an existing finding set as a new report; this is one run writing its two outputs in a sensible order. Same timestamp, same basename, one audit.
+
 | File | For |
 |---|---|
 | `<YYYY-MM-DD-HHMM>-report.html` | humans — self-contained, **no external fonts or assets**, print stylesheet |
