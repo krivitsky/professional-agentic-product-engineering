@@ -484,7 +484,7 @@ An earlier version opened with scope, then open questions — two screens in whi
 
 4. **Trend** — what changed since the last run. See §Trend below.
 5. **Observations** — explicitly labelled as needing no response.
-6. **Method and limits** — **Read** · **Absent** · **Not visible to this method** · the **open questions** · and the limits: that issues are not exhaustive, that *Not assessed* means the evidence was not reached, that **corrective actions are proposals — an issue stands even if its fix is wrong**, and that a reader who finds a better solution should take it.
+6. **Method and limits** — **Read** (every file consulted, counted) · **Absent** (what was looked for and isn't there) · **Not visible to this method** (runtime behaviour, real token cost, whether the rules are obeyed) · the **open questions** · and the limits: that issues are not exhaustive, that *Not assessed* means **the evidence was not reached** — never "absent, so unrateable", which §Three non-ratings forbids — that **corrective actions are proposals, so an issue stands even if its fix is wrong**, and that a reader who finds a better solution should take it.
 
 **Evidence** — the reference appendix
 
@@ -492,9 +492,7 @@ An earlier version opened with scope, then open questions — two screens in whi
 
 These were once the first and last sections, saying the same thing twice at opposite ends of the report, which is why neither landed: *"whether the stated rules are followed at runtime"* in one and *"a rule can be present, correct, and still ignored at runtime"* in the other. **Open questions belong in §6 too, never at the front** — *"if solo by design, ISSUE-6 is a non-issue"* is unreadable before ISSUE-6 exists, and opening with five things the audit could not determine discounts every issue behind it.
 
-**An index does not need to sit beside its detail once both are anchored.** An earlier version kept the findings table welded above the detailed findings for exactly that reason — a rule written before every row became a link. With anchors, adjacency buys nothing and costs the lead position. **Read** (every file consulted, counted) · **Absent** (what was looked for and isn't there) · **Not visible to this method** (runtime behaviour, real token cost, whether rules are obeyed) · the **open questions** · and the limits: that findings are not exhaustive, that *Not assessed* means no evidence rather than no problem, that **corrective actions are proposals — a finding stands even if its fix is wrong**, and that a reader who finds a better solution should take it.
-
-These were once the first and last sections, saying the same thing twice at opposite ends of the report, which is why neither landed: *"whether the stated rules are followed at runtime"* in one and *"a rule can be present, correct, and still ignored at runtime"* in the other. **Open questions belong here too, never at the front** — *"if solo by design, ISSUE-6 is a non-issue"* is unreadable before ISSUE-6 exists, and opening with five things the audit could not determine discounts every finding behind it.
+**An index does not need to sit beside its detail once both are anchored.** An earlier version kept the issues table welded above the detailed issues for exactly that reason — a rule written before every row became a link. With anchors, adjacency buys nothing and costs §2 the lead position.
 
 ### Cut: "Questions this report answers"
 
@@ -504,7 +502,9 @@ Its one distinct move was the **"checked, and it's fine"** answer, which a findi
 
 **The scope declaration binds the report that writes it.** Whatever §6 lists as not visible, no finding may assert a negative about — see Gate 1, step 2. A report that declares a blind spot and then rates a finding `Confirmed` inside it has done worse than not declaring one.
 
-**§6 also reports what verification removed**, in one line: `verification: 9 candidates · 7 hold · 1 corrected · 1 cut`. Cut findings are named by subject, not restated as claims — *"one candidate about a hardcoded path was cut: the quoted line was a fallback."* This is the report's strongest trust signal and it costs a sentence. A run where the verifier cut nothing should say so plainly rather than omitting the line; silence there reads as the check not having run.
+**§6 also reports what verification removed** — in prose, in one line, naming the subject rather than restating the claim: *"One candidate about a hardcoded path was cut: the quoted line was a fallback."* This is the report's strongest trust signal and it costs a sentence. A run where the verifier cut nothing says so plainly rather than omitting the line; silence there reads as the check not having run.
+
+**Prose, never a tally.** `verification: 9 candidates · 7 hold · 1 corrected · 1 cut` is the forbidden form — see §The report never promises what it did not do. The counts go in the `.md` cover fence, where a machine reads them; the human file gets the one fact that changes what to trust, which is *what was withdrawn and why*. A tally tells the reader the machinery ran; a withdrawal tells them which claim not to act on.
 
 ### Trend
 
@@ -548,13 +548,15 @@ The failure this prevents is quiet and compounding: trend globs the newest file,
 
 **Open the tagged list with `What changed since the last run — <YYYY-MM-DD HH:MM>:`** — the section's job stated, not implied, and the baseline named. *"The last run"* is a pointer the reader cannot resolve; the timestamp of the report being compared against makes the whole section checkable, and tells them at a glance whether they are looking at yesterday's drift or last quarter's.
 
-**Trend owns cross-run state, and nothing else repeats it.** No `open since …` markers in the issues table, no run history in the issue bodies. A run added those markers so persistence would sit beside severity; they were a second copy of what the tagged `open` rows already say, in the one column that should carry an ID and nothing else. **Which issues survived is a fact about the runs, and the runs have a section.**
+**Trend owns cross-run state, with exactly one thing shared out.** No run history in the issue bodies, and nothing in the ID column but an ID — a run once hung `open since …` off the ID, which is the one column that carries an identifier and nothing else.
+
+**The single exception is persistence, and it earns its place:** an `open since <timestamp>` marker in the issues table, in its own column. How long something has been open is the one cross-run fact a reader needs *while weighing severity*, and sending them to §4 to get it separates the two halves of one judgement. Everything else about the runs — what closed, what moved, what changed — stays in §4.
 
 ### Trend never lists the new issues
 
 **`new` is a count, never an enumeration.** On a run where twelve of sixteen issues are new, listing them reproduces the issues table one section later — the reader's verdict was *"this just duplicates the issues list, this is not a trend."* They were right: when most issues are new, "what's new" is simply the report.
 
-**The durable signal is the opposite one — which issues have survived across runs.** There are always few of those, and being open for three runs is a fact about the process that severity alone never shows. **Mark them in the issues table** (`open since <timestamp>`), where the reader sees persistence next to severity, and let Trend carry the count.
+**The durable signal is the opposite one — which issues have survived across runs.** There are always few of those, and being open for three runs is a fact about the process that severity alone never shows. That is why persistence is the one cross-run fact marked in the issues table rather than only here; **Trend carries the count, the table carries the `open since`.**
 - **Still open** — key in both. Say how long: *"C-2@CLAUDE.md open since 25 Jul."* A finding that survives three runs is itself a finding about the process.
 - **New** — key only now.
 - **Moved** — same key, different severity or a rating change, in either direction. **A regression outranks everything and leads the report.**

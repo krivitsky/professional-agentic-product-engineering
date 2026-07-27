@@ -8,7 +8,7 @@ A run that reports only Class P has done the inventory and called it an audit.
 
 ## Categories
 
-Every finding is filed under one, and every category gets a rating in the report's §3 Scorecard.
+Every finding is filed under one. **Categories are never rated** — the scorecard's axis is the tier ladder (T1–T8), and it is §1. Use the Tier column below to carry a finding onto that axis.
 
 | Category | Code | Tier | Covers |
 |---|---|---|---|

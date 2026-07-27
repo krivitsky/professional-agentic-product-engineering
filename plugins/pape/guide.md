@@ -246,7 +246,7 @@ Two files per run, written to `harness-audits/` — one for you, one for an agen
 |---|---|---|
 | 1 | **Scorecard** | The eight tiers rated, what's genuinely good, and the next lever. The only section that says several findings are really *one* thing. |
 | 2 | **Issues Summary** | Severity counts, then one table: ID, finding, tier, severity, confidence. The whole audit at a glance. |
-| 3 | **Recommended backlog** | One flat ranked list, ordered by rung — so the sequence matches the ladder, not the severity column. |
+| 3 | **Recommended backlog** | One flat ranked list — worst first, and within each severity the lower rung first, so a High on T3 goes before a High on T5. |
 | 4 | **Trend** | What changed since the last run: fixed, still open, newly found, or withdrawn because the earlier finding didn't hold. |
 | 5 | **Observations** | Things worth knowing that need no response. Explicitly labelled as such. |
 | 6 | **Method and limits** | What was read, what was looked for and absent, what this method cannot see at all, and the questions left open. |
