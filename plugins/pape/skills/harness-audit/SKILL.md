@@ -37,6 +37,7 @@ That is not fixable by trying harder in one context, and the skill already knew 
 | Pass | Job | Count |
 |---|---|---|
 | **1 · Finders** | Produce candidate findings. Run **in parallel**, each with a different lens, each read-only | 2 by default |
+| **1b · Re-checker** | Re-test the previous run's open issues. Runs **beside** the finders and returns first | 1, when a prior report exists |
 | **2 · Pooling** | Merge, dedupe, flag conflicts. Mechanical — done in the orchestrating context, no agent | — |
 | **3 · Verifier** | Falsify every pooled finding against the tree. Returns verdicts, not opinions | 1, always |
 
@@ -51,9 +52,37 @@ Spawn each as a subagent with the read-only constraint, `checks.md`, and one len
 | **Enforcement** | Class P absences, C-2, C-4, C-5, C-10, C-12 — what is stated versus what holds |
 | **Coherence** | C-1, C-3, C-6, C-8, C-9, C-11 — contradictions *between* files. **Every claim must rest on two files read together** |
 
+**Under `--quick` the single finder carries both lenses, not one of them.** An earlier version ran Enforcement alone, which quietly made the cheap mode the *shallow* mode: Coherence owns the cross-file reading — C-1, C-3, C-6, C-8, C-9, C-11 — and dropping it drops the half this skill opens by calling the point. Class P absences are the easy half; a `--quick` run that returns only those has done the inventory and called it an audit.
+
+**Specialisation is a two-finder technique.** With two, divergence is the product: different lenses read differently, and where they clash pooling has a signal. With one, there is nothing to diverge from, so a narrow lens is loss with no compensating gain. **Give the single finder the union and a smaller budget** — it sees less of everything rather than none of something.
+
 Under `--deep`, add **Hygiene** (C-7, secrets, tracked state, machine paths) and **Economy** (context budget, always-loaded cost, duplication between instruction files and skills).
 
 Each finder returns candidate findings in the §Findings shape, each with the `file:line` it rests on. **Finders do not write the report.**
+
+### Pass 1b — the re-checker, when a prior report exists
+
+**Spawn it alongside the finders, not after them.** It re-tests the previous run's open issues against the tree, and because every one of them arrives with a `file:line` and a stated condition, its work is targeted reads rather than an open-ended sweep. It finishes long before the finders do.
+
+**Give it the prior report's open issues, worst first, and cap it at ten.** More than that and it stops being the fast pass. All Highs first; fill the rest by severity.
+
+Three verdicts per issue, and the third is not a failure:
+
+| Verdict | Means |
+|---|---|
+| **fixed** | The condition is gone. Name what changed — *"the gate now exits non-zero"* |
+| **still open** | The condition holds. It carries into this run's findings with its original `open since` date |
+| **can't tell** | The evidence moved or the check no longer applies. Say so; do not guess either way |
+
+**This is what makes Trend evidence instead of inference.** Trend has been deriving `fixed` from a key's *absence* in the new run — but a key can vanish because the problem was solved, or because nothing looked there this time. Under `--quick`, with one finder on a smaller budget, the second is likely and indistinguishable. **A re-checked `fixed` is a fact; a diffed `fixed` is a guess wearing the same word.** Where the two disagree, the re-checker wins.
+
+**Report it the moment it lands, before the finders return:**
+
+> Re-checked the last run's 7 Highs: **3 fixed** — the Node version gate, the unauthenticated CLI path, the parity hook. 4 still open. Now finding what's new.
+
+**This is the fastest good news the audit can give**, and it arrives in the first minutes instead of the last. A reader who fixed things since the last run deserves to hear it before they spend half an hour learning what they missed — and it is the one moment the audit rewards effort rather than cataloguing failure.
+
+**No prior report, no phase.** Do not invent a baseline, and do not report `0 fixed` on a first run — there is nothing to have fixed.
 
 ### Pass 2 — pooling, and what agreement is not
 
@@ -95,6 +124,7 @@ The display is **one block, described in §Show the candidates below**. This sec
 | Emit when | What has changed in the block | Plus one line |
 |---|---|---|
 | setup agreed | strip shows `✓ setup`, shape and theme resolved | — |
+| re-checker returns *(early)* | `✓ re-check` | `Re-checked last run's 7 Highs: 3 fixed, 4 still open.` |
 | finders return | `✓ research`; the claims table appears, every row `⏳` | `19 candidates, 1 conflict.` |
 | pooling done | `✓ cross-check`; a conflicted row resolves early | Name the file and who was right: `site/eslint.config.mjs exists (465 bytes) — the absence claim is false.` |
 | *(`--quick` only)* | `· cross-check` stays unfilled | `One lens, so nothing to cross-check — every claim still goes to the verifier.` |
@@ -129,6 +159,7 @@ A **status strip** carrying the steps and the running cost, then a **claims tabl
 | Shown | Is | Means |
 |---|---|---|
 | **setup** | flags + confirmation | what shape was agreed, before anything spawns |
+| **re-check** | pass 1b · re-checker | re-testing last run's open issues — skipped when there is no prior report |
 | **research** | pass 1 · finders | reading the repo and collecting candidate claims |
 | **cross-check** | pass 2 · pooling | comparing what the lenses found, resolving disagreements |
 | **fact-check** | pass 3 · verifier | re-opening the file behind every claim, trying to break it |
@@ -194,7 +225,17 @@ One line, drawn from what the finders actually counted, never invented. **It cha
 
 **All three are facts the run already holds.** None requires an extra pass, an estimate, or a judgement it has not already made.
 
-**Carry elapsed time and tokens in the strip.** It is the only place the user sees the cost accruing against the estimate they agreed to, and *"12m · 287k"* against a quoted *"18m · 340k"* tells them it is on track without anyone saying so.
+**Carry elapsed time and tokens in the strip** — the only place the user watches cost accrue against the estimate they agreed to. *"12m · 287k"* against a quoted *"38m · 520k"* says *on track* without anyone claiming it.
+
+**The token figure must be on the same basis as the estimate, or it is noise.** Count **every pass** — each finder, the verifier, and this context — not the orchestrator's own slice. A run showed `1m · 34k` while its finder was still working: the finder's ~120k had not landed, so the number was a third of the truth and would have stayed flat for ten minutes before jumping. A meter that cannot be compared to the quoted figure fails the only job it has.
+
+**Subagent cost is unknown until the agent returns.** That is a fact about the runtime, so state it rather than hiding it:
+
+> `✓ setup → ▸ research → · cross-check → · fact-check → · report · 1m · 34k + 1 finder running`
+
+**Then drop the qualifier the moment it resolves** — `12m · 287k` once every spawned agent has reported. **Never print a bare total while an agent is outstanding**; a number that silently excludes the largest contributor is worse than no number, because it reads as reassurance.
+
+**Elapsed time needs no qualifier** — it is wall clock and always true.
 
 **The user is a better verifier than the verifier, for their own repo.** Shown *"eslint config missing — pending"*, someone who works there says *"no it isn't"* in two seconds, faster and more reliably than a subagent re-deriving it from scratch. Withholding the claim to protect them from it also denies the run its fastest available check.
 
@@ -252,7 +293,9 @@ Checking for a previous run here, then two questions before anything spawns.
 
 ### Confirm before spawning — every run
 
-**This costs half an hour and roughly half a million tokens** — 38 minutes and ~520k on an observed Standard run. That is far past the point where guessing on someone's behalf is acceptable, so the introduction is followed by a two-line frame and one `AskUserQuestion`. Short: they came for an audit, not a form.
+**This is expensive and slow, and how expensive is not predictable.** Observed Standard runs came in at 26 and 38 minutes; a `--quick` markdown-only run is a different animal again, and repo size moves it as much as depth does. That is far past the point where committing someone silently is acceptable — so the introduction is followed by a two-line frame and one `AskUserQuestion`. Short: they came for an audit, not a form.
+
+**Never predict a duration or a token count.** Every figure this file has carried was wrong: it said 5–10 minutes, then 15–20, then 18 — against real runs of 26 and 38. **An estimate that undershoots is worse than none**, because the reader budgets against it, and the correction arrives as a broken promise rather than as information. Say it is slow, recommend backgrounding, and let the live meter report what is actually happening.
 
 ```
 Harness audit — rates this repo's agent config against the eight tiers.
@@ -276,7 +319,7 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 |---|---|
 | **Quick look** | One lens. Every finding is still verified, so nothing unchecked ships — you just see less of the repo, and **no finding gets flagged as contested**, because there is no second reading to disagree with it. |
 | **Standard — recommended** | Two lenses read independently. **Where they disagree, the clash itself is the signal**: pooling flags it and the verifier takes it first. A real run had one finder report `site/eslint.config.mjs` missing when it exists — the second lens is what turned that from a shipped finding into a caught error. |
-| **Thorough** | Four lenses, adding hygiene and context-economy. Roughly double the time and spend. Worth it when you want the sweep to be exhaustive, not when you want it to be right. |
+| **Thorough** | Four lenses, adding hygiene and context-economy — twice the finders, so materially more time and spend. Worth it when you want the sweep exhaustive, not when you want it right. |
 
 **Do not claim the second finder is what makes findings true.** The verifier does that, and it runs in every mode. What the second lens buys is *disagreement* — a contested claim surfaced before the verifier sees it, and prioritised when it gets there. Say that, not more.
 
@@ -284,13 +327,13 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 
 **Ask for intent, never for a number.** *"Quick look / Standard / Thorough"*, not *"how many finders?"* — nobody's first question is how many agents they want, because nothing has told them what a finder is. The mapping to `--quick` / default / `--deep` is this skill's job.
 
-**Cost belongs in the option labels**, where the choice is actually made: *"Quick look — 1 finder, roughly half the time"*. A cost mentioned two paragraphs above the buttons is a cost nobody reads.
+**Say the cost structurally, in the option labels** — *"one lens instead of two"*, *"twice the finders"*. **That is a fact about what runs, not a prediction about the clock**, and it is the honest way to make the trade visible where the choice is made. A number nobody can stand behind belongs nowhere; a number two paragraphs above the buttons belongs nowhere either.
 
 **Say what it writes before it writes it.** Two files into `harness-audits/`, and nothing else touched. That is the only write this skill makes, and it lands in the user's repo — it is the real consent moment, more than the finder count is.
 
 ### The estimate comes from the last run, not from this file
 
-**Glob `harness-audits/*-report.md` and read the `cost:` line off the most recent cover.** A number measured in *this* repo beats any figure written here, and it improves every run. Only when there is no prior report, fall back to the generic: *"first run — expect 25–40 minutes and roughly half a million tokens."* **Those are measured**: an observed Standard run took 38 minutes and ~520k. Do not soften them — an estimate that undershoots is worse than none, because the reader budgets against it and then watches it break.
+**Glob `harness-audits/*-report.md` and read the `cost:` line off the most recent cover.** A number measured in *this* repo beats any figure written here, and it improves every run. **Where there is no prior report, say nothing about duration.** Not a range, not a hedge, not *"a few minutes"*. A first run has no data behind it, and inventing one is how every wrong figure in this file's history got written. *"First run here, so no baseline — it takes a while; `ctrl+b` if you'd rather not watch"* is the whole of it.
 
 **A hardcoded estimate in this file will be wrong.** An earlier version of this section claimed 5–10 minutes; the first real run took over 20. Numbers about a run belong in the record a run writes, not in its instructions.
 
@@ -298,7 +341,9 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 
 One line after the answers come back, echoing the **resolved** config so a misread is catchable while it is still cheap:
 
-> Running Standard — 2 finders + verifier, light theme. ~18m. It only reads, so `ctrl+b` backgrounds it safely.
+> Running Standard — 2 finders + verifier, light theme. This takes a while and only reads, so `ctrl+b` backgrounds it safely.
+
+**Describe the lenses, never name them.** *"1 finder (Enforcement)"* tells the reader nothing — `Enforcement` is this file's word for a bundle of check IDs, and it leaks the same way `pooling` and `finders` did before the strip was rewritten. Say what the pass is doing: *"one pass, reading what's declared against what actually holds"*. Under Standard, *"two passes reading independently — one for what holds, one for what contradicts"*.
 
 **Recommend `ctrl+b`, don't merely allow it.** Twenty minutes of watching a spinner is not a thing to leave to the user to figure out; the runtime's own `(ctrl+b to run in background)` is an affordance, not advice.
 
@@ -314,7 +359,7 @@ The `auditor` field on the report cover carries the resolved shape, so the mode 
 | Flag | Finders | Gauntlet | Budget | Verifier |
 |---|---|---|---|---|
 | *(none)* | 2 — Enforcement, Coherence | rendered | ≤20 reads each | **always** |
-| `--quick` | 1 — Enforcement only | dropped | ≤12 reads | **always** |
+| `--quick` | 1 — **both lenses in one pass** | dropped | ≤12 reads | **always** |
 | `--deep` | 4 — adds Hygiene, Economy | rendered | ≤25 reads each | **always** |
 
 **`--theme:light` · `--theme:dark`** is orthogonal to the three above and combines with any of them. It changes the report's appearance and nothing about the audit.
