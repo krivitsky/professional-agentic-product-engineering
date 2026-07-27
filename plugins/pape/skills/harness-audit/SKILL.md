@@ -64,7 +64,11 @@ Each finder returns candidate findings in the §Findings shape, each with the `f
 
 **Spawn it alongside the finders, not after them.** It re-tests the previous run's open issues against the tree, and because every one of them arrives with a `file:line` and a stated condition, its work is targeted reads rather than an open-ended sweep. It finishes long before the finders do.
 
-**Give it the prior report's open issues, worst first, and cap it at ten.** More than that and it stops being the fast pass. All Highs first; fill the rest by severity.
+**Give it the issues inline — never the report path.** The orchestrating context has already opened the previous report; it extracts each open issue's subject, `file:line` and the condition claimed, and passes that list in the prompt. **Handing over a path instead makes the re-checker read a hundred-kilobyte document to find its own worklist** — an observed run spent ~90k tokens this way, more than the finder it was supposed to undercut, and most of it before any re-testing began.
+
+The whole premise of this pass is that it is cheap because its targets are known. **Make them known to it.**
+
+**Worst first, capped at ten.** All Highs, then fill by severity. More than that and it stops being the fast pass.
 
 Three verdicts per issue, and the third is not a failure:
 
@@ -210,6 +214,13 @@ The strip shows agents, phases and tokens — all of it about the audit. These t
 > Last audit, 25 Jul: 16 issues, 5 High. Let's see what moved.
 
 **This is the retention line and it is currently buried in §4 of a document nobody has opened yet.** The audit's product is not a report — it is the difference between two of them, and a reader who never sees that difference has no reason to run a third. Close the loop at the end: *"5 fixed since 25 Jul, 3 still open, 16 new."*
+
+**But it may not claim a fix count — only §Pass 1b may do that.** A run opened with *"you've since shipped `15207ce` closing three of them"*, read off the commit; the re-checker then tested them and found **two**. Commit messages describe intent, and intent overshoots. **Say what is observable without opening a file** — that commits have landed since — and let the re-check supply the number a minute later with the files behind it.
+
+> ✅ *"Last audit, 27 Jul 11:28: 24 issues, 7 High. You've shipped since — let's see what actually moved."*
+> ❌ *"…and you've since shipped `15207ce` closing three of them."*
+
+The second reads better and is wrong, which is the whole reason this pass exists.
 
 **Say one thing the repo does well, at cross-check.** The scorecard's credit line is the only place the report says anything good, and it lands half an hour in:
 
