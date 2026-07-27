@@ -156,7 +156,9 @@ Three verdicts per issue, and the third is not a failure:
 
 **Test before sending: every noun in the message either appears in the six-row legend the introduction printed, or is ordinary English.** A third label is never the answer — use the phase name, or describe the activity plainly.
 
-**`fact-check` carries a counter — `fact-check 12/19` — because it is the long one.** It is the phase where the user has already seen the candidates and is waiting to learn which survive, and it is the only phase whose progress is a number the run actually knows.
+**`fact-check` carries a counter — `fact-check 12/19` — because it is the only phase whose progress is a number the run actually knows.** Every other phase is one agent working until it is done; this one has a claim list with a length. It is also the phase where the reader has just been shown five claims and is waiting to learn which survive, so a moving number answers the question they actually have.
+
+**It is not the longest phase — research is.** An earlier version of this line justified the counter by duration, which was an assumption, not a measurement: an observed run reached `cross-check` at 15m and finished soon after. **Do not reason about which phase is slow.** The strip reports elapsed time; that is the measurement, and it is the only claim about duration this file is entitled to make.
 
 **A phase that will not run this time is not shown at all.** Under `--quick` there is one reading pass, so `cross-check` has nothing to compare; with no prior report, `re-check` has nothing to re-test. Both come out of the strip and out of the legend, and the strip is five phases instead of six.
 
@@ -437,7 +439,7 @@ The `auditor` field on the report cover carries the resolved shape, so the mode 
 
 **Cheap mode reduces recall, never precision.** `--quick` buys speed by looking at less, never by checking less — there is no flag that skips verification, because unverified findings are the failure this design exists to prevent. A user who wants it faster gets fewer lenses and the same standard of evidence.
 
-**The verifier is the last thing to cut, not the first.** It is the longest phase, which makes it the obvious candidate — and it is the only phase whose removal changes what the report *is*. Roughly a third of candidates get cut or corrected there. A run without it does not produce a quicker audit; it produces a document where one finding in three is wrong, addressed to someone who will act on it in their own repo. **Speed that costs correctness is not a cheaper version of this skill, it is a different and worse one.**
+**The verifier is the last thing to cut, not the first.** It is the only phase whose removal changes what the report *is*, rather than how much of the repo it covers. Roughly a third of candidates get cut or corrected there. A run without it does not produce a quicker audit; it produces a document where one finding in three is wrong, addressed to someone who will act on it in their own repo. **Speed that costs correctness is not a cheaper version of this skill, it is a different and worse one.**
 
 **Nor may the finder verify its own claims to save the pass.** The context that formed a claim is the worst available judge of it — it already has the reasoning that produced the error. Verification works because the verifier arrives with no memory of how the claim was reached and only the file in front of it. Folding the two together removes the mechanism while keeping the word.
 
