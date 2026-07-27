@@ -167,6 +167,30 @@ So the block that appears when research finishes carries **one short paragraph, 
 
 **This is the same content the tip links serve, at a different altitude.** The paragraph says what kind of thing goes wrong; the per-row links say what to do about the specific one. Neither replaces the other, and both cost almost nothing next to a thirty-minute wait.
 
+### Three lines that show the reader their repo, not the machinery
+
+The strip shows agents, phases and tokens — all of it about the audit. These three are about *them*, and each costs one line at a boundary that is already emitting one.
+
+**Open with the delta, when there is one.** A repo with a prior report gets this in the *first* block, before any finding exists:
+
+> Last audit, 25 Jul: 16 issues, 5 High. Let's see what moved.
+
+**This is the retention line and it is currently buried in §4 of a document nobody has opened yet.** The audit's product is not a report — it is the difference between two of them, and a reader who never sees that difference has no reason to run a third. Close the loop at the end: *"5 fixed since 25 Jul, 3 still open, 16 new."*
+
+**Say one thing the repo does well, at cross-check.** The scorecard's credit line is the only place the report says anything good, and it lands half an hour in:
+
+> Worth saying: 561 commits, median two files — T5 checkpointing already holds.
+
+One line, drawn from what the finders actually counted, never invented. **It changes the shape of the wait from *how bad is this* to *here is where you stand*** — and it is what makes the criticism land instead of bounce. A run that lists twenty-four problems and never once says what works has written an accusation.
+
+**Show where the gaps cluster, at fact-check**, once the tiers are known:
+
+> Clustering: T3 (9) · T4 (7) · T5 (5) · T8 (1).
+
+**That histogram is the most transferable thing the audit produces.** A specific issue is about this repo; the shape of the distribution is about how the reader works, and it will look similar in their next one. It also previews the lever honestly — the reader can see T3 leading before §1 says so, which makes the verdict feel derived rather than pronounced.
+
+**All three are facts the run already holds.** None requires an extra pass, an estimate, or a judgement it has not already made.
+
 **Carry elapsed time and tokens in the strip.** It is the only place the user sees the cost accruing against the estimate they agreed to, and *"12m · 287k"* against a quoted *"18m · 340k"* tells them it is on track without anyone saying so.
 
 **The user is a better verifier than the verifier, for their own repo.** Shown *"eslint config missing — pending"*, someone who works there says *"no it isn't"* in two seconds, faster and more reliably than a subagent re-deriving it from scratch. Withholding the claim to protect them from it also denies the run its fastest available check.
@@ -702,7 +726,9 @@ An earlier version opened with scope, then open questions — two screens in whi
 
 **Register: the decision half carries no evidence.** §§1–4 state *shape*; §7 carries the proof. This is the report's most persistent defect — every section drifts toward finding-level detail, because that is the register the issues were written in and it leaks upward.
 
-**In §§1–4: no `file:line`, no code spans, no quoted config, no dates, no counts of occurrences.** A number appears only where the number *is* the shape, and then approximately — *"roughly two-thirds of the always-loaded file"*, not *"346 of 516 lines (67%)"*. The precise figure lives in the issue, where its command is printed beside it.
+**In §§1–4: no `file:line` citations, no quoted config, no occurrence counts.** A number appears only where the number *is* the shape, and then approximately — *"roughly two-thirds of the always-loaded file"*, not *"346 of 516 lines (67%)"*. The precise figure lives in the issue, where its command is printed beside it.
+
+**Naming a file is not evidence — name it.** §*Write it plainly* requires `CLAUDE.md` over *"the instruction layer"* everywhere, scorecard notes included, and the model note in §*The note describes a condition* uses a code span for exactly that reason. An earlier draft of this rule banned code spans outright and so contradicted both. **The line is between the file's *name* and the file's *contents*:** a name is the subject of the sentence, a line number is the proof, and only proof belongs in §7. Trend's dates and its `516 → 604` measurements are likewise the section's whole point, not a leak.
 
 **Test:** a reader who stops after §4 should hold a correct mental model of the repo and be unable to quote a single line number. If a sentence in §§1–4 could be moved into an issue unchanged, it belongs there instead.
 
@@ -921,14 +947,20 @@ Kept as worked examples, not as separate rules — they are what steps 1 through
 The report is a document; this is the message beside it. **Four short lines, in this order, and nothing else:**
 
 ```
-Wrote harness-audits/2026-07-26-1420-report.html  ← open this one
-      harness-audits/2026-07-26-1420-report.md    ← for an agent to pick up
+Wrote harness-audits/2026-07-26-1420-report.md    ← the findings
+      harness-audits/2026-07-26-1420-report.html  ← the same, designed
 
 Sixteen issues, five High. T1 and T2 hold; the next lever is T3 —
-two instruction layers with nothing reconciling them.
+two instruction layers with nothing reconciling them. Every issue
+links the tip behind it, if you want the why.
 
-Want me to: fix ISSUE-1 now · turn on the coach so this gets caught
-as you work · or teach you T3 properly?
+Top one first — start a fresh session and paste this:
+
+    Read harness-audits/2026-07-26-1420-report.md and implement
+    ISSUE-1. Follow its corrective action; prove it with the
+    command the issue names.
+
+Or turn on the coach, so this gets caught as you work.
 ```
 
 **Name the file, always.** A run that writes a report and doesn't say where it is has hidden its own deliverable. Path first, before the verdict — it's the thing they need and the thing they'll scroll back for.
@@ -937,9 +969,15 @@ as you work · or teach you T3 properly?
 
 **Then offer the three ways forward — but only the ones that fit:**
 
+**Hand the fix to a fresh session, not to this one.** By now the audit context holds two finders' output, a verifier's, and the whole report — several hundred thousand tokens, none of it about the fix. Offering to implement here contradicts three tips this skill audits against: [3.3](https://agentic-engineering.guide/tier-3#tip-3-3) `/clear` between tasks, [6.5](https://agentic-engineering.guide/tier-6#tip-6-5) engineer the long-horizon hand-off, [2.6](https://agentic-engineering.guide/tier-2#tip-2-6) spec, then a fresh session.
+
+**So give them the prompt, ready to paste**, naming the report path and the issue. The `.md` is the spec — that is what it was written for, and until something says so out loud, *"for an agent to pick up"* is a label nobody knows how to act on.
+
+**Say once that the issues link their tips.** It is a clause, not an offer — the teaching is already built into the report and costs nothing to point at. Offers stay capped at two.
+
 | Offer | When it's the right one |
 |---|---|
-| **Fix it now** — name the single top issue by ID | Nearly always. It's the shortest path from report to changed repo, and the reader is already here. |
+| **The paste-able fix prompt** — name the single top issue by ID | Nearly always. It's the shortest path from report to changed repo, and it starts clean. |
 | **`/pape:agentic-coach`** — let the coach catch it in the flow | The gaps are habits — vague asks, no runnable "done", claims without proof. A hook fires on those tomorrow; a report doesn't. |
 | **The tutor** — `git clone` the guide repo, open Claude Code, say `hi` | The next lever is a rung they need to *learn*, not a file they need to write. Point it at the rung: *"start at T3."* |
 
