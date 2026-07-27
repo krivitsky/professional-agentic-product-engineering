@@ -223,7 +223,20 @@ The strip carries the steps and the running cost:
 
 **Under `--quick` there is one lens, so `cross-check` has nothing to do — show it, unfilled, and say why.** Deleting the phase would be worse: the reader who compares this run against a Standard one should be able to see *which step they traded away*, and the strip is the only place that shows it. **The line that matters is that verification is unaffected** — one finder still sends every claim to the verifier, so the trade is coverage, never rigour. A run that quietly drops a phase has hidden the cost of the option the user chose.
 
-**Emit the block at the four boundaries and nowhere else** — after setup, after research, after cross-check, after fact-check. Five blocks is a readable history; one per verified claim is a token sink that buries the report under its own progress.
+### The strip closes every message; the table only moves at boundaries
+
+**These are two things with two different costs, and bundling them was a mistake.** The strip is two lines. The claims table is up to seven, plus whatever content the boundary carries.
+
+| | Emitted |
+|---|---|
+| **The strip** — identity, phases, meter, and the line naming what it waits for | **at the end of every message this skill sends during a run**, without exception |
+| **The claims table** — and the content above it | only when a boundary actually changed something: setup, re-check, research, cross-check, fact-check |
+
+**A run sent *"Presence checks are in. Now waiting on the two reading passes"* with no strip beneath it**, because that moment is not one of the boundaries — so a reader who had just been given a phase display was shown a bare sentence and left to wonder whether the display still applied. **Any message without the strip under it is a message that abandons the reader mid-run.**
+
+Two lines is not a token sink. Repeating the full table on every message would be, which is why only the strip repeats.
+
+**Boundaries stay at five blocks.** One per verified claim would bury the report under its own progress; that rule was right, it was just being applied to the cheap half as well as the expensive one.
 
 **The strip is the steps, the table is the claims.** Keep them apart: a reader glances at the strip to see *where the run is*, and at the table to see *what it found*. Merging them produces a table where half the rows are machinery.
 
