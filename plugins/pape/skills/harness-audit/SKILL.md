@@ -82,7 +82,17 @@ Three verdicts per issue, and the third is not a failure:
 
 **Report it the moment it lands, before the finders return:**
 
-> Re-checked the last run's 7 Highs: **3 fixed** — the Node version gate, the unauthenticated CLI path, the parity hook. 4 still open. Now finding what's new.
+> Re-checked the last run's 7 Highs and top 3 Mediums: **2 fixed, 8 still open.**
+>
+> `ISSUE-5` and `ISSUE-6` **of the 27 Jul 11:28 report** both closed — the pre-push hook now blocks instead of waving a push through, and an unauthenticated CLI now exits 2 instead of printing green. Both were gates that failed open; both now fail closed. **That is the T5 move** — the harness catches what it used to wave through.
+>
+> Still open, including five Highs: `ISSUE-1` publish callbacks still poll Vercel alone, `ISSUE-2` two skills still forbid the dev server six places require. Now finding what's new.
+
+**Cite the ID, and always say which report it belongs to.** Display IDs follow table order and renumber as issues close, so `ISSUE-5` in the previous report is a different row from `ISSUE-5` in this one. **An unqualified ID sends the reader to the wrong line of the document they already have open.** `ISSUE-5 of the 27 Jul 11:28 report` costs six words and is the only form that resolves.
+
+**Name what the fix demonstrates, on the rung it belongs to.** Two closed gates are a tally; *"both were gates that failed open, both now fail closed — that is the T5 move"* is the same fact carrying what it taught. **This is the audit's only opportunity to reward work rather than catalogue failure**, and it lands better than praise because it is a description, not a compliment.
+
+**Never manufacture it.** Nothing fixed means nothing to say — no *"good effort"*, no *"encouraging progress"*. A run that congratulates an unchanged repo has spent the credibility it needs for the twenty-four findings behind it. **The acknowledgement is earned by evidence or it is not made.**
 
 **This is the fastest good news the audit can give**, and it arrives in the first minutes instead of the last. A reader who fixed things since the last run deserves to hear it before they spend half an hour learning what they missed — and it is the one moment the audit rewards effort rather than cataloguing failure.
 
@@ -135,6 +145,18 @@ The display is **one block, described in §Show the candidates below**. This sec
 | verifier returns | `✓ fact-check`; every `⏳` row becomes `✓` or `✗` | `15 hold · 2 corrected · 2 cut.` |
 
 **Every number in that column is one the run already has.** No progress bar, no estimate, no *"working on it…"* — the runtime already draws a spinner, and a second one would say less than the first.
+
+### Every block ends by saying what it is waiting for
+
+**The block is a snapshot; the gaps between them are long.** A reader who has just been handed `4m · 102k` watches that figure stay frozen for ten minutes while the runtime's own counter climbs underneath it, and has no way to know whether that is normal or whether the run has died. A run was observed doing exactly this, and the reader's question was *"what is happening now?"*
+
+**So close every block with the next event, named:**
+
+> Now finding what's new — the research pass is still reading. Next update when it returns.
+
+**Name the thing being waited on and what will end the wait.** Not *"this may take a few minutes"* (an estimate, and they are banned) and not *"please wait"* (which adds nothing to a spinner). **The reader needs to know that silence is the expected state**, and roughly what breaks it.
+
+**This matters most before `research` and `fact-check`** — the two long phases — and before `report`, where the orchestrating context is writing and no agent activity appears on screen at all. Those three silences are where a run looks hung, and each costs one clause to explain.
 
 **The conflict line is the most valuable and the easiest to skip.** It is the only moment where the user sees the architecture do the thing it exists for, and it costs one sentence. A run that resolves a conflict silently has hidden its best evidence that the report can be trusted.
 
