@@ -88,7 +88,7 @@ The verifier **may not add findings.** Anything it notices in passing goes to Ob
 
 ### Say something at each pass boundary
 
-A run is 15–20 minutes, and between spawning the finders and writing the report there is nothing to look at but a token counter climbing past 300k. **Four lines, one at each state change, each carrying a fact rather than a reassurance:**
+A run is half an hour or more, and between spawning the finders and writing the report there is nothing to look at but a token counter climbing past 300k. **Four lines, one at each state change, each carrying a fact rather than a reassurance:**
 
 The display is **one block, described in §Show the candidates below**. This section says *when* it is emitted and *what has changed* by then — the block is the only mechanism, so nothing here prescribes a second stream of prose beside it.
 
@@ -97,6 +97,7 @@ The display is **one block, described in §Show the candidates below**. This sec
 | setup agreed | strip shows `✓ setup`, shape and theme resolved | — |
 | finders return | `✓ research`; the claims table appears, every row `⏳` | `19 candidates, 1 conflict.` |
 | pooling done | `✓ cross-check`; a conflicted row resolves early | Name the file and who was right: `site/eslint.config.mjs exists (465 bytes) — the absence claim is false.` |
+| *(`--quick` only)* | `· cross-check` stays unfilled | `One lens, so nothing to cross-check — every claim still goes to the verifier.` |
 | verifier returns | `✓ fact-check`; every `⏳` row becomes `✓` or `✗` | `15 hold · 2 corrected · 2 cut.` |
 
 **Every number in that column is one the run already has.** No progress bar, no estimate, no *"working on it…"* — the runtime already draws a spinner, and a second one would say less than the first.
@@ -134,6 +135,8 @@ A **status strip** carrying the steps and the running cost, then a **claims tabl
 | **report** | writing | both files land in `harness-audits/` |
 
 **`fact-check` carries a counter — `fact-check 12/19` — because it is the long one.** It is the phase where the user has already seen the candidates and is waiting to learn which survive, and it is the only phase whose progress is a number the run actually knows.
+
+**Under `--quick` there is one lens, so `cross-check` has nothing to do — show it, unfilled, and say why.** Deleting the phase would be worse: the reader who compares this run against a Standard one should be able to see *which step they traded away*, and the strip is the only place that shows it. **The line that matters is that verification is unaffected** — one finder still sends every claim to the verifier, so the trade is coverage, never rigour. A run that quietly drops a phase has hidden the cost of the option the user chose.
 
 **Emit the block at the four boundaries and nowhere else** — after setup, after research, after cross-check, after fact-check. Five blocks is a readable history; one per verified claim is a token sink that buries the report under its own progress.
 
@@ -229,13 +232,31 @@ Four rules keep that from becoming a liability:
 
 **Never upgrade *silently*.** A plain *"audit this repo"* may pre-select two finders, and *"don't miss anything"* may pre-select four — but neither spawns anything until the user has seen the shape and its cost and said go. The word doing the work is *silently*: mapping intent is fine, spending on it unasked is not.
 
+### Say what you are before you touch anything
+
+**The first output happens before the first tool call.** A run was observed reading two files, listing a directory and running three shell commands *before* it said what it was — so the user's first information about the skill was a tool-use summary. Whatever you need to read, read it *after* introducing yourself.
+
+```
+harness-audit v0.27 · from the Professional Agentic Product Engineering guide
+
+I read the agent setup checked into this repo — instruction files, skills,
+hooks, permissions, tests, CI — and rate it against the guide's eight tiers.
+I change nothing: read-only, apart from the report I write to harness-audits/.
+
+Checking for a previous run here, then two questions before anything spawns.
+```
+
+**Name the version, and read it from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`** — the same source the report cover uses. A user comparing two reports, or reporting a bug, needs to know which version produced what, and the cover is too late: it arrives half an hour in, and only if the run finishes.
+
+**Say what happens next, in one clause.** Not a plan, not a numbered procedure — *"checking for a previous run, then two questions"* is enough to tell someone the tool calls they are about to see are not the audit starting without them.
+
 ### Confirm before spawning — every run
 
-**This costs 15–20 minutes and several hundred thousand tokens.** That is far past the point where guessing on someone's behalf is acceptable, so every run opens with a two-line frame and one `AskUserQuestion`. Short: they came for an audit, not a form.
+**This costs half an hour and roughly half a million tokens** — 38 minutes and ~520k on an observed Standard run. That is far past the point where guessing on someone's behalf is acceptable, so the introduction is followed by a two-line frame and one `AskUserQuestion`. Short: they came for an audit, not a form.
 
 ```
 Harness audit — rates this repo's agent config against the eight tiers.
-Read-only; writes two reports to harness-audits/. Last run here: 18m · 340k tokens.
+Read-only; writes to harness-audits/. Last run here: 38m · 520k tokens.
 ```
 
 Then **one** `AskUserQuestion` call carrying **two** questions, so it is a single interaction:
@@ -269,7 +290,7 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 
 ### The estimate comes from the last run, not from this file
 
-**Glob `harness-audits/*-report.md` and read the `cost:` line off the most recent cover.** A number measured in *this* repo beats any figure written here, and it improves every run. Only when there is no prior report, fall back to the generic: *"first run — expect 15–20 minutes and a few hundred thousand tokens."*
+**Glob `harness-audits/*-report.md` and read the `cost:` line off the most recent cover.** A number measured in *this* repo beats any figure written here, and it improves every run. Only when there is no prior report, fall back to the generic: *"first run — expect 25–40 minutes and roughly half a million tokens."* **Those are measured**: an observed Standard run took 38 minutes and ~520k. Do not soften them — an estimate that undershoots is worse than none, because the reader budgets against it and then watches it break.
 
 **A hardcoded estimate in this file will be wrong.** An earlier version of this section claimed 5–10 minutes; the first real run took over 20. Numbers about a run belong in the record a run writes, not in its instructions.
 
@@ -281,7 +302,12 @@ One line after the answers come back, echoing the **resolved** config so a misre
 
 **Recommend `ctrl+b`, don't merely allow it.** Twenty minutes of watching a spinner is not a thing to leave to the user to figure out; the runtime's own `(ctrl+b to run in background)` is an affordance, not advice.
 
-**No preamble before any of this.** *"I'll run the harness audit on this repo"* restates the command back at the person who just typed it, and pushes the first informative line below a tool-use summary. The frame above is the first thing said.
+**No preamble before any of this — including a plan.** The frame is the first thing said, full stop.
+
+> ❌ *"I'll run the harness audit on this repo."* — restates the command back at the person who typed it
+> ❌ *"I'll start with the frame, then confirm the shape before spawning anything."* — narrates the procedure it is about to perform
+
+The second is the one that keeps returning, because it reads as helpful orientation. It is not: the reader learns the shape from the frame one line later, and announcing an intention to do a thing is never worth a line when the thing itself is the next line.
 
 The `auditor` field on the report cover carries the resolved shape, so the mode is also verifiable after the fact.
 
