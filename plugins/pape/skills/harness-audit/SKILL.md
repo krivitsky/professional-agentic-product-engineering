@@ -303,7 +303,9 @@ Four rules keep that from becoming a liability:
 
 ### Keep the subagents' tool calls legible
 
-**Finders and the verifier already start in the repo root — tell them not to `cd`.** Runs have been observed emitting `cd /Users/alexey/src/aidy/repos/<repo>` before every command, which spends the visible width of the line on a constant, and then the actual command is what gets truncated. The reader is left with a path they already know and an ellipsis where the evidence was.
+**Nothing `cd`s — not the subagents, and not the orchestrating context.** Everything already starts in the repo root. Runs have been observed emitting `cd /Users/alexey/src/aidy/repos/<repo>` before every command, which spends the visible width of the line on a constant, and then the actual command is what gets truncated. The reader is left with a path they already know and an ellipsis where the evidence was.
+
+**This binds the orchestrating context too.** It now runs the presence checks itself while research is out, and a run was observed prefixing each of those with `cd /Users/alexey/src/aidy/repos/<repo>` — the same waste, on the line the reader is actually watching, since these are the only tool calls visible during the wait.
 
 **Ask for short tool descriptions too.** A finder's Bash calls are the only window into what it is doing while it runs; `rg for hook definitions` tells the watcher something, and a truncated multi-line `echo` banner does not.
 
@@ -408,11 +410,18 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 
 **A hardcoded estimate in this file will be wrong.** An earlier version of this section claimed 5–10 minutes; the first real run took over 20. Numbers about a run belong in the record a run writes, not in its instructions.
 
-### Then say what is running, and recommend backgrounding
+### Then emit the block — it *is* the confirmation
 
-One line after the answers come back, echoing the **resolved** config so a misread is catchable while it is still cheap:
+**The moment the answers come back, emit the progress block and nothing else.** Its header line already carries the resolved config, so a separate *"Running Standard — 2 finders + verifier…"* sentence says the same thing twice:
 
-> Running Standard — 2 finders + verifier, light theme. This takes a while and only reads, so `ctrl+b` backgrounds it safely.
+> **Harness audit · krivitskydotcom** — Quick look · 1 finder + verifier · markdown only
+> `✓ setup → · re-check → · research → · cross-check → · fact-check → · report`
+>
+> This takes a while and only reads, so `ctrl+b` backgrounds it safely. Spawning both passes now.
+
+**A run given both forms emitted the sentence and skipped the block**, then produced the strip two minutes later once the agents were already out — so the reader spent the opening with no phase display at all, which is the one moment it is most needed. **One mechanism: the block is the confirmation.**
+
+The header echoes the **resolved** config, so a misread is catchable while it is still cheap.
 
 **Describe the lenses, never name them.** *"1 finder (Enforcement)"* tells the reader nothing — `Enforcement` is this file's word for a bundle of check IDs, and it leaks the same way `pooling` and `finders` did before the strip was rewritten. Say what the pass is doing: *"one pass, reading what's declared against what actually holds"*. Under Standard, *"two passes reading independently — one for what holds, one for what contradicts"*.
 
