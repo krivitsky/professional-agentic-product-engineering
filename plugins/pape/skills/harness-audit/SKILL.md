@@ -153,6 +153,20 @@ Link the live guide, `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`, e
 
 **When several rows cite one tip, that is signal, not repetition.** Three claims all pointing at 4.1 says the gap is one gap wearing three faces, which is exactly what §1's lead has to say later. Do not dedupe the column to make it look tidier.
 
+### Say what the audit looks for, once, while it looks
+
+**A user thirty minutes into a real run asked *"what is this audit? common issues it finds?"*** — which is the run's own fault. It had shown them agent names, tool counts and a token meter, and never once said what it was for.
+
+So the block that appears when research finishes carries **one short paragraph, once**, naming the shapes it hunts. Absences are the cheap half and everyone expects them; name the other half:
+
+> **What this is looking for.** Not "you're missing a file" — that half is easy. The valuable findings are where the setup *looks* complete: two instruction files giving opposite orders · a rule written as NEVER with nothing that could catch a violation · a gate that exits clean when it couldn't run · the command you're told to run not being the command CI runs · reference material in the file that loads every session, crowding out the real rules.
+
+**Then, if the claims already show it, say so:** *"Your repo has four of those five."* That single sentence is the moment the reader stops watching a tool and starts reading about themselves — and by then the run has the evidence to say it honestly.
+
+**Once, and never again.** It is orientation, not a lesson: a paragraph on the second block and nothing on the third or fourth. A run that re-teaches at every boundary is a run that has confused the reader's attention with its own.
+
+**This is the same content the tip links serve, at a different altitude.** The paragraph says what kind of thing goes wrong; the per-row links say what to do about the specific one. Neither replaces the other, and both cost almost nothing next to a thirty-minute wait.
+
 **Carry elapsed time and tokens in the strip.** It is the only place the user sees the cost accruing against the estimate they agreed to, and *"12m · 287k"* against a quoted *"18m · 340k"* tells them it is on track without anyone saying so.
 
 **The user is a better verifier than the verifier, for their own repo.** Shown *"eslint config missing — pending"*, someone who works there says *"no it isn't"* in two seconds, faster and more reliably than a subagent re-deriving it from scratch. Withholding the claim to protect them from it also denies the run its fastest available check.
@@ -205,7 +219,11 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 | Question | Options | Default |
 |---|---|---|
 | **How deep?** | *Quick look* · *Standard* · *Thorough* | pre-select whatever the flag or the phrasing implied — **`Standard` when nothing did** |
-| **Report theme?** | *Light* · *Dark* | `Light`, unless `--theme:dark` was passed |
+| **What output?** | *Markdown only* · *Markdown + light HTML* · *Markdown + dark HTML* | `Markdown + light HTML`, or whichever theme `--theme:` named |
+
+**Format and theme are one question, not two.** Theme is the least consequential axis in the run and asking it separately spends a decision on it. Folded in, it is only asked where it means something — and the *Markdown only* path never has to answer it at all.
+
+**Say what `Markdown only` buys, in the option label: about a third off the run.** That is measured, not estimated. The write phase emits roughly 13k output tokens of markdown and 22k of HTML, generated serially by one context, so the HTML is about 62% of it — and ~15% of the HTML is the stylesheet, transcribed verbatim. A reader who wants the findings and not the artifact should not pay half an hour for a layout pass.
 
 **Recommend `Standard`, and say why it is the recommendation** — the reason is not "more coverage", and stating it wrong oversells the other two:
 
@@ -512,6 +530,18 @@ Two reasons, and the second is the one that matters:
 **Durability.** Everything expensive has already happened by this point — two finders, a verifier, ~480k tokens, half an hour. Until something is on disk, all of it is held in one context and an interrupt, a crash, or a context limit loses the entire run. **Writing the `.md` first makes the audit survivable at the earliest moment it can be**, and the HTML is then re-derivable from it at any time by a fresh session at trivial cost.
 
 **This is not the re-render exemption.** §*A re-render is not a run* governs re-presenting an existing finding set as a new report; this is one run writing its two outputs in a sensible order. Same timestamp, same basename, one audit.
+
+### When the run is markdown-only, offer the HTML at the end
+
+The findings are written and the reader has them. **Then ask once, and stop:**
+
+> Findings are in `harness-audits/2026-07-27-1128-report.md`. Want the designed HTML too — light or dark? It renders from this file, so it costs about 22k tokens and no re-auditing.
+
+**Ask after, not before, because now the question is cheap.** Up front, *"do you want HTML?"* is a guess about a document they have not read. Afterwards they have the findings in hand and know whether this is something to send someone.
+
+**Rendering later is the same run, not a new one.** Same timestamp, same basename, same `auditor` line — the audit happened once and is emitting its second output late. It spawns nothing, re-reads nothing, and re-derives every word from the `.md` already on disk. **A later session can do it too**, which is the durability point paying off: the `.md` is sufficient input, so the render is never trapped in the context that produced it.
+
+**One offer. If they decline, do not ask again**, and do not append it to the hand-off as a fourth option — §The hand-off already caps that at two.
 
 | File | For |
 |---|---|
