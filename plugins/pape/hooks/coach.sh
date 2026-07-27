@@ -13,8 +13,14 @@ CLAUDE_PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 ev="${1:-prompt}"
 in="$(cat)"
 flag="${CLAUDE_PROJECT_DIR:-$PWD}/.claude/.agentic-coach-off"
-dont_repeat="Do not repeat a tip you already gave earlier in this conversation; if the same moment recurs, stay silent."
-attribute="Citing the relevant tip comes first; attribution/formatting second — never drop a citation to get formatting right. Tips are numbered per tier as T.N (e.g. Tip 4.2 = Tier 4, tip 2); the anchor is #tip-T-N (the dot becomes a hyphen, so Tip 4.2 -> #tip-4-2). When the guide shaped your reply: a quoted tip is credited by its '> Tip T.N' tag; otherwise end with one line '↳ shaped by agentic-coach · [Tip T.N](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md#tip-T-N): <tip name>'. Format Tip T.N as that [bracketed link] so the text is clickable and the URL hidden. Add the footer only when a tip was actually relevant."
+# This text is injected on EVERY prompt, so every word is paid for on turns
+# where no tip fires — which is most of them. It used to restate the whole
+# citation format (tip numbering, anchor derivation, the footer template),
+# ~350 tokens a turn, duplicating SKILL.md §Format. The skill already holds
+# those rules and loads when it fires, so the hook's only jobs are: prompt the
+# consideration, and make sure the model reads the skill before citing rather
+# than citing from memory.
+skill_first="Load the skill before citing — it holds the tip numbering, anchor form and credit footer. Never cite from memory. Don't repeat a tip already given this conversation."
 
 emit() { # $1 = text, $2 = hookEventName
   jq -nc --arg c "$1" --arg e "$2" \
@@ -39,20 +45,20 @@ fi
 case "$ev" in
   prompt)
     if [ "$explicit" = "1" ]; then
-      emit "[agentic-coach] The user explicitly asked to be coached. Engage now: read their current prompt, plan, or recent changes, and surface the most relevant tip(s) from the agentic-coach skill (full text in ${CLAUDE_PLUGIN_ROOT}/guide.md), briefly. This OVERRIDES the usual 'silence by default'. ${dont_repeat} ${attribute}" "UserPromptSubmit"
+      emit "[pape] The user asked to be coached — engage now, overriding silence-by-default. Read what they are doing and give the most relevant tip(s), briefly. ${skill_first}" "UserPromptSubmit"
     else
-      emit "[agentic-coach] Consult the agentic-coach skill. If the user is doing, asking about, OR considering anything a guide tip covers, surface the SINGLE most relevant tip in one line (Tip N — name + one-line fix) and continue. This includes questions, not just anti-pattern actions — e.g. 'can I remove red tests?' -> Tip 4.2; a vague ask -> Tip 1.2; 'why/how do I' about operating the agent -> teach from the guide. Citing the relevant tip IS the job — do NOT stay silent just because nothing is strictly an 'anti-pattern'. Stay silent only when no tip is genuinely relevant (pure code/domain turn). ${dont_repeat} One nudge, no nagging. ${attribute}" "UserPromptSubmit"
+      emit "[pape] agentic-coach: if a guide tip genuinely fits this turn — including a question about operating the agent, not just an anti-pattern — surface ONE, briefly, then continue. Silent when none fits. ${skill_first}" "UserPromptSubmit"
     fi
     ;;
   bash)
     cmd="$(printf '%s' "$in" | jq -r '.tool_input.command // empty' 2>/dev/null)"
     printf '%s' "$cmd" | grep -qiE 'git commit|git push|npm run build|npm run test|vitest|next build|npm test|pytest|go test|cargo (test|build)' \
-      && emit "[agentic-coach] A commit/build/test just ran — a checkpoint or done-claim moment. If it fits, surface ONE of Tip 4.1 (make the Definition of Done executable), 4.5 (demand evidence, not a claim), or 5.1 (commit every green step), then continue. Else silent. ${dont_repeat}" "PostToolUse"
+      && emit "[pape] A commit/build/test just ran — checkpoint or done-claim moment. If it fits, surface ONE of Tip 4.1, 4.5 or 5.1. Else silent. ${skill_first}" "PostToolUse"
     ;;
   edit)
     fp="$(printf '%s' "$in" | jq -r '.tool_input.file_path // empty' 2>/dev/null)"
     printf '%s' "$fp" | grep -qiE '(^|/)[^/]*(test|spec)[^/]*\.|\.(test|spec)\.|\.feature$|_test\.|test_' \
-      && emit "[agentic-coach] A test/spec file was just edited. If the agent is weakening or rewriting tests to make them pass, surface Tip 4.2 (do TDD — implement against the test; do not edit tests to pass) in one line. Else silent. ${dont_repeat}" "PostToolUse"
+      && emit "[pape] A test/spec file was just edited. If tests are being weakened to pass, surface Tip 4.2 in one line. Else silent. ${skill_first}" "PostToolUse"
     ;;
 esac
 exit 0

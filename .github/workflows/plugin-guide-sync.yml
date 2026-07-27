@@ -89,10 +89,10 @@ jobs:
           #   prose form .......... "Tip 4.2", "[Tip 4.2]"
           #   registry field ...... "tip: 4.2"
           {
-            grep -rhoE '#tip-[0-9]+-[0-9]+' plugins/pape/skills/ 2>/dev/null | sed 's/^#//'
-            grep -rhoE '\bTips? [0-9]+\.[0-9]+' plugins/pape/skills/ 2>/dev/null \
+            grep -rhoE '#tip-[0-9]+-[0-9]+' plugins/pape/skills/ plugins/pape/hooks/ 2>/dev/null | sed 's/^#//'
+            grep -rhoE '\bTips? [0-9]+\.[0-9]+' plugins/pape/skills/ plugins/pape/hooks/ 2>/dev/null \
               | sed -E 's/.* ([0-9]+)\.([0-9]+)/tip-\1-\2/'
-            grep -rhoE 'tip: +[0-9]+\.[0-9]+' plugins/pape/skills/ 2>/dev/null \
+            grep -rhoE 'tip: +[0-9]+\.[0-9]+' plugins/pape/skills/ plugins/pape/hooks/ 2>/dev/null \
               | sed -E 's/tip: +([0-9]+)\.([0-9]+)/tip-\1-\2/'
           } | sort -u > /tmp/cited.txt || true
 
@@ -107,7 +107,7 @@ jobs:
 
           # Live-site links must point at the tier that owns the tip:
           # tier-5#tip-5-4 is right, tier-4#tip-5-4 is a silent 404-to-nowhere.
-          grep -rhoE 'tier-[0-9]+#tip-[0-9]+-[0-9]+' plugins/pape/skills/ 2>/dev/null \
+          grep -rhoE 'tier-[0-9]+#tip-[0-9]+-[0-9]+' plugins/pape/skills/ plugins/pape/hooks/ 2>/dev/null \
             | sort -u | while read -r link; do
               page_tier="${link%%#*}"; page_tier="${page_tier#tier-}"
               tip_tier="${link##*#tip-}"; tip_tier="${tip_tier%%-*}"
@@ -222,7 +222,7 @@ jobs:
 
           # Every /<plugin>:<skill> command referenced anywhere must resolve to a
           # skill directory that exists.
-          grep -rhoE "/${plugin}:[a-z0-9-]+" "${DOCS[@]}" plugins/pape/skills/ 2>/dev/null | sort -u > /tmp/cmds.txt || true
+          grep -rhoE "/${plugin}:[a-z0-9-]+" "${DOCS[@]}" plugins/pape/skills/ plugins/pape/hooks/ 2>/dev/null | sort -u > /tmp/cmds.txt || true
           if [ ! -s /tmp/cmds.txt ]; then
             echo "::error::no '/${plugin}:<skill>' reference found anywhere. Either every command reference was lost, or the plugin was renamed and this check wasn't."
             fail=1
