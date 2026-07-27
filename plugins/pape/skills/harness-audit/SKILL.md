@@ -93,13 +93,27 @@ A run is 15–20 minutes, and between spawning the finders and writing the repor
 | Moment | Line |
 |---|---|
 | finders spawned | `Pass 1 — Enforcement and Coherence reading in parallel.` |
-| finders return | `Both finders back: 19 candidates, 1 conflict to resolve.` |
+| finders return | `Both finders back: 19 candidates, 1 conflict.` — then the three subjects below |
 | pooling settles a conflict | Name the file and who was right: `site/eslint.config.mjs exists (465 bytes) — the absence claim is false.` |
-| verifier returns | `15 hold · 2 corrected · 2 cut. Writing the report.` |
+| verifier returns | `15 hold · 2 corrected · 2 cut. Writing the report.` — and name a cut one if it was teased |
 
 **Every one of these is a number the run already has.** None is a progress bar, none is an estimate, and none is *"working on it…"* — the runtime already draws a spinner, and a second one would say less than the first.
 
 **The conflict line is the most valuable and the easiest to skip.** It is the only moment where the user sees the architecture do the thing it exists for, and it costs one sentence. A run that resolves a conflict silently has hidden its best evidence that the report can be trusted.
+
+### Show what pass 1 is looking at — by subject, never as a claim
+
+Ten more minutes of verification is easier to wait through once there is some sign the wait is buying something. So the finders-return line names **three subjects**, worst first:
+
+> Both finders back: 19 candidates, 1 conflict. The heaviest so far — two instruction layers disagreeing, a test gate that only bites after a push, delegation with no versioned agent definition. **Unverified: the next pass tries to break each one, and some will not survive.**
+
+**A subject is not a claim, and the difference is the whole rule.** *"Two instruction layers disagreeing"* is a topic. *"`CLAUDE.md:47` contradicts the publish skill"* is a finding, and findings do not exist yet — three of seven were misstated in the run this design was built from, and one was outright false. **No `file:line`, no severity, no counts, nothing a reader could act on.** If a user could take the line and go change something, it was written wrong.
+
+**Say the unverified part in the same breath, not as a footnote.** A tease that omits it is a claim with extra steps, and the reader will remember the subject long after they have forgotten the hedge.
+
+**Then close the loop.** When the verifier returns, if anything teased got cut, **name it**: *"…2 cut, including the hardcoded audio path — the quoted line was a fallback."* This is the payoff. Naming a candidate and then reporting its death is the strongest demonstration available that verification is real and not a step the report claims to have run. **A run that teases three subjects and never mentions what happened to them has spent the trust and not repaid it.**
+
+**Nothing here loosens §Pass 3.** A `False` verdict still means the finding does not appear in the report, not even as an Observation. Having named its subject out loud does not earn it a place — it earns it a sentence saying it was dropped.
 
 ### Keep the subagents' tool calls legible
 
