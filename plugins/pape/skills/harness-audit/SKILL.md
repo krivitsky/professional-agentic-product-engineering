@@ -458,7 +458,17 @@ The header echoes the **resolved** config, so a misread is catchable while it is
 
 **The wait no longer needs escaping anyway.** Findings stream, the re-check lands in the first minutes, and the strip closes every message. Telling the reader to look away is an argument against everything else in this section.
 
-**No preamble before any of this — including a plan.** The introduction is the first thing said; the frame is the second. Nothing precedes them.
+**The first characters you emit are `harness-audit v`.** Not a sentence about what you are about to do — that string, literally, as the opening of the first message.
+
+This is stated as a test rather than a prohibition because the prohibition failed three times, each with a new phrasing:
+
+> ❌ *"I'll run the harness audit on this repo."*
+> ❌ *"I'll start with the frame, then confirm the shape before spawning anything."*
+> ❌ *"I'll start with the audit intro, then two questions before anything spawns."*
+
+**Banning examples teaches the shape, not the rule**, and the shape has infinite variants — every one an announcement that the next line is coming. **If your first message does not begin `harness-audit v`, delete whatever is above it.**
+
+The introduction is the first thing said; the frame is the second. Nothing precedes them.
 
 > ❌ *"I'll run the harness audit on this repo."* — restates the command back at the person who typed it
 > ❌ *"I'll start with the frame, then confirm the shape before spawning anything."* — narrates the procedure it is about to perform
