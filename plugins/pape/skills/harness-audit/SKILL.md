@@ -90,14 +90,16 @@ The verifier **may not add findings.** Anything it notices in passing goes to Ob
 
 A run is 15–20 minutes, and between spawning the finders and writing the report there is nothing to look at but a token counter climbing past 300k. **Four lines, one at each state change, each carrying a fact rather than a reassurance:**
 
-| Moment | Line |
-|---|---|
-| finders spawned | `Pass 1 — Enforcement and Coherence reading in parallel.` |
-| finders return | `Both finders back: 19 candidates, 1 conflict.` — then the ⏳ list below |
-| pooling settles a conflict | Name the file and who was right: `site/eslint.config.mjs exists (465 bytes) — the absence claim is false.` |
-| verifier returns | Resolve every ⏳ row to ✓ or ✗, then `15 hold · 2 corrected · 2 cut. Writing the report.` |
+The display is **one block, described in §Show the candidates below**. This section says *when* it is emitted and *what has changed* by then — the block is the only mechanism, so nothing here prescribes a second stream of prose beside it.
 
-**Every one of these is a number the run already has.** None is a progress bar, none is an estimate, and none is *"working on it…"* — the runtime already draws a spinner, and a second one would say less than the first.
+| Emit when | What has changed in the block | Plus one line |
+|---|---|---|
+| setup agreed | strip shows `✓ setup`, shape and theme resolved | — |
+| finders return | `✓ research`; the claims table appears, every row `⏳` | `19 candidates, 1 conflict.` |
+| pooling done | `✓ cross-check`; a conflicted row resolves early | Name the file and who was right: `site/eslint.config.mjs exists (465 bytes) — the absence claim is false.` |
+| verifier returns | `✓ fact-check`; every `⏳` row becomes `✓` or `✗` | `15 hold · 2 corrected · 2 cut.` |
+
+**Every number in that column is one the run already has.** No progress bar, no estimate, no *"working on it…"* — the runtime already draws a spinner, and a second one would say less than the first.
 
 **The conflict line is the most valuable and the easiest to skip.** It is the only moment where the user sees the architecture do the thing it exists for, and it costs one sentence. A run that resolves a conflict silently has hidden its best evidence that the report can be trusted.
 
@@ -105,18 +107,43 @@ A run is 15–20 minutes, and between spawning the finders and writing the repor
 
 Ten more minutes of verification is easier to wait through once there is a sign the wait is buying something. **List the top candidates when the finders return, each marked unverified, and update each one as the verifier settles it** — the pattern a test runner uses, for the same reason.
 
-```
-Both finders back: 19 candidates. Verifying each — nothing below is settled yet.
+**One block, re-emitted whole at each boundary.** A terminal cannot repaint, so every update is a fresh copy and the old ones scroll up as history — which is the point: the reader can look back and see a row change its mind.
 
-  ⏳  instruction layers disagree on "done"     CLAUDE.md + 5 skills
-  ⏳  test gate only bites after a push         ci.yml
-  ⏳  eslint config missing                     site/
-  …16 more
+A **status strip** carrying the steps and the running cost, then a **claims table**:
 
-  ✓  instruction layers disagree on "done"      High
-  ✓  test gate only bites after a push          High
-  ✗  eslint config missing                      site/eslint.config.mjs exists (465 B) — cut
-```
+> **Harness audit · krivitskydotcom** — Standard · 2 finders + verifier · light
+> `✓ setup → ✓ research → ✓ cross-check → ▸ fact-check 12/19 → · report` · 12m · 287k
+>
+> | # | Claim | Where | Status |
+> |---|---|---|---|
+> | 1 | Instruction layers disagree on "done" | `CLAUDE.md` + 5 skills | ✓ **High** |
+> | 2 | Test gate only bites after a push | `ci.yml` | ✓ **High** |
+> | 3 | eslint config missing | `site/` | ✗ cut — the file exists (465 B) |
+> | 4 | Worktree entry tracked in git | `.gitignore` | ⏳ |
+> | 5 | No versioned agent definition | `.claude/agents/` | ⏳ |
+> | | *…14 more* | | |
+
+**Name the phases in the reader's words, not this file's.** *Finders*, *pooling* and *verifier* are the vocabulary of the design; nobody watching a progress strip knows what pooling is. The strip shows five phases, and each says what is happening to the repo rather than which agent is running:
+
+| Shown | Is | Means |
+|---|---|---|
+| **setup** | flags + confirmation | what shape was agreed, before anything spawns |
+| **research** | pass 1 · finders | reading the repo and collecting candidate claims |
+| **cross-check** | pass 2 · pooling | comparing what the lenses found, resolving disagreements |
+| **fact-check** | pass 3 · verifier | re-opening the file behind every claim, trying to break it |
+| **report** | writing | both files land in `harness-audits/` |
+
+**`fact-check` carries a counter — `fact-check 12/19` — because it is the long one.** It is the phase where the user has already seen the candidates and is waiting to learn which survive, and it is the only phase whose progress is a number the run actually knows.
+
+**Emit the block at the four boundaries and nowhere else** — after setup, after research, after cross-check, after fact-check. Five blocks is a readable history; one per verified claim is a token sink that buries the report under its own progress.
+
+**The strip is the steps, the table is the claims.** Keep them apart: a reader glances at the strip to see *where the run is*, and at the table to see *what it found*. Merging them produces a table where half the rows are machinery.
+
+**Cap the table at five rows plus a `…N more`.** Every displayed row must reach a terminal state (see below), and twenty rows cannot. Order by the finders' proposed severity — but **display severity only once verified**, because a `High` on a `⏳` row is the settled half of an unsettled claim.
+
+**Three status values, and the third earns its width:** `⏳` · `✓ <severity>` · `✗ cut — <one clause saying why>`. The cut reason is the most informative cell in the table and the one most likely to be trimmed for space. Trim the claim text instead.
+
+**Carry elapsed time and tokens in the strip.** It is the only place the user sees the cost accruing against the estimate they agreed to, and *"12m · 287k"* against a quoted *"18m · 340k"* tells them it is on track without anyone saying so.
 
 **The user is a better verifier than the verifier, for their own repo.** Shown *"eslint config missing — pending"*, someone who works there says *"no it isn't"* in two seconds, faster and more reliably than a subagent re-deriving it from scratch. Withholding the claim to protect them from it also denies the run its fastest available check.
 

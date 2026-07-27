@@ -2,7 +2,7 @@
   "name": "pape",
   "displayName": "PAPE — Coach & Harness Audit",
   "description": "Professional Agentic Product Engineering — two skills for operating a coding agent well. /pape:agentic-coach catches teachable moments while you work and surfaces the single most relevant tip from the guide. /pape:harness-audit reads the harness checked into your repo — guidelines, autotests, guardrails — and reports which of the eight tiers hold, which don't, and the one next thing to fix.",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "author": {
     "name": "Alexey Krivitsky",
     "email": "alexey@krivitsky.com",
