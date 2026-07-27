@@ -626,6 +626,8 @@ Context comes first because it frames everything after it, and a draft that open
 
 **Where a tier genuinely doesn't bite yet, say what it depends on** — *"nothing here runs unattended, so T7 has nothing to operate"* — never *"above your level."* That is `Not assessed` with a reason, and it is a real answer, not a gap.
 
+**Avoid: the findings table in prose.** That is the name for this defect — a paragraph whose sentences are the table's rows, restated at greater length and stripped of the IDs, severities, confidence marks and links that made the table worth reading. It can appear in the lead, in a rating cell, or in §6, and it is always the same mistake: **a level of the report doing the job of the level below it, worse.**
+
 **The lead names the pattern and at most one instance of it. It never recites the findings.** A shipped lead spent its middle paragraph on three issues in near-full detail — the palette contradiction with its thirty-one colours, the two files disagreeing about publishing, the outbound-link checker and which caller skips it. Measured across that report, `palette`, `outbound-link` and `eslint` each appeared **four times**: the lead, the tier cell, the summary row, and the finding itself. **Three restatements before the one place that carries the evidence.**
 
 **Each restatement was worded differently**, so a reader could not tell whether they were meeting one issue four times or four related issues once each — which is the specific cost, beyond the length.
@@ -643,6 +645,18 @@ Context comes first because it frames everything after it, and a draft that open
 **One instance, and it must be doing a job abstraction can't.** Stripping every specific is the opposite failure — §Write it plainly exists because abstract prose reads as authoritative while saying nothing. The lead earns one concrete anchor; the second and third are the table's.
 
 **The distributional facts are the lead's own material, and nothing else has them:** *nine of twelve*, *wider than the last run*, *the pattern reaches past instructions into the gates*. **A count of how the issues cluster is a statement about the repo; a list of the issues is a statement the table already makes better.**
+
+**Never claim a pattern the instances do not share.** That same lead opened *"the pattern is wider than the last one showed"* and supported it with two instruction files contradicting each other (T3), a palette contradiction (T3), and a working gate bypassed by its callers (T5) — a different tier and a different mechanism, with no contradiction in it. **The paragraph asserted a pattern and then changed subject to fill it out.**
+
+**The connectives are the tell.** *"A third disagreement is new and louder"* · *"And the outbound-link checker…"* — enumeration words. A lead doing analysis needs *because*, *which is why*, *in the same window*; a lead reaching for a third item to make a paragraph needs *and*.
+
+**Test before writing the sentence: do the cited instances share a mechanism, or only a report?** Different tiers with different causes are two findings about one repo, not one pattern with two faces. Say two things, or say one thing and let the table carry the rest.
+
+**The strongest version of this beat is a direction, not a state.** Counts of what is wrong are in §2; what only the lead can say is which way the numbers are moving and why:
+
+> ✅ *"Twelve of the twenty issues are one instruction layer contradicting another. Eleven are new since Sunday, in the same window where you closed two gates — the fixing is working and the drift is outrunning it. Nothing reconciles `CLAUDE.md` against the five skills when either changes."*
+
+Distribution, delta, direction, mechanism — four facts the run already holds, none of them available anywhere else in the report.
 
 ### The note describes a condition, not an incident
 
@@ -689,6 +703,20 @@ This matters most for tiers with **no** findings — those notes are the section
 | **Not applicable** | This rung does not apply to this work — *"nothing here runs unattended, so there is no fleet to operate."* **Explicitly not a gap.** | Would the mature version of this repo still have nothing here? Then it applies |
 | **Not assessed** | The audit did not reach the evidence. **Always name why** — *"consent for transcript access was not given"* is a different state from *"needs evidence this method cannot reach"*, and only the second is a limit of the audit rather than a choice | Could another pass have got this? Then say what it would take |
 | **A real rating** | The audit looked and found the answer, **including when the answer is "nothing is there."** | Is this backed by a finding? Then it is assessed |
+
+**T1 is never assessed, and the row must say so as a permanent property — not as this run's omission.** Prompting lives in session transcripts. This skill reads a repo. No depth flag, no consent, and no second pass changes that, so a row reading *"the audit did not ask to read your prompts"* implies a run that could have and chose not to.
+
+It also produced the emptiest line in the report:
+
+> ❌ `TO LIFT IT` — *"Nothing to change in the repo; this rung is about how you write the ask."*
+
+**Drop `TO LIFT IT` on T1 entirely** — there is nothing in a repo to lift — and spend `HERE` on the one useful thing, which is where the answer actually is:
+
+> ✅ `HERE` — *"Prompting lives in your session history, not your repo, so this instrument cannot see it. `/pape:agentic-coach` reads that history and answers this rung."*
+
+**That is the difference between a non-rating and a dead row.** The reader leaves knowing which tool answers the question, instead of being told twice that this one doesn't.
+
+**Distinguish it from a rung this run happened not to reach.** T7 went unrated because the schedulers publishing to that site live in the surrounding workspace, outside what was read — **contingent, and another run pointed elsewhere would answer it.** Say what would answer it. T1's limit is the instrument's, and permanent. Both print `Not assessed`; only one gets a *"what would answer it"* clause, and neither gets `TO LIFT IT`.
 
 **The trap: marking a confirmed finding as `Not assessed` because the thing is absent.** A rung where delegation is dispatched from three skills but no agent definition is versioned has been *assessed* — the answer is that it does not hold. That is `Weak`, and a run once wrote `Not assessed` over exactly that, burying a Medium finding behind a non-rating. **Absence you looked for and confirmed is evidence, not a gap in evidence.**
 
