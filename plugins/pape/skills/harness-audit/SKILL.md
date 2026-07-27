@@ -308,7 +308,13 @@ This applies everywhere — scorecard notes, summary, issue prose, backlog items
 
 Every finding gets a display ID — **`ISSUE-1`, `ISSUE-2`, …** — unpadded, assigned in table order. And this shape; the middle three are what separate a report from a linter.
 
-**Sort by severity, then by tier ascending.** Severity alone interleaves rungs inside a band — a High on T3 sitting under a High on T5 — which contradicts the scorecard's lever and the backlog's order in the same document. The lower rung comes first because the higher one rests on it. **The backlog uses the same key**, and each backlog item carries its rung (`— T3 · ISSUE-1`) so the ordering is visible rather than asserted.
+**Sort by severity, then by tier ascending — in the issues table and the backlog alike, and check the backlog against §1 before shipping.** A run shipped a §1 reading *"the next lever is T3"* above a backlog opening `T5 · T5 · T4`, with the first T3 item fourth. Both halves were defensible on their own — the backlog had ordered itself by cost, cheapest-and-loudest first, and said so in its own lead — and together they told the reader two different things to do first. **The lever is the report's single most actionable sentence; a backlog that opens somewhere else has overruled it silently.**
+
+**The check is mechanical: the first backlog item must sit on the rung §1 named.** Where it does not, one of the two is wrong — fix that, don't reword around it. Severity-then-tier produces the right order by itself, because the lever is by definition the lowest rung that doesn't hold, so its Highs sort above every other High.
+
+**And §3's lead must describe the order it actually used.** The same run's lead promised *"items early on are cheap and stop something from lying to you; items later are larger reorganisations"* — a third ordering, matching neither the sort above nor the lever, and not consistently followed either. A lead that describes a different sort than the list below it is worse than no lead.
+
+Severity alone interleaves rungs inside a band — a High on T3 sitting under a High on T5 — which contradicts the scorecard's lever and the backlog's order in the same document. The lower rung comes first because the higher one rests on it. **The backlog uses the same key**, and each backlog item carries its rung (`— T3 · ISSUE-1`) so the ordering is visible rather than asserted.
 
 **Not `H-`.** An earlier version used it (for *harness*), never defined it anywhere, and put it one column away from a severity column containing **High** — so `H-013 · Low` read as a contradiction to anyone scanning the table. **A prefix that collides with a value in the neighbouring column is a bad prefix however defensible its etymology**, and an abbreviation the report never expands is a decoding tax on every reader to save four characters. Spell it.
 
@@ -465,6 +471,25 @@ Context comes first because it frames everything after it, and a draft that open
 > ✅ *"Two instruction layers — `CLAUDE.md` and five skills — with no reconciliation step between them."*
 
 The first is an event and belongs in the findings table. The second is a standing condition, and a rating is a rating *of* a condition. **Test each note: if it could be pasted into the findings table unchanged, it is written wrong.** Findings say what happened; the scorecard says what the repo is like.
+
+### Every rung says what would lift it
+
+A rating of a condition raises a question the report has to answer, and a reader asked it outright: *"T3 is Weak and there are three High T3 issues — is fixing those three all it takes?"* **Usually not**, and nothing in the report said so.
+
+So each rung carries a third line beside `FOR` and `HERE`:
+
+> **T3 · Context Management** — Weak
+> **FOR** Give the agent the right context and tools, so it stops guessing.
+> **HERE** Two instruction files and five skills hold rules on the same subjects. Neither wins, both load every session, and when one changes nothing updates the others.
+> **TO LIFT IT** One layer wins, or a step reconciles them when either changes. Closing ISSUE-1, 2 and 3 clears today's contradictions — not the structure that keeps producing them.
+
+**Name the condition that has to change, then say plainly whether the listed issues are sufficient.** They usually are not, and saying so is the difference between a rating and a score: a fault tally goes down when you fix faults, a condition does not change until the thing generating the faults does.
+
+**Where the issues *are* sufficient, say that too** — *"closing ISSUE-7 lifts this; there is nothing structural behind it."* That is the cheerful case and the reader deserves to know which one they are in.
+
+**Do not turn it into a fix list.** §3 owns the backlog. One sentence naming the structural change, one clause on whether the issues cover it, and stop.
+
+**A rung with no findings still gets the line.** *"Nothing to lift — checked and it holds."* Silence there reads as an omission rather than a pass.
 
 This matters most for tiers with **no** findings — those notes are the section's actual contribution, and they have nothing to restate. A tier where the audit looked and found the work already done should say so plainly; *"checked, and it holds"* is information the findings list structurally cannot carry.
 
@@ -647,6 +672,29 @@ Check before shipping: every `#issue-N` referenced has a matching anchor emitted
 *How* you emit it is open — typed directly, or built by a converter that knows this report's structure. **What fails is a generic markdown-to-HTML pass**, which can only produce headings, paragraphs, and tables, and silently downgrades the report to a styled document dump. That has happened; it is what replaced a designed report with a markdown render in a system sans stack.
 
 **The check is on the output, not the method:** if the emitted HTML contains no `.finding`, no `.attr`, and no `.sechead`, it does not ship regardless of how it was made.
+
+### The head is part of the contract, and `charset` is not optional
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harness Audit — <target> — <YYYY-MM-DD HH:MM></title>
+```
+
+**`<meta charset="utf-8">` is load-bearing.** A report carries hundreds of em dashes and middots — one run emitted 308 and 92 — and a browser opening a local file with no declared charset falls back to latin-1 and renders every one of them as mojibake. The reader who hits this is the one opening it from `~/Downloads`, which is exactly the travelling case the self-contained rule exists to serve.
+
+**Grep for it before shipping**, alongside the class contract: `grep -q 'charset' report.html`. It is one line and it closes the whole class.
+
+### Do not render the report to check it
+
+**Verification of this artifact is textual: the class contract and the head above.** Do not start a web server, do not drive a browser, do not screenshot it. A run did all three — losing minutes to a port collision — because a global instruction file said to verify UI changes in a real browser, and it read the report as UI.
+
+**It isn't UI.** It is a static document with no interactivity, no state and no responsive behaviour worth exercising; everything that can break in it is visible in the markup. The one real defect a render ever caught here was the missing `charset`, and that is now a mandated line and a grep — which is why the render is no longer buying anything.
+
+**A repo-level rule about verifying UI does not reach this file.** The audit is read-only except its two reports, it is already the longest-running thing in the session, and an instruction written for the user's application code has no jurisdiction over the audit's own output. Where a global rule and this skill disagree about the audit's scope, **this skill wins** — and note that a global file quietly overriding a skill's scope is `C-1`, which this skill reports as a finding when it meets it in someone else's repo.
 
 **Three blocks: the news, the evidence and what to do about it, then the method.** Same order in both files.
 
