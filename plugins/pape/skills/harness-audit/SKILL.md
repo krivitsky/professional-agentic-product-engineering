@@ -98,6 +98,20 @@ Three verdicts per issue, and the third is not a failure:
 
 **No prior report, no phase.** Do not invent a baseline, and do not report `0 fixed` on a first run — there is nothing to have fixed.
 
+### While research runs, the orchestrating context works the cheap checks
+
+**A subagent returns everything at once, so a finder cannot stream.** That is architectural: an eight-minute research pass is eight minutes of silence no matter how the prompt is written. The fix is not to make the finder chattier — it is to stop the orchestrating context idling while it waits.
+
+**Class P is a glob.** *Is there a `CLAUDE.md`, a `.claude/settings.json`, a CI workflow, a test command, a coverage gate* — these resolve in seconds and need no agent. **Run them here, in the gap, and add each to the claims table as it lands.** The reader watches rows appear from the first seconds instead of at minute eight.
+
+**Tell the finder to skip Class P.** Split the work by *cost*, not only by lens: the instant checks belong to whoever is otherwise waiting, the expensive cross-file reading to the agent with the budget for it. Duplicated work would be deduped at pooling anyway, but paying for it twice is avoidable by saying so in the prompt.
+
+**Streamed rows are candidates like any other.** They arrive `⏳`, they go to the verifier with everything else, and an absence found by glob is exactly the kind of claim §Pass 3 exists to narrow — *"no `.claude/settings.json`"* is refuted by one at a path the glob missed. **Nothing shipped here bypasses fact-check**, and the row resolving to `✗` later is the system working.
+
+**This does not make Class P the audit.** §The distinction that makes this an audit and not an inventory still holds: presence is the cheap half, and a run that reports only what streamed here has done the inventory and stopped. It is filling dead time with the easy findings so the expensive ones have somewhere to land.
+
+*If that is still too quiet, the next lever is chunking research into several shorter agents so results arrive in waves — but that multiplies the per-agent context cost, and it should not be paid until the free option has been tried.*
+
 ### Pass 2 — pooling, and what agreement is not
 
 Merge on the **key** (`<check>@<location>`). Then:
