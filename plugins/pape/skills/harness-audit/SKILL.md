@@ -174,8 +174,15 @@ Three verdicts per issue, and the third is not a failure:
 
 | | Emitted |
 |---|---|
-| **The strip** — identity, phases, meter, and the line naming what it waits for | **at the end of every message this skill sends during a run**, without exception |
+| **The strip** — identity, phases, meter, and the line naming what comes back next | **at the end of every message this skill sends during a run**, without exception |
 | **The substance above it** — what closed, what conflicted, what got cut | only when a boundary actually changed something: setup, re-check, research, cross-check, fact-check |
+
+**The closing line says what comes back, never what was dispatched.** A run closed cross-check with:
+
+> ❌ *"Thirteen go to the verifier — the eleven new ones in full, plus the two carried claims whose framing is most contestable."*
+> ✅ *"Next update is the last one: which of these survived."*
+
+**Routing arithmetic is the audit describing its own plumbing.** Which claims were forwarded, and on what basis one was judged more contestable than another, is a decision the reader neither made nor can act on — and it arrives at the exact moment their attention is on the five claims they were just shown. **The only thing they want to know is what the next message will contain.**
 
 **A run sent a bare one-line status with no strip beneath it**, because that moment was not one of the boundaries — so a reader who had just been given a phase display was shown a loose sentence and left to wonder whether the display still applied. **Any message without the strip under it is a message that abandons the reader mid-run.**
 
@@ -429,6 +436,10 @@ The `auditor` field on the report cover carries the resolved shape, so the mode 
 **The report says which theme it is and how to get the other**, in one line under the cover — *"Light theme. For the dark version, re-run the audit with `--theme:dark`."* Whoever opens the HTML is often not whoever ran the skill, and a frozen record cannot offer a toggle.
 
 **Cheap mode reduces recall, never precision.** `--quick` buys speed by looking at less, never by checking less — there is no flag that skips verification, because unverified findings are the failure this design exists to prevent. A user who wants it faster gets fewer lenses and the same standard of evidence.
+
+**The verifier is the last thing to cut, not the first.** It is the longest phase, which makes it the obvious candidate — and it is the only phase whose removal changes what the report *is*. Roughly a third of candidates get cut or corrected there. A run without it does not produce a quicker audit; it produces a document where one finding in three is wrong, addressed to someone who will act on it in their own repo. **Speed that costs correctness is not a cheaper version of this skill, it is a different and worse one.**
+
+**Nor may the finder verify its own claims to save the pass.** The context that formed a claim is the worst available judge of it — it already has the reasoning that produced the error. Verification works because the verifier arrives with no memory of how the claim was reached and only the file in front of it. Folding the two together removes the mechanism while keeping the word.
 
 ---
 
