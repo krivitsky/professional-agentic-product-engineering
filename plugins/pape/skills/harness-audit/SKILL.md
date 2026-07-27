@@ -295,7 +295,11 @@ The runtime prints every subagent's description directly beneath the strip, so t
 
 ### Say what you are before you touch anything
 
-**The first output happens before the first tool call.** A run was observed reading two files, listing a directory and running three shell commands *before* it said what it was — so the user's first information about the skill was a tool-use summary. Whatever you need to read, read it *after* introducing yourself.
+**Introduce yourself before doing any work.** A run was observed reading two files, listing a directory and running three shell commands *before* it said what it was — so the user's first information about the skill was a tool-use summary.
+
+**One exception, and only one: locating a previous report.** A single glob of `harness-audits/` costs nothing and buys a better opening — *"There's a run from earlier today"* tells the reader more than *"checking for a previous run"*, and they were never going to notice the intervening second. **Reading that report's contents waits until after the introduction**; so does everything else.
+
+The test is what the user sees first. A directory listing that resolves instantly, then the introduction, is fine. A tool-use summary standing alone at the top of the transcript is not.
 
 ```
 harness-audit v0.27 · from the Professional Agentic Product Engineering guide
@@ -367,7 +371,7 @@ One line after the answers come back, echoing the **resolved** config so a misre
 
 **Recommend `ctrl+b`, don't merely allow it.** Twenty minutes of watching a spinner is not a thing to leave to the user to figure out; the runtime's own `(ctrl+b to run in background)` is an affordance, not advice.
 
-**No preamble before any of this — including a plan.** The frame is the first thing said, full stop.
+**No preamble before any of this — including a plan.** The introduction is the first thing said; the frame is the second. Nothing precedes them.
 
 > ❌ *"I'll run the harness audit on this repo."* — restates the command back at the person who typed it
 > ❌ *"I'll start with the frame, then confirm the shape before spawning anything."* — narrates the procedure it is about to perform
@@ -909,7 +913,7 @@ Not *closed*, not *withdrawn*, not *regressed*, not *carried* — a reader asked
 
 **Severity changes and changed numbers are not tags** — they are notes on an `open` row, because the key persisted either way: *"still open, now High"* · *"still open, CLAUDE.md 516 → 604 lines."* A rating that got **worse** leads the section; that is emphasis, not a fifth status.
 
-- **fixed** — the key is gone because someone did the work. Name the evidence: *"the tracked worktree file is gone."*
+- **fixed** — the condition is gone because someone did the work. Name the evidence: *"the tracked worktree file is gone."* **Prefer the re-checker's verdict over a key diff** — see §Pass 1b. A key absent from this run may mean the problem was solved, or that nothing looked there; only a re-test tells them apart, and where the two disagree the re-test wins.
 - **was wrong** — the key is gone because the earlier finding did not hold up. **A false finding and a fixed problem look identical from key-diffing alone**, and calling a retraction *fixed* credits the reader with work they never did while quietly burying the audit's own error. Say what was wrong: *"the quoted line was the fallback, not the value; the fix suggested was what the code already did."*
 
 **When a key disappears, establish which of the two it is before writing either word.**
