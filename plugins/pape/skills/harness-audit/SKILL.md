@@ -80,6 +80,10 @@ Three verdicts per issue, and the third is not a failure:
 
 **This is what makes Trend evidence instead of inference.** Trend has been deriving `fixed` from a key's *absence* in the new run — but a key can vanish because the problem was solved, or because nothing looked there this time. Under `--quick`, with one finder on a smaller budget, the second is likely and indistinguishable. **A re-checked `fixed` is a fact; a diffed `fixed` is a guess wearing the same word.** Where the two disagree, the re-checker wins.
 
+**A correction to the previous report gets its own line, not a subordinate clause.** A re-check re-derived one issue's measurement to 66% where the earlier report said 69%, and reported it at the tail of a sentence about what was still open. **The audit correcting its own prior number is the strongest trust signal it has** — stronger than any finding, because it is the only evidence a reader gets that the process catches itself. Give it the line:
+
+> Correction to the 27 Jul 11:28 report: `ISSUE-3`'s measurement re-derives to **66%**, not 69% — `CLAUDE.md` has grown ~800 characters since.
+
 **Report it the moment it lands, before the finders return:**
 
 > Re-checked the last run's 7 Highs and top 3 Mediums: **2 fixed, 8 still open.**
@@ -101,6 +105,8 @@ Three verdicts per issue, and the third is not a failure:
 ### While research runs, the orchestrating context works the cheap checks
 
 **A subagent returns everything at once, so a finder cannot stream.** That is architectural: an eight-minute research pass is eight minutes of silence no matter how the prompt is written. The fix is not to make the finder chattier — it is to stop the orchestrating context idling while it waits.
+
+**The table appears with the first row, not when the finders return.** A run announced *"presence checks are in"* and showed nothing, because the table was specified to arrive with the research pass — so findings that had already landed had nowhere to sit. **A streamed finding that is only counted has not been streamed.** The table opens as soon as there is one row in it and grows from there.
 
 **Class P is a glob.** *Is there a `CLAUDE.md`, a `.claude/settings.json`, a CI workflow, a test command, a coverage gate* — these resolve in seconds and need no agent. **Run them here, in the gap, and add each to the claims table as it lands.** The reader watches rows appear from the first seconds instead of at minute eight.
 
@@ -153,7 +159,7 @@ The display is **one block, described in §Show the candidates below**. This sec
 |---|---|---|
 | setup agreed | strip shows `✓ setup`, shape and theme resolved | — |
 | re-checker returns *(early)* | `✓ re-check` | `Re-checked last run's 7 Highs: 3 fixed, 4 still open.` |
-| finders return | `✓ research`; the claims table appears, every row `⏳` | `19 candidates, 1 conflict.` |
+| finders return | `✓ research`; the finder's rows join the table, every one `⏳` | `19 candidates, 1 conflict.` |
 | pooling done | `✓ cross-check`; a conflicted row resolves early | Name the file and who was right: `site/eslint.config.mjs exists (465 bytes) — the absence claim is false.` |
 | *(`--quick` only)* | `· cross-check` stays unfilled | `One lens, so nothing to cross-check — every claim still goes to the verifier.` |
 | verifier returns | `✓ fact-check`; every `⏳` row becomes `✓` or `✗` | `15 hold · 2 corrected · 2 cut.` |
