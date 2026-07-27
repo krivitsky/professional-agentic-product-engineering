@@ -134,7 +134,15 @@ Three verdicts per issue, and the third is not a failure:
 
 **`fact-check` carries a counter — `fact-check 12/19` — because it is the long one.** It is the phase where the user has already seen the candidates and is waiting to learn which survive, and it is the only phase whose progress is a number the run actually knows.
 
-**Under `--quick` there is one lens, so `cross-check` has nothing to do — show it, unfilled, and say why.** Deleting the phase would be worse: the reader who compares this run against a Standard one should be able to see *which step they traded away*, and the strip is the only place that shows it. **The line that matters is that verification is unaffected** — one finder still sends every claim to the verifier, so the trade is coverage, never rigour. A run that quietly drops a phase has hidden the cost of the option the user chose.
+**A phase that will not run this time is not shown at all.** Under `--quick` there is one reading pass, so `cross-check` has nothing to compare; with no prior report, `re-check` has nothing to re-test. Both come out of the strip and out of the legend, and the strip is five phases instead of six.
+
+**Do not show it greyed and then explain it.** An earlier version kept the phase visible so the reader could see *which step they traded away* — and the run, having a visible-but-empty phase to account for, wrote a sentence accounting for it:
+
+> ❌ *"One lens ran, so cross-check has nothing to compare — that's the coverage you traded away, and it's the only thing you traded: every claim above still goes to the verifier."*
+
+**That is the run arguing with a decision the reader made thirteen minutes earlier**, and it is the third time the same fact has been stated: the option label said *one lens instead of two*, the confirmation block said it again, and this says it a third time with a defence attached. **Nobody needs reassurance about the option they chose; they need the run to get on with it.**
+
+**Where the traded coverage belongs is the record, not the wait.** The strip header carries the resolved mode (`Quick look · 1 finder + verifier`) and so does the report cover — so a reader comparing two reports can see the difference in the place where comparing happens. A ghost phase mid-run reaches only the one person who already knows.
 
 ### The strip closes every message; substance only at boundaries
 
@@ -285,7 +293,7 @@ questions before anything spawns.
 
 **Say the strip will recur.** *"This strip closes every message"* is what turns it from a thing that appeared once into a thing the reader tracks — and a run that then drops it has visibly broken a promise rather than quietly omitted a display.
 
-**When there is no prior report, drop the `re-check` row and its arrow.** Showing a phase that will never fill teaches the reader to distrust the strip. Say why in the closing line instead: *"No previous run here, so nothing to re-check — starting from scratch."*
+**Print only the phases this run will actually reach** — no `re-check` row without a prior report, no `cross-check` row under `--quick`. A phase that never fills teaches the reader to distrust the strip, and a phase that has to be explained costs more than it shows. One clause in the closing line covers the absence: *"No previous run here, so nothing to re-check — starting from scratch."*
 
 **Name the version, and read it from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`** — the same source the report cover uses. A user comparing two reports, or reporting a bug, needs to know which version produced what, and the cover is too late: it arrives half an hour in, and only if the run finishes.
 
