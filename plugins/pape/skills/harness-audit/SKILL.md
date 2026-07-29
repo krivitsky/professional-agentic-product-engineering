@@ -476,7 +476,7 @@ This applies everywhere — scorecard notes, summary, issue prose, backlog items
 
 ## Findings
 
-Every finding gets a display ID — **`ISSUE-1`, `ISSUE-2`, …** — unpadded, assigned in table order. And this shape; the middle three are what separate a report from a linter.
+Every finding gets a display ID — **`ISSUE-1`, `ISSUE-2`, …** — unpadded, **carried over from the previous report where the key matches and allocated fresh otherwise**; see §Display IDs are allocated once and never reused. They will not run in table order, and should not. And this shape; the middle three are what separate a report from a linter.
 
 **Sort by severity, then by tier ascending — in the issues table and the backlog alike, and check the backlog against §1 before shipping.** A run shipped a §1 reading *"the next lever is T3"* above a backlog opening `T5 · T5 · T4`, with the first T3 item fourth. Both halves were defensible on their own — the backlog had ordered itself by cost, cheapest-and-loudest first, and said so in its own lead — and together they told the reader two different things to do first. **The lever is the report's single most actionable sentence; a backlog that opens somewhere else has overruled it silently.**
 
@@ -994,14 +994,43 @@ Its one distinct move was the **"checked, and it's fine"** answer, which a findi
 
 | | |
 |---|---|
-| **Display ID** — `ISSUE-1` | Assigned in severity order, **this run only**. For reading and cross-referencing within the report. Anchor is the lowercased ID: `#issue-1`. |
-| **Key** — `<check>@<primary location>` | e.g. `C-2@CLAUDE.md`, `C-12@ci.yml`, `P-hooks@.claude/settings.json`. Derived from *what the finding is about*. Stable across runs. **This is the only thing trend may compare on.** |
+| **Display ID** — `ISSUE-1` | **Belongs to a finding for as long as that repo has reports.** Allocated once, carried on every later run, and never reassigned. Anchor is the lowercased ID: `#issue-1`. |
+| **Key** — `<check>@<primary location>` | e.g. `C-2@CLAUDE.md`, `C-12@ci.yml`, `P-hooks@.claude/settings.json`. Derived from *what the finding is about*. **This is what matches a finding to its ID across runs**, and what Trend compares on. |
 
-Never compare runs by display ID. Ranks shift as findings close — `ISSUE-1` next month is a different finding wearing the same badge, and reporting it as "still open" is a lie the reader can't catch.
+### Display IDs are allocated once and never reused
+
+**Earlier runs assigned IDs in severity order, per report.** `ISSUE-1` was the workspace-publish finding on 27 Jul and the palette finding two days later — the same badge on two different problems, in two files sitting side by side in a committed folder. **A reader who says "let's fix ISSUE-1" on Monday and re-runs on Wednesday is now talking about something else and has no way to notice.**
+
+The old mitigation was a rule reading *"never compare runs by display ID."* **That rule was addressed to this skill, and the person who gets burned is the reader** — who sees `ISSUE-1` on every row of every table and was never told it was temporary. A hazard that can only be avoided by knowing a rule printed nowhere in the report is not mitigated.
+
+**Allocation, in order:**
+
+1. **Read the most recent report in `harness-audits/`** and build its key → ID map from the `ids` line on the cover.
+2. **A finding whose key appears there keeps that ID**, whatever its rank this run.
+3. **A finding whose key is new gets `ids-high + 1`**, and `ids-high` increments.
+4. **A retired ID is never reissued** — not when the finding is fixed, not when it is withdrawn as wrong. `ids-high` only goes up.
+
+**`ids-high` is why a fixed issue's number stays dead.** Allocating from the highest ID *in the current report* would recycle numbers as findings close, which is exactly the failure this rule exists to prevent. It is one integer on the cover, and it is the only state the scheme needs.
+
+**Where the map lives: the `.md` cover, in an `ids` line.**
+
+```
+ids           1=C-1@workspace-publish · 2=C-1@dev-server · 3=C-12@eslint · 7=C-4@outbound-links
+              · 19=C-1@palette · 24=P-perm@settings.json
+ids-high      27
+```
+
+**Retired IDs are simply absent from `ids`** — the gap is the record. `ids-high` is what stops the gap being filled.
+
+**No new file.** The only writes remain the two reports, and the newest report is always the ledger. **A repo with no prior report starts at 1**, and a repo whose reports were deleted starts over — which is a real limitation, worth stating in §6 rather than engineering around.
+
+**IDs no longer run 1..N down the table, and that is correct.** §2 stays sorted by severity then tier; the ID column becomes a label rather than a rank. Any bug tracker reads this way. **A number that sorts is a number that moves**, and the whole point is that it stops moving.
+
+**Trend may now cite IDs**, because they finally mean something across runs: *"`ISSUE-3` is still open, unchanged in both files"* is now checkable by the reader against the previous report.
 
 **Keys never appear in the HTML.** Not as a heading, not as a sentence subject, not as trailing metadata on a finding line. `C-7@generate-audio.mjs` is undecodable without `checks.md` open beside it — `C-7` is the seventh check in the Class C catalogue, which the reader has never seen and does not have. A report that prints it is asking the reader to hold a lookup table they were never given.
 
-Keys exist for exactly one job: letting the next run compare findings across reports without relying on display IDs, which shift as findings close. That job is done entirely by the `keys-open` / `keys-withdrawn` / `keys-carried` block in the **`.md` cover fence**, which is written for a machine to parse.
+Keys exist for exactly two jobs, both of them machine-facing and both done in the **`.md` cover fence**: letting the next run tell which findings carried over (`keys-open` / `keys-withdrawn` / `keys-carried`), and binding each finding to its permanent display ID (`ids`). The reader never needs to see one.
 
 So Trend entries in the HTML read in plain words, and stop there:
 
@@ -1065,12 +1094,18 @@ A reader shown the second asked *"what is C-2? sounds like noise to me."* That i
 
 A run produced five lines here plus an explainer on display IDs versus keys, on a first run with nothing to compare. **The display-ID/key distinction is specification, not report content** — it belongs in this file and never in a report. One sentence, then §5.
 
-Carry the keys in the `.md` so the next run can read them without parsing prose:
+Carry the keys in the `.md` so the next run can read them without parsing prose — and with them the ID ledger, which is what makes display IDs permanent:
 
 ```
 keys-open:   C-2@CLAUDE.md · C-12@ci.yml · P-agents@.claude/agents
 keys-closed: (none)
+ids:         1=C-2@CLAUDE.md · 2=C-12@ci.yml · 5=P-agents@.claude/agents
+ids-high:    7
 ```
+
+**`ids` and `ids-high` are not optional on any run**, including the first — a first report writes `ids` for everything it found and sets `ids-high` to the count. Omit them and the next run has nothing to carry forward and silently reverts to renumbering, which is the bug this exists to fix.
+
+**Write `ids` for every finding in this report, including ones inherited unchanged.** It is a full ledger, not a delta; the next run reads exactly one report.
 
 ### The `.md` states the next lever as a field
 
