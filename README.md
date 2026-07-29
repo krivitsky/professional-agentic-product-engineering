@@ -129,15 +129,15 @@ One install, both skills. The coach and the audit are the two halves of the same
 
 <a href="https://x.com/unclebobmartin/status/2080257779395154409"><img src="assets/harness-audit-banner.png" width="820" alt="Left: Uncle Bob's tweet — &quot;My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity.&quot; Right: his advice is not to stop reading, but to invest in engineering the harness so it becomes the source of quality and trust — and the PAPE guide's eight tiers plus the harness-audit skill are how you tell whether yours is good enough."></a>
 
-We all saw this powerful and controversial tweet from Uncle Bob — [Robert C. Martin](https://x.com/unclebobmartin/status/2080257779395154409), the author of *Clean Code*. Let me pause here and explain what is underneath it, and the development that follows.
+We all saw this powerful yet controversial tweet from Uncle Bob (aka [Robert C. Martin](https://x.com/unclebobmartin/status/2080257779395154409)), the author of *Clean Code*. Let me pause here and explain the depth of this and an interesting development that follows.
 
-When Uncle Bob says he no longer reads the code his agents write, that is not a recommendation to stop reading code and start being careless. It is a call to **invest in the agent's harness** so that you can trust its outputs.
+When Uncle Bob says "he no longer reads the code his agents write", that is not a recommendation to stop reading code and start being careless. It is a call to **invest in the agent's harness** so you can trust its outputs.
 
 Which leaves the question: how do you know whether your own harness is any good? Where is it strong, where does it leak, and what should you build next?
 
-In response to the growing need for a guide to Professional Agentic Product Engineering (PAPE), we built a harness audit skill.
+In response to growing awareness of the need for a guide for Professional Agentic Product Engineering (PAPE), we developed a harness audit skill.
 
-Run **`/pape:harness-audit`** to read your repo's existing agentic setup and generate a detailed 8-tier report based on the PAPE guide. The report — Markdown and HTML — explains the strengths and the weaknesses of your setup, then details and prioritizes the outstanding issues and proposes a draft backlog to start fixing them.
+Run **`/pape:harness-audit`** to read the repo's existing agentic setup and generate a detailed 8-tier report based on the PAPE guide. The detailed report (md and html) will explain the strengths and weaknesses of your setup. It will then detail and prioritize the outstanding issues and propose a draft backlog to start fixing them.
 
 Install it:
 
@@ -147,9 +147,15 @@ Install it:
 /reload-plugins
 ```
 
-Then run `/pape:harness-audit` in any repo you work in. It asks how deep to go and what output you want, and it is read-only apart from the two files it writes to `harness-audits/` — one for you, one for an agent picking up where it stopped. Commit that folder and the next run tells you what actually moved.
+Then, in any repo you work in:
 
-**Read the full chapter — how it rates the eight tiers, what's in the report, and where it hands off: [Audit your harness](https://agentic-engineering.guide/audit-your-harness).** Flags and internals live in [`plugins/pape`](plugins/pape).
+```
+/pape:harness-audit
+```
+
+It is read-only apart from the two files it writes to `harness-audits/`.
+
+**To learn more — how it rates the eight tiers and what's in the report: [Audit your harness](https://agentic-engineering.guide/audit-your-harness).**
 
 ## What people are saying
 
