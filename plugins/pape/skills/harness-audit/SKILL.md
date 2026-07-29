@@ -64,7 +64,7 @@ Each finder returns candidate findings in the §Findings shape, each with the `f
 
 **Spawn it alongside the finders, not after them.** It re-tests the previous run's open issues against the tree, and because every one of them arrives with a `file:line` and a stated condition, its work is targeted reads rather than an open-ended sweep. It finishes long before the finders do.
 
-**Give it the issues inline — never the report path.** The orchestrating context has already opened the previous report; it extracts each open issue's subject, `file:line` and the condition claimed, and passes that list in the prompt. **Handing over a path instead makes the re-checker read a hundred-kilobyte document to find its own worklist** — an observed run spent ~90k tokens this way, more than the finder it was supposed to undercut, and most of it before any re-testing began.
+**Give it the issues inline — never the report path.** The orchestrating context has already opened the previous report; it extracts each open issue's subject, `file:line` and the condition claimed, and passes that list in the prompt. **Handing over a path instead makes the re-checker read a hundred-kilobyte document to find its own worklist** — an observed run spent more than the pass it was supporting this way, more than the finder it was supposed to undercut, and most of it before any re-testing began.
 
 The whole premise of this pass is that it is cheap because its targets are known. **Make them known to it.**
 
@@ -158,7 +158,7 @@ Three verdicts per issue, and the third is not a failure:
 
 **`fact-check` carries a counter — `fact-check 12/19` — because it is the only phase whose progress is a number the run actually knows.** Every other phase is one agent working until it is done; this one has a claim list with a length. It is also the phase where the reader has just been shown five claims and is waiting to learn which survive, so a moving number answers the question they actually have.
 
-**It is not the longest phase — research is.** An earlier version of this line justified the counter by duration, which was an assumption, not a measurement: an observed run reached `cross-check` at 15m and finished soon after. **Do not reason about which phase is slow.** The strip reports elapsed time; that is the measurement, and it is the only claim about duration this file is entitled to make.
+**It is not the longest phase — research is.** An earlier version of this line justified the counter by duration, which was an assumption rather than anything measured. **Do not reason about which phase is slow**, and do not state it either — the strip reports elapsed time as it accrues, and that is the only duration this skill ever shows.
 
 **A phase that will not run this time is not shown at all.** Under `--quick` there is one reading pass, so `cross-check` has nothing to compare; with no prior report, `re-check` has nothing to re-test. Both come out of the strip and out of the legend, and the strip is five phases instead of six.
 
@@ -223,7 +223,7 @@ The strip shows agents, phases and tokens — all of it about the audit. These t
 
 The second reads better and is wrong, which is the whole reason this pass exists.
 
-**Say one thing the repo does well, at cross-check.** The scorecard's credit line is the only place the report says anything good, and it lands half an hour in:
+**Say one thing the repo does well, at cross-check.** The scorecard's credit line is the only place the report says anything good, and it lands at the very end:
 
 > Worth saying: 561 commits, median two files — T5 checkpointing already holds.
 
@@ -237,7 +237,7 @@ One line, drawn from what the finders actually counted, never invented. **It cha
 
 **All three are facts the run already holds.** None requires an extra pass, an estimate, or a judgement it has not already made.
 
-**Carry elapsed time and tokens in the strip** — the only place the user watches cost accrue against the estimate they agreed to. *"12m · 287k"* against a quoted *"38m · 520k"* says *on track* without anyone claiming it.
+**Carry elapsed time and tokens in the strip.** *"12m · 287k"* is a measurement of what has already happened, which is the only kind of cost figure this skill is allowed to show. There is nothing to compare it against, by design — see §Say nothing about how long it takes.
 
 **The token figure must be on the same basis as the estimate, or it is noise.** Count **every pass** — each finder, the verifier, and this context — not the orchestrator's own slice. A run showed `1m · 34k` while its finder was still working: the finder's ~120k had not landed, so the number was a third of the truth and would have stayed flat for ten minutes before jumping. A meter that cannot be compared to the quoted figure fails the only job it has.
 
@@ -322,25 +322,25 @@ questions before anything spawns.
 
 **Spell the phases out here, once, before anything runs.** A reader watching `▸ research → · cross-check → · fact-check` has been given six words and no key to them, and *cross-check* and *fact-check* are near-synonyms in ordinary English — nothing in the strip says which one re-opens the files. **The strip is a position indicator, not an explanation**, and it was being asked to be both.
 
-**It costs six lines at the one moment a reader is deciding whether to commit half an hour**, and it buys the rest of the run: every later message can then say `research` on its own, because the word has a definition the reader has already seen. This is the same trade as §Say what the audit looks for — orientation once, early, never repeated.
+**It costs six lines at the one moment a reader is deciding whether to commit to the run at all**, and it buys everything after: every later message can then say `research` on its own, because the word has a definition the reader has already seen. This is the same trade as §Say what the audit looks for — orientation once, early, never repeated.
 
 **Say the strip will recur.** *"This strip closes every message"* is what turns it from a thing that appeared once into a thing the reader tracks — and a run that then drops it has visibly broken a promise rather than quietly omitted a display.
 
 **Print only the phases this run will actually reach** — no `re-check` row without a prior report, no `cross-check` row under `--quick`. A phase that never fills teaches the reader to distrust the strip, and a phase that has to be explained costs more than it shows. One clause in the closing line covers the absence: *"No previous run here, so nothing to re-check — starting from scratch."*
 
-**Name the version, and read it from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`** — the same source the report cover uses. A user comparing two reports, or reporting a bug, needs to know which version produced what, and the cover is too late: it arrives half an hour in, and only if the run finishes.
+**Name the version, and read it from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`** — the same source the report cover uses. A user comparing two reports, or reporting a bug, needs to know which version produced what, and the cover is too late: it arrives at the end, and only if the run finishes.
 
 **Say what happens next, in one clause.** Not a plan, not a numbered procedure — *"checking for a previous run, then three questions"* is enough to tell someone the tool calls they are about to see are not the audit starting without them.
 
 ### Confirm before spawning — every run
 
-**This is expensive and slow, and how expensive is not predictable.** Observed Standard runs came in at 26 and 38 minutes; a `--quick` markdown-only run is a different animal again, and repo size moves it as much as depth does. That is far past the point where committing someone silently is acceptable — so the introduction is followed by a two-line frame and one `AskUserQuestion`. Short: they came for an audit, not a form.
+**This run is not cheap and the user has not agreed to it yet** — so the introduction is followed by a two-line frame and one `AskUserQuestion`. Short: they came for an audit, not a form.
 
-**Never predict a duration or a token count.** Every figure this file has carried was wrong: it said 5–10 minutes, then 15–20, then 18 — against real runs of 26 and 38. **An estimate that undershoots is worse than none**, because the reader budgets against it, and the correction arrives as a broken promise rather than as information. Say it is slow, recommend backgrounding, and let the live meter report what is actually happening.
+**State no duration and no token figure here.** Not a range, not a hedge, not a prior run's measurement — see §Say nothing about how long it takes for why every figure this file ever carried was wrong. Say what it *does* and what it *writes*; the live meter reports the rest as it happens.
 
 ```
 Harness audit — rates this repo's agent config against the eight tiers.
-Read-only; writes to harness-audits/. Last run here: 38m · 520k tokens.
+Read-only; writes to harness-audits/.
 ```
 
 Then **one** `AskUserQuestion` call carrying **two** questions, so it is a single interaction:
@@ -355,7 +355,7 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 
 **Format and theme are one question, not two.** Theme is the least consequential axis in the run and asking it separately spends a decision on it. Folded in, it is only asked where it means something — and the *Markdown only* path never has to answer it at all.
 
-**Say what `Markdown only` buys, in the option label: about a third off the run.** That is measured, not estimated. The write phase emits roughly 13k output tokens of markdown and 22k of HTML, generated serially by one context, so the HTML is about 62% of it — and ~15% of the HTML is the stylesheet, transcribed verbatim. A reader who wants the findings and not the artifact should not pay half an hour for a layout pass.
+**Say what `Markdown only` buys structurally: it skips the layout pass entirely.** The HTML is generated serially by the same context after the markdown, so choosing markdown-only removes a whole phase of writing. **Do not quantify it** — no fraction, no minute count, no token figure. What runs is a fact; what it costs is not one this file gets to state.
 
 **Recommend `Standard`, and say why it is the recommendation** — the reason is not "more coverage", and stating it wrong oversells the other two:
 
@@ -377,11 +377,13 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 
 **Say what it writes before it writes it.** Two files into `harness-audits/`, and nothing else touched. That is the only write this skill makes, and it lands in the user's repo — it is the real consent moment, more than the finder count is.
 
-### The estimate comes from the last run, not from this file
+### Say nothing about how long it takes
 
-**Glob `harness-audits/*-report.md` and read the `cost:` line off the most recent cover.** A number measured in *this* repo beats any figure written here, and it improves every run. **Where there is no prior report, say nothing about duration.** Not a range, not a hedge, not *"a few minutes"*. A first run has no data behind it, and inventing one is how every wrong figure in this file's history got written. *"First run here, so no baseline — it takes a while; `ctrl+b` if you'd rather not watch"* is the whole of it.
+**No duration, no token figure, no comparison to a previous run — at setup, in the report, or anywhere in between.** Not a range, not a hedge, not *"a few minutes"*, and not *"the last run here took 38m"* either. A measured past run is still presented as guidance for this one, and repo size and depth move it enough that the number misleads exactly when it matters.
 
-**A hardcoded estimate in this file will be wrong.** An earlier version of this section claimed 5–10 minutes; the first real run took over 20. Numbers about a run belong in the record a run writes, not in its instructions.
+**Every figure this file has carried was wrong.** It said 5–10 minutes, then 15–20, then 18, against real runs of 26 and 38. Each correction was written by someone who believed the new number was the accurate one. **The pattern is the evidence: the problem is not which number, it is that a number is being stated at all.**
+
+**What replaces it is the live meter in the strip** — elapsed time and tokens as they actually accrue. That reports what is happening rather than predicting what will, and it needs no baseline to be honest.
 
 ### Then emit the block — it *is* the confirmation
 
@@ -390,7 +392,7 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 > **Harness audit · krivitskydotcom** — Quick look · 1 finder + verifier · markdown only
 > `✓ setup → · re-check → · research → · cross-check → · fact-check → · report`
 >
-> This takes a while. Spawning both passes now.
+> Spawning both passes now.
 
 **A run given both forms emitted the sentence and skipped the block**, then produced the strip two minutes later once the agents were already out — so the reader spent the opening with no phase display at all, which is the one moment it is most needed. **One mechanism: the block is the confirmation.**
 
@@ -537,7 +539,7 @@ budget-hit: no — finders 18 + 14 of 20 each · verifier 21 of 25
 cost:       18m · 340k tokens · 2 finders + verifier
 ```
 
-**`cost:` is what the next run quotes back to the user**, so it is not optional bookkeeping — it is the input to the confirmation step in §Flags. Wall time from start to report written, total tokens across every pass, and the shape that produced them. Without it the next run has nothing to say but a guess, and the guess has already been wrong once.
+**`cost:` records what *this* run took** — wall time from start to report written, total tokens across every pass, and the shape that produced them. It is a measurement of something that already happened, which is the only kind of cost figure this skill states. **Nothing reads it back as an estimate**, and no run quotes it at the reader; see §Say nothing about how long it takes.
 
 **Open questions are not hedging.** Each one names something the audit genuinely could not determine and says what it would change. A question that would not change a recommendation is noise; cut it.
 
@@ -790,7 +792,7 @@ Two reasons, and the second is the one that matters:
 
 **Latency.** The markdown is the content; the HTML is the presentation of it. A reader who has been waiting twenty-five minutes can open the content while the render finishes, instead of waiting on a layout pass for a document they already paid for.
 
-**Durability.** Everything expensive has already happened by this point — two finders, a verifier, ~480k tokens, half an hour. Until something is on disk, all of it is held in one context and an interrupt, a crash, or a context limit loses the entire run. **Writing the `.md` first makes the audit survivable at the earliest moment it can be**, and the HTML is then re-derivable from it at any time by a fresh session at trivial cost.
+**Durability.** Everything expensive has already happened by this point — the finders and the verifier have all reported. Until something is on disk, all of it is held in one context and an interrupt, a crash, or a context limit loses the entire run. **Writing the `.md` first makes the audit survivable at the earliest moment it can be**, and the HTML is then re-derivable from it at any time by a fresh session at trivial cost.
 
 **This is not the re-render exemption.** §*A re-render is not a run* governs re-presenting an existing finding set as a new report; this is one run writing its two outputs in a sensible order. Same timestamp, same basename, one audit.
 
@@ -798,7 +800,7 @@ Two reasons, and the second is the one that matters:
 
 The findings are written and the reader has them. **Then ask once, and stop:**
 
-> Findings are in `harness-audits/2026-07-27-1128-report.md`. Want the designed HTML too — light or dark? It renders from this file, so it costs about 22k tokens and no re-auditing.
+> Findings are in `harness-audits/2026-07-27-1128-report.md`. Want the designed HTML too — light or dark? It renders from this file, with no re-auditing.
 
 **Ask after, not before, because now the question is cheap.** Up front, *"do you want HTML?"* is a guess about a document they have not read. Afterwards they have the findings in hand and know whether this is something to send someone.
 
