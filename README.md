@@ -10,13 +10,14 @@
 
 **Professional agentic engineering is not prompt engineering — it's engineering the system around the model.** As the work gets harder, the effort moves up the ladder: the prompt shrinks while the system around it grows.
 
-This repo — a **tutor mode** and an **Agentic Coach** — is based on the [Professional Agentic Product Engineering Guide](guide.md). These materials and harness nudge you to the right tip of your growing product engineering skills.
+This repo is four ways into the [Professional Agentic Product Engineering Guide](guide.md): **read it**, get **tutored** through it, install the **coach** for ambient nudges as you work, or **[audit a repo's harness](https://agentic-engineering.guide/audit-your-harness)** against it. These materials and harness nudge you to the right tip of your growing product engineering skills.
 
 > [!TIP]
-> **Formats of the Guide** — read it in whichever form fits how you work; all three stay in sync with this repo:
+> **Formats of the Guide** — read it in whichever form fits how you work; all four stay in sync with this repo:
 > - **📄 Markdown** — [`guide.md`](guide.md), the canonical source. Best for reading in your editor, feeding to an agent, or sending a PR.
 > - **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide/) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts.
 > - **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into `[[wikilink]]`-cross-referenced pages (one per tier, concept, and entity). Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph and *study* the material, not just read it top-to-bottom.
+> - **🔌 In your repo** — install the [plugin](plugins/pape) (`/plugin install pape@pape`) and the whole guide ships with it, byte-identical and enforced by CI. `/pape:agentic-coach` quotes tips from it as you work, and `/pape:harness-audit` rates the repo you're in against the eight tiers — see [Audit your harness](https://agentic-engineering.guide/audit-your-harness). The guide is *there* while you work, instead of somewhere you go.
 
 The Guide is kept up-to-date to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
 

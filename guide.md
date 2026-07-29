@@ -41,11 +41,12 @@ For the structural half — the organizational picture this guide deliberately l
 
 ### Formats of this Guide
 
-Read it in whichever form fits how you work — all three stay in sync with this repo:
+Read it in whichever form fits how you work — all four stay in sync with this repo:
 
 - **📄 Markdown** — [`guide.md`](guide.md) in this repo. The canonical source; everything else is generated from it. Best for reading in your editor, feeding to an agent, or sending a PR.
 - **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts from this repo.
 - **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into linked pages — one per tier, concept, and entity — cross-referenced with `[[wikilinks]]`. Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph instead of top-to-bottom: jump between related tips, see how concepts connect, and explore the harness, loops, and primitives as a web. Best when you want to *study* the material, not just read it.
+- **🔌 In your repo** — install the plugin (`/plugin install pape@pape`) and the whole guide ships with it, byte-identical and enforced by CI. `/pape:agentic-coach` quotes tips from it as you work, and `/pape:harness-audit` rates the repo you're in against the eight tiers — see [Audit your harness](#audit-your-harness). The guide is *there* while you work, instead of somewhere you go.
 
 ### Contents
 1. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
@@ -215,39 +216,27 @@ Which leaves the question: how do you know whether your own harness is any good?
 
 In response to the growing need for a guide to Professional Agentic Product Engineering (PAPE), we built a harness audit skill.
 
-Run **`/pape:harness-audit`** to read your repo's existing agentic setup — instruction files, skills, agent definitions, hooks, permissions, tests, CI, as checked in rather than as you meant to set it up — and generate a detailed 8-tier report based on this guide. The report — Markdown and HTML — explains the strengths and the weaknesses of your setup, then details and prioritizes the outstanding issues and proposes a draft backlog to start fixing them.
+Run **`/pape:harness-audit`** to read your repo's existing agentic setup — instruction files, skills, agent definitions, hooks, permissions, tests, CI, as checked in rather than as you meant to set it up — and generate a detailed 8-tier report based on this guide. The report — Markdown and HTML — explains the strengths and the weaknesses of your setup, then details and prioritizes the outstanding issues and proposes a draft backlog to start fixing them. It looks hardest at what is **present but incoherent, unenforced, or failing open** — a missing `CLAUDE.md` you already know about; two instruction files that contradict each other you don't. Every finding names the file and line it came from and cites the tip behind it, so a rating always traces to something you can open and argue with. Before a finding ships, a separate agent opens that file and tries to refute it; the report says what got cut.
 
-### What's missing is the easy half
+### It rates the eight tiers and names one next step
 
-Absence is cheap to find: no `CLAUDE.md`, no tests, no CI. You probably already know. The valuable half is what's **present but incoherent, unenforced, or failing open** — where the harness looks complete and isn't:
+The report rates each of the [eight tiers](#the-eight-tiers-at-a-glance) and adds a line explaining the rating. It then walks the tiers from T1 upwards and names the lowest one that does not hold yet. That tier is the recommendation.
 
-- Two instruction layers that **contradict each other**, with nothing that reconciles them when one changes.
-- A rule written down that **nothing checks** — so it holds exactly as long as the agent feels like it.
-- A gate that only bites **after** you've pushed, which is a report, not a gate.
-- A verify command that behaves **differently in CI than locally**, so green means two different things.
-- Delegation dispatched from five places with **no versioned agent definition** behind it.
-
-Each finding names the file and line it came from and cites the tip it comes from, so a rating is always traceable to something you can open and disagree with.
-
-### It rates the ladder, then names one lever
-
-All eight tiers get a rating and a one-line note. Then — the part that matters — the report walks the rungs from T1 up and names **the lowest one that doesn't hold yet**. That single rung is the recommendation.
-
-That rule falls out of the ladder itself: each rung rests on the ones below, so a weak lower rung caps everything above it. Hardening your CI while nothing tells the agent what "done" means is effort spent on a rung that cannot hold.
+The reason is the ladder itself: each tier builds on the ones below, so a weak lower tier limits what the ones above it can do. Hardening CI while nothing tells the agent what "done" means is work on a tier that cannot hold.
 
 > *"T1 and T2 hold, so the next lever is T3. T4 and T5 are weak too, but both rest on T3, so it goes first."*
 
-Where a tier genuinely doesn't apply — nothing runs unattended, so there is no fleet to operate — it says what the tier depends on, rather than pretending it's a gap. **Climbing only as far as your work needs is the advice**, so an audit that manufactured eight problems would be arguing against the guide it comes from.
+Where a tier does not apply — nothing runs unattended, so there is no fleet to operate — the report says what that tier depends on instead of counting it as a gap. This guide's advice is to climb only as far as your work needs, and the audit follows it.
 
 ### What the report contains
 
-Two files per run, written to `harness-audits/` — one for you, one for an agent that picks up where the audit stopped. The human report runs in this order, decisions first and evidence last:
+Two files per run, written to `harness-audits/` — one for you, one for an agent picking up where the audit stopped. The human report runs in this order, decisions first and evidence last:
 
 | § | Section | What it's for |
 |---|---|---|
 | 1 | **Scorecard** | The eight tiers rated, what's genuinely good, and the next lever. The only section that says several findings are really *one* thing. |
 | 2 | **Issues Summary** | Severity counts, then one table: ID, finding, tier, severity, confidence. The whole audit at a glance. |
-| 3 | **Recommended backlog** | One flat ranked list — worst first, and within each severity the lower rung first, so a High on T3 goes before a High on T5. |
+| 3 | **Recommended backlog** | One flat ranked list — worst first, and within each severity the lower tier first, so a High on T3 goes before a High on T5. |
 | 4 | **Trend** | What changed since the last run: fixed, still open, newly found, or withdrawn because the earlier finding didn't hold. |
 | 5 | **Observations** | Things worth knowing that need no response. Explicitly labelled as such. |
 | 6 | **Method and limits** | What was read, what was looked for and absent, what this method cannot see at all, and the questions left open. |
@@ -255,23 +244,21 @@ Two files per run, written to `harness-audits/` — one for you, one for an agen
 
 Commit the folder. The second run compares itself against the first, so §4 tells you what actually moved rather than what you meant to do.
 
-### Why you can trust it
+### Install and run it
 
-An audit's failure mode isn't missing things — it's **confidently reporting something untrue**, which costs you an afternoon and your trust in the tool. Two agents given the same instructions make the *same* shortcut, so running more of them in parallel doesn't catch it.
+```
+/plugin marketplace add krivitsky/professional-agentic-product-engineering
+/plugin install pape@pape
+/reload-plugins
+```
 
-So the passes are deliberately asymmetric. Finders sweep the repo for candidates. Then a **separate agent, whose only job is to refute them**, opens the file behind every quoted line and every printed number. Anything it can't stand up gets cut or narrowed — and the report says what it cut, because a withdrawn claim changes what you should trust.
+Then, in any repo you work in:
 
-That check is not optional and there is no flag that skips it. `--quick` buys speed by looking at *less*, never by checking less.
+```
+/pape:harness-audit
+```
 
-### Where it fits
-
-The audit is **diagnostic**, and the other three ways into this material pick up from it:
-
-- Its next lever tells you **which tier to read**.
-- If that lever is [T1](#tier-1) or [T2](#tier-2) — prompting and shaping — there's nothing to add to the repo, so it points you at the coach or the tutor instead. Those two rungs live in how you work, not in your files.
-- The **tutor** can read an audit report and start teaching at the rung it named, using your own findings as the examples.
-
-See [Learn this with an agent](#learn-this-with-an-agent-the-fastest-way-through) for all four, and [`plugins/pape`](https://github.com/krivitsky/professional-agentic-product-engineering/tree/main/plugins/pape) for the skill itself.
+It asks how deep to go and what output you want, then writes the two files when it's done. It is read-only apart from those files: it never edits your code, runs your tests, or touches git.
 
 ## Loops of Agentic Engineering
 
