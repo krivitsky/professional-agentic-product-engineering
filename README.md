@@ -139,42 +139,17 @@ In response to the growing need for a guide to Professional Agentic Product Engi
 
 Run **`/pape:harness-audit`** to read your repo's existing agentic setup and generate a detailed 8-tier report based on the PAPE guide. The report — Markdown and HTML — explains the strengths and the weaknesses of your setup, then details and prioritizes the outstanding issues and proposes a draft backlog to start fixing them.
 
-**What's absent is the easy half.** The valuable half is what's **present but incoherent, unenforced, or failing open** — the gaps you can't see precisely because you wrote them yourself:
+Install it:
 
-> **`CLAUDE.md` and five skills both define "done", and they disagree.** Two skills forbid `npm run dev`; the recommended verify command starts it. Nothing reconciles the two layers when one changes.
+```
+/plugin marketplace add krivitsky/professional-agentic-product-engineering
+/plugin install pape@pape
+/reload-plugins
+```
 
-Every finding names the file and line it came from and cites the guide tip behind it, so a rating always traces to something you can open and argue with.
+Then run `/pape:harness-audit` in any repo you work in. It asks how deep to go and what output you want, and it is read-only apart from the two files it writes to `harness-audits/` — one for you, one for an agent picking up where it stopped. Commit that folder and the next run tells you what actually moved.
 
-**Then it picks one thing.** All eight tiers get rated, and the report names the **next lever** — the lowest rung that doesn't hold yet, because each rung rests on the ones below and a weak one caps everything above it:
-
-> **T1 and T2 hold, so the next lever is T3.** T4 and T5 are weak too, but both rest on T3 — so it goes first.
-
-**It doesn't touch your repo.** Read-only except the report: it never edits a file, never runs your tests or builds, never touches git. It stops at the offer — applying a fix is a separate turn you consent to. Secrets it finds are reported by shape and location (`"sk_live_••••••••"`), never reproduced.
-
-**Findings are verified, not just generated.** Parallel finders sweep the repo, then a *separate* agent gets one job: try to refute each finding by opening the file behind it. Anything it can't stand up doesn't ship — and the report says what got cut.
-
-Two files per run, in `harness-audits/`:
-
-| File | For |
-|---|---|
-| `<timestamp>-report.html` | **you** — a self-contained designed report; travels by email, prints cleanly |
-| `<timestamp>-report.md` | **agents** — the same findings as a briefing, so an agent with more context can carry on where the audit stopped |
-
-Commit the folder and the next run tells you what moved — fixed, still open, or newly found.
-
-**Flags:**
-
-| Flag | What changes |
-|---|---|
-| *(none)* | 2 finders + the verifier — the default |
-| `--quick` | 1 finder + the verifier; looks at less, checks it just as hard |
-| `--deep` | 4 finders + the verifier; two extra lenses |
-| `--theme:light` | light report *(default)* |
-| `--theme:dark` | dark report — cosmetic only, the audit is identical |
-
-There is no flag that skips verification. Cheap mode buys speed by looking at less, never by checking less.
-
-*Where the audit meets the other three doors:* if your next lever turns out to be **T1 or T2** — prompting and shaping — there is no file to add, so the audit points you at the tutor or the coach instead. And the tutor can read an audit report to decide where to start teaching, so a repo you've already audited skips the "what's your level?" conversation entirely.
+**Read the full chapter — how it rates the eight tiers, what's in the report, and where it hands off: [Audit your harness](https://agentic-engineering.guide/audit-your-harness).** Flags and internals live in [`plugins/pape`](plugins/pape).
 
 ## What people are saying
 

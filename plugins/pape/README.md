@@ -85,7 +85,7 @@ Commit the folder. A second run compares itself against the last one and tells y
 
 ### It asks before it spends
 
-A run takes 15–20 minutes and a few hundred thousand tokens, so it opens with two lines and one question: how deep, and which theme. Whatever you passed on the command line is pre-selected, so it's one tap to confirm. It also tells you what the *last* run in this repo actually cost, rather than guessing, and recommends `ctrl+b` — nothing it does needs watching.
+A run is slow and its cost is not predictable, so it opens with two lines and three questions: how deep, what output, and whether to rate T1 by reading this project's prompt history. Whatever you passed on the command line is pre-selected, so it's one tap to confirm. Rather than guess at a duration it tells you what the *last* run in this repo actually cost, and a progress strip closes every message so you can see which of the phases it's on.
 
 **Standard (2 finders) is the recommendation, and not because two lenses see more.** Every finding is verified in all three modes. What the second lens buys is *disagreement*: where two independent readings clash, pooling flags it and the verifier takes it first. In a real run one finder reported `site/eslint.config.mjs` missing when it exists — the second lens is what turned that from a shipped finding into a caught error.
 
