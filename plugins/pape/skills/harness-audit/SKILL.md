@@ -1008,7 +1008,11 @@ The old mitigation was a rule reading *"never compare runs by display ID."* **Th
 1. **Read the most recent report in `harness-audits/`** and build its key → ID map from the `ids` line on the cover.
 2. **A finding whose key appears there keeps that ID**, whatever its rank this run.
 3. **A finding whose key is new gets `ids-high + 1`**, and `ids-high` increments.
-4. **A retired ID is never reissued** — not when the finding is fixed, not when it is withdrawn as wrong. `ids-high` only goes up.
+4. **A retired ID is never reissued** — not when the finding is fixed, not when it is withdrawn as wrong. `ids-high` only goes up, and the retirement is recorded in `ids-retired` with its reason and date.
+
+**`ids` is a ledger of live bindings, not an index of this report's findings.** A key that was open in a previous report and simply wasn't re-tested this run — normal under `--quick`, which re-checks only the worst — **keeps its binding**. Drop it and the next run finds no match, allocates a fresh number, and the same problem acquires a second identity. `ids-high` stops the *number* being reused; only carrying the binding stops the *finding* being renumbered.
+
+**So a key leaves `ids` for exactly one reason: it was retired**, and then it appears in `ids-retired` instead. Absence from both means the key was never seen.
 
 **`ids-high` is why a fixed issue's number stays dead.** Allocating from the highest ID *in the current report* would recycle numbers as findings close, which is exactly the failure this rule exists to prevent. It is one integer on the cover, and it is the only state the scheme needs.
 
@@ -1020,9 +1024,13 @@ ids           1=C-1@workspace-publish · 2=C-1@dev-server · 3=C-12@eslint · 7=
 ids-high      27
 ```
 
-**Retired IDs are simply absent from `ids`** — the gap is the record. `ids-high` is what stops the gap being filled.
+**Retired IDs move to `ids-retired`, with what happened and when** — `1=C-1@workspace-publish — fixed 2026-07-29, never reissued`. An earlier draft of this rule said retired IDs were "simply absent from `ids`, and the gap is the record." **A gap is not a record; it is an absence, and this skill's entire premise is that absence is ambiguous** — a missing number reads the same whether it was retired, never allocated, or dropped by a bug. Say which.
 
-**No new file.** The only writes remain the two reports, and the newest report is always the ledger. **A repo with no prior report starts at 1**, and a repo whose reports were deleted starts over — which is a real limitation, worth stating in §6 rather than engineering around.
+**Where the previous report predates this scheme, reconstruct the ledger from its issues table** rather than starting over. Every repo audited before `0.56.0` has reports with IDs and findings but no `ids` line, and starting at 1 there would hand `ISSUE-1` to whatever now ranks first — **reproducing the exact bug this section exists to fix, once, on every existing repo.** Match the old report's findings to this run's keys, carry those numbers, and set `ids-high` above the highest.
+
+**A reconstruction is not a carried ledger — say so in §6.** It infers the binding from a published table rather than reading one the previous run wrote, so a finding whose wording changed enough to break the match will get a new number. That is a disclosure, not a defect.
+
+**No new file.** The only writes remain the two reports, and the newest report is always the ledger. **A repo with no reports at all starts at 1**, and a repo whose reports were deleted starts over — a real limitation, worth stating in §6 rather than engineering around.
 
 **IDs no longer run 1..N down the table, and that is correct.** §2 stays sorted by severity then tier; the ID column becomes a label rather than a rank. Any bug tracker reads this way. **A number that sorts is a number that moves**, and the whole point is that it stops moving.
 
@@ -1101,11 +1109,14 @@ keys-open:   C-2@CLAUDE.md · C-12@ci.yml · P-agents@.claude/agents
 keys-closed: (none)
 ids:         1=C-2@CLAUDE.md · 2=C-12@ci.yml · 5=P-agents@.claude/agents
 ids-high:    7
+ids-retired: 3=C-4@pre-push — fixed 2026-07-27 · 4=C-11@sharp — withdrawn, finding did not hold
 ```
 
 **`ids` and `ids-high` are not optional on any run**, including the first — a first report writes `ids` for everything it found and sets `ids-high` to the count. Omit them and the next run has nothing to carry forward and silently reverts to renumbering, which is the bug this exists to fix.
 
-**Write `ids` for every finding in this report, including ones inherited unchanged.** It is a full ledger, not a delta; the next run reads exactly one report.
+**Write `ids` for every live key — this report's findings *and* the ones carried but not re-tested.** It is a full ledger, not a delta or an index; the next run reads exactly one report and must find every binding in it.
+
+**Do not add a note explaining why the ledger holds keys that aren't findings.** A run wrote an `ids-note` field for this, but `keys-not-retested` already lists them by name one line above, and the ledger holding more than the report is the specified behaviour rather than an anomaly needing a caption.
 
 ### The `.md` states the next lever as a field
 
