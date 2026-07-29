@@ -205,16 +205,17 @@ And look at *what* his gauntlet is made of — unit tests, gherkin/BDD tests, co
 
 ## Audit your harness
 
-You can read this whole guide and still not know where your own setup stands. So the guide ships an audit: point it at a repo you actually work in, and it rates that harness against the eight tiers and names the one rung to fix next.
+[![Left: Uncle Bob's tweet — "My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity." Right: his advice is not to stop reading, but to invest in engineering the harness so it becomes the source of quality and trust — and the PAPE guide's eight tiers plus the harness-audit skill are how you tell whether yours is good enough.](assets/harness-audit-banner.png)](https://x.com/unclebobmartin/status/2080257779395154409)
 
-> "I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."
-> — [Robert C. "Uncle Bob" Martin](https://x.com/unclebobmartin/status/2080257779395154409), July 2026 *(the full tweet is in [the Big Idea](#big-idea--from-prompts-to-systems))*
+We all saw this powerful and controversial tweet from Uncle Bob — [Robert C. Martin](https://x.com/unclebobmartin/status/2080257779395154409), the author of *Clean Code*. Let me pause here and explain what is underneath it, and the development that follows.
 
-Uncle Bob no longer reading his agents' code is not a provocation to stop reading code and start being careless. It is the opposite — a call to **invest in the harness** until you can trust whatever comes out of it. He trusts the output *because* of what he makes it survive.
+When Uncle Bob says he no longer reads the code his agents write, that is not a recommendation to stop reading code and start being careless. It is a call to **invest in the agent's harness** so that you can trust its outputs.
 
-Which leaves the question the tweet doesn't answer: **how do you know whether your own harness is any good?** Where is it strong, where does it leak, and what should you build next? You are the worst-placed person to judge it, because you wrote it — every gap looks intentional from the inside.
+Which leaves the question: how do you know whether your own harness is any good? Where is it strong, where does it leak, and what should you build next? You are the worst-placed person to judge it, because you wrote it — every gap looks intentional from the inside.
 
-Run **`/pape:harness-audit`** and it reads what is actually checked in — instruction files, skills, agent definitions, hooks, permissions, tests, CI — rather than what you meant to set up.
+In response to the growing need for a guide to Professional Agentic Product Engineering (PAPE), we built a harness audit skill.
+
+Run **`/pape:harness-audit`** to read your repo's existing agentic setup — instruction files, skills, agent definitions, hooks, permissions, tests, CI, as checked in rather than as you meant to set it up — and generate a detailed 8-tier report based on this guide. The report — Markdown and HTML — explains the strengths and the weaknesses of your setup, then details and prioritizes the outstanding issues and proposes a draft backlog to start fixing them.
 
 ### What's missing is the easy half
 

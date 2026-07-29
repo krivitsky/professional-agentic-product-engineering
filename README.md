@@ -126,15 +126,17 @@ One install, both skills. The coach and the audit are the two halves of the same
 
 ### 4) The Audit — [`/pape:harness-audit`](plugins/pape/skills/harness-audit)
 
-<a href="https://x.com/unclebobmartin/status/2080257779395154409"><img src="assets/uncle-bob-tweet.jpg" width="620" alt="Tweet from Robert C. &quot;Uncle Bob&quot; Martin: his strategy is to not read any of the code written by his agents, and instead to surround them with extreme constraints — unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage — so that he has very high confidence in the code they produce, because it has had to run the gauntlet of all his constraints and tests."></a>
+<a href="https://x.com/unclebobmartin/status/2080257779395154409"><img src="assets/harness-audit-banner.png" width="820" alt="Left: Uncle Bob's tweet — &quot;My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity.&quot; Right: his advice is not to stop reading, but to invest in engineering the harness so it becomes the source of quality and trust — and the PAPE guide's eight tiers plus the harness-audit skill are how you tell whether yours is good enough."></a>
 
-*— [Robert C. "Uncle Bob" Martin](https://x.com/unclebobmartin/status/2080257779395154409), July 2026*
+We all saw this powerful and controversial tweet from Uncle Bob — [Robert C. Martin](https://x.com/unclebobmartin/status/2080257779395154409), the author of *Clean Code*. Let me pause here and explain what is underneath it, and the development that follows.
 
-When Uncle Bob says he no longer reads the code his agents write, that is not a provocation to stop reading code and start being careless. It is the opposite — a call to **invest in the harness around the agent** until you can trust whatever comes out of it. He trusts his agents' output *because* of what he makes it survive: unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, coverage.
+When Uncle Bob says he no longer reads the code his agents write, that is not a recommendation to stop reading code and start being careless. It is a call to **invest in the agent's harness** so that you can trust its outputs.
 
-Which leaves the question his tweet doesn't answer: **how do you know whether your own harness is any good?** Where is it strong, where does it leak, and what should you build next?
+Which leaves the question: how do you know whether your own harness is any good? Where is it strong, where does it leak, and what should you build next?
 
-That's what the audit is for. Ask *"audit my harness"* — or run `/pape:harness-audit` — and it reads the harness you've checked into a repo and tells you exactly that.
+In response to the growing need for a guide to Professional Agentic Product Engineering (PAPE), we built a harness audit skill.
+
+Run **`/pape:harness-audit`** to read your repo's existing agentic setup and generate a detailed 8-tier report based on the PAPE guide. The report — Markdown and HTML — explains the strengths and the weaknesses of your setup, then details and prioritizes the outstanding issues and proposes a draft backlog to start fixing them.
 
 **What's absent is the easy half.** The valuable half is what's **present but incoherent, unenforced, or failing open** — the gaps you can't see precisely because you wrote them yourself:
 
@@ -201,7 +203,7 @@ Share it, adapt it, use it commercially, teach from it. The only condition on th
 
 > "Professional Agentic Product Engineering Guide" by [Alexey Krivitsky](https://www.linkedin.com/in/alexeykrivitsky/), licensed under CC BY 4.0 — https://github.com/krivitsky/professional-agentic-product-engineering
 
-**Not mine to license**, and excluded from both: the Uncle Bob tweet screenshot (`assets/uncle-bob-tweet.jpg`), the vibe-coding illustration adapted from [Denis Turkov](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj), and the reader quotations. Those are quoted with attribution and belong to their authors — see [LICENSE-CONTENT](LICENSE-CONTENT).
+**Not mine to license**, and excluded from both: the Uncle Bob tweet screenshot (`assets/uncle-bob-tweet.jpg`, also quoted in `assets/harness-audit-banner.png`), the vibe-coding illustration adapted from [Denis Turkov](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj), and the reader quotations. Those are quoted with attribution and belong to their authors — see [LICENSE-CONTENT](LICENSE-CONTENT).
 
 ## Credits
 

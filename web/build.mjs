@@ -594,6 +594,7 @@ await copyFile(join(ROOT, 'assets', 'nested-loops.png'), join(DIST, 'assets', 'n
 await copyFile(join(ROOT, 'assets', 'vibing-vs-agentic-engineering.png'), join(DIST, 'assets', 'vibing-vs-agentic-engineering.png'));
 await copyFile(join(ROOT, 'assets', 'vibing-vs-agentic-engineering.gif'), join(DIST, 'assets', 'vibing-vs-agentic-engineering.gif'));
 await copyFile(join(ROOT, 'assets', 'uncle-bob-tweet.jpg'), join(DIST, 'assets', 'uncle-bob-tweet.jpg'));
+await copyFile(join(ROOT, 'assets', 'harness-audit-banner.png'), join(DIST, 'assets', 'harness-audit-banner.png'));
 await copyFile(join(ROOT, 'assets', 'og.png'), join(DIST, 'og.png'));
 await copyFile(join(ROOT, 'assets', 'og-2x.png'), join(DIST, 'og-2x.png'));
 await copyFile(join(ROOT, 'assets', 'favicon.png'), join(DIST, 'favicon.png'));
