@@ -100,3 +100,14 @@ The chapter carries four things the vault now mirrors: **absence is the easy hal
 No tier or tip changed — counts stay at 62. Not a tier hub and not a tip, so the page hangs off the guide at the cross-cutting level per the tree rules.
 
 Packaging: the plugin was renamed `agentic-coach` → **`pape`** (the guide's own acronym; the marketplace was inconsistently `pae`), so the two skills are now `/pape:agentic-coach` and `/pape:harness-audit` and the install line is `pape@pape`. The audit stopped being a sub-feature of the nudger. Install snippets updated across `README.md`, `guide.md`, root `CLAUDE.md` and the plugin README; `scripts/sync-plugin.sh` and the CI workflow repointed, with a third CI invariant added — the manifests, the documented install line, and the skill directories must agree on the names, since a rename that misses one file ships a command nobody can run. Plugin bumped 0.22.0 → 0.23.0; bundled guide re-synced.
+
+## [2026-09-08] edit | Pick the right tool — rebalanced the one-shot-builder paragraph
+
+External review (Jarno, via Alexey) flagged the "agent vs one-shot builder" passage in the guide's front matter as reading biased against one-shot builders. Two changes to `guide.md` §"Pick the right tool", mirrored on [[Claude Code]]:
+
+- **"stall" → "may stall"** on custom logic / odd integrations / off-template architecture. The absolute was doing rhetorical work the evidence doesn't support.
+- **The bare "plus vendor lock-in" tag replaced with the actual argument.** Getting an app out of the vendor's walls onto your own stack — git, database, deployment — is eventually the same engineering the coding-agent path asks for up front. The work is deferred, not avoided, and paid later with a running product on the line. This is stronger than naming lock-in as a defect, and it survives the reviewer's own objection.
+
+**"Rebuilt, not refactored" was deliberately kept.** That is the section's substantive claim, not its bias — a rebuild and an incremental migration are different costs, and the reviewer's proposed wording flattened them into one.
+
+No tier or tip changed — counts stay at 62. Plugin bumped 0.57.0 → 0.57.1; bundled guide re-synced.

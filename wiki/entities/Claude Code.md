@@ -2,6 +2,7 @@
 
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
+**Updated:** 2026-09-08
 
 [[Anthropic]]'s terminal-native coding agent, and the guide's running example throughout all tiers.
 
@@ -12,7 +13,7 @@
 
 ## Contrasted with one-shot app builders
 - **One-shot builders** (Lovable, Bolt, v0, Replit, Base44) generate a full stack from a text box and deploy to a URL, managing infra for you — great for blank-canvas prototypes and MVPs.
-- They **stall** on custom logic, odd integrations, or off-template architecture; apps that outgrow them are **rebuilt, not refactored**, with vendor lock-in.
+- They **may stall** on custom logic, odd integrations, or off-template architecture; apps that outgrow them are **rebuilt, not refactored**. Moving out of the vendor's walls onto your own stack is eventually the same engineering the coding-agent path asks for up front — deferred, not avoided.
 - The dividing line is **prototype vs production** and **code ownership**. This guide is about the second mode — owning and operating the process and the result.
 - Pragmatic play: prototype on a one-shot builder to validate, then rebuild on Claude Code once it has traction — or start in Claude Code if it's meant to live in production.
 
