@@ -115,6 +115,37 @@ const injectAnim = (html) =>
     // …and drop the "watch it animate / interactive" caption (redundant here)
     .replace(/<p><em>[\s\S]*?vibing-vs-agentic-engineering\.gif[\s\S]*?<\/em><\/p>\s*/, '');
 
+// --- Nested-loops figure ------------------------------------------------------
+// guide.md shows assets/nested-loops.svg as an image (GitHub, the plugin). The
+// site inlines it with every color mapped to a scheme token, so the figure
+// follows the active scheme instead of sitting on the page as a dark card.
+const LOOPS_COLORS = [
+  ['rgb(16, 44, 39)', 'var(--panel)'], ['rgb(54, 42, 16)', 'var(--bg)'], ['rgb(56, 27, 23)', 'var(--panel)'],
+  ['rgb(43, 212, 176)', 'var(--accent)'], ['rgb(26, 188, 156)', 'var(--accent)'], ['#2bd4b0', 'var(--accent)'],
+  ['rgb(245, 179, 66)', 'var(--line)'], ['rgb(243, 156, 18)', 'var(--line)'], ['#f5b342', 'var(--line)'],
+  ['rgb(255, 122, 107)', 'var(--muted)'], ['rgb(231, 76, 60)', 'var(--muted)'], ['#ff7a6b', 'var(--muted)'],
+  ['rgb(18, 18, 20)', 'var(--code-bg)'], ['rgb(244, 245, 247)', 'var(--heading)'], ['rgb(231,237,242)', 'var(--heading)'],
+  ['rgb(178, 183, 187)', 'var(--body)'], ['rgb(150, 153, 158)', 'var(--muted)'], ['rgb(138,153,168)', 'var(--muted)'],
+  ['rgb(11, 11, 11)', 'var(--heading)'],
+  ['font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif', 'font-family:var(--font)'],
+  ["font-family:'Anthropic Sans',-apple-system,'system-ui','Segoe UI',sans-serif", 'font-family:var(--font)'],
+  ['font-family:ui-monospace, monospace', 'font-family:var(--mono)'], ['font-family:var(--font-mono)', 'font-family:var(--mono)'],
+];
+let LOOPS_SVG = await readFile(join(ROOT, 'assets', 'nested-loops.svg'), 'utf8');
+for (const [from, to] of LOOPS_COLORS) LOOPS_SVG = LOOPS_SVG.split(from).join(to);
+LOOPS_SVG = LOOPS_SVG
+  .replace(/\brx="\d+"/g, 'rx="0"')
+  .replace(/id="arrow"/g, 'id="nl-arrow"').replace(/url\(#arrow\)/g, 'url(#nl-arrow)')
+  .replace(/^<svg /, '<svg class="loops-svg" ');
+{
+  const stray = LOOPS_SVG.match(/rgb\([^)]*\)|#[0-9a-fA-F]{6}\b/g);
+  if (stray) {
+    console.error(`✖ nested-loops.svg has colors the site cannot map to a scheme: ${[...new Set(stray)].join(', ')} — add them to LOOPS_COLORS`);
+    process.exit(1);
+  }
+}
+const injectLoops = (html) =>
+  html.replace(/(?:<p>\s*)?<img[^>]*src="assets\/nested-loops\.svg"[^>]*>(?:\s*<\/p>)?/, `<figure class="loops-figure">${LOOPS_SVG}</figure>`);
 // Split into front matter (before first `## `) + an ordered list of `## ` sections.
 const lines = raw.split('\n');
 let frontEnd = lines.findIndex((l) => /^## /.test(l));
@@ -386,6 +417,16 @@ function homeData() {
   return { opener: opener.split('\n').map((l) => l.trim()), shift, headline, subline, tiers, stages, lede, rest };
 }
 const HOME = homeData();
+function harnessParagraph() {
+  const big = sections.find((x) => /^Big Idea/.test(x.heading));
+  const para = big && big.lines.join('\n').split(/\n\s*\n/).map((x) => x.trim()).find((x) => x.startsWith('An **agentic system**'));
+  if (!para) {
+    console.error('✖ home page: the Big Idea no longer has the "An **agentic system** …" paragraph the harness section quotes');
+    process.exit(1);
+  }
+  return para;
+}
+const HARNESS_MD = harnessParagraph();
 const stageOfTier = Object.fromEntries(HOME.tiers.map((t) => [t.n, t.stage]));
 
 // --------------------------------------------------- cross-page link fixer ---
@@ -614,6 +655,7 @@ function shell({ page, contentHtml }) {
 ${headerHtml()}
 <div class="layout">
 <aside class="sidebar" id="sidebar" aria-label="Contents">
+  <div class="drawer-head"><span>Contents</span><button type="button" class="drawer-close" data-nav-close aria-label="Close contents">×</button></div>
   <nav class="nav">${renderNav(pageSlug)}</nav>
 </aside>
 <main class="main">
@@ -629,6 +671,81 @@ ${footerHtml()}
 <script type="module" src="app.js?v=${ASSET_VER}"></script>
 </body>
 </html>`;
+}
+
+// --- home: the self-audit radar ----------------------------------------------
+// Six axes, T1 at the top, clockwise. The same maths runs in app.js.
+const AUDIT_DEFAULT = [4, 3, 2, 2, 1, 0];
+const RADAR = { cx: 220, cy: 220, r: 150 };
+const axisPoint = (i, frac) => {
+  const a = ((-90 + i * 60) * Math.PI) / 180;
+  return [RADAR.cx + RADAR.r * frac * Math.cos(a), RADAR.cy + RADAR.r * frac * Math.sin(a)];
+};
+const pts = (fracs) => fracs.map((f, i) => axisPoint(i, f).map((v) => v.toFixed(1)).join(',')).join(' ');
+function radarSvg(tiers, values) {
+  const rings = [1, 2, 3, 4, 5].map((k) => `<polygon class="radar-ring" points="${pts(Array(6).fill(k / 5))}"/>`).join('');
+  const axes = tiers.map((_, i) => { const [x, y] = axisPoint(i, 1); return `<line class="radar-axis" x1="${RADAR.cx}" y1="${RADAR.cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`; }).join('');
+  const scale = [1, 2, 3, 4, 5].map((k) => `<text class="radar-scale" x="${RADAR.cx + 6}" y="${(RADAR.cy - RADAR.r * k / 5 + 4).toFixed(1)}">${k}</text>`).join('');
+  const labels = tiers.map((t, i) => {
+    const [x, y] = axisPoint(i, 1.2);
+    const anchor = Math.abs(x - RADAR.cx) < 1 ? 'middle' : x > RADAR.cx ? 'start' : 'end';
+    const top = i === 0 ? -14 : i === 3 ? 6 : -4;
+    return `<text class="radar-label" x="${x.toFixed(1)}" y="${(y + top).toFixed(1)}" text-anchor="${anchor}">T${t.n}</text>` +
+      `<text class="radar-name" x="${x.toFixed(1)}" y="${(y + top + 17).toFixed(1)}" text-anchor="${anchor}">${escapeHtml(t.name)}</text>`;
+  }).join('');
+  const shape = pts(values.map((v) => v / 5));
+  const dots = values.map((v, i) => { const [x, y] = axisPoint(i, v / 5); return `<circle class="radar-dot" r="5" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}"/>`; }).join('');
+  return `<svg class="radar" viewBox="-60 0 560 440" role="img" aria-label="Your ratings: ${tiers.map((t, i) => `T${t.n} ${t.name} ${values[i]}`).join(', ')}">` +
+    `<g>${rings}${axes}</g>${scale}<polygon class="radar-shape" points="${shape}"/><g data-radar-dots>${dots}</g>${labels}</svg>`;
+}
+function auditSummary(tiers, values, fileOf) {
+  const max = Math.max(...values);
+  const strongest = max > 0 ? tiers.filter((_, i) => values[i] === max).map((t) => `T${t.n} ${t.name}`).join(' · ') : '—';
+  const next = tiers.find((_, i) => values[i] <= 2);
+  const nextHtml = next
+    ? `<a href="${fileOf(`tier-${next.n}`)}">T${next.n} ${escapeHtml(next.name)}</a>`
+    : 'None — every tier is rated 3 or higher';
+  return { strongest: escapeHtml(strongest), nextHtml };
+}
+
+function selfAuditHtml(fileOf) {
+  const v = AUDIT_DEFAULT;
+  const rows = HOME.tiers.map((t, i) =>
+    `<label class="audit-row"><span class="ar-n">T${t.n}</span><span class="ar-name">${escapeHtml(t.name)}</span>` +
+    `<input type="range" min="0" max="5" step="1" value="${v[i]}" data-tier="${i}" aria-label="T${t.n} ${escapeHtml(t.name)}, rated 0 to 5">` +
+    `<output class="ar-v">${v[i]}</output></label>`).join('');
+  const sum = auditSummary(HOME.tiers, v, fileOf);
+  return `<section class="home-section self-audit" id="self-audit" aria-labelledby="audit-h" data-audit ` +
+    `data-tiers="${escapeHtml(JSON.stringify(HOME.tiers.map((t) => ({ n: t.n, name: t.name, href: fileOf(`tier-${t.n}`) }))))}">` +
+    `<div class="audit-grid"><div class="audit-left">` +
+    `<h2 id="audit-h">Audit your harness</h2>` +
+    `<p class="section-lede">Rate your practice on each tier from 0 to 5. The shape shows where you are strong and where to climb next.</p>` +
+    `<div class="audit-rows">${rows}</div>` +
+    `<p class="audit-note">Your ratings stay in this browser.</p>` +
+    `</div><div class="audit-right">${radarSvg(HOME.tiers, v)}` +
+    `<dl class="spec audit-result">` +
+    `<div><dt>Strongest</dt><dd data-strongest>${sum.strongest}</dd></div>` +
+    `<div><dt>Next tier to work on</dt><dd><span data-next>${sum.nextHtml}</span><span class="buildmeta">The lowest-numbered tier rated 2 or less — each tier rests on the ones below.</span></dd></div>` +
+    `</dl>` +
+    `<p class="audit-real">This is a self-check. For a real one, run <code>/pape:harness-audit</code> in a repo you work in: it reads the harness you've checked in, rates all six tiers, and names the one next thing to fix. <a href="${fileOf('audit-your-harness')}">How the audit works →</a></p>` +
+    `</div></div></section>`;
+}
+function harnessHtml(fileOf) {
+  return `<section class="home-section harness" aria-labelledby="harness-h">` +
+    `<h2 id="harness-h">The harness around the agent</h2>` +
+    `<p class="section-lede">${marked.parseInline(HARNESS_MD)}</p>` +
+    `<div class="hd" role="img" aria-label="Specify with guidelines, bound the coding agent with guardrails, verify with autotests, and loop until done.">` +
+    `<div class="hd-row">` +
+    `<div class="hd-box"><span class="hd-title">Specify</span><span class="hd-sub">Guidelines shape how it should behave</span></div>` +
+    `<span class="hd-arrow" aria-hidden="true"></span>` +
+    `<div class="hd-bound"><span class="hd-bound-label">Guardrails</span><div class="hd-agent">Coding agent</div><span class="hd-sub">The limits it can't cross</span></div>` +
+    `<span class="hd-arrow" aria-hidden="true"></span>` +
+    `<div class="hd-box"><span class="hd-title">Verify</span><span class="hd-sub">Autotests give it ground truth from the environment</span></div>` +
+    `</div>` +
+    `<div class="hd-loop" aria-hidden="true"><span class="hd-loop-head"></span><span class="hd-loop-label">Workflow — the loop it runs, until done</span></div>` +
+    `</div>` +
+    `<p class="hd-more"><a href="${fileOf('big-idea')}">Read the Big Idea →</a></p>` +
+    `</section>`;
 }
 
 // ------------------------------------------------------------------- emit ---
@@ -696,6 +813,8 @@ for (const p of pages) {
       `<a class="btn" href="${fileOf('learn-this-with-an-agent')}">Learn it with your agent</a>` +
       `</nav>` +
       `</section>` +
+      selfAuditHtml(fileOf) +
+      harnessHtml(fileOf) +
       (HOME.rest ? renderMarkdown(linkifyTiers(HOME.rest), 'index') : '');
   } else if (p.kind === 'overview-sub') {
     contentHtml =
@@ -711,7 +830,7 @@ for (const p of pages) {
       `<h1 id="${p.anchorId}" class="page-title">${escapeHtml(p.title)}</h1>` +
       renderMarkdown(body, p.slug);
   }
-  contentHtml = injectAnim(contentHtml);
+  contentHtml = injectLoops(injectAnim(contentHtml));
   await writeFile(join(DIST, p.file), shell({ page: p, contentHtml }));
 }
 

@@ -28,6 +28,7 @@ function setNav(open, remember) {
 setNav(root.dataset.nav === 'open', false);
 navToggle?.addEventListener('click', () => setNav(root.dataset.nav !== 'open', true));
 overlay?.addEventListener('click', () => setNav(false, false));
+document.querySelector('[data-nav-close]')?.addEventListener('click', () => { setNav(false, false); navToggle?.focus(); });
 wide.addEventListener?.('change', () => setNav(docked() && store.get('pape.nav') !== 'closed', false));
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && root.dataset.nav === 'open' && !docked()) {
@@ -125,4 +126,48 @@ if (mermaidNodes.length) {
       return mermaid.run({ nodes: mermaidNodes });
     })
     .catch(() => {});
+}
+
+// --- home: self-audit -------------------------------------------------------
+// Six sliders draw the hexagon. No totals and no average — the guide's audit
+// rule: name the strongest tier, and the lowest-numbered one rated 2 or less.
+const audit = document.querySelector('[data-audit]');
+if (audit) {
+  const tiers = JSON.parse(audit.dataset.tiers || '[]');
+  const inputs = [...audit.querySelectorAll('input[type="range"][data-tier]')];
+  const outs = [...audit.querySelectorAll('.ar-v')];
+  const shape = audit.querySelector('.radar-shape');
+  const dots = [...audit.querySelectorAll('.radar-dot')];
+  const svg = audit.querySelector('.radar');
+  const strongest = audit.querySelector('[data-strongest]');
+  const next = audit.querySelector('[data-next]');
+  const KEY = 'pape.selfAudit';
+  const point = (i, f) => {
+    const a = ((-90 + i * 60) * Math.PI) / 180;
+    return [220 + 150 * f * Math.cos(a), 220 + 150 * f * Math.sin(a)];
+  };
+  const render = (v) => {
+    v.forEach((x, i) => { inputs[i].value = String(x); if (outs[i]) outs[i].value = String(x); });
+    shape?.setAttribute('points', v.map((x, i) => point(i, x / 5).map((n) => n.toFixed(1)).join(',')).join(' '));
+    dots.forEach((d, i) => { const [x, y] = point(i, v[i] / 5); d.setAttribute('cx', x.toFixed(1)); d.setAttribute('cy', y.toFixed(1)); });
+    svg?.setAttribute('aria-label', 'Your ratings: ' + tiers.map((t, i) => `T${t.n} ${t.name} ${v[i]}`).join(', '));
+    const max = Math.max(...v);
+    if (strongest) strongest.textContent = max > 0 ? tiers.filter((_, i) => v[i] === max).map((t) => `T${t.n} ${t.name}`).join(' · ') : '—';
+    if (next) {
+      const n = tiers.find((_, i) => v[i] <= 2);
+      next.replaceChildren();
+      if (n) { const a = document.createElement('a'); a.href = n.href; a.textContent = `T${n.n} ${n.name}`; next.append(a); }
+      else next.textContent = 'None — every tier is rated 3 or higher';
+    }
+  };
+  let saved = null;
+  try { saved = JSON.parse(store.get(KEY)); } catch (e) {}
+  const ok = Array.isArray(saved) && saved.length === inputs.length && saved.every((x) => Number.isInteger(x) && x >= 0 && x <= 5);
+  const values = ok ? saved : inputs.map((el) => Number(el.value));
+  render(values);
+  inputs.forEach((el, i) => el.addEventListener('input', () => {
+    values[i] = Number(el.value);
+    render(values);
+    store.set(KEY, JSON.stringify(values));
+  }));
 }
