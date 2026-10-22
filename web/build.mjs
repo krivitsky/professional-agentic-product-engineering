@@ -21,7 +21,7 @@ const AUTHOR_NAME = 'Alexey Krivitsky';
 // Absolute origin for canonical/OG/sitemap. Override at build time: SITE_URL=https://… node build.mjs
 // On Vercel, VERCEL_PROJECT_PRODUCTION_URL is injected automatically.
 const BASE = (process.env.SITE_URL || 'https://agentic-engineering.guide').replace(/\/+$/, '');
-const SITE_DESC = 'A continuously updated field guide to operating a coding agent professionally — eight tiers from prompting to autonomous production loops, using Claude Code as the worked example.';
+const SITE_DESC = 'Free the human. Elevate human intelligence. A continuously updated field guide to operating coding agents professionally — six tiers from prompting to autonomous production loops, using Claude Code as the worked example.';
 // Build stamp — time + commit, surfaced as "updated at" / build #. Refreshes each deploy.
 const BUILD_TIME = new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
 const BUILD_SHA_FULL =
@@ -32,7 +32,9 @@ const OG_IMAGE = `${BASE}/og.png`; // 1200x630 social card — regenerate with `
 
 // Strip markdown to plain text for descriptions / llms.txt.
 const stripMd = (s) =>
-  s.replace(/<a id="[^"]*">\s*<\/a>/g, ' ')
+  s.replace(/^\s*\|.*$/gm, ' ')                 // tables make poor descriptions
+   .replace(/^\s*-{3,}\s*$/gm, ' ')               // nor do section rules
+   .replace(/<a id="[^"]*">\s*<\/a>/g, ' ')
    .replace(/```[\s\S]*?```/g, ' ')
    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
@@ -317,6 +319,39 @@ if (harvestedTips.length) {
   anchorToPage['all-tips'] = 'all-tips';
 }
 
+// --- Home: the opener, the headline and the six tiers as cards, read from
+// guide.md (the front matter + "The six tiers at a glance") so the ladder sits
+// on the first screen. Nothing is hard-coded: a guide edit that breaks the
+// shape fails the build instead of shipping an empty home.
+function homeData() {
+  const paras = HOME_INTRO_MD.trim().split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);
+  const quote = paras.find((s) => s.startsWith('>'));
+  const shift = paras.find((s) => s.startsWith('**'));
+  const opener = paras.find((s) => s !== quote && s !== shift && !s.startsWith('<'));
+  const q = (quote || '').split('\n').map((l) => l.replace(/^>\s?/, '').trim()).filter(Boolean);
+  const headline = (q[0] || '').replace(/^\*\*|\*\*$/g, '');
+  const subline = q[1] || '';
+  const glance = sections.find((s) => /^The six tiers at a glance/.test(s.heading));
+  const body = glance ? glance.lines.join('\n') : '';
+  const tiers = [...body.matchAll(/^\|\s*(\w+)\s*\|\s*\*\*T(\d+) ([^*]+)\*\*\s*\|([^|\n]*)\|([^|\n]*)\|([^|\n]*)\|\s*$/gm)]
+    .map((m) => ({ stage: m[1], n: +m[2], name: m[3].trim(), stop: m[4].trim(), instead: m[5].trim() }));
+  const stages = [...body.matchAll(/^\|\s*\*\*(\w+)\*\*\s*\|[^|\n]*\|([^|\n]*)\|\s*$/gm)]
+    .map((m) => ({ name: m[1], gets: m[2].trim() }));
+  const tierCount = pages.filter((p) => p.kind === 'tier').length;
+  const problems = [];
+  if (!opener) problems.push('no opener paragraph in the front matter');
+  if (!headline || !subline) problems.push('no "> **headline**" + subline blockquote in the front matter');
+  if (tiers.length !== tierCount) problems.push(`"The six tiers at a glance" has ${tiers.length} tier rows, the guide has ${tierCount} tiers`);
+  if (!stages.length || tiers.some((t) => !stages.some((s) => s.name === t.stage))) problems.push('the stages table does not cover every tier row');
+  if (problems.length) {
+    console.error(`✖ home page: ${problems.join('; ')}`);
+    process.exit(1);
+  }
+  const rest = paras.filter((s) => s !== opener && s !== shift && s !== quote).join('\n\n');
+  return { opener: opener.split('\n').map((l) => l.trim()), shift, headline, subline, tiers, stages, rest };
+}
+const HOME = homeData();
+
 // --------------------------------------------------- cross-page link fixer ---
 // Dead in-guide anchors are collected here and fail the build (see end of file).
 const brokenLinks = [];
@@ -396,19 +431,13 @@ function renderMarkdown(md, currentSlug) {
 }
 
 // ------------------------------------------------------------- nav + shell ---
-pages.forEach((p, i) => (p.orderIdx = i));
-const firstTier = pages.find((p) => p.kind === 'tier');
-const lastTier = [...pages].reverse().find((p) => p.kind === 'tier');
-const tierStart = firstTier ? firstTier.orderIdx : 999;
-const tierEnd = lastTier ? lastTier.orderIdx : 999;
-
 // Explicit menu order (decoupled from guide.md section order).
 const tierSlugs = pages.filter((p) => p.kind === 'tier').map((p) => p.slug);
 const NAV = [
-  { title: 'Start here', slugs: ['index', 'part-of-the-agentic-shift-system', 'formats-of-this-guide', 'learn-this-with-an-agent'] },
-  { title: 'Get oriented', slugs: ['big-idea', 'audit-your-harness', 'loops-of-agentic-engineering', 'the-eight-tiers-at-a-glance', 'climb-the-eight-tiers', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-the-primitives'] },
-  { title: 'The eight tiers', slugs: tierSlugs },
-  { title: 'Reference', slugs: ['common-failure-patterns', 'all-tips', 'port-these-habits-to-any-model', 'sources'] },
+  { title: 'The six tiers', slugs: ['index', 'the-six-tiers-at-a-glance'] },
+  { title: 'How it works', slugs: ['big-idea', 'loops-of-agentic-engineering', 'climb-the-six-tiers', 'learn-the-primitives', 'coming-from-the-eight-tiers'] },
+  { title: 'Tier by tier', slugs: tierSlugs },
+  { title: 'More', slugs: ['common-failure-patterns', 'all-tips', 'port-these-habits-to-any-model', 'audit-your-harness', 'goal-of-this-guide', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-this-with-an-agent', 'formats-of-this-guide', 'part-of-the-agentic-shift-system', 'tip-map', 'sources'] },
 ];
 const bySlug = Object.fromEntries(pages.map((p) => [p.slug, p]));
 
@@ -604,12 +633,38 @@ await writeFile(join(DIST, 'app.js'), jsText);
 for (const p of pages) {
   let contentHtml;
   if (p.kind === 'home') {
-    const intro = renderMarkdown(linkifyTiers(HOME_INTRO_MD), 'index');
+    const fileOf = (s) => {
+      if (!bySlug[s]) { console.error(`✖ home page links to a page that no longer exists: ${s}`); process.exit(1); }
+      return bySlug[s].file;
+    };
+    const card = (t) =>
+      `<a class="tier-card" href="${fileOf(`tier-${t.n}`)}">` +
+      `<span class="tier-card-head"><span class="tier-card-n">T${t.n}</span><span class="tier-card-name">${escapeHtml(t.name)}</span></span>` +
+      `<span class="tier-card-row"><span class="tier-card-k">You stop</span>${escapeHtml(t.stop)}</span>` +
+      `<span class="tier-card-row"><span class="tier-card-k">You do instead</span>${escapeHtml(t.instead)}</span>` +
+      `</a>`;
+    const stages = HOME.stages.map((s) =>
+      `<section class="stage" aria-label="${escapeHtml(s.name)}">` +
+      `<p class="stage-name"><strong>${escapeHtml(s.name)}</strong><span>${escapeHtml(s.gets)}</span></p>` +
+      HOME.tiers.filter((t) => t.stage === s.name).map(card).join('') +
+      `</section>`).join('');
     contentHtml =
       `<h1 class="sr-only">${escapeHtml(HOME_TITLE)}</h1>` +
+      `<div class="home-hero">` +
+      `<div class="home-opener">${HOME.opener.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</div>` +
+      (HOME.shift ? `<p class="home-shift">${marked.parseInline(HOME.shift)}</p>` : '') +
+      `<p class="home-headline">${escapeHtml(HOME.headline)}</p>` +
+      `<p class="home-subline">${escapeHtml(HOME.subline)}</p>` +
+      `</div>` +
+      `<div class="stage-grid">${stages}</div>` +
+      `<nav class="home-cta" aria-label="Where to go next">` +
+      `<a class="home-cta-main" href="${fileOf('tier-1')}">Start at T1 →</a>` +
+      `<a href="${fileOf('big-idea')}">How it works</a>` +
+      `<a href="${fileOf('audit-your-harness')}">Audit your harness</a>` +
+      `<a href="${fileOf('all-tips')}">All ${harvestedTips.length} tips</a>` +
+      `</nav>` +
+      (HOME.rest ? renderMarkdown(linkifyTiers(HOME.rest), 'index') : '') +
       COMMUNITY_CTA +
-      `<img class="hero-banner" src="og-2x.png?v=${ASSET_VER}" alt="${escapeHtml(HOME_TITLE)}" width="1200" height="630">` +
-      intro +
       `<div class="learn-callout">` +
       `<p class="learn-callout-title">Learn it with your agent — way more fun than reading.</p>` +
       `<p>Point Claude Code (or any agentic harness) at <a href="${REPO_URL}" target="_blank" rel="noopener">this repository</a> and have it tutor you through the guide, one concept at a time.</p>` +
@@ -657,17 +712,13 @@ const sitemap =
   `\n</urlset>\n`;
 await writeFile(join(DIST, 'sitemap.xml'), sitemap);
 
-// llms.txt — curated index for agents (https://llmstxt.org).
-const llmsGroups = [
-  ['Get oriented', pages.filter((p) => p.kind === 'section' && p.orderIdx < tierStart)],
-  ['The eight tiers', pages.filter((p) => p.kind === 'tier')],
-  ['Reference', pages.filter((p) => p.kind === 'section' && p.orderIdx > tierEnd)],
-];
+// llms.txt — curated index for agents (https://llmstxt.org), grouped as the menu is.
+const llmsGroups = NAV.map((g) => [g.title, g.slugs.map((s) => bySlug[s]).filter((p) => p && p.kind !== 'home')]);
 let llms =
   `# Professional Agentic Product Engineering Guide\n\n` +
   `> ${SITE_DESC}\n\n` +
   `Maintained by ${AUTHOR_NAME} (${AUTHOR_URL}). Source: ${REPO_URL}\n` +
-  `- [Overview](${BASE}/): motivation, the one idea, the eight-tier ladder.\n`;
+  `- [Overview](${BASE}/): the six tiers at a glance — what each one hands to the system, and where to start.\n`;
 for (const [title, items] of llmsGroups) {
   if (!items.length) continue;
   llms += `\n## ${title}\n\n`;

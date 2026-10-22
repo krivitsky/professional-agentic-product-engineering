@@ -250,6 +250,58 @@ a:hover { text-decoration: underline; }
 [data-theme="dark"] .tier-card-n { background: var(--teal-d); }
 .tier-card-name { font-family: var(--font-head); font-size: 1.12rem; font-weight: 700; }
 .tier-card-blurb { font-size: 13.5px; color: var(--text-soft); line-height: 1.5; }
+/* inside .content the cards are links: keep the card border, not the link underline */
+.content .tier-card { border: 1px solid var(--border); font-weight: 400; }
+.content .tier-card:hover { border-color: var(--teal); }
+.tier-card-head { display: flex; align-items: center; gap: 10px; }
+.tier-card-head .tier-card-n { align-self: center; }
+.tier-card-row { font-size: 13.5px; line-height: 1.45; color: var(--text-soft); }
+.tier-card-k {
+  display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* ------------------------------------------------------------------- home */
+/* opener → headline → the six tiers by stage → where to go next, on one screen */
+.home-hero { margin: 0 0 26px; }
+.content .home-opener p {
+  margin: 0; font-family: var(--font-head); font-style: italic;
+  font-size: 1.1rem; line-height: 1.55; color: var(--text-soft);
+}
+.home-shift { margin: 14px 0 0; font-size: 15.5px; line-height: 1.5; }
+.content .home-headline {
+  margin: 22px 0 4px; font-family: var(--font-head); font-weight: 800;
+  font-size: 2.15rem; line-height: 1.12; letter-spacing: -.01em; color: var(--text);
+}
+.content .home-subline { margin: 0; font-size: 1.08rem; font-weight: 600; color: var(--accent); }
+/* three stage columns; subgrid lines the cards up across columns */
+.stage-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, auto);
+  gap: 12px 14px; margin: 0 0 20px;
+}
+.stage { display: grid; grid-row: span 3; grid-template-rows: subgrid; gap: 12px; }
+@supports not (grid-template-rows: subgrid) {
+  .stage { display: flex; flex-direction: column; }
+}
+.content .stage-name { margin: 0 0 -2px; font-size: 12.5px; line-height: 1.35; color: var(--muted); }
+.content .stage-name strong {
+  display: block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent);
+}
+.stage .tier-card { padding: 14px 16px; gap: 7px; }
+.home-cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 34px; }
+.content .home-cta a {
+  padding: 8px 16px; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface); color: var(--text); font-size: 14.5px; font-weight: 600;
+}
+.content .home-cta a:hover { border-color: var(--teal); }
+.content .home-cta .home-cta-main { background: var(--teal-d); border-color: var(--teal-d); color: #fff; }
+@media (max-width: 760px) {
+  .stage-grid { grid-template-columns: 1fr; grid-template-rows: none; gap: 18px; }
+  .stage { grid-row: auto; grid-template-rows: auto auto; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+  .stage-name { grid-column: 1 / -1; }
+  .content .home-opener p { font-size: 1rem; }
+  .content .home-headline { font-size: 1.8rem; }
+}
 
 /* ------------------------------------------------------------------ pager */
 .pager {

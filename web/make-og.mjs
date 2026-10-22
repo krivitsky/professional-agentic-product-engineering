@@ -41,7 +41,7 @@ html,body{width:1200px;height:630px;overflow:hidden}
       <div class="cave-label">Learn with agents</div>
     </div>
   </div>
-  <div class="brand">From Prompts to Systems: Master The 8 Tiers</div>
+  <div class="brand">Free the human. Elevate human intelligence.</div>
 </div></body></html>`;
 
 const tmp = join(HERE, '.og-tmp.html');

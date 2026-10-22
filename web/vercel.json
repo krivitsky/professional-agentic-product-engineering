@@ -3,5 +3,15 @@
   "buildCommand": "node build.mjs",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/tier-7", "destination": "/tier-5", "statusCode": 301 },
+    { "source": "/tier-7.html", "destination": "/tier-5", "statusCode": 301 },
+    { "source": "/tier-8", "destination": "/tier-6", "statusCode": 301 },
+    { "source": "/tier-8.html", "destination": "/tier-6", "statusCode": 301 },
+    { "source": "/climb-the-eight-tiers", "destination": "/climb-the-six-tiers", "statusCode": 301 },
+    { "source": "/climb-the-eight-tiers.html", "destination": "/climb-the-six-tiers", "statusCode": 301 },
+    { "source": "/the-eight-tiers-at-a-glance", "destination": "/the-six-tiers-at-a-glance", "statusCode": 301 },
+    { "source": "/the-eight-tiers-at-a-glance.html", "destination": "/the-six-tiers-at-a-glance", "statusCode": 301 }
+  ]
 }
