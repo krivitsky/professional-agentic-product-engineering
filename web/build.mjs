@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { execSync } from 'node:child_process';
 import { marked } from 'marked';
+import { schemeCSS, schemeChips, contrastReport, SCHEMES, INTENSITY, DEFAULT_SCHEME } from './src/schemes.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -79,12 +80,12 @@ const raw = await readFile(GUIDE, 'utf8');
 // --- Animated figure (vibe coding vs agentic system) ------------------------
 // guide.md references the GIF (so GitHub + the plugin get motion); on the
 // website we swap that <img> for the self-contained live widget, its CSS
-// scoped under .pae-fig so its :root vars can't leak into the site theme.
+// scoped under .pae-fig and drawn from the page's color tokens.
 const animRaw = await readFile(join(ROOT, 'assets', 'vibing-vs-agentic-engineering.html'), 'utf8');
 const animMarkup = (animRaw.match(/<!--FIG:START-->([\s\S]*?)<!--FIG:END-->/) || [, ''])[1].trim();
 const animScript = (animRaw.match(/<script>([\s\S]*?)<\/script>/) || [, ''])[1].trim();
 const ANIM_CSS = `
-.pae-fig{--bg:#102c27;--fg:#f4f5f7;--muted:#96999e;--sub:#b2b7bb;--card:#1b2530;--line:#2a3742;--line2:#3a4a44;--teal:#2bd4b0;--amber:#f5b342;--coral:#ff7a6b;--ball:#2bd4b0;--ballstroke:#16a085;--myth-fill:#2e1b18;--real-fill:#12241f;--mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--bg);color:var(--fg);font-family:var(--mono);display:flex;flex-direction:column;align-items:center;padding:32px 20px;margin:24px 0;border-radius:14px}
+.pae-fig{--fg:var(--heading);--sub:var(--body);--card:var(--code-bg);--teal:var(--accent);--coral:var(--muted);--ball:var(--accent);--ballstroke:var(--bg);--myth-fill:color-mix(in oklab,var(--muted) 14%,transparent);--real-fill:var(--bg);background:var(--panel);color:var(--fg);font-family:var(--mono);display:flex;flex-direction:column;align-items:center;padding:32px 20px;margin:24px 0;border:1px solid var(--line2)}
 .pae-fig *{box-sizing:border-box}
 .pae-fig .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%;max-width:760px;justify-items:center;margin:0}
 @media (max-width:560px){.pae-fig .cols{grid-template-columns:1fr}}
@@ -100,12 +101,12 @@ const ANIM_CSS = `
 .pae-fig .lbl{font-family:var(--mono);font-size:13px;fill:var(--fg)}
 .pae-fig .cap{color:var(--muted);font-size:12px;margin:16px 0 0;text-align:center;max-width:100%;line-height:1.6}
 .pae-fig .credit{margin-top:30px;width:100%;max-width:520px;text-align:center}
-.pae-fig .credit hr{border:0;border-top:1px solid var(--line);margin:0 0 12px}
+.pae-fig .credit hr{border:0;border-top:1px solid var(--line2);margin:0 0 12px}
 .pae-fig .credit p{color:var(--muted);font-size:11px;margin:0;line-height:1.5}
 .pae-fig .credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}`;
 const ANIM_FIGURE =
   `<figure class="pae-fig"><style>${ANIM_CSS}</style>${animMarkup}` +
-  `<noscript><img src="assets/vibing-vs-agentic-engineering.png" alt="Vibe coding vs an agentic system" style="width:100%;max-width:760px;border-radius:14px"></noscript>` +
+  `<noscript><img src="assets/vibing-vs-agentic-engineering.png" alt="Vibe coding vs an agentic system" style="width:100%;max-width:760px"></noscript>` +
   `<script>${animScript}</script></figure>`;
 const injectAnim = (html) =>
   html
@@ -183,27 +184,69 @@ function linkifyTiers(md) {
   return md.replace(/\*\*(T(\d) [^*|]+?)\*\*/g, (_, label, n) => `**[${label}](tier-${n}.html)**`);
 }
 
-// Author/repo/build credit — the text block (used in the sidebar) ...
-function creditText() {
-  return (
-    `<p>Field guide by <a href="${AUTHOR_URL}" target="_blank" rel="noopener">${AUTHOR_NAME}</a> — <a href="mailto:alexey@krivitsky.com">alexey@krivitsky.com</a></p>` +
-    `<p><a href="${REPO_URL}" target="_blank" rel="noopener">⭐ Star &amp; contribute on GitHub</a> · updated continuously</p>` +
-    `<p class="buildmeta">Auto-generated from <a href="${REPO_URL}/blob/main/guide.md" target="_blank" rel="noopener">guide.md</a> · built ${BUILD_TIME}` +
-    (BUILD_SHA_FULL ? ` · <a href="${REPO_URL}/commit/${BUILD_SHA_FULL}" target="_blank" rel="noopener">build ${BUILD_SHA}</a>` : ` · build ${BUILD_SHA}`) +
-    `</p>`
-  );
+// ------------------------------------------------------------- page chrome ---
+// The slim header: the menu toggle, the PAPE wordmark, the scheme switcher.
+const ICON_MENU = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>';
+function headerHtml() {
+  const opts = schemeChips().map((c) =>
+    `<label class="scheme-opt"><input type="radio" name="scheme" value="${c.id}">` +
+    `<span class="chip" style="--c-bg:${c.bg};--c-line:${c.line};--c-accent:${c.accent}"></span>` +
+    `<span>${escapeHtml(c.name)}</span></label>`).join('');
+  return `<header class="topbar">
+  <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" data-nav-toggle>${ICON_MENU}<span>Contents</span></button>
+  <a class="wordmark" href="index.html" aria-label="PAPE — home">PAPE</a>
+  <span class="topbar-sub">Professional Agentic Product Engineering</span>
+  <div class="topbar-end">
+    <a class="topbar-link" href="${REPO_URL}" target="_blank" rel="noopener">GitHub</a>
+    <div class="scheme">
+      <button class="scheme-btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="scheme-panel" aria-label="Color scheme"><span></span></button>
+      <div class="scheme-panel" id="scheme-panel" role="dialog" aria-label="Color scheme" hidden>
+        <fieldset><legend>Color scheme</legend>${opts}</fieldset>
+        <div class="scheme-intensity">
+          <div class="row"><label class="scheme-label" for="intensity">Intensity</label><output id="intensity-out" for="intensity">${INTENSITY.def.toFixed(2)}</output></div>
+          <input type="range" id="intensity" min="${INTENSITY.min}" max="${INTENSITY.max}" step="0.05" value="${INTENSITY.def}">
+          <button type="button" class="scheme-reset">Reset to default</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>`;
 }
-// ... and the same with the caveman logo, for the page footer.
-function creditRow() {
-  return `<img class="cred-logo" src="assets/tutor-caveman.png" alt=""><div class="cred-text">${creditText()}</div>`;
+// The footer: the Agentic Shift invitation and the guide's spec sheet.
+function footerHtml() {
+  const build = BUILD_SHA_FULL
+    ? `built ${BUILD_TIME} · <a href="${REPO_URL}/commit/${BUILD_SHA_FULL}" target="_blank" rel="noopener">build ${BUILD_SHA}</a>`
+    : `built ${BUILD_TIME} · build ${BUILD_SHA}`;
+  return `<footer class="site-footer">
+  <div class="cta">
+    <p class="cta-title">Join a professional learning community for builders and leaders</p>
+    <a class="btn btn-primary" href="https://agentic-shift.com/community" target="_blank" rel="noopener">Apply to Agentic Shift</a>
+  </div>
+  <dl class="spec">
+    <div><dt>Title</dt><dd>Professional Agentic Product Engineering</dd></div>
+    <div><dt>Author</dt><dd><a href="${AUTHOR_URL}" target="_blank" rel="noopener">${AUTHOR_NAME}</a></dd></div>
+    <div><dt>Revision</dt><dd>Updated continuously<span class="buildmeta">${build}</span></dd></div>
+    <div><dt>Source</dt><dd><a href="${REPO_URL}" target="_blank" rel="noopener">GitHub repository</a> · <a href="${REPO_URL}/blob/main/guide.md" target="_blank" rel="noopener">guide.md</a></dd></div>
+  </dl>
+  <nav class="footer-links" aria-label="Site files">
+    <a href="sitemap.xml">Sitemap</a>
+    <a href="robots.txt">robots.txt</a>
+    <a href="llms.txt">llms.txt</a>
+    <a href="mailto:alexey@krivitsky.com">alexey@krivitsky.com</a>
+  </nav>
+</footer>`;
 }
-
-// Theme toggle — lives in the sidebar on desktop, in the topbar on mobile.
-const THEME_TOGGLE = (cls = '') =>
-  `<button class="theme-btn ${cls}" data-theme-toggle aria-label="Toggle dark mode">` +
-  `<svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>` +
-  `<svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>` +
-  `</button>`;
+// Runs in <head> before the stylesheet: picks the scheme, its intensity and
+// the menu state before first paint. ?scheme= and ?intensity= win and stick.
+const PREPAINT = `(function(){var d=document.documentElement,L;try{L=window.localStorage}catch(e){}
+function g(k){try{return L?L.getItem(k):null}catch(e){return null}}function p(k,v){try{if(L)L.setItem(k,v)}catch(e){}}
+var S=${JSON.stringify(SCHEMES.map((x) => x.id))},q=new URLSearchParams(location.search),s=q.get('scheme');
+if(S.indexOf(s)>=0)p('pape.scheme',s);else s=g('pape.scheme');if(S.indexOf(s)<0)s='${DEFAULT_SCHEME}';
+var i=parseFloat(q.get('intensity'));if(i>=${INTENSITY.min}&&i<=${INTENSITY.max})p('pape.intensity.'+s,String(i));else i=parseFloat(g('pape.intensity.'+s));
+if(!(i>=${INTENSITY.min}&&i<=${INTENSITY.max}))i=${INTENSITY.def};
+d.setAttribute('data-scheme',s);d.style.setProperty('--intensity',String(i));
+var w=window.matchMedia&&matchMedia('(min-width: 1024px)').matches;
+d.setAttribute('data-nav',!d.hasAttribute('data-home')&&w&&g('pape.nav')!=='closed'?'open':'closed');})();`;
 
 const anchorToPage = {}; // every known anchor/slug -> page slug
 anchorToPage[slug('contents')] = 'index';
@@ -235,15 +278,6 @@ for (const part of fmParts) {
   anchorToPage[subSlug] = subSlug;
 }
 
-// Community CTA — site chrome, NOT guide content. Kept out of guide.md (which
-// stays a clean canonical doc); defined here so it can sit above the hero
-// banner on home and in the footer of every page.
-const COMMUNITY_CTA =
-  `<a class="community-callout" href="https://agentic-shift.com/community" target="_blank" rel="noopener">` +
-  `<span class="cc-tag">Agentic Shift</span>` +
-  `<span class="cc-desc">Join a <strong>professional learning community</strong> for builders and leaders</span>` +
-  `<span class="cc-link">Apply now →</span>` +
-  `</a>`;
 
 for (const s of sections) {
   const meta = shortLabel(s.heading);
@@ -337,6 +371,7 @@ function homeData() {
     .map((m) => ({ stage: m[1], n: +m[2], name: m[3].trim(), stop: m[4].trim(), instead: m[5].trim() }));
   const stages = [...body.matchAll(/^\|\s*\*\*(\w+)\*\*\s*\|[^|\n]*\|([^|\n]*)\|\s*$/gm)]
     .map((m) => ({ name: m[1], gets: m[2].trim() }));
+  const lede = ((body.match(/^Three stages[^\n]*$/m) || [''])[0]).replace(/:\s*$/, '.');
   const tierCount = pages.filter((p) => p.kind === 'tier').length;
   const problems = [];
   if (!opener) problems.push('no opener paragraph in the front matter');
@@ -348,9 +383,10 @@ function homeData() {
     process.exit(1);
   }
   const rest = paras.filter((s) => s !== opener && s !== shift && s !== quote).join('\n\n');
-  return { opener: opener.split('\n').map((l) => l.trim()), shift, headline, subline, tiers, stages, rest };
+  return { opener: opener.split('\n').map((l) => l.trim()), shift, headline, subline, tiers, stages, lede, rest };
 }
 const HOME = homeData();
+const stageOfTier = Object.fromEntries(HOME.tiers.map((t) => [t.n, t.stage]));
 
 // --------------------------------------------------- cross-page link fixer ---
 // Dead in-guide anchors are collected here and fail the build (see end of file).
@@ -381,7 +417,7 @@ function makeRenderer() {
     const id = slug(rawText.replace(/<[^>]+>/g, ''));
     return `<h${level} id="${id}">${text}</h${level}>\n`;
   };
-  // Colour the contrast labels: "Instead of:" -> flat red, "Prefer:" -> teal.
+  // Mark the contrast labels: "Instead of:" is muted, "Prefer:" takes the accent.
   r.strong = (text) => {
     const plain = text.replace(/<[^>]+>/g, '');
     let cls = '';
@@ -389,6 +425,8 @@ function makeRenderer() {
     else if (/^Prefer\b/i.test(plain)) cls = ' class="lbl-prefer"';
     return `<strong${cls}>${text}</strong>`;
   };
+  r.table = (header, body) =>
+    `<div class="table-wrap"><table><thead>${header}</thead>${body ? `<tbody>${body}</tbody>` : ''}</table></div>`;
   r.code = (code, infostring) => {
     const lang = (infostring || '').trim().split(/\s+/)[0];
     if (lang === 'mermaid') return `<pre class="mermaid">${escapeHtml(code)}</pre>`;
@@ -539,7 +577,7 @@ function shell({ page, contentHtml }) {
   const fullTitle = isHome ? SITE_TITLE : `${page.title} · ${SITE_TITLE}`;
   const desc = page.description || SITE_DESC;
   return `<!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en"${isHome ? ' data-home' : ''}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -547,8 +585,7 @@ function shell({ page, contentHtml }) {
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
 <meta name="author" content="${AUTHOR_NAME}">
-<meta name="theme-color" content="#2c3e50" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B3A8C">
 <meta property="og:type" content="${isHome ? 'website' : 'article'}">
 <meta property="og:site_name" content="${SITE_TITLE}">
 <meta property="og:title" content="${escapeHtml(isHome ? fullTitle : page.title)}">
@@ -557,55 +594,38 @@ function shell({ page, contentHtml }) {
 <meta property="og:image" content="${OG_IMAGE}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Professional Agentic Product Engineering — a field guide by Alexey Krivitsky">
+<meta property="og:image:alt" content="Professional Agentic Product Engineering — Free the human. Elevate human intelligence. The six tiers, from Prompt to Supervise.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(isHome ? fullTitle : page.title)}">
 <meta name="twitter:description" content="${escapeHtml(desc)}">
 <meta name="twitter:image" content="${OG_IMAGE}">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
+<script>${PREPAINT}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script type="application/ld+json">${jsonLd(page)}</script>
-<script>(function(){try{var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;}catch(e){}})();</script>
 <link rel="stylesheet" href="styles.css?v=${ASSET_VER}">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
-<header class="topbar">
-  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-  </button>
-  <a class="topbar-brand" href="index.html">
-    <img src="assets/tutor-caveman.png" alt="">
-    <span class="sidebar-brand-text"><strong>Professional</strong> Agentic <strong>Product</strong> Engineering</span>
-  </a>
-  ${THEME_TOGGLE('theme-top')}
-</header>
-<div class="overlay" id="overlay"></div>
+<div class="sheet">
+${headerHtml()}
 <div class="layout">
-<aside class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar" aria-label="Contents">
   <nav class="nav">${renderNav(pageSlug)}</nav>
 </aside>
 <main class="main">
-  <article class="content" id="content">
+  <article class="content${isHome ? ' home' : ''}" id="content">
 ${contentHtml}
   </article>
-  ${prevNext(pageSlug)}
-  <footer class="site-footer">
-    ${COMMUNITY_CTA}
-    <div class="creditrow">${creditRow()}</div>
-    <nav class="footer-links">
-      <a href="sitemap.xml">Sitemap</a>
-      <a href="robots.txt">robots.txt</a>
-      <a href="llms.txt">llms.txt</a>
-      <a href="${REPO_URL}/blob/main/guide.md" target="_blank" rel="noopener">guide.md</a>
-      <a href="${REPO_URL}" target="_blank" rel="noopener">GitHub</a>
-    </nav>
-  </footer>
+  ${isHome ? '' : prevNext(pageSlug)}
 </main>
 </div>
+${footerHtml()}
+</div>
+<div class="overlay" id="overlay"></div>
 <script type="module" src="app.js?v=${ASSET_VER}"></script>
 </body>
 </html>`;
@@ -614,7 +634,14 @@ ${contentHtml}
 // ------------------------------------------------------------------- emit ---
 await rm(DIST, { recursive: true, force: true });
 await mkdir(join(DIST, 'assets'), { recursive: true });
-const cssText = await readFile(join(HERE, 'src', 'styles.css'), 'utf8');
+// Contrast gate: every text pair, every scheme, both ends of the intensity slider.
+const contrast = contrastReport();
+if (contrast.fails.length) {
+  console.error(`✖ ${contrast.fails.length} color pair(s) below WCAG AA 4.5:1:`);
+  for (const f of contrast.fails) console.error(`   ${f}`);
+  process.exit(1);
+}
+const cssText = (await readFile(join(HERE, 'src', 'styles.css'), 'utf8')) + '\n' + schemeCSS();
 const jsText = await readFile(join(HERE, 'src', 'app.js'), 'utf8');
 ASSET_VER = createHash('sha1').update(cssText + jsText).digest('hex').slice(0, 8);
 await copyFile(LOGO_SRC, join(DIST, 'assets', 'tutor-caveman.png'));
@@ -633,42 +660,43 @@ await writeFile(join(DIST, 'app.js'), jsText);
 for (const p of pages) {
   let contentHtml;
   if (p.kind === 'home') {
-    const fileOf = (s) => {
-      if (!bySlug[s]) { console.error(`✖ home page links to a page that no longer exists: ${s}`); process.exit(1); }
-      return bySlug[s].file;
+    const fileOf = (slugName) => {
+      if (!bySlug[slugName]) { console.error(`✖ home page links to a page that no longer exists: ${slugName}`); process.exit(1); }
+      return bySlug[slugName].file;
     };
-    const card = (t) =>
-      `<a class="tier-card" href="${fileOf(`tier-${t.n}`)}">` +
-      `<span class="tier-card-head"><span class="tier-card-n">T${t.n}</span><span class="tier-card-name">${escapeHtml(t.name)}</span></span>` +
-      `<span class="tier-card-row"><span class="tier-card-k">You stop</span>${escapeHtml(t.stop)}</span>` +
-      `<span class="tier-card-row"><span class="tier-card-k">You do instead</span>${escapeHtml(t.instead)}</span>` +
+    const block = (t) =>
+      `<a class="tier-block" href="${fileOf(`tier-${t.n}`)}">` +
+      `<span class="tb-head"><span class="tb-n">T${t.n}</span><span class="tb-name">${escapeHtml(t.name)}</span><span class="tb-go" aria-hidden="true">→</span></span>` +
+      `<span class="tb-row"><span class="tb-k">You stop</span><span class="tb-v">${escapeHtml(t.stop)}</span></span>` +
+      `<span class="tb-row"><span class="tb-k">You do instead</span><span class="tb-v">${escapeHtml(t.instead)}</span></span>` +
       `</a>`;
-    const stages = HOME.stages.map((s) =>
-      `<section class="stage" aria-label="${escapeHtml(s.name)}">` +
-      `<p class="stage-name"><strong>${escapeHtml(s.name)}</strong><span>${escapeHtml(s.gets)}</span></p>` +
-      HOME.tiers.filter((t) => t.stage === s.name).map(card).join('') +
+    const stages = HOME.stages.map((st) =>
+      `<section class="stage" aria-label="${escapeHtml(st.name)}: ${escapeHtml(st.gets)}">` +
+      `<p class="stage-name"><strong>${escapeHtml(st.name)}</strong><span>${escapeHtml(st.gets)}</span></p>` +
+      HOME.tiers.filter((t) => t.stage === st.name).map(block).join('') +
       `</section>`).join('');
     contentHtml =
-      `<h1 class="sr-only">${escapeHtml(HOME_TITLE)}</h1>` +
-      `<div class="home-hero">` +
-      `<div class="home-opener">${HOME.opener.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</div>` +
-      (HOME.shift ? `<p class="home-shift">${marked.parseInline(HOME.shift)}</p>` : '') +
-      `<p class="home-headline">${escapeHtml(HOME.headline)}</p>` +
-      `<p class="home-subline">${escapeHtml(HOME.subline)}</p>` +
-      `</div>` +
+      `<section class="hero">` +
+      `<h1 class="hero-title">Professional Agentic Product Engineering</h1>` +
+      `<p class="ruler"><span class="ruler-tick"></span><span class="ruler-line"></span>` +
+      `<span class="ruler-text">${escapeHtml(HOME.subline)}</span>` +
+      `<span class="ruler-line"></span><span class="ruler-tick"></span></p>` +
+      `<div class="hero-opener">${HOME.opener.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</div>` +
+      (HOME.shift ? `<p class="hero-shift">${marked.parseInline(HOME.shift)}</p>` : '') +
+      `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
+      `</section>` +
+      `<section class="home-section" aria-labelledby="tiers-h">` +
+      `<h2 id="tiers-h">The six tiers</h2>` +
+      (HOME.lede ? `<p class="section-lede">${escapeHtml(HOME.lede)}</p>` : '') +
       `<div class="stage-grid">${stages}</div>` +
       `<nav class="home-cta" aria-label="Where to go next">` +
-      `<a class="home-cta-main" href="${fileOf('tier-1')}">Start at T1 →</a>` +
-      `<a href="${fileOf('big-idea')}">How it works</a>` +
-      `<a href="${fileOf('audit-your-harness')}">Audit your harness</a>` +
-      `<a href="${fileOf('all-tips')}">All ${harvestedTips.length} tips</a>` +
+      `<a class="btn btn-primary" href="${fileOf('tier-1')}">Start at T1 →</a>` +
+      `<a class="btn" href="${fileOf('big-idea')}">How it works</a>` +
+      `<a class="btn" href="${fileOf('all-tips')}">All ${harvestedTips.length} tips</a>` +
+      `<a class="btn" href="${fileOf('learn-this-with-an-agent')}">Learn it with your agent</a>` +
       `</nav>` +
-      (HOME.rest ? renderMarkdown(linkifyTiers(HOME.rest), 'index') : '') +
-      COMMUNITY_CTA +
-      `<div class="learn-callout">` +
-      `<p class="learn-callout-title">Learn it with your agent — way more fun than reading.</p>` +
-      `<p>Point Claude Code (or any agentic harness) at <a href="${REPO_URL}" target="_blank" rel="noopener">this repository</a> and have it tutor you through the guide, one concept at a time.</p>` +
-      `</div>`;
+      `</section>` +
+      (HOME.rest ? renderMarkdown(linkifyTiers(HOME.rest), 'index') : '');
   } else if (p.kind === 'overview-sub') {
     contentHtml =
       `<p class="eyebrow">Overview</p>` +
@@ -679,7 +707,7 @@ for (const p of pages) {
     // tier names linked to the tier pages; tier pages themselves don't self-link.
     const body = p.kind === 'tier' ? p.body : linkifyTiers(p.body);
     contentHtml =
-      `<p class="eyebrow">${p.kind === 'tier' ? 'Tier ' + p.n : 'Chapter'}</p>` +
+      `<p class="eyebrow">${p.kind === 'tier' ? `Tier ${p.n}${stageOfTier[p.n] ? ' · ' + stageOfTier[p.n] : ''}` : 'Chapter'}</p>` +
       `<h1 id="${p.anchorId}" class="page-title">${escapeHtml(p.title)}</h1>` +
       renderMarkdown(body, p.slug);
   }
@@ -729,6 +757,11 @@ await writeFile(join(DIST, 'llms.txt'), llms);
 
 console.log(`Built ${pages.length} pages (assets v${ASSET_VER}) -> ${DIST}`);
 console.log('  + robots.txt, sitemap.xml, llms.txt');
+{
+  const textRows = contrast.rows.filter((r) => !r.pair.startsWith('line2'));
+  const worst = textRows.reduce((m, r) => Math.min(m, r.low, r.def, r.high), Infinity);
+  console.log(`  color: ${SCHEMES.length} schemes · ${textRows.length / SCHEMES.length} text pairs each · intensity ${INTENSITY.min}–${INTENSITY.max} · lowest ${worst.toFixed(2)}:1 (AA 4.5)`);
+}
 for (const p of pages) console.log(`  ${p.file.padEnd(50)} ${p.menuLabel}`);
 
 // Link-integrity gate — a dead `](#anchor)` in guide.md fails the build (and
