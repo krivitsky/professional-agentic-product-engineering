@@ -62,7 +62,7 @@ That system is what this guide teaches: tier by tier, it takes over a chore and 
 
 | Stage | Tier | You stop doing by hand | What you do instead | Pain that pushes you up |
 |---|---|---|---|---|
-| Direct | **T1 Prompt** | — | State the outcome | You re-explain the same things; big asks go sideways |
+| Direct | **T1 Prompt** | Writing the code by hand | State the outcome | You re-explain the same things; big asks go sideways |
 | Direct | **T2 Plan** | Explaining the project; steering each step | Decide the plan and the slice | You can't trust the output without reading every line |
 | Trust | **T3 Verify** | Reading every line | Define "done" | You give the same correction again; "remember to run the tests" |
 | Trust | **T4 Enforce** | Reminding and approving | Write the rules | One agent is too slow, or a big build floods its context |
@@ -97,7 +97,7 @@ Each tier hands one manual chore to the system, and you keep the judgment:
 
 | Tier | Chore handed to the system | Judgment you keep |
 |---|---|---|
-| **T1 Prompt** | — | State the outcome |
+| **T1 Prompt** | Writing the code by hand | State the outcome |
 | **T2 Plan** | Explaining the project; steering each step | Decide the plan and the slice |
 | **T3 Verify** | Reading every line | Define "done" |
 | **T4 Enforce** | Reminding and approving | Write the rules |
@@ -197,7 +197,7 @@ Every old tip kept its words and has a new home, and three tips are new. The [ti
 
 | You stop | You do instead | Climb when |
 |---|---|---|
-| — | State the outcome | You re-explain the same things; big asks go sideways |
+| Writing the code by hand | State the outcome | You re-explain the same things; big asks go sideways |
 
 **Reach for this tier when** the agent keeps doing *almost* the right thing — vague asks get literal, wrong results. The single request is your cheapest lever: say what you want so it can't guess wrong.
 

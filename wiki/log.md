@@ -123,3 +123,6 @@ No tier or tip changed — counts stay at 62. Plugin bumped 0.57.0 → 0.57.1; b
 - **History.** Earlier log entries name pages that no longer exist; those names are now plain text so every remaining wikilink resolves.
 - `scripts/lint-wiki.sh` now reads the tier count from `guide.md` instead of assuming eight, and fails on a hub left behind for a tier the guide no longer has.
 
+## [2026-10-22] edit | T1 names the chore it hands over
+
+Tier 1's "You stop" was a dash; it now reads *writing the code by hand* — the chore the guide's opener is about. Updated [[Tier 1 — Prompt]] and [[The Six Tiers]]. No tip changed.

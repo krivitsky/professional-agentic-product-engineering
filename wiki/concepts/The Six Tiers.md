@@ -12,7 +12,7 @@ The opener behind it: writing code was maybe never the human job; understanding 
 Every tier name is a verb for what you do.
 
 - **Direct** — get the right work.
-  - **T1 [[Tier 1 — Prompt]]** — you stop: — · you do instead: state the outcome.
+  - **T1 [[Tier 1 — Prompt]]** — you stop writing the code by hand · you state the outcome.
   - **T2 [[Tier 2 — Plan]]** — you stop explaining the project and steering each step · you decide the plan and the slice.
 - **Trust** — stop checking it yourself.
   - **T3 [[Tier 3 — Verify]]** — you stop reading every line · you define "done".

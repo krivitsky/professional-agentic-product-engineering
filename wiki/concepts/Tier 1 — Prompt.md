@@ -5,7 +5,7 @@
 
 Tier 1 of [[The Six Tiers]], in the **Direct** stage. **Write prompts the agent can act on, to get the right result the first time.**
 
-**You stop:** — · **You do instead:** state the outcome · **Climb when:** you re-explain the same things; big asks go sideways.
+**You stop:** writing the code by hand · **You do instead:** state the outcome · **Climb when:** you re-explain the same things; big asks go sideways.
 
 **Reach for this tier when** the agent keeps doing *almost* the right thing — vague asks get literal, wrong results. The single request is your cheapest lever: say what you want so it can't guess wrong.
 

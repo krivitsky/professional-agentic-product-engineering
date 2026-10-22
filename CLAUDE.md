@@ -16,7 +16,7 @@ It's organized as one ladder of **six tiers, simple → hard**, in three stages 
 
 | Tier | You stop doing by hand | What you do instead |
 |---|---|---|
-| **T1 Prompt** | — | State the outcome |
+| **T1 Prompt** | Writing the code by hand | State the outcome |
 | **T2 Plan** | Explaining the project; steering each step | Decide the plan and the slice |
 | **T3 Verify** | Reading every line | Define "done" |
 | **T4 Enforce** | Reminding and approving | Write the rules |

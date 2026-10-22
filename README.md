@@ -50,7 +50,7 @@ One ladder of **six tiers, simple → hard**, in three stages. Each tier hands o
 
 | Stage | Tier | You stop doing by hand | What you do instead |
 |---|---|---|---|
-| Direct | [**T1 Prompt**](guide.md#tier-1) | — | State the outcome |
+| Direct | [**T1 Prompt**](guide.md#tier-1) | Writing the code by hand | State the outcome |
 | Direct | [**T2 Plan**](guide.md#tier-2) | Explaining the project; steering each step | Decide the plan and the slice |
 | Trust | [**T3 Verify**](guide.md#tier-3) | Reading every line | Define "done" *(the heart of it)* |
 | Trust | [**T4 Enforce**](guide.md#tier-4) | Reminding and approving | Write the rules |
