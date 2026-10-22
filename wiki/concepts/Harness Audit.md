@@ -2,10 +2,11 @@
 
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-26
+**Updated:** 2026-10-22
 
 The diagnostic counterpart to [[The Harness]]. If trust comes from the gauntlet the output survives, the obvious next question is whether *your* gauntlet is any good — and the guide's answer is to audit it rather than judge it by eye. The chapter's premise: **"You are the worst-placed person to judge it, because you wrote it — every gap looks intentional from the inside."**
 
-Shipped as a skill, `/pape:harness-audit`, in the repo's `pape` plugin. It reads the harness checked into a repo — instruction files, Skills, agent definitions, hooks, permissions, tests, CI (see [[Agentic Primitives]]) — and rates it against [[The Eight Tiers]].
+Shipped as a skill, `/pape:harness-audit`, in the repo's `pape` plugin. It reads the harness checked into a repo — instruction files, Skills, agent definitions, hooks, permissions, tests, CI (see [[Agentic Primitives]]) — and rates it against [[The Six Tiers]].
 
 ## Absence is the easy half
 
@@ -13,27 +14,27 @@ The distinction that makes it an audit rather than an inventory: what's *missing
 
 - Two instruction layers that contradict each other, with nothing reconciling them when one changes.
 - A rule written down that nothing checks — so it holds only while the agent feels like it.
-- A gate that bites *after* the push, which is a report rather than a gate (see [[Tier 5 — Checkpointing and Hardening]]).
+- A gate that bites *after* the push, which is a report rather than a gate (see [[Tier 4 — Enforce]]).
 - A verify command that behaves differently in CI than locally, so green means two things.
-- Delegation dispatched from several places with no versioned agent definition behind it (see [[Tier 6 — Orchestration]]).
+- Delegation dispatched from several places with no versioned agent definition behind it (see [[Tier 5 — Orchestrate]]).
 
 Every finding names the file and line it came from and cites the tip behind it, so a rating always traces to something the reader can open and dispute.
 
 ## One next lever, derived from the ladder
 
-All eight tiers get a rating and a one-line note. Then the report walks the rungs from T1 upward and names **the lowest one that doesn't hold yet** — that single rung is the recommendation.
+All six tiers get a rating and a one-line note. Then the report walks the rungs from T1 upward and names **the lowest one that doesn't hold yet** — that single rung is the recommendation.
 
 The rule falls out of the ladder itself: each rung rests on the ones below, so a weak lower rung caps everything above it. Hardening CI while nothing tells the agent what "done" means is effort spent on a rung that cannot hold (see [[Executable Definition of Done]]).
 
 > *"T1 and T2 hold, so the next lever is T3. T4 and T5 are weak too, but both rest on T3, so it goes first."*
 
-Where a tier genuinely doesn't apply, the report says what the tier depends on — *"nothing here runs unattended, so there is no fleet to operate"* — instead of scoring it as a gap. **Climb only as high as the work demands** is the guide's own advice, so an audit that manufactured eight problems would argue against the material it comes from.
+Where a tier genuinely doesn't apply, the report says what the tier depends on — *"nothing here runs unattended, so there is nothing to supervise"* — instead of scoring it as a gap. **Climb only as high as the work demands** is the guide's own advice, so an audit that manufactured eight problems would argue against the material it comes from.
 
-## Two rungs no file reaches
+## A rung and a half no file reaches
 
-[[Tier 1 — Professional Prompting]] and [[Tier 2 — Shaping and Slicing]] are invisible in checked-in configuration — they live in how the operator prompts and shapes work, not in the repo. When the next lever lands on either, there is nothing to add and *"write better prompts"* is not a corrective action, so the audit points at the coach or the tutor instead. This is the one place the report recommends a tool rather than a change.
+[[Tier 1 — Prompt]] and the planning half of [[Tier 2 — Plan]] are invisible in checked-in configuration — they live in how the operator prompts and shapes work, not in the repo. (T2's other half — `CLAUDE.md`, Skills, MCP, secrets — is files, and is audited like any other rung.) When the next lever lands there, there is nothing to add and *"write better prompts"* is not a corrective action, so the audit points at the coach or the tutor instead. This is the one place the report recommends a tool rather than a change.
 
-The inverse holds too: the tutor can read an audit report and start teaching at the rung it named. Prompts place T1–T2, the repo places T3–T8.
+The inverse holds too: the tutor can read an audit report and start teaching at the rung it named. Prompts place T1–T2, the repo places T2–T6.
 
 ## Findings are refuted, not just generated
 
@@ -51,7 +52,7 @@ The audit is **read-only except the report**: it never edits a file, runs a buil
 
 ## Related
 - [[The Harness]]
-- [[The Eight Tiers]]
+- [[The Six Tiers]]
 - [[Robert C. Martin]]
 - [[Agentic Primitives]]
 - [[From Prompts to Systems]]

@@ -1,8 +1,9 @@
 # Tip 1.9 — Invite uncertainty instead of forcing an answer
-**Part of:** [[Tier 1 — Professional Prompting]] · tip 9 of 14
+**Part of:** [[Tier 1 — Prompt]] · tip 9 of 17
 **Source:** `guide.md #tip-1-9` (root — canonical, not copied)
 **Triad slot:** the fourth move — the gaps in any slot
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 > **Instead of:** "Implement the caching layer."
 >
@@ -11,7 +12,7 @@
 Forcing an answer makes the agent guess silently and commit to the guess. Inviting uncertainty surfaces the fork before it becomes rework.
 
 ## Related
-- [[Tier 1 — Professional Prompting]]
+- [[Tier 1 — Prompt]]
 - [[Tip 1.8 — Show, don't tell — use the input channels]]
 - [[Tip 1.10 — Paste raw errors, don't paraphrase them]]
 - [[The Prompt Triad]]

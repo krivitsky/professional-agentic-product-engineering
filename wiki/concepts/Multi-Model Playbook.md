@@ -1,6 +1,7 @@
 # Multi-Model Playbook
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 It works for one reason: **different models have different blind spots**, so a second model catches what the first missed. Reach for it when a task is **high-stakes, decomposable, or verifiable**; skip it when one strong model already clears the bar.
 
@@ -14,7 +15,7 @@ Two moves, no infrastructure:
   > ✅ Prefer: `/model opusplan` — Opus reasons through the plan, Sonnet writes the code. One command, top-tier planning, without paying Opus rates on every edit.
 - **Tip 2.8 — Have one agent draft the spec and a different one critique it — before any code.** One agent drafts SPEC.md; a *different* model attacks it ("Find gaps, wrong assumptions, missing edge cases; list them, don't rewrite"). The spec is the contract the whole build runs against, so this is the highest-leverage place to spend a second model.
 
-## The full toolkit (Tier 6) — two levels
+## The full toolkit (Tier 5) — two levels
 
 Get fluent with Level 1 before reaching for Level 2.
 
@@ -36,7 +37,7 @@ The advanced case: other frontier labs (GPT-5.5-class, Gemini 3.x), open-weight 
 - **Try the cheaper trick first:** run your *best* model a few times and pick the best answer — research (Self-MoA) finds that often beats mixing in weaker models, which can drag the average down.
 
 ## Related
-- [[Tier 6 — Orchestration]]
+- [[Tier 5 — Orchestrate]]
 - [[The Review-Agent Pattern]]
-- [[Tier 2 — Shaping and Slicing]]
+- [[Tier 2 — Plan]]
 - [[Claude Code]]

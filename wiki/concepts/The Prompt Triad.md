@@ -2,8 +2,9 @@
 
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-20
+**Updated:** 2026-10-22
 
-The opening mental model of [[Tier 1 — Professional Prompting]]: every prompt is three things — **intent · context · constraint**. Fill all three in one message and the agent runs far on its own. The 14 Tier 1 tips are how you fill each slot well.
+The opening mental model of [[Tier 1 — Prompt]]: every prompt is three things — **intent · context · constraint**. Fill all three in one message and the agent runs far on its own. The first 14 Tier 1 tips are how you fill each slot well.
 
 ## The three slots
 
@@ -25,12 +26,11 @@ The opening mental model of [[Tier 1 — Professional Prompting]]: every prompt 
 
 The triad isn't only a Tier 1 device — it's the spine the later tiers build on:
 
-- [[Tier 2 — Shaping and Slicing]] — the triad externalized: intent becomes a written spec, context comes from investigating first, and each slice is a constraint small enough to check and undo.
-- [[Tier 3 — Context Management]] — the context slot, scaled: from pasting context into a prompt to engineering it (@files, tools, MCP, durable memory).
-- [[Tier 4 — Loop Until Done]] — intent made executable: the Given/When/Then you specced becomes the check the loop must pass.
-- [[Tier 5 — Checkpointing and Hardening]] — constraints hardened: from a line in the prompt into checkpoints, CI, and rollback the harness enforces.
+- [[Tier 2 — Plan]] — the triad externalized: intent becomes a written spec, context comes from investigating first, and each slice is a constraint small enough to check and undo. Its knowledge-encoding half scales the context slot: from pasting context into a prompt to engineering it (@files, tools, MCP, durable memory).
+- [[Tier 3 — Verify]] — intent made executable: the Given/When/Then you specced becomes the check the loop must pass.
+- [[Tier 4 — Enforce]] — constraints hardened: from a line in the prompt into hooks, CI, and permissions the harness enforces.
 
 ## Related
-- [[Tier 1 — Professional Prompting]]
+- [[Tier 1 — Prompt]]
 - [[From Prompts to Systems]]
-- [[The Eight Tiers]]
+- [[The Six Tiers]]

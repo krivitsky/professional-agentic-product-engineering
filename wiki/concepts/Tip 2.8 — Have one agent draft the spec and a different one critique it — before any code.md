@@ -1,7 +1,8 @@
 # Tip 2.8 — Have one agent draft the spec and a different one critique it — before any code
-**Part of:** [[Tier 2 — Shaping and Slicing]] · tip 8 of 8
+**Part of:** [[Tier 2 — Plan]] · tip 8 of 13
 **Source:** `guide.md #tip-2-8` (root — canonical, not copied)
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 > **Instead of:** one model writing SPEC.md and you trusting it.
 >
@@ -10,6 +11,7 @@
 The critic's *different* blind spots are the point — a second model attacking the spec before any code catches gaps the author can't see.
 
 ## Related
-- [[Tier 2 — Shaping and Slicing]]
+- [[Tier 2 — Plan]]
 - [[Tip 2.7 — Plan with the smart model, build with the cheap one]]
+- [[Tip 2.9 — Keep secrets out of git and out of context — set this up first]]
 - [[Multi-Model Playbook]]

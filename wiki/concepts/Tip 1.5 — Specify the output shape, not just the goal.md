@@ -1,8 +1,9 @@
 # Tip 1.5 — Specify the output shape, not just the goal
-**Part of:** [[Tier 1 — Professional Prompting]] · tip 5 of 14
+**Part of:** [[Tier 1 — Prompt]] · tip 5 of 17
 **Source:** `guide.md #tip-1-5` (root — canonical, not copied)
 **Triad slot:** intent
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 > **Instead of:** "Add a search endpoint."
 >
@@ -11,7 +12,7 @@
 Route, response format, ordering, limits. The shape is where a "correct" implementation still misses what you needed.
 
 ## Related
-- [[Tier 1 — Professional Prompting]]
+- [[Tier 1 — Prompt]]
 - [[Tip 1.4 — Give the reason; motivation makes it generalize]]
 - [[Tip 1.6 — Show examples instead of describing style]]
 - [[The Prompt Triad]]

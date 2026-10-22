@@ -55,10 +55,10 @@ The vault mirrors `guide.md` as a **tree**, not a flat list. This is the shape t
 
 ```
 guide.md  (root — the only node the tiers point back to)
-├── Tier 1 — Professional Prompting   ──┬── Tip 1.1 … Tip 1.14
-├── Tier 2 — Shaping and Slicing       ─┼── Tip 2.1 … Tip 2.8
-│   … (8 tier hubs)                     │
-└── Tier 8 — Agent Execution Layer     ─┴── Tip 8.1 … Tip 8.4
+├── Tier 1 — Prompt        ──┬── Tip 1.1 … Tip 1.17
+├── Tier 2 — Plan           ─┼── Tip 2.1 … Tip 2.13
+│   … (6 tier hubs)          │
+└── Tier 6 — Supervise      ─┴── Tip 6.1 … Tip 6.8
 Cross-cutting concepts (The Harness, Vertical Slicing, …) and entities (Claude Code, …) hang off the guide at the tier level.
 ```
 
@@ -66,7 +66,7 @@ Cross-cutting concepts (The Harness, Vertical Slicing, …) and entities (Claude
 
 ### Tier hub pages — `concepts/Tier N — <Name>.md`
 
-- Filename/H1 uses the guide's own em-dash heading form: `Tier 1 — Professional Prompting` (an em-dash `—`, **not** a colon — a colon is unsafe in macOS/Obsidian filenames).
+- Filename/H1 uses the guide's own em-dash heading form: `Tier 1 — Prompt` (an em-dash `—`, **not** a colon — a colon is unsafe in macOS/Obsidian filenames).
 - Has a `## The N tips` section that lists **every** tip as a wikilink: `- [[Tip N.M — Title]] — <gloss>`, in guide order, preceded by the line *"Each tip has its own page — click through for the Instead/Prefer pair."*
 - Keeps `**Source:** [guide.md](../../guide.md)` (tier hubs *do* link the root — that's the `guide → tier` edge).
 

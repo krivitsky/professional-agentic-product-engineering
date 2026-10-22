@@ -1,8 +1,9 @@
 # Tip 1.8 — Show, don't tell — use the input channels
-**Part of:** [[Tier 1 — Professional Prompting]] · tip 8 of 14
+**Part of:** [[Tier 1 — Prompt]] · tip 8 of 17
 **Source:** `guide.md #tip-1-8` (root — canonical, not copied)
 **Triad slot:** context
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 > **Instead of:** describing a layout bug in prose.
 >
@@ -11,7 +12,7 @@
 The agent takes images, files, and piped text directly — using them beats a prose translation that drops detail. Related: [[Tip 1.10 — Paste raw errors, don't paraphrase them]].
 
 ## Related
-- [[Tier 1 — Professional Prompting]]
+- [[Tier 1 — Prompt]]
 - [[Tip 1.7 — Follow the house style, don't invent one]]
 - [[Tip 1.9 — Invite uncertainty instead of forcing an answer]]
 - [[The Prompt Triad]]

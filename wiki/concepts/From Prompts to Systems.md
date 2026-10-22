@@ -1,6 +1,7 @@
 # From Prompts to Systems
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 The Big Idea of the whole guide, in one line:
 
@@ -24,7 +25,7 @@ See [[The Harness]] for the full definition.
 ## The shift
 
 - "As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows."
-- The eight tiers are that climb: "from a single request (T1) to whole loops running autonomously in production (T8)."
+- The six tiers are that climb: "from a single request (T1) to whole loops running autonomously in production (T6)."
 - The harness has a shape — three nested loops, from the tight red-green cycle out to real-world impact.
 
 ## External validation
@@ -32,8 +33,8 @@ See [[The Harness]] for the full definition.
 [[Robert C. Martin]] ("Uncle Bob") — Agile Manifesto signatory, author of *Clean Code*, namer of SOLID, and for a generation the loudest voice for reading and crafting every line — now says he does *not* read the code his agents write, and instead *"surround[s] the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage… I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."*
 
 - **Significance:** the industry's foremost advocate for *reading* code stops reading it — the strongest possible endorsement of this page's thesis that trust is engineered by the harness, not earned by watching the model.
-- **Continuity:** his constraints *are* the craftsmanship disciplines (TDD/BDD/coverage) he preached for decades — craftsmanship didn't die, it moved from the hand-written code to the [[The Harness]] around the model. See [[Tier 4 — Loop Until Done]].
-- **Caveat:** his "read none of it" is more extreme than the guide, which retains a review step — see [[Tier 4 — Loop Until Done]], Tip 4.7, where the guide notes it directly.
+- **Continuity:** his constraints *are* the craftsmanship disciplines (TDD/BDD/coverage) he preached for decades — craftsmanship didn't die, it moved from the hand-written code to the [[The Harness]] around the model. See [[Tier 3 — Verify]].
+- **Caveat:** his "read none of it" is more extreme than the guide, which retains a review step — see [[Tier 3 — Verify]], Tip 3.7, where the guide notes it directly.
 
 ## External References
 - [Robert C. Martin (@unclebobmartin) on surrounding agents with extreme constraints](https://x.com/unclebobmartin/status/2080257779395154409) — X, July 2026
@@ -41,6 +42,6 @@ See [[The Harness]] for the full definition.
 ## Related
 - [[The Harness]]
 - [[Loops of Agentic Engineering]]
-- [[The Eight Tiers]]
+- [[The Six Tiers]]
 - [[Agentic Primitives]]
 - [[Robert C. Martin]]

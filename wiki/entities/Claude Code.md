@@ -2,7 +2,7 @@
 
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
-**Updated:** 2026-09-08
+**Updated:** 2026-10-22
 
 [[Anthropic]]'s terminal-native coding agent, and the guide's running example throughout all tiers.
 
@@ -21,4 +21,4 @@
 - [[Anthropic]]
 - [[Agentic Primitives]]
 - [[Playwright MCP]]
-- [[The Eight Tiers]]
+- [[The Six Tiers]]

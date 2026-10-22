@@ -1,6 +1,7 @@
 # The Harness
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 The harness is the system you build *around* the model. It is what turns vibe coding into an agentic system.
 
@@ -18,8 +19,8 @@ An agentic system "puts the same model inside a *harness*: a **workflow** — th
 
 The harness isn't only prompts and constraints — the surrounding machinery counts:
 
-- "Git isn't bookkeeping here — it's the loop's memory and undo. And the harness around it — hooks that always run your tests, CI, the `gh` CLI — makes the whole loop deterministic and shareable with the team." (see [[Tier 5 — Checkpointing and Hardening]])
-- The guide's closing move (Tip 6.7) — "Engineer the environment, not the wording": "invest in CLAUDE.md, Skills, MCP, git discipline, tests as the check, hooks, and CI."
+- "Git isn't bookkeeping here — it's the loop's memory and undo." (see [[Tier 3 — Verify]]) And "the harness around the loop — hooks that always run your tests, CI, the `gh` CLI — makes the whole loop deterministic and shareable with the team." (see [[Tier 4 — Enforce]])
+- The guide's closing move (Tip 5.7) — "Engineer the environment, not the wording": "invest in CLAUDE.md, Skills, MCP, git discipline, tests as the check, hooks, and CI."
 
 ## The system is the product
 
@@ -28,11 +29,11 @@ The harness isn't only prompts and constraints — the surrounding machinery cou
 
 ## Knowing whether yours holds
 
-A harness you built yourself is the hardest one to judge — every gap looks intentional from the inside. The guide's answer is the [[Harness Audit]]: read the harness as checked in, rate it against [[The Eight Tiers]], and name the lowest rung that doesn't hold yet.
+A harness you built yourself is the hardest one to judge — every gap looks intentional from the inside. The guide's answer is the [[Harness Audit]]: read the harness as checked in, rate it against [[The Six Tiers]], and name the lowest rung that doesn't hold yet.
 
 ## Related
 - [[From Prompts to Systems]]
 - [[Harness Audit]]
-- [[Tier 5 — Checkpointing and Hardening]]
+- [[Tier 4 — Enforce]]
 - [[Agentic Primitives]]
 - [[Loops of Agentic Engineering]]

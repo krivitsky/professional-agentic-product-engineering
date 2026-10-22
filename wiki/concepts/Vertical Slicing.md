@@ -1,6 +1,7 @@
 # Vertical Slicing
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 A vertical slice is narrow, **end-to-end, independently testable** — UI → API → DB → test — shipped green before the next, not built as horizontal layers.
 
@@ -23,7 +24,7 @@ A vertical slice is narrow, **end-to-end, independently testable** — UI → AP
 - Sanity-check each by mutation: break the implementation on purpose, confirm the scenario fails, then revert.
 
 ## Related
-- [[Tier 2 — Shaping and Slicing]]
-- [[Tier 4 — Loop Until Done]]
+- [[Tier 2 — Plan]]
+- [[Tier 3 — Verify]]
 - [[Executable Definition of Done]]
 - [[Loops of Agentic Engineering]]

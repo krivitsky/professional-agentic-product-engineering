@@ -2,7 +2,7 @@
 # Lint the Obsidian vault in wiki/ against the rules in wiki/CLAUDE.md.
 #
 # The vault is the wikified view of the root guide.md, shaped as a 3-level tree
-# (guide -> 8 tier hubs -> one page per tip). Every rule below exists because
+# (guide -> one hub per tier -> one page per tip). Every rule below exists because
 # breaking it is invisible in Obsidian until someone clicks a dead link or the
 # graph quietly flattens into a star.
 #
@@ -76,8 +76,15 @@ for a in sorted(anchors - tip_pages, key=lambda s: [int(x) for x in s.split('.')
 for t in sorted(tip_pages - anchors, key=lambda s: [int(x) for x in s.split('.')]):
     fail.append(f"vault has a page for tip {t} but guide.md has no <a id=\"tip-...\"> for it")
 
-# ---- 6. every tip is listed by its tier hub --------------------------------
-for tier in range(1, 9):
+# ---- 6. every tip is listed by its tier hub, and no hub outlives its tier ---
+tiers = sorted({int(t) for t in re.findall(r'<a id="tier-(\d+)"></a>', guide)})
+if not tiers:
+    fail.append('guide.md has no <a id="tier-N"> anchors — cannot tell which tier hubs should exist')
+for p in pages:
+    m = re.match(r'Tier (\d+) —', p.stem)
+    if m and int(m.group(1)) not in tiers:
+        fail.append(f"{p}: hub for Tier {m.group(1)}, but guide.md has no such tier — delete it and re-tree its tips")
+for tier in tiers:
     hub = next((p for p in pages if p.stem.startswith(f'Tier {tier} —')), None)
     if not hub:
         fail.append(f"no tier hub page for Tier {tier}")

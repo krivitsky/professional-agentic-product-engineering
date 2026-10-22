@@ -1,8 +1,9 @@
 # Tip 1.6 — Show examples instead of describing style
-**Part of:** [[Tier 1 — Professional Prompting]] · tip 6 of 14
+**Part of:** [[Tier 1 — Prompt]] · tip 6 of 17
 **Source:** `guide.md #tip-1-6` (root — canonical, not copied)
 **Triad slot:** context
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 > **Instead of:** "Make the tone professional."
 >
@@ -11,7 +12,7 @@
 A described style is a compression the agent must decompress into concrete output — lossy. Examples hand it the target directly. 3–5 work best.
 
 ## Related
-- [[Tier 1 — Professional Prompting]]
+- [[Tier 1 — Prompt]]
 - [[Tip 1.5 — Specify the output shape, not just the goal]]
 - [[Tip 1.7 — Follow the house style, don't invent one]]
 - [[The Prompt Triad]]

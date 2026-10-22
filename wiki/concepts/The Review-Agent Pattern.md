@@ -1,6 +1,7 @@
 # The Review-Agent Pattern
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 A separate agent reviews the PR before a human; findings get fixed first. This is where most teams start — **high value, low risk** — and often their first production loop.
 
@@ -22,7 +23,7 @@ A separate agent reviews the PR before a human; findings get fixed first. This i
 - Two models agreeing is strong signal, not proof.
 
 ## Related
-- [[Tier 8 — Agent Execution Layer]]
+- [[Tier 6 — Supervise]]
 - [[Multi-Model Playbook]]
-- [[Tier 4 — Loop Until Done]]
+- [[Tier 3 — Verify]]
 - [[Executable Definition of Done]]

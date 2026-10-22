@@ -1,6 +1,7 @@
 # Executable Definition of Done
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
+**Updated:** 2026-10-22
 
 Your Definition of Done, made executable — the machine-checkable contract the loop runs against.
 
@@ -17,7 +18,7 @@ Your Definition of Done, made executable — the machine-checkable contract the 
 - **You decide what to test for; the agent doesn't.** The tests that catch real bugs are usually integration and end-to-end, not single units — treat those as first-class. Build the rails; don't let the agent build its own.
 - The deeper shift: **the spec is the new source code.** When the loop regenerates the implementation on demand against an executable spec, the code becomes throwaway output and `SPEC.md` + tests become the artifact you author, version, and review.
 
-## Tip 4.1 — Make your Definition of Done executable
+## Tip 3.1 — Make your Definition of Done executable
 
 > ❌ Instead of: "Make it work."
 >
@@ -27,7 +28,7 @@ Your Definition of Done, made executable — the machine-checkable contract the 
 A command is what the loop converges to.
 
 ## Related
-- [[Tier 4 — Loop Until Done]]
+- [[Tier 3 — Verify]]
 - [[Loops of Agentic Engineering]]
 - [[The Harness]]
 - [[Vertical Slicing]]
