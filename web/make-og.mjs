@@ -15,33 +15,37 @@ const CHROME = process.env.CHROME_BIN || '/Applications/Google Chrome.app/Conten
 const logo = await readFile(join(ROOT, 'assets', 'tutor-caveman.png'));
 const LOGO = `data:image/png;base64,${logo.toString('base64')}`;
 
+// Cyanotype, always — the share card is the brand, whatever scheme a reader picks.
+const TIERS = [['Direct', [['T1', 'Prompt'], ['T2', 'Plan']]], ['Trust', [['T3', 'Verify'], ['T4', 'Enforce']]], ['Scale', [['T5', 'Orchestrate'], ['T6', 'Supervise']]]];
 const html = `<!doctype html><html><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1200px;height:630px;overflow:hidden}
-.wrap{width:1200px;height:630px;background:#22303c;display:flex;flex-direction:column;padding:44px 70px 36px;position:relative}
-.wrap:before{content:'';position:absolute;left:0;top:0;bottom:0;width:16px;background:#1abc9c}
-.topline{font:600 30px 'Inter',sans-serif;color:#8aa0b0;letter-spacing:.01em}
-.row{flex:1;display:flex;align-items:center;gap:50px}
-.cave-wrap{width:320px;flex:none;display:flex;flex-direction:column;align-items:center;gap:18px}
-.cave{width:300px}
-.cave-label{font:600 23px 'Inter',sans-serif;color:#1abc9c;letter-spacing:.01em}
-.title{flex:1;font-family:'Playfair Display',serif;font-weight:900;font-size:84px;line-height:1.03;color:#fff;letter-spacing:-.015em}
-.title b{color:#1abc9c}
-.brand{font:400 26px 'Inter',sans-serif;color:#8aa0b0;letter-spacing:.01em}
-</style></head><body>
-<div class="wrap">
-  <div class="topline">Engineer&#39;s Field Guide</div>
-  <div class="row">
-    <div class="title"><b>Professional</b><br>Agentic<br><b>Product</b><br>Engineering</div>
-    <div class="cave-wrap">
-      <img class="cave" src="${LOGO}">
-      <div class="cave-label">Learn with agents</div>
-    </div>
-  </div>
-  <div class="brand">Free the human. Elevate human intelligence.</div>
+body{background:#0B3A8C;background-image:linear-gradient(rgba(230,240,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(230,240,255,.08) 1px,transparent 1px);background-size:40px 40px;padding:24px;font-family:'Geist',sans-serif;color:#E6F0FF}
+.sheet{height:582px;border:2px solid #E6F0FF;background:rgba(11,58,140,.55);display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:18px;padding:16px 30px;border-bottom:1px solid #9DBBF0}
+.mark{font-size:24px;font-weight:700;letter-spacing:-.02em;color:#fff}
+.name{font-size:18px;color:#C9DAF8}
+.dom{margin-left:auto;font-size:18px;font-weight:500;color:#E6F0FF}
+.body{flex:1;padding:0 30px;display:flex;flex-direction:column;justify-content:center}
+h1{font-size:70px;line-height:.98;letter-spacing:-.045em;font-weight:700;color:#fff;max-width:1000px}
+.ruler{display:flex;align-items:center;gap:12px;margin:22px 0 0;max-width:820px}
+.tick{flex:0 0 2px;height:18px;background:#9DBBF0}.line{flex:1 1 20px;height:2px;background:#9DBBF0}
+.rt{font-size:21px;font-weight:600;color:#fff;white-space:nowrap}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 30px 26px}
+.stage p{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#FFD23F;margin:0 0 8px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.t{border:2px solid #E6F0FF;padding:10px 12px;display:flex;align-items:baseline;gap:9px}
+.t b{font-size:17px;color:#FFD23F}.t span{font-size:22px;font-weight:700;letter-spacing:-.025em;color:#fff}
+</style></head><body><div class="sheet">
+<div class="top"><span class="mark">PAPE</span><span class="name">Professional Agentic Product Engineering</span><span class="dom">agenticengineering.guide</span></div>
+<div class="body">
+<h1>Free the human.<br>Elevate human intelligence.</h1>
+<div class="ruler"><span class="tick"></span><span class="line"></span><span class="rt">From operating the model to deciding the outcome, tier by tier.</span><span class="line"></span><span class="tick"></span></div>
+</div>
+<div class="tiers">${TIERS.map(([stage, ts]) => `<div class="stage"><p>${stage}</p><div class="pair">${ts.map(([n, nm]) => `<div class="t"><b>${n}</b><span>${nm}</span></div>`).join('')}</div></div>`).join('')}</div>
 </div></body></html>`;
 
 const tmp = join(HERE, '.og-tmp.html');
@@ -50,7 +54,7 @@ await writeFile(tmp, html);
 for (const [scale, name] of [[1, 'og.png'], [2, 'og-2x.png']]) {
   const out = join(ROOT, 'assets', name);
   await run(CHROME, ['--headless=new', '--hide-scrollbars', `--force-device-scale-factor=${scale}`,
-    `--screenshot=${out}`, '--window-size=1200,630', '--virtual-time-budget=4000',
+    `--screenshot=${out}`, '--window-size=1200,630', '--virtual-time-budget=6000',
     `file://${tmp}`]);
   console.log(`Wrote ${out}`);
 }
