@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This repo's own T5 gate — see guide.md Tier 5, and checks.md C-2.
+# This repo's own T4 gate — see guide.md Tier 4, and checks.md C-2.
 #
 # CLAUDE.md lists four things that must be re-synced "in the same session" after
 # a guide.md change. Until now, nothing enforced that: the rules were prose, and

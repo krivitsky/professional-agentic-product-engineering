@@ -3,7 +3,7 @@
 > [!NOTE]
 > 🧭 **Agentic Shift** — Join a **professional learning community** for builders and leaders — [Apply now →](https://agentic-shift.com/community)
 
-<img src="assets/og-2x.png?v=2" alt="Professional Agentic Product Engineering — From Prompts to Systems: Master The 8 Tiers" width="100%">
+<img src="assets/og-2x.png?v=3" alt="Professional Agentic Product Engineering — Free the human. Elevate human intelligence." width="100%">
 
 > "The purpose of knowledge is action, not knowledge."
 > — Aristotle
@@ -17,7 +17,7 @@ This repo is four ways into the [Professional Agentic Product Engineering Guide]
 > - **📄 Markdown** — [`guide.md`](guide.md), the canonical source. Best for reading in your editor, feeding to an agent, or sending a PR.
 > - **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide/) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts.
 > - **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into `[[wikilink]]`-cross-referenced pages (one per tier, concept, and entity). Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph and *study* the material, not just read it top-to-bottom.
-> - **🔌 In your repo** — install the [plugin](plugins/pape) (`/plugin install pape@pape`) and the whole guide ships with it, byte-identical and enforced by CI. `/pape:agentic-coach` quotes tips from it as you work, and `/pape:harness-audit` rates the repo you're in against the eight tiers — see [Audit your harness](https://agentic-engineering.guide/audit-your-harness). The guide is *there* while you work, instead of somewhere you go.
+> - **🔌 In your repo** — install the [plugin](plugins/pape) (`/plugin install pape@pape`) and the whole guide ships with it, byte-identical and enforced by CI. `/pape:agentic-coach` quotes tips from it as you work, and `/pape:harness-audit` rates the repo you're in against the six tiers — see [Audit your harness](https://agentic-engineering.guide/audit-your-harness). The guide is *there* while you work, instead of somewhere you go.
 
 The Guide is kept up-to-date to track how the best teams operate coding agents — the full range, from "fix bug xyz" to autonomous engineering loops in production.
 
@@ -36,30 +36,41 @@ Professional agentic engineering is **not prompt engineering — it's engineerin
 
 <img src="assets/nested-loops.png" width="640" alt="Three nested loops: an impact loop containing a feature loop containing a coding loop">
 
-The eight tiers are how you make these loops close on their own — from wording a single prompt (T1) to whole loops running autonomously in production (T8). The prompt shrinks; the system grows.
+The six tiers are how you make these loops close on their own — from wording a single prompt (T1) to whole loops running autonomously in production (T6). The prompt shrinks; the system grows.
 
 ## What's inside
 
 **Four in one** — the same material in four forms: read it, get tutored through it, get coached *while you work*, or have a real repo **audited** against it.
 
-Not sure where you stand? **Start with the audit (4)** — it rates all eight tiers on a repo you actually work in and names the one rung to fix. The tutor and the coach both pick up from there.
+Not sure where you stand? **Start with the audit (4)** — it rates all six tiers on a repo you actually work in and names the one rung to fix. The tutor and the coach both pick up from there.
 
 ### 1) The Guide — [`guide.md`](guide.md)
 
-One ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
+One ladder of **six tiers, simple → hard**, in three stages. Each tier hands one manual chore to the system, and you keep the judgment:
 
-| Tier | You learn to… |
-|---|---|
-| [**T1 Professional Prompting**](guide.md#tier-1) | Write prompts the agent can act on |
-| [**T2 Shaping & Slicing**](guide.md#tier-2) | Plan and slice before you build |
-| [**T3 Context Management**](guide.md#tier-3) | Give the agent the right context and tools |
-| [**T4 Loop Until Done**](guide.md#tier-4) | Make the agent prove it's done *(the heart of it)* |
-| [**T5 Checkpointing & Hardening**](guide.md#tier-5) | Checkpoint in git; wire tests & CI into the harness |
-| [**T6 Orchestration**](guide.md#tier-6) | Run many agents at once |
-| [**T7 Fleet Ops**](guide.md#tier-7) | Operate your agents as a fleet |
-| [**T8 Agent Execution Layer**](guide.md#tier-8) | Put agents into production (the execution layer) |
+| Stage | Tier | You stop doing by hand | What you do instead |
+|---|---|---|---|
+| Direct | [**T1 Prompt**](guide.md#tier-1) | — | State the outcome |
+| Direct | [**T2 Plan**](guide.md#tier-2) | Explaining the project; steering each step | Decide the plan and the slice |
+| Trust | [**T3 Verify**](guide.md#tier-3) | Reading every line | Define "done" *(the heart of it)* |
+| Trust | [**T4 Enforce**](guide.md#tier-4) | Reminding and approving | Write the rules |
+| Scale | [**T5 Orchestrate**](guide.md#tier-5) | Running agents one by one | Split and coordinate the work |
+| Scale | [**T6 Supervise**](guide.md#tier-6) | Starting and watching runs | Certify the evidence; improve the system |
 
 Climb only as high as your work demands. New to this? Start at **T1**; already fluent? jump straight to the tier that matches you.
+
+**Coming from the eight tiers?** Every old tip kept its words and has a new home, and three tips are new — the [tip map](guide.md#tip-map) lists every old number next to its new one.
+
+| Old tier | New tier |
+|---|---|
+| T1 Professional Prompting | T1 Prompt, plus context hygiene from old T3 |
+| T2 Shaping & Slicing | T2 Plan, plus knowledge encoding from old T3 |
+| T3 Context Management | split: hygiene → T1 Prompt, knowledge → T2 Plan |
+| T4 Loop Until Done | T3 Verify, plus checkpointing from old T5 |
+| T5 Checkpointing & Hardening | split: checkpointing → T3 Verify, hardening → T4 Enforce |
+| T6 Orchestration | T5 Orchestrate, plus the parallel half of old T7 |
+| T7 Fleet Ops | split: parallel → T5 Orchestrate, always-on → T6 Supervise |
+| T8 Agent Execution Layer | T6 Supervise |
 
 Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 1.2:
 
@@ -87,7 +98,7 @@ Then it tailors each lesson's examples to *your* stack and repos — and aims it
 
 Read-only and local — nothing leaves your machine.
 
-**Your prompts show T1–T2; your repo shows T3–T8.** So the tutor also offers to audit a repo you actually work in, and uses the two together to place you — no self-assessment quiz. Already run the audit? It reads that report and starts at the rung it named. See **(4)** below.
+**Your prompts show T1–T2; your repo shows T2–T6.** So the tutor also offers to audit a repo you actually work in, and uses the two together to place you — no self-assessment quiz. Already run the audit? It reads that report and starts at the rung it named. See **(4)** below.
 
 > "First impressions? Good :) It reads my history and estimates my current level, but is also transparent and asks me for my self assessment. Tell tell sign of quality — right there."
 > — [Magnus Vestin](https://www.linkedin.com/feed/update/urn:li:activity:7477965874549739520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477965874549739520%2C7477975689984442368%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287477975689984442368%2Curn%3Ali%3Aactivity%3A7477965874549739520%29)
@@ -102,7 +113,7 @@ You're mid-task, about to take a shortcut:
 >
 > **🧭 Agentic Coach** — *catching a learning opportunity:*
 >
-> 💡 **Red test? Find out *why* before you delete it.** Code regressed → fix the code (deleting it buries a live bug); feature gone or test stale → cleanup's fine. → **[Tier 4 — make the agent prove it's done](guide.md#tier-4)**
+> 💡 **Red test? Find out *why* before you delete it.** Code regressed → fix the code (deleting it buries a live bug); feature gone or test stale → cleanup's fine. → **[Tier 3 — make the agent prove it's done](guide.md#tier-3)**
 
 It catches the *thinking*, not the syntax — one catch, one nudge, one click to the Guide, then quiet again.
 
@@ -127,7 +138,7 @@ One install, both skills. The coach and the audit are the two halves of the same
 
 ### 4) The Audit — [`/pape:harness-audit`](plugins/pape/skills/harness-audit)
 
-<a href="https://x.com/unclebobmartin/status/2080257779395154409"><img src="assets/harness-audit-banner.png" width="820" alt="Left: Uncle Bob's tweet — &quot;My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity.&quot; Right: his advice is not to stop reading, but to invest in engineering the harness so it becomes the source of quality and trust — and the PAPE guide's eight tiers plus the harness-audit skill are how you tell whether yours is good enough."></a>
+<a href="https://x.com/unclebobmartin/status/2080257779395154409"><img src="assets/harness-audit-banner.png" width="820" alt="Left: Uncle Bob's tweet — &quot;My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity.&quot; Right: his advice is not to stop reading, but to invest in engineering the harness so it becomes the source of quality and trust — and the PAPE guide's six tiers plus the harness-audit skill are how you tell whether yours is good enough."></a>
 
 We all saw this powerful yet controversial tweet from Uncle Bob (aka [Robert C. Martin](https://x.com/unclebobmartin/status/2080257779395154409)), the author of *Clean Code*. Let me pause here and explain the depth of this and an interesting development that follows.
 
@@ -137,7 +148,7 @@ Which leaves the question: how do you know whether your own harness is any good?
 
 In response to growing awareness of the need for a guide for Professional Agentic Product Engineering (PAPE), we developed a harness audit skill.
 
-Run **`/pape:harness-audit`** to read the repo's existing agentic setup and generate a detailed 8-tier report based on the PAPE guide. The detailed report (md and html) will explain the strengths and weaknesses of your setup. It will then detail and prioritize the outstanding issues and propose a draft backlog to start fixing them.
+Run **`/pape:harness-audit`** to read the repo's existing agentic setup and generate a detailed 6-tier report based on the PAPE guide. The detailed report (md and html) will explain the strengths and weaknesses of your setup. It will then detail and prioritize the outstanding issues and propose a draft backlog to start fixing them.
 
 Install it:
 
@@ -155,7 +166,7 @@ Then, in any repo you work in:
 
 It is read-only apart from the two files it writes to `harness-audits/`.
 
-**To learn more — how it rates the eight tiers and what's in the report: [Audit your harness](https://agentic-engineering.guide/audit-your-harness).**
+**To learn more — how it rates the six tiers and what's in the report: [Audit your harness](https://agentic-engineering.guide/audit-your-harness).**
 
 ## What people are saying
 

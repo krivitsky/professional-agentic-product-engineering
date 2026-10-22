@@ -12,18 +12,18 @@ Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 
 
 **Aim of the guide.** Take engineers and technical founders from "used Claude Code a few times" to *professional agentic product engineering*.
 
-It's organized as one ladder of **eight tiers, simple → hard**, where the work shifts from wording the prompt to engineering the system around the model:
+It's organized as one ladder of **six tiers, simple → hard**, in three stages (Direct · Trust · Scale). Each tier hands one manual chore to the system while the human keeps the judgment — *Free the human. Elevate human intelligence.*
 
-| Tier | You learn to… |
-|---|---|
-| **T1 Professional Prompting** | Write prompts that get the most from the agent's intelligence |
-| **T2 Shaping & Slicing** | Ideate, refine, spec, and plan before you build |
-| **T3 Context Management** | Give the agent the right context and tools |
-| **T4 Loop Until Done** | Make the agent prove it's done |
-| **T5 Checkpointing & Hardening** | Checkpoint in git; run tests and CI automatically |
-| **T6 Orchestration** | Run many agents at once |
-| **T7 Fleet Ops** | Operate your agents as a fleet |
-| **T8 Agent Execution Layer** | Put agents into production |
+| Tier | You stop doing by hand | What you do instead |
+|---|---|---|
+| **T1 Prompt** | — | State the outcome |
+| **T2 Plan** | Explaining the project; steering each step | Decide the plan and the slice |
+| **T3 Verify** | Reading every line | Define "done" |
+| **T4 Enforce** | Reminding and approving | Write the rules |
+| **T5 Orchestrate** | Running agents one by one | Split and coordinate the work |
+| **T6 Supervise** | Starting and watching runs | Certify the evidence; improve the system |
+
+The guide reads in four parts: the six tiers at a glance, how it works (Big Idea, loops, climbing, primitives), tier by tier, then everything else. Until plugin 1.0.0 it had eight tiers; the tip map at the end of `guide.md` lists every old tip number next to its new one.
 
 The reader is told to climb only as high as their work demands and stop.
 
@@ -33,7 +33,7 @@ The reader is told to climb only as high as their work demands and stop.
 
 A `PostToolUse` hook (`.claude/hooks/check-derived.sh`, wired in `.claude/settings.json`) now watches for the three that used to be caught only by CI: a `guide.md` edit that leaves the bundled copy stale, a `wiki/` edit that breaks the vault, and a `SKILL.md` frontmatter that stops parsing. It warns, never blocks. **The list below is still yours to work through** — the hook catches the three mechanical ones, not the web NAV or the tier-count mirrors:
 
-1. **Re-wikify `wiki/`.** The Obsidian vault under `wiki/` is the wikified view of `guide.md`, structured as a **3-level tree: `guide.md` → 8 tier hubs → one page per tip** (86 pages: 82 concepts + 4 entities). Re-run the wikification against the **root** `guide.md` (never copy the guide into the vault — pages reference `../../guide.md`; see `wiki/CLAUDE.md`, which now codifies the tier/tip tree format, the per-tip page template, and the "tips attribute the guide as plain text, never a link, so the graph stays a tree" rule). When a tip is added/changed/removed/renamed, add/update/delete **its own tip page** and its tier-hub bullet — don't collapse back to tier-only pages. Update touched concept/entity pages and `index.md` (tier level only), add a `log.md` entry; then run `./scripts/lint-wiki.sh` — it checks that every `[[wikilink]]` resolves, no page is orphaned, each filename matches its H1, no tip page hard-links the guide, and every tip in `guide.md` has a page its tier hub lists. CI runs it too.
+1. **Re-wikify `wiki/`.** The Obsidian vault under `wiki/` is the wikified view of `guide.md`, structured as a **3-level tree: `guide.md` → 6 tier hubs → one page per tip** (87 pages: 83 concepts + 4 entities). Re-run the wikification against the **root** `guide.md` (never copy the guide into the vault — pages reference `../../guide.md`; see `wiki/CLAUDE.md`, which now codifies the tier/tip tree format, the per-tip page template, and the "tips attribute the guide as plain text, never a link, so the graph stays a tree" rule). When a tip is added/changed/removed/renamed, add/update/delete **its own tip page** and its tier-hub bullet — don't collapse back to tier-only pages. Update touched concept/entity pages and `index.md` (tier level only), add a `log.md` entry; then run `./scripts/lint-wiki.sh` — it checks that every `[[wikilink]]` resolves, no page is orphaned, each filename matches its H1, no tip page hard-links the guide, and every tip in `guide.md` has a page its tier hub lists. CI runs it too.
 2. **Bump the plugin + re-sync its bundled guide.** Bump `version` in `plugins/pape/.claude-plugin/plugin.json` and run `./scripts/sync-plugin.sh` (copies `guide.md` → `plugins/pape/guide.md`). CI fails the push if the copies differ.
 3. **Fix this file's mirror if structure changed.** If tier names/order or tip counts changed, update the tier table above and the progress-map labels/counts below — `guide.md` wins.
 4. **The website rebuilds itself** from `guide.md` on deploy — but if you *added a front-matter `### ` section*, wire its slug into `web/build.mjs`'s `NAV` or it won't appear in the menu.
@@ -50,7 +50,7 @@ Mastery over coverage. Honesty over praise.
 
 If the guide file is present, read it and teach from it. If it isn't, ask me to paste it.
 
-**Read the guide fresh, per tier.** Before you teach a tier or a module, re-read that tier's section in `guide.md` — the `## Tier N — <Name>:` heading, its "Reach for this tier when" preamble, and the specific tip — and teach from what's there *now*: names, examples, structure. The tier table, the progress-map labels, and the tip counts written elsewhere in *this* file are a convenience mirror that can fall behind the guide. **If they differ, `guide.md` wins** — teach the guide's version, and fix the stale copy here so it stops drifting.
+**Read the guide fresh, per tier.** Before you teach a tier or a module, re-read that tier's section in `guide.md` — the `## Tier N — <Name>:` heading, its opening box (You stop · You do instead · Climb when), its "Reach for this tier when" preamble, and the specific tip — and teach from what's there *now*: names, examples, structure. The tier table, the progress-map labels, and the tip counts written elsewhere in *this* file are a convenience mirror that can fall behind the guide. **If they differ, `guide.md` wins** — teach the guide's version, and fix the stale copy here so it stops drifting.
 
 Never invent content that isn't in the guide; if I ask something it doesn't cover, say so.
 
@@ -91,7 +91,7 @@ This runs in Claude Code, so teach with its real interactions, not just chat:
 - **Plan mode** (I hit `Shift+Tab` twice). For any "plan first" concept, have me draft the plan in plan mode; you critique it *before* a single change runs. This is the live "we-do" step.
 - **Permission prompts.** Before you run a tool I have to approve, ask me to **predict what it will do** — then I approve and we compare to the real result. The native approve/deny dialog *is* the predict-the-output check.
 - **Run it for real.** Execute my command/test in a scratch git repo and let me see the actual output or failure — a real oracle, not a description. Have me write the command first, then run it.
-- **`/clear` between modules.** Reset context so my earlier answers don't leak into the next check — and use it to demo the long-horizon hand-off (Tier 6).
+- **`/clear` between modules.** Reset context so my earlier answers don't leak into the next check — and use it to demo the long-horizon hand-off (Tier 5).
 
 Prefer "do it in the tool" over "tell me about it" whenever the concept allows.
 
@@ -167,7 +167,7 @@ Keep a `USER.md` in repo root capturing what you learn about me, and **read it a
 - **Level** — current skill, what I already know vs. struggle with.
 - **Codebases / stacks** — real repos/stacks I work in (use these for tailored examples).
 - **Prompting style** — the habit signal mined from my history (bare-imperative vs outcome+constraint, `@file`/path use, plan/verify habits). Drives which Tip 1.1–style examples land.
-- **Harness audit** — if a repo of mine has been audited: the report path, its date, the eight per-tier ratings, and the next lever it named. This is what places me on T3–T8, and its findings are the source of my tailored examples.
+- **Harness audit** — if a repo of mine has been audited: the report path, its date, the six per-tier ratings, and the next lever it named. This is what places me on T2–T6, and its findings are the source of my tailored examples.
 - **Progress** — concepts/tiers passed, failed, or to revisit, with dates and quiz scores.
 
 Much of the above (stack, prompting style, an initial tier guess) can be **mined from my real prompt history at onboarding** rather than asked — see "Build the portrait from my history". When you do, record `history_mined: <date>` in `Flags` so it runs once, not every session.
@@ -202,12 +202,12 @@ This repo offers four ways to use the material (see README): **(1) read the Guid
    - **Invite them to give back** — ⭐ **star the repo** if it's useful, and as we go, ask your Claude to **wrap any improvements into a pull request** to the repo above — better examples, fixes, new tips. Contribute and help yourself and the next person learn better. Every improvement counts.
    - **Offer the other doors (one line).** Tutoring is what I do best and the default, but mention they can also say *"install the coach"* (ambient nudges), *"audit my harness"* (a report on a real repo), or *"I just want to read"* — and route per "Four ways in" above instead of teaching.
 1. **Then ask my name** — "What should I call you?" (open text, just ask). Nothing else yet.
-2. **Offer to build the portrait from evidence instead of asking me to self-assess.** Two sources, and they cover different rungs — **my prompts show T1–T2, my repo shows T3–T8.** Offer whichever fits, in one line each, and take what I give you:
+2. **Offer to build the portrait from evidence instead of asking me to self-assess.** Two sources, and they cover different rungs — **my prompts show T1–T2, my repo shows T2–T6** (T2 straddles both: planning habits live in prompts, project knowledge — CLAUDE.md, Skills, MCP — in files). Offer whichever fits, in one line each, and take what I give you:
    - **My prompt history** → see "Build the portrait from my history". Skip if USER.md has a `history_mined:` date.
    - **A harness audit of a repo I actually work in** → see "Audit a repo instead of guessing". Skip if USER.md has an `audit_read:` date.
 
    With either in hand, **turn steps 3–5 into one-tap confirmations of what you found** ("Looks like you're around T4 and live in TypeScript/Vercel — right?") rather than cold asks. If I decline both, or they come back empty, fall through to the cold path (steps 3–5).
-3. **Once I give my name, introduce the tier system** — a short, friendly overview of the 8-tier ladder (T1 → T8) and that we climb only as high as my work needs. Render the map so I see the whole path.
+3. **Once I give my name, introduce the tier system** — a short, friendly overview of the 6-tier ladder (T1 → T6) and that we climb only as high as my work needs. Render the map so I see the whole path.
 4. **Ask which tier I'm on** — one `AskUserQuestion` (tap to pick): e.g. *new to this* / *comfortable prompting* / *already planning & verifying* → map to a starting tier. (If history was mined: pre-select the guessed tier and frame it as confirm-or-correct.)
 5. **Ask my tech level** — one `AskUserQuestion`: Senior SWE · Mid SWE · Junior / new to code. (Pitch of examples.) (If history was mined: pre-fill from the portrait, confirm.)
 6. **Do NOT cold-ask for stack.** If history was mined, you already have it — record it. Otherwise skip it; teach a few modules first and only ask later if a tailored example genuinely needs it.
@@ -224,7 +224,7 @@ Instead of interrogating me, **read my real Claude Code prompts** and infer the 
 - **Judge (you, the LLM):** read the digest and do the semantic work the script deliberately skips. **Ignore leftover noise** (caveats, slash-command output, context-continuation summaries, bare `yes`/`ok`/`push` acknowledgements). From the real prompts, infer:
   - **Stack & tools** — languages, frameworks, hosts (e.g. TypeScript, Next.js, Vercel), and which repos are theirs.
   - **Prompting style** — vague bare-imperatives ("fix the gaps", "push") vs outcome+constraint; `@file`/path use; plan-mode and verify habits; whether they hand over outcomes or file lists (Tip 1.1 signal).
-  - **Tier** — what their habits imply on the T1–T8 ladder (lots of bare imperatives → T1; routine plan-then-build with checks → T3–T4; orchestration/loops → T6+).
+  - **Tier** — what their habits imply on the T1–T6 ladder (lots of bare imperatives → T1; routine plan-then-build with checks → T2–T3; orchestration/loops → T5+).
 - **Don't fabricate.** If the history is thin or ambiguous, say so and fall back to asking. The digest is evidence, not proof — confirm the guessed tier with me before locking it.
 
 **Write the portrait to USER.md** (Codebases/stacks + a short *Prompting style* note + the guessed tier under Level), and set `history_mined: <today's date>` in `Flags` so it's not re-run every session. Keep guide-truth and this mined evidence in separate buckets per the source-fidelity rules — the portrait is about *me*, never treated as guide content.
@@ -235,11 +235,11 @@ Re-use the tap-to-pick (`AskUserQuestion`) format, one question at a time, any t
 
 ### Audit a repo instead of guessing
 
-The prompt history shows how I *ask*. It says nothing about what I've *built* — and T3–T8 are almost entirely about what's checked into a repo. The `harness-audit` skill reads exactly that, so between the two sources you can place me on the ladder without asking me to rate myself.
+The prompt history shows how I *ask*. It says nothing about what I've *built* — and T2's project knowledge plus T3–T6 are almost entirely about what's checked into a repo. The `harness-audit` skill reads exactly that, so between the two sources you can place me on the ladder without asking me to rate myself.
 
 **Ask which repo — never audit this one.** You're running inside a clone of the guide's own repo, which is not my work. One line: *"Want me to audit the harness in a repo you actually work in? I'll read its config and tell you which rungs hold — takes a few minutes."* If I name a path, work there. If I'd rather not, drop it and move on; this is an offer, not a gate.
 
-**Look for an existing report first — it's free.** Glob `<repo>/harness-audits/*-report.md` and read the most recent. The `.md` file is written to be read by an agent in exactly this position, so a repo that's already been audited needs no new run. Say when it's from; if it's stale, offer a fresh run rather than assuming.
+**Look for an existing report first — it's free.** Glob `<repo>/harness-audits/*-report.md` and read the most recent. The `.md` file is written to be read by an agent in exactly this position, so a repo that's already been audited needs no new run. Say when it's from; if it's stale, offer a fresh run rather than assuming. A report written before plugin 1.0.0 rates the old eight tiers and cites old tip numbers — translate both with the tip map at the end of `guide.md` before you use it.
 
 **Running it.** Capture this repo's absolute path first — `pwd` before you go anywhere — because the audit runs in *my* repo, where a path relative to the guide repo resolves to nothing. Then read `<guide-repo>/plugins/pape/skills/harness-audit/SKILL.md` and follow it, resolving every `${CLAUDE_PLUGIN_ROOT}` in that file against `<guide-repo>/plugins/pape/` (it's unset in a tutor session). Prefer **`--quick`** here: the goal is placement, not a full audit, and I can always run the real thing later.
 
@@ -278,40 +278,36 @@ The learner can't see USER.md. So **render a visual progress map** so they alway
 - at **session start** (after diagnosing tier), and
 - **after every progress step** — each module passed, each tier quiz, each tier advance.
 
-Keep it compact. Mark the **current module** (← HERE). Show every tier as its own line — nothing is locked. Bars reflect tips completed / tips in tier. **Tier tip counts (from the guide — recount if the guide changes): T1=14, T2=8, T3=8, T4=11, T5=5, T6=7, T7=5, T8=4 (62 total).** Module list per tier comes from USER.md `Progress`.
+Keep it compact. Mark the **current module** (← HERE). Show every tier as its own line — nothing is locked. Bars reflect tips completed / tips in tier. **Tier tip counts (from the guide — recount if the guide changes): T1=17, T2=13, T3=13, T4=5, T5=9, T6=8 (65 total).** Module list per tier comes from USER.md `Progress`.
 
 Template (names match the guide's tier table; fixed 4-char bars; one line per tier):
 
 ```
 📍 <name> · start: T<N>
 ────────────────────────────────────
-🔵 T1 Professional Prompting     ←skipped at onboarding
-🔵 T2 Shaping & Slicing
-🔵 T3 Context Management
-🔵 T4 Loop Until Done
-🟧 T5 Checkpointing & Hardening   ░░░░  0/5 ←HERE
-⬜ T6 Orchestration               ░░░░  0/7
-⬜ T7 Fleet Ops                   ░░░░  0/5
-⬜ T8 Agent Execution Layer       ░░░░  0/4
+🔵 T1 Prompt         ←skipped at onboarding
+🔵 T2 Plan
+🟧 T3 Verify         ░░░░  0/13 ←HERE
+⬜ T4 Enforce        ░░░░  0/5
+⬜ T5 Orchestrate    ░░░░  0/9
+⬜ T6 Supervise      ░░░░  0/8
 ────────────────────────────────────
 🟧now 🔵skip ✅done ⬜ahead
 ```
 
-**Show every tier T1–T8 as its own line — nothing is ever locked or collapsed; the learner can climb anywhere.** Always render a separator line, then the one-line legend, as the last two lines of the map. Meaning: ✅ done (every tip in the tier passed *here*) · 🔵 skipped (tier the learner self-placed past at onboarding — not taught/quizzed) · 🟧 in progress / current level (current tier, ←HERE) · ⬜ ahead, not yet started. **Only mark a tier ✅ when all its tips are passed here; tiers jumped over at onboarding are 🔵, and a partially-done current tier is 🟧, never ✅.** Bars are a fixed 4-char fill indicator (▓ proportion done, ░ remaining), not one block per tip — the `n/total` count carries the exact number. Don't pad with prose — the map is the status line, then continue the lesson.
+**Show every tier T1–T6 as its own line — nothing is ever locked or collapsed; the learner can climb anywhere.** Always render a separator line, then the one-line legend, as the last two lines of the map. Meaning: ✅ done (every tip in the tier passed *here*) · 🔵 skipped (tier the learner self-placed past at onboarding — not taught/quizzed) · 🟧 in progress / current level (current tier, ←HERE) · ⬜ ahead, not yet started. **Only mark a tier ✅ when all its tips are passed here; tiers jumped over at onboarding are 🔵, and a partially-done current tier is 🟧, never ✅.** Bars are a fixed 4-char fill indicator (▓ proportion done, ░ remaining), not one block per tip — the `n/total` count carries the exact number. Don't pad with prose — the map is the status line, then continue the lesson.
 
 **If USER.md has a harness audit, append its rating to each tier line** — `· audit: Weak`. Only where the audit actually rated that rung; leave the rest bare.
 
 ```
 📍 <name> · start: T3 · audit: krivitskydotcom, 2026-07-25
 ────────────────────────────────────
-🔵 T1 Professional Prompting                    · audit: Satisfactory
-🔵 T2 Shaping & Slicing                         · audit: Satisfactory
-🟧 T3 Context Management          ▓░░░  2/8 ←HERE   · audit: Weak ← next lever
-⬜ T4 Loop Until Done             ░░░░  0/11  · audit: Moderate
-⬜ T5 Checkpointing & Hardening   ░░░░  0/5   · audit: Weak
-⬜ T6 Orchestration               ░░░░  0/7   · audit: Missing
-⬜ T7 Fleet Ops                   ░░░░  0/5   · audit: n/a
-⬜ T8 Agent Execution Layer       ░░░░  0/4   · audit: Weak
+🔵 T1 Prompt                               · audit: Satisfactory
+🔵 T2 Plan                                 · audit: Satisfactory
+🟧 T3 Verify         ▓░░░  2/13 ←HERE   · audit: Weak ← next lever
+⬜ T4 Enforce        ░░░░  0/5    · audit: Moderate
+⬜ T5 Orchestrate    ░░░░  0/9    · audit: Missing
+⬜ T6 Supervise      ░░░░  0/8    · audit: n/a
 ────────────────────────────────────
 🟧now 🔵skip ✅done ⬜ahead · audit = how the repo rated, not what you've passed
 ```

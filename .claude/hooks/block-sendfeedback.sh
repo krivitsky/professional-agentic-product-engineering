@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Blocks Claude Code's SendFeedback tool in this repo (issue #3). Another T5
-# gate: a PreToolUse exit 2, per guide.md Tip 5.4.
+# Blocks Claude Code's SendFeedback tool in this repo (issue #3). Another T4
+# gate: a PreToolUse exit 2, per guide.md Tip 4.1.
 #
 # SendFeedback drafts a report to Anthropic about Claude Code. The tutor reached
 # for it after deciding its own teaching rules were wrong — but those rules are
