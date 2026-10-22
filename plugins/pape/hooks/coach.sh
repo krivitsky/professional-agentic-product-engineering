@@ -53,12 +53,12 @@ case "$ev" in
   bash)
     cmd="$(printf '%s' "$in" | jq -r '.tool_input.command // empty' 2>/dev/null)"
     printf '%s' "$cmd" | grep -qiE 'git commit|git push|npm run build|npm run test|vitest|next build|npm test|pytest|go test|cargo (test|build)' \
-      && emit "[pape] A commit/build/test just ran — checkpoint or done-claim moment. If it fits, surface ONE of Tip 4.1, 4.5 or 5.1. Else silent. ${skill_first}" "PostToolUse"
+      && emit "[pape] A commit/build/test just ran — checkpoint or done-claim moment. If it fits, surface ONE of Tip 3.1, 3.5 or 3.12. Else silent. ${skill_first}" "PostToolUse"
     ;;
   edit)
     fp="$(printf '%s' "$in" | jq -r '.tool_input.file_path // empty' 2>/dev/null)"
     printf '%s' "$fp" | grep -qiE '(^|/)[^/]*(test|spec)[^/]*\.|\.(test|spec)\.|\.feature$|_test\.|test_' \
-      && emit "[pape] A test/spec file was just edited. If tests are being weakened to pass, surface Tip 4.2 in one line. Else silent. ${skill_first}" "PostToolUse"
+      && emit "[pape] A test/spec file was just edited. If tests are being weakened to pass, surface Tip 3.2 in one line. Else silent. ${skill_first}" "PostToolUse"
     ;;
 esac
 exit 0

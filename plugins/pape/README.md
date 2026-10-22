@@ -5,7 +5,7 @@ Two skills for getting better at operating a coding agent, both drawing on the [
 | Command | What it does |
 |---|---|
 | **`/pape:agentic-coach`** | Catches teachable moments *while you work* and surfaces the single most relevant tip, one nudge at a time, then gets out of the way. |
-| **`/pape:harness-audit`** | Reads the harness checked into your repo *on demand* and reports which of the eight tiers hold, which don't, and the one next thing to fix. |
+| **`/pape:harness-audit`** | Reads the harness checked into your repo *on demand* and reports which of the six tiers hold, which don't, and the one next thing to fix. |
 
 The coach is reactive, the audit is diagnostic. Together they're the counterpart to the repo's `CLAUDE.md` *tutor*: the tutor runs structured lessons; these two ride along on real work.
 
@@ -33,7 +33,7 @@ Model-invoked. Holds the "nudge, don't nag" protocol. **Silence is the default.*
 
 Just work. When you write a vague prompt, skip a plan, or accept "done" without proof, you get one line:
 
-> 💡 **Tip 4.1 — Make your Definition of Done executable:** spell out "done" as commands the agent runs itself.
+> 💡 **Tip 3.1 — Make your Definition of Done executable:** spell out "done" as commands the agent runs itself.
 
 Say **"coach me"** to ask it directly, **"coach me on that"** to turn the last nudge into a short lesson, and **"stop coaching"** to silence it.
 
@@ -44,8 +44,8 @@ Two layers, because skills alone trigger probabilistically:
 - **Skill** (`skills/agentic-coach`) — model-invoked; Claude loads it when it judges the work matches.
 - **Hooks** (`hooks/hooks.json` → `hooks/coach.sh`) — a deterministic trigger surface, three events:
   - **`UserPromptSubmit`** — injects a one-line "consult the coach" reminder on *every* prompt. The skill then decides whether a real anti-pattern applies (one nudge) or stays silent. Always-inject beats keyword-grep, which only caught the few moments where the user happened to type a trigger word and missed the semantic ones (no DoD, "it works" with no proof, file-list dumps).
-  - **`PostToolUse` (Bash)** — fires after `git commit` / `git push` / build / test runs, nudging toward the checkpoint and verify tips (4.1 executable DoD · 4.5 demand evidence · 5.1 commit every green). Catches the build/commit moments a prompt-only hook can't see.
-  - **`PostToolUse` (Edit|Write)** — fires when a `*test*` / `*spec*` / `.feature` file is edited, nudging Tip 4.2 (don't edit tests to pass) — the classic reward-hack.
+  - **`PostToolUse` (Bash)** — fires after `git commit` / `git push` / build / test runs, nudging toward the checkpoint and verify tips (3.1 executable DoD · 3.5 demand evidence · 3.12 commit every green). Catches the build/commit moments a prompt-only hook can't see.
+  - **`PostToolUse` (Edit|Write)** — fires when a `*test*` / `*spec*` / `.feature` file is edited, nudging Tip 3.2 (don't edit tests to pass) — the classic reward-hack.
 
 The hooks guarantee the *reminder* fires; the skill keeps it quiet: **one nudge per turn, silence by default, never a tip already given this conversation.**
 
@@ -53,7 +53,7 @@ The hooks guarantee the *reminder* fires; the skill keeps it quiet: **one nudge 
 
 ### Nudge vs lesson
 
-The full guide ships with the plugin (`guide.md`, a snapshot of all 62 tips), kept byte-identical to the canonical copy by CI.
+The full guide ships with the plugin (`guide.md`, a snapshot of every tip), kept byte-identical to the canonical copy by CI.
 
 - **Default:** a one-line nudge that cites the tip.
 - **Opt in** ("show the full tip", "teach me this", "why?") and the coach reads the real tip from the bundled guide — the exact *Instead / Prefer* text — or runs a single 4C micro-lesson on it. It never auto-lectures.
@@ -64,7 +64,7 @@ Ask *"audit my harness"*, *"what am I missing"*, *"is this repo agent-ready"* �
 
 It reads the harness you've **checked into the repo** — instruction files, skills, agent definitions, hooks, permissions, tests, CI — and reports two kinds of finding. What's *absent* is the easy half. The valuable half is what's **present but incoherent, unenforced, or failing open**: two instruction files that contradict each other, a test gate that only runs after you've already pushed, a rule written down that nothing checks.
 
-Every finding carries its evidence and cites the guide tip it comes from. All eight tiers get rated, and the report names **one next lever** — the lowest rung that doesn't hold yet, because a weak rung caps everything resting on it.
+Every finding carries its evidence and cites the guide tip it comes from. All six tiers get rated, and the report names **one next lever** — the lowest rung that doesn't hold yet, because a weak rung caps everything resting on it.
 
 ### It doesn't touch your repo
 
