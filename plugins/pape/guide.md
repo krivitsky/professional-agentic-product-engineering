@@ -46,21 +46,23 @@ Read it in whichever form fits how you work — all four stay in sync with this 
 - **📄 Markdown** — [`guide.md`](guide.md) in this repo. The canonical source; everything else is generated from it. Best for reading in your editor, feeding to an agent, or sending a PR.
 - **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts from this repo.
 - **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into linked pages — one per tier, concept, and entity — cross-referenced with `[[wikilinks]]`. Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph instead of top-to-bottom: jump between related tips, see how concepts connect, and explore the harness, loops, and primitives as a web. Best when you want to *study* the material, not just read it.
-- **🔌 In your repo** — install the plugin (`/plugin install pape@pape`) and the whole guide ships with it, byte-identical and enforced by CI. `/pape:agentic-coach` quotes tips from it as you work, and `/pape:harness-audit` rates the repo you're in against the eight tiers — see [Audit your harness](#audit-your-harness). The guide is *there* while you work, instead of somewhere you go.
+- **🔌 In your repo** — install the plugin (`/plugin install pape@pape`) and the whole guide ships with it, byte-identical and enforced by CI. `/pape:agentic-coach` quotes tips from it as you work, and `/pape:harness-audit` rates the repo you're in against the six tiers — see [Audit your harness](#audit-your-harness). The guide is *there* while you work, instead of somewhere you go.
 
 ### Contents
 1. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
 2. [Big Idea 💡: From Prompts to Systems](#big-idea--from-prompts-to-systems)
-3. [Loops of Agentic Engineering](#loops-of-agentic-engineering)
-4. [The eight tiers at a glance](#the-eight-tiers-at-a-glance)
-5. [Climb the eight tiers — to spend effort only where your work needs it](#climb-the-eight-tiers--to-spend-effort-only-where-your-work-needs-it)
+3. [Audit your harness](#audit-your-harness)
+4. [Loops of Agentic Engineering](#loops-of-agentic-engineering)
+5. [The six tiers at a glance](#the-six-tiers-at-a-glance)
+   - [Coming from the eight tiers?](#coming-from-the-eight-tiers)
+6. [Climb the six tiers — to spend effort only where your work needs it](#climb-the-six-tiers--to-spend-effort-only-where-your-work-needs-it)
    - [Which tier do you need?](#which-tier-do-you-need)
-6. [Who this is for](#who-this-is-for)
-7. [TL;DR — if you do only five things](#tldr--if-you-do-only-five-things)
-8. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
-9. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
-10. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
-11. [Tier 1 — Professional Prompting: Write prompts the agent can act on](#tier-1)
+7. [Who this is for](#who-this-is-for)
+8. [TL;DR — if you do only five things](#tldr--if-you-do-only-five-things)
+9. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
+10. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
+11. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
+12. [Tier 1 — Prompt: Write prompts the agent can act on](#tier-1)
     - [1.1 Hand over the outcome, not a file list](#tip-1-1)
     - [1.2 Be specific](#tip-1-2)
     - [1.3 Say what to do, not what to avoid](#tip-1-3)
@@ -75,7 +77,10 @@ Read it in whichever form fits how you work — all four stay in sync with this 
     - [1.12 Narrow the edit surface](#tip-1-12)
     - [1.13 Dial effort](#tip-1-13)
     - [1.14 Say it all in your first message](#tip-1-14)
-12. [Tier 2 — Shaping & Slicing: Plan and slice before you build](#tier-2)
+    - [1.15 Feed high-signal context](#tip-1-15)
+    - [1.16 `/clear` between tasks](#tip-1-16)
+    - [1.17 Steer compaction](#tip-1-17)
+13. [Tier 2 — Plan: Shape and slice the work before you build](#tier-2)
     - [2.1 Investigate before you edit](#tip-2-1)
     - [2.2 Plan the uncertain](#tip-2-2)
     - [2.3 Force an approval checkpoint](#tip-2-3)
@@ -84,58 +89,59 @@ Read it in whichever form fits how you work — all four stay in sync with this 
     - [2.6 Turn features into a spec](#tip-2-6)
     - [2.7 Plan smart, build cheap](#tip-2-7)
     - [2.8 Draft-and-critique the spec](#tip-2-8)
-13. [Tier 3 — Context Management: Give the agent the right context and tools](#tier-3)
-    - [3.1 Feed high-signal context](#tip-3-1)
-    - [3.2 Keep secrets out of git and context](#tip-3-2)
-    - [3.3 `/clear` between tasks](#tip-3-3)
-    - [3.4 Steer compaction](#tip-3-4)
-    - [3.5 CLAUDE.md = gotchas + conventions](#tip-3-5)
-    - [3.6 Put occasional knowledge in Skills](#tip-3-6)
-    - [3.7 Add the right MCP servers](#tip-3-7)
-    - [3.8 Use external memory](#tip-3-8)
+    - [2.9 Keep secrets out of git and context](#tip-2-9)
+    - [2.10 CLAUDE.md = gotchas + conventions](#tip-2-10)
+    - [2.11 Put occasional knowledge in Skills](#tip-2-11)
+    - [2.12 Add the right MCP servers](#tip-2-12)
+    - [2.13 Use external memory](#tip-2-13)
 14. [Common failure patterns — catch them before they cost you](#common-failure-patterns)
-15. [Tier 4 — Loop Until Done: Make the agent prove it's done](#tier-4)
-    - [4.1 Make Definition of Done executable](#tip-4-1)
-    - [4.2 Do TDD](#tip-4-2)
-    - [4.3 Use BDD](#tip-4-3)
-    - [4.4 Test the UI with Playwright MCP](#tip-4-4)
-    - [4.5 Demand evidence](#tip-4-5)
-    - [4.6 Ask for all findings](#tip-4-6)
-    - [4.7 Review with fresh eyes](#tip-4-7)
-    - [4.8 Run a pre-mortem](#tip-4-8)
-    - [4.9 Iterate UI visually](#tip-4-9)
-16. [Tier 5 — Checkpointing & Hardening: Checkpoint in git and harden the harness](#tier-5)
-    - [5.1 Commit every working step](#tip-5-1)
-    - [5.2 Let Claude drive `gh`](#tip-5-2)
-    - [5.3 Use worktrees for disposable checkpoints](#tip-5-3)
-    - [5.4 Replace "remember to run tests" with a hook](#tip-5-4)
-    - [5.5 Move repetitive engineering into CI](#tip-5-5)
-17. [Tier 6 — Orchestration: Run many agents at once](#tier-6)
+15. [Tier 3 — Verify: Make the agent prove it's done](#tier-3)
+    - [3.1 Make Definition of Done executable](#tip-3-1)
+    - [3.2 Do TDD](#tip-3-2)
+    - [3.3 Use BDD](#tip-3-3)
+    - [3.4 Test the UI with Playwright MCP](#tip-3-4)
+    - [3.5 Demand evidence](#tip-3-5)
+    - [3.6 Ask for all findings](#tip-3-6)
+    - [3.7 Review with fresh eyes](#tip-3-7)
+    - [3.8 Run a pre-mortem](#tip-3-8)
+    - [3.9 Iterate UI visually](#tip-3-9)
+    - [3.10 Gate on the coverage of *this change*](#tip-3-10)
+    - [3.11 Mutation-test the suite itself](#tip-3-11)
+    - [3.12 Commit every working step](#tip-3-12)
+    - [3.13 Use worktrees for disposable checkpoints](#tip-3-13)
+16. [Tier 4 — Enforce: Write the rules into the harness](#tier-4)
+    - [4.1 Replace "remember to run tests" with a hook](#tip-4-1)
+    - [4.2 Move repetitive engineering into CI](#tip-4-2)
+    - [4.3 Let Claude drive `gh`](#tip-4-3)
+    - [4.4 Turn a repeated correction into a rule](#tip-4-4)
+    - [4.5 Put approvals in rules, not prompts](#tip-4-5)
+17. [Tier 5 — Orchestrate: Run many agents at once](#tier-5)
     - [The model toolkit — bring in more models (any tier)](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)
       - [Assign a model per subagent](#toolkit-model-per-subagent)
       - [Keep a stronger model on call — the advisor](#toolkit-advisor)
       - [Keep the fleet alive with fallback chains](#toolkit-fallback)
       - [Have a different lab review the diff](#toolkit-cross-lab-review)
-    - [6.1 Let it self-orchestrate](#tip-6-1)
-    - [6.2 Use subagents to isolate context](#tip-6-2)
-    - [6.3 Race several agents](#tip-6-3)
-    - [6.4 Decompose into specialist roles](#tip-6-4)
-    - [6.5 Engineer the long-horizon hand-off](#tip-6-5)
-    - [6.6 Steer long runs mid-flight](#tip-6-6)
-    - [6.7 Engineer the environment](#tip-6-7)
-18. [Tier 7 — Fleet Ops: Operate your agents as a fleet](#tier-7)
-    - [7.1 Use an agent-aware terminal](#tip-7-1)
-    - [7.2 Isolate with worktrees + one session each](#tip-7-2)
-    - [7.3 Host on a box that doesn't sleep](#tip-7-3)
-    - [7.4 Drive the fleet from your phone](#tip-7-4)
-    - [7.5 Secure the agent server](#tip-7-5)
-19. [Tier 8 — Agent Execution Layer: Put agents into production](#tier-8)
-    - [8.1 Sandbox the loop](#tip-8-1)
-    - [8.2 Gate the plan, not every keystroke](#tip-8-2)
-    - [8.3 Cap the strikes](#tip-8-3)
-    - [8.4 Make the tracker the state machine](#tip-8-4)
-20. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
-21. [Sources](#sources)
+    - [5.1 Let it self-orchestrate](#tip-5-1)
+    - [5.2 Use subagents to isolate context](#tip-5-2)
+    - [5.3 Race several agents](#tip-5-3)
+    - [5.4 Decompose into specialist roles](#tip-5-4)
+    - [5.5 Engineer the long-horizon hand-off](#tip-5-5)
+    - [5.6 Steer long runs mid-flight](#tip-5-6)
+    - [5.7 Engineer the environment](#tip-5-7)
+    - [5.8 Use an agent-aware terminal](#tip-5-8)
+    - [5.9 Isolate with worktrees + one session each](#tip-5-9)
+18. [Tier 6 — Supervise: Put agents into production](#tier-6)
+    - [6.1 Host on a box that doesn't sleep](#tip-6-1)
+    - [6.2 Drive the fleet from your phone](#tip-6-2)
+    - [6.3 Secure the agent server](#tip-6-3)
+    - [6.4 Sandbox the loop](#tip-6-4)
+    - [6.5 Gate the plan, not every keystroke](#tip-6-5)
+    - [6.6 Cap the strikes](#tip-6-6)
+    - [6.7 Make the tracker the state machine](#tip-6-7)
+    - [6.8 Certify the evidence, not the diff](#tip-6-8)
+19. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
+20. [Sources](#sources)
+21. [Tip map — old numbers to new](#tip-map)
 
 ---
 
@@ -145,7 +151,7 @@ You don't have to read this alone. The same material comes in **four modes** —
 
 ### 1) The Guide — `guide.md`
 
-**Read it — old school.** This website (or [`guide.md`](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md)) top to bottom, or jump to the tier your work needs — one ladder of **eight tiers, simple → hard**, every tip a concrete **Instead → Prefer** pair (the anti-example, then the fix). No agent required; best when you just want the reference.
+**Read it — old school.** This website (or [`guide.md`](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md)) top to bottom, or jump to the tier your work needs — one ladder of **six tiers, simple → hard**, every tip a concrete **Instead → Prefer** pair (the anti-example, then the fix). No agent required; best when you just want the reference.
 
 ### 2) The Tutor — `CLAUDE.md`
 
@@ -172,7 +178,7 @@ Then just work; say `coach me` to ask it directly, or `stop coaching` to silence
 
 ### 4) The Audit — `/pape:harness-audit`
 
-Ships with the same plugin. Point it at a repo you actually work in and it reads the harness you've checked in — instructions, tests, hooks, permissions, CI — then rates all eight tiers, names the gaps with the evidence for each, and picks **the one next thing to fix**. Best when you want to know **where you stand** before deciding what to learn. See [Audit your harness](#audit-your-harness).
+Ships with the same plugin. Point it at a repo you actually work in and it reads the harness you've checked in — instructions, tests, hooks, permissions, CI — then rates all six tiers, names the gaps with the evidence for each, and picks **the one next thing to fix**. Best when you want to know **where you stand** before deciding what to learn. See [Audit your harness](#audit-your-harness).
 
 *Harness-agnostic: the repo ships both `CLAUDE.md` and `AGENTS.md`, so any agent that reads them works. No repo handy? Paste this guide into any capable model and tell it to tutor you one concept at a time — Connection → Concept → Concrete practice → Conclusion, tier by tier, not advancing until you pass.*
 
@@ -190,7 +196,22 @@ Prompting alone is **vibe coding**: you poke the model and hope it converges. It
 
 An **agentic system** puts the same model inside a *harness*: a **workflow** — the loop it runs — bounded by three constraints. **Guidelines** shape how it should behave, **autotests** give it ground truth from the environment, and **guardrails** are the limits it can't cross. Inside those bounds the model converges on its own, and your attention is freed for what actually matters: growing understanding and driving impact.
 
-That's the whole shift. As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows. [The eight tiers](#the-eight-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T8). Learn the ladder and the 62 tips fall into place.
+That's the whole shift. As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows. [The six tiers](#the-six-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T6). Learn the ladder and the 65 tips fall into place.
+
+> **From operating the model to deciding the outcome: freeing human intelligence, tier by tier.**
+>
+> Climb as your skill, your harness and your confidence grow.
+
+Each tier hands one manual chore to the system, and you keep the judgment:
+
+| Tier | Chore handed to the system | Judgment you keep |
+|---|---|---|
+| **T1 Prompt** | — | State the outcome |
+| **T2 Plan** | Explaining the project; steering each step | Decide the plan and the slice |
+| **T3 Verify** | Reading every line | Define "done" |
+| **T4 Enforce** | Reminding and approving | Write the rules |
+| **T5 Orchestrate** | Running agents one by one | Split and coordinate the work |
+| **T6 Supervise** | Starting and watching runs | Certify the evidence; improve the system |
 
 Don't take it on faith — take it from the person who spent two decades telling the industry the opposite.
 
@@ -206,7 +227,7 @@ And look at *what* his gauntlet is made of — unit tests, gherkin/BDD tests, co
 
 ## Audit your harness
 
-[![Left: Uncle Bob's tweet — "My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity." Right: his advice is not to stop reading, but to invest in engineering the harness so it becomes the source of quality and trust — and the PAPE guide's eight tiers plus the harness-audit skill are how you tell whether yours is good enough.](assets/harness-audit-banner.png)](https://x.com/unclebobmartin/status/2080257779395154409)
+[![Left: Uncle Bob's tweet — "My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity." Right: his advice is not to stop reading, but to invest in engineering the harness so it becomes the source of quality and trust — and the PAPE guide's six tiers plus the harness-audit skill are how you tell whether yours is good enough.](assets/harness-audit-banner.png)](https://x.com/unclebobmartin/status/2080257779395154409)
 
 We all saw this powerful yet controversial tweet from Uncle Bob (aka [Robert C. Martin](https://x.com/unclebobmartin/status/2080257779395154409)), the author of *Clean Code*. Let me pause here and explain the depth of this and an interesting development that follows.
 
@@ -216,19 +237,19 @@ Which leaves the question: how do you know whether your own harness is any good?
 
 In response to growing awareness of the need for a guide for Professional Agentic Product Engineering (PAPE), we developed a harness audit skill.
 
-Run **`/pape:harness-audit`** to read the repo's existing agentic setup and generate a detailed 8-tier report based on the PAPE guide. The detailed report (md and html) will explain the strengths and weaknesses of your setup. It will then detail and prioritize the outstanding issues and propose a draft backlog to start fixing them.
+Run **`/pape:harness-audit`** to read the repo's existing agentic setup and generate a detailed 6-tier report based on the PAPE guide. The detailed report (md and html) will explain the strengths and weaknesses of your setup. It will then detail and prioritize the outstanding issues and propose a draft backlog to start fixing them.
 
 Every finding names the file and line it came from and cites the tip behind it. Before a finding ships, a separate agent opens that file and tries to refute it; the report says what got cut.
 
-### It rates the eight tiers and names one next step
+### It rates the six tiers and names one next step
 
-The report rates each of the [eight tiers](#the-eight-tiers-at-a-glance) and adds a line explaining the rating. It then walks the tiers from T1 upwards and names the lowest one that does not hold yet. That tier is the recommendation.
+The report rates each of the [six tiers](#the-six-tiers-at-a-glance) and adds a line explaining the rating. It then walks the tiers from T1 upwards and names the lowest one that does not hold yet. That tier is the recommendation.
 
 The reason is the ladder itself: each tier builds on the ones below, so a weak lower tier limits what the ones above it can do. Hardening CI while nothing tells the agent what "done" means is work on a tier that cannot hold.
 
 > *"T1 and T2 hold, so the next lever is T3. T4 and T5 are weak too, but both rest on T3, so it goes first."*
 
-Where a tier does not apply — nothing runs unattended, so there is no fleet to operate — the report says what that tier depends on instead of counting it as a gap. This guide's advice is to climb only as far as your work needs, and the audit follows it.
+Where a tier does not apply — nothing runs unattended, so there is nothing to supervise — the report says what that tier depends on instead of counting it as a gap. This guide's advice is to climb only as far as your work needs, and the audit follows it.
 
 ### What the report contains
 
@@ -236,7 +257,7 @@ Two files per run, written to `harness-audits/` — one for you, one for an agen
 
 | § | Section | What it's for |
 |---|---|---|
-| 1 | **Scorecard** | The eight tiers rated, what's genuinely good, and the next lever. The only section that says several findings are really *one* thing. |
+| 1 | **Scorecard** | The six tiers rated, what's genuinely good, and the next lever. The only section that says several findings are really *one* thing. |
 | 2 | **Issues Summary** | Severity counts, then one table: ID, finding, tier, severity, confidence. The whole audit at a glance. |
 | 3 | **Recommended backlog** | One flat ranked list — worst first, and within each severity the lower tier first, so a High on T3 goes before a High on T5. |
 | 4 | **Trend** | What changed since the last run: fixed, still open, newly found, or withdrawn because the earlier finding didn't hold. |
@@ -268,51 +289,76 @@ The system you build around the model isn't a line — it's **three nested loops
 
 ![Three nested loops: an impact loop (find value, test hypotheses, measure & learn) containing a feature loop (specify, refine, verify) containing a coding loop (red, green, refactor)](assets/nested-loops.svg)
 
-**Each loop is built by specific tiers:**
+**Each loop is built by a stage of the ladder** — three stages, two tiers each:
 
-- **Coding loop** (red → green → refactor) — closed by Tier 4's tests; Tier 5 hardens that check so it runs every time.
-- **Feature loop** (specify → refine → verify) — runs from the spec you shape in Tier 2 to that same Tier 4 check, which is why Tier 4 belongs to both.
-- **Impact loop** (opportunities → hypothesis → impact) — Tiers 6–8 scale out to it, once one agent or one machine isn't enough.
+| Stage | Tiers | Loop it closes |
+|---|---|---|
+| **Direct** | T1 Prompt · T2 Plan | The request, and the feature loop's *specify* |
+| **Trust** | T3 Verify · T4 Enforce | The coding loop, and the feature loop's *verify* |
+| **Scale** | T5 Orchestrate · T6 Supervise | Reaches the impact loop |
 
-Tiers 1 and 3 — prompting and context — are the groundwork under all three. Eight tiers, three loops: climbing the ladder is how you build the loops up.
+- **Coding loop** (red → green → refactor) — closed by Tier 3's tests; Tier 4 hardens that check so it runs every time.
+- **Feature loop** (specify → refine → verify) — runs from the spec you shape in Tier 2 to that same Tier 3 check, which is why Tier 3 belongs to both.
+- **Impact loop** (opportunities → hypothesis → impact) — Tiers 5–6 scale out to it, once one agent or one machine isn't enough.
 
-## The eight tiers at a glance
+Six tiers, three loops: climbing the ladder is how you build the loops up.
 
-| Tier | You learn to… |
-|---|---|
-| **T1 Professional Prompting** | Write prompts that get the most from the agent's intelligence |
-| **T2 Shaping & Slicing** | Ideate, refine, spec, and plan before you build |
-| **T3 Context Management** | Give the agent the right context and tools |
-| **T4 Loop Until Done** | Make the agent prove it's done |
-| **T5 Checkpointing & Hardening** | Checkpoint in git; run tests and CI automatically |
-| **T6 Orchestration** | Run many agents at once |
-| **T7 Fleet Ops** | Operate your agents as a fleet |
-| **T8 Agent Execution Layer** | Put agents into production |
+## The six tiers at a glance
+
+Three stages, two tiers each — and every tier name is a verb for what you do:
+
+| Stage | Tiers | What it gets you |
+|---|---|---|
+| **Direct** | T1 Prompt · T2 Plan | Get the right work |
+| **Trust** | T3 Verify · T4 Enforce | Stop checking it yourself |
+| **Scale** | T5 Orchestrate · T6 Supervise | Stop running it yourself |
+
+| Stage | Tier | You stop doing by hand | What you do instead | Pain that pushes you up |
+|---|---|---|---|---|
+| Direct | **T1 Prompt** | — | State the outcome | You re-explain the same things; big asks go sideways |
+| Direct | **T2 Plan** | Explaining the project; steering each step | Decide the plan and the slice | You can't trust the output without reading every line |
+| Trust | **T3 Verify** | Reading every line | Define "done" | You give the same correction again; "remember to run the tests" |
+| Trust | **T4 Enforce** | Reminding and approving | Write the rules | One agent is too slow, or a big build floods its context |
+| Scale | **T5 Orchestrate** | Running agents one by one | Split and coordinate the work | Runs die when you leave; you start every run yourself |
+| Scale | **T6 Supervise** | Starting and watching runs | Certify the evidence; improve the system | — (top) |
 
 Climb only as high as your work demands.
 
-## Climb the eight tiers — to spend effort only where your work needs it
+### Coming from the eight tiers?
 
-This guide is one ladder: **eight tiers, simple → hard.** A tier is a level of skill *and* a level of where you're applying effort.
+Every old tip kept its words and has a new home, and three tips are new. The [tip map](#tip-map) at the end lists every old tip number next to its new one.
+
+| Old tier | New tier | Why it moved |
+|---|---|---|
+| T1 Professional Prompting | **T1 Prompt** | Renamed; also takes context hygiene from old T3 |
+| T2 Shaping & Slicing | **T2 Plan** | Renamed; also takes knowledge encoding from old T3 |
+| T3 Context Management | **T1 Prompt** + **T2 Plan** | Split: hygiene (the active window) → Prompt; knowledge (CLAUDE.md, Skills, MCP, memory) → Plan |
+| T4 Loop Until Done | **T3 Verify** | Renamed; also takes checkpointing from old T5 |
+| T5 Checkpointing & Hardening | **T3 Verify** + **T4 Enforce** | Split: checkpointing → Verify; hardening (hooks, CI, `gh`) → Enforce |
+| T6 Orchestration | **T5 Orchestrate** | Renamed; also takes the parallel half of old T7 |
+| T7 Fleet Ops | **T5 Orchestrate** + **T6 Supervise** | Split: parallel (terminal, a worktree per agent) → Orchestrate; always-on (box, phone, server) → Supervise |
+| T8 Agent Execution Layer | **T6 Supervise** | Joined by old T7's always-on runs: from your box to the team's system |
+
+## Climb the six tiers — to spend effort only where your work needs it
+
+This guide is one ladder: **six tiers, simple → hard.** A tier is a level of skill *and* a level of where you're applying effort.
 
 As you climb, the work shifts from **wording the prompt** to **engineering the system around the model** — prompts shrink, the system carries the intelligence.
 
-You don't need all eight. Climb until the agent is as reliable as the work demands, then stop.
+You don't need all six. Climb until the agent is as reliable as the work demands, then stop.
 
 The trick is knowing *what pushes you to the next tier* — it's always a specific pain, not ambition. When you feel the pain in the right column, you're ready for the next tier.
 
 | Tier | What you work on | Level it applies at | What pushes you up |
 |---|---|---|---|
-| **T1 — Professional Prompting** | The single request | One message | The agent keeps doing *almost* the right thing — vague asks get literal, wrong results |
-| **T2 — Shaping & Slicing** | The task before you start | One task | Big asks go sideways; it edits the wrong things or tries to do everything in one pass |
-| **T3 — Context Management** | The project the agent sees | The repo | You re-explain the same conventions every session; it can't see your DB/browser/docs |
-| **T4 — Loop Until Done** | A "done" the agent can check itself | The task, automated | You can't trust the output without reading every line; "done" means nothing concrete |
-| **T5 — Checkpointing & Hardening** | Safe, revertible runs | The session | A long run goes wrong and you lose good work; nothing to roll back to |
-| **T6 — Orchestration** | Many subagents, long horizons | Multi-step / multi-agent | One agent is too slow or floods its context; the build is too big for one pass |
-| **T7 — Fleet Ops** | Where & how runs execute | Your machines | Runs die when your laptop sleeps; parallel agents collide; you want to drive from your phone |
-| **T8 — Agent Execution Layer** | Agents as async workers | Your org / production | The team needs it: agents must pick up tickets and open PRs without anyone babysitting a terminal |
+| **T1 — Prompt** | The single request, and the window it lands in | One message | Big asks go sideways; it edits the wrong things or tries to do everything in one pass. You re-explain the same conventions every session; it can't see your DB/browser/docs |
+| **T2 — Plan** | The task before you start, and the project the agent sees | One task · the repo | You can't trust the output without reading every line; "done" means nothing concrete |
+| **T3 — Verify** | A "done" the agent can check itself, and a checkpoint at every green step | The task, automated | You give the same correction again; your prompt still says "remember to run the tests" |
+| **T4 — Enforce** | Rules and checks the harness runs for you | Every session, every push | One agent is too slow or floods its context; the build is too big for one pass |
+| **T5 — Orchestrate** | Many agents, long horizons | Multi-step / multi-agent | Runs die when your laptop sleeps; you start every run yourself; the team needs agents to pick up tickets and open PRs without anyone babysitting a terminal |
+| **T6 — Supervise** | Agents as async workers, and the evidence they return | Your machines · your org / production | — the top of the ladder |
 
-**Read the right column as a diagnostic:** find the pain you're feeling now, climb to the tier that fixes it, then stop. Each tier exists to kill a specific failure of the one below it.
+**Read the right column as a diagnostic:** find the pain you're feeling now — the next tier down the table is the one that fixes it. Climb there, then stop. Each tier exists to kill a specific failure of the one below it.
 
 The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against a clear, testable standard, inside a real repo you own.
 
@@ -323,8 +369,8 @@ Match the job to a target tier and stop there — climbing higher than the work 
 | What you're building | Aim for | Why |
 |---|---|---|
 | A landing page, throwaway script, or one-off for yourself | **Tier 1–2** — or skip the agent and use a [one-shot builder](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder) (Lovable/v0/Bolt) | Low stakes, short-lived. A clear prompt is enough; you don't need tests, git discipline, or a loop |
-| A feature in a side project you intend to keep | **Tier 1–4** | Now correctness matters over time — you want a verify loop and checkpoints so it doesn't rot |
-| Production code in a shared team repo | **Tier 1–5**, reaching into **6–8** as scale demands | Multiple people, real consequences. Context engineering, git hygiene, and review become non-negotiable; orchestration and a hosted execution layer follow when one agent or one machine isn't enough |
+| A feature in a side project you intend to keep | **Tier 1–3** | Now correctness matters over time — you want a verify loop and checkpoints so it doesn't rot |
+| Production code in a shared team repo | **Tier 1–4**, reaching into **5–6** as scale demands | Multiple people, real consequences. Context engineering, git hygiene, and review become non-negotiable; orchestration and a hosted execution layer follow when one agent or one machine isn't enough |
 
 ---
 
@@ -386,19 +432,23 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 | **Slash command** | A reusable prompt you trigger by hand with `/name` | `.claude/commands/name.md` | write the file |
 | **Skill** | Knowledge/workflow the model **auto-loads when the task matches its description** | `.claude/skills/name/SKILL.md` (a *folder*) | write SKILL.md; add scripts/assets |
 | **Subagent** | A separate Claude instance with its **own context window**, tools, and model; returns only a summary | `.claude/agents/name.md` | `/agents` (recommended) or write the file |
-| **Hook** | Deterministic shell script on a lifecycle event | `.claude/settings.json` | add to `hooks` → [Tier 5](#tier-5) |
-| **MCP server** | A connector giving Claude external tools (browser, DB, tracker) | `.mcp.json` / `claude mcp add` | [Tier 3](#tier-3), [Tip 3.7](#tip-3-7) |
+| **Hook** | Deterministic shell script on a lifecycle event | `.claude/settings.json` | add to `hooks` → [Tier 4](#tier-4) |
+| **MCP server** | A connector giving Claude external tools (browser, DB, tracker) | `.mcp.json` / `claude mcp add` | [Tier 2](#tier-2), [Tip 2.12](#tip-2-12) |
 | **Permissions** | Allow/deny rules + modes (default / auto / plan / bypass) for what runs without asking | `.claude/settings.json` | `/permissions` or settings |
 | **Plugin** | One installable unit bundling skills + hooks + subagents + MCP — how teams distribute all of the above | a marketplace / git repo | `/plugin` to browse & install |
 
 *Most of these are files you commit. The central config is **`.claude/settings.json`** (precedence: managed › CLI args › local › project › user) — it's where `permissions`, `hooks`, `mcpServers`, `model`, and inline `agents` can all be declared. A **plugin** is just a pre-packaged set of these files, so a teammate runs `/plugin install` on day one and inherits your whole setup.*
 
-*Each primitive's full anatomy — the frontmatter, a worked example, when to reach for it — lands in the tier that uses it: [Skills](#tip-3-6) and [MCP servers](#tip-3-7) in Tier 3, [hooks](#tier-5) in Tier 5, [subagents](#tier-6) in Tier 6.*
+*Each primitive's full anatomy — the frontmatter, a worked example, when to reach for it — lands in the tier that uses it: [Skills](#tip-2-11) and [MCP servers](#tip-2-12) in Tier 2, [hooks](#tier-4) in Tier 4, [subagents](#tier-5) in Tier 5.*
 
 ---
 
 <a id="tier-1"></a>
-## Tier 1 — Professional Prompting: Write prompts the agent can act on, to get the right result the first time
+## Tier 1 — Prompt: Write prompts the agent can act on, to get the right result the first time
+
+| You stop | You do instead | Climb when |
+|---|---|---|
+| — | State the outcome | You re-explain the same things; big asks go sideways |
 
 **Reach for this tier when** the agent keeps doing *almost* the right thing — vague asks get literal, wrong results. The single request is your cheapest lever: say what you want so it can't guess wrong.
 
@@ -410,7 +460,7 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 >
 > You give the ends and the edges; the agent works out the means — grounded in the context you supply. Land all three in one message and it runs far on its own.
 >
-> The 14 tips below are how you fill each slot well. Learn the triad here — you'll use it the whole way up: Tier 2 turns it into a spec, Tier 3 scales the context into tools, Tier 5 hardens the constraints.
+> The first 14 tips below are how you fill each slot well. Learn the triad here — you'll use it the whole way up: Tier 2 turns it into a spec and scales the context into tools, Tier 3 makes the intent a check, Tier 4 hardens the constraints.
 
 <a id="tip-1-1"></a>
 **1.1 Hand over the outcome, not a file list.** — *intent*
@@ -508,12 +558,38 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 4. **Show, don't describe.** Paste the real error, the screenshot, an example. *(not retyping or paraphrasing them)*
 5. **Say it all in the first message.** One full brief beats ten corrections.
 
+### Context Hygiene — managing the active window
+
+*The mental model under these tips: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 5). Check usage any time with `/context`.*
+
+<a id="tip-1-15"></a>
+**1.15 Feed high-signal context, not the whole repo.**
+> **Instead of:** "Here's the entire codebase." (even at 1M tokens)
+>
+> **Prefer:** just the affected modules + relevant docs, loaded just-in-time.
+
+<a id="tip-1-16"></a>
+**1.16 `/clear` between tasks; reset after repeated failure.**
+> **Instead of:** one session for five unrelated tasks, then fixing the same bug four times.
+>
+> **Prefer:** `/clear` between tasks; after ~2 failed fixes, `/clear` and rewrite the opening prompt.
+
+<a id="tip-1-17"></a>
+**1.17 Steer compaction, don't run it blind.**
+> **Instead of:** "/compact"
+>
+> **Prefer:** "/compact keep the data-model decisions and the failing-test list; drop the exploration."
+
 ---
 
 <a id="tier-2"></a>
-## Tier 2 — Shaping & Slicing: Plan and slice before you build, to keep every change small and safe
+## Tier 2 — Plan: Shape and slice the work before you build, and give the agent the context it needs
 
-**Reach for this tier when** big asks go sideways — the agent edits the wrong things or tries to do everything in one pass. Plan first, then cut the work into small slices, each one small enough to check and cheap to undo.
+| You stop | You do instead | Climb when |
+|---|---|---|
+| Explaining the project; steering each step | Decide the plan and the slice | You can't trust the output without reading every line |
+
+**Reach for this tier when** big asks go sideways — the agent edits the wrong things or tries to do everything in one pass — or you re-explain the same conventions every session and it can't see your DB, browser, or docs. Plan first, then cut the work into small slices, each one small enough to check and cheap to undo. Engineer the project's context once — durable project memory plus the right tools — and it stops re-asking and guessing.
 
 *This is the triad externalized onto the page: intent becomes a written spec, context comes from investigating before you edit, and each slice is a constraint small enough to check and undo.*
 
@@ -577,11 +653,11 @@ Scenario: Refund refused outside the window
 ## Non-goals
 - Partial refunds (separate spec).
 ```
-*This is the **shape**; Tier 4 turns these scenarios into the loop's executable check ([Tip 4.3](#tip-4-3)).*
+*This is the **shape**; Tier 3 turns these scenarios into the loop's executable check ([Tip 3.3](#tip-3-3)).*
 
 ### Your first multi-model setup (the basics)
 
-Two moves, no infrastructure — this is all the multi-model you need until you're orchestrating real work (the rest is the [full playbook](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook) before Tier 6).
+Two moves, no infrastructure — this is all the multi-model you need until you're orchestrating real work (the rest is the [full playbook](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook) that opens Tier 5).
 
 <a id="tip-2-7"></a>
 **2.7 Plan with the smart model, build with the cheap one.**
@@ -603,31 +679,16 @@ That's the whole basic setup — two Anthropic models, one flag, zero infra.
 
 Inside Claude Code, make it a loop: a `spec-author` subagent writes SPEC.md and a `spec-critic` subagent (different `model:`) reviews it — the critic's different blind spots are the point.
 
-The spec is the contract the whole build runs against (Tier 4), so this is the highest-leverage place to spend a second model.
+The spec is the contract the whole build runs against (Tier 3), so this is the highest-leverage place to spend a second model.
 
 *That's the basics: one model plans while a cheaper one builds, and agents draft and critique the spec against each other before code. Per-subagent models, an advisor, cross-lab code review, and open-weight/self-hosted routing come later in the [full playbook](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook).*
 
----
-
-<a id="tier-3"></a>
-## Tier 3 — Context Management: Give the agent the right context and tools, so it stops guessing
-
-**Reach for this tier when** you re-explain the same conventions every session, or the agent can't see your DB, browser, or docs. Engineer that context once — durable project memory plus the right tools — and it stops re-asking and guessing.
+### Knowledge Encoding — engineering what's always available
 
 *This is the triad's context slot, scaled — from pasting context into a prompt to engineering it: `@files`, tools, MCP, durable memory.*
 
-*The mental model under this whole tier: **context is a finite budget with diminishing returns.** As the window fills, the model's recall degrades — Anthropic names this [**context rot**](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents). So the job isn't to load everything (even at 1M); it's to find the **smallest set of high-signal tokens** that gets the result. Every tip below spends that budget: load just-in-time over pre-loading, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents whose context stays isolated (Tier 6). Check usage any time with `/context`.*
-
-### Context Hygiene — managing the active window
-
-<a id="tip-3-1"></a>
-**3.1 Feed high-signal context, not the whole repo.**
-> **Instead of:** "Here's the entire codebase." (even at 1M tokens)
->
-> **Prefer:** just the affected modules + relevant docs, loaded just-in-time.
-
-<a id="tip-3-2"></a>
-**3.2 Keep secrets out of git and out of context — set this up first.**
+<a id="tip-2-9"></a>
+**2.9 Keep secrets out of git and out of context — set this up first.**
 > **Instead of:** real keys in the repo, or pasted into a prompt.
 >
 > **Prefer:** `.env` gitignored and referenced by variable, enforced with a hook.
@@ -640,22 +701,8 @@ A coding agent reads your whole tree and everything you paste; both leak.
 - **Enforce it, don't just trust it:** a `PreToolUse` guard hook that blocks any read or write of `.env` — the layer the model can't talk its way past.
 - **Privacy boundary:** code routed to a third-party model or gateway leaves Anthropic's trust boundary into that provider's data handling — keep sensitive code on Anthropic or your own infra ([Level 2](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)).
 
-<a id="tip-3-3"></a>
-**3.3 `/clear` between tasks; reset after repeated failure.**
-> **Instead of:** one session for five unrelated tasks, then fixing the same bug four times.
->
-> **Prefer:** `/clear` between tasks; after ~2 failed fixes, `/clear` and rewrite the opening prompt.
-
-<a id="tip-3-4"></a>
-**3.4 Steer compaction, don't run it blind.**
-> **Instead of:** "/compact"
->
-> **Prefer:** "/compact keep the data-model decisions and the failing-test list; drop the exploration."
-
-### Knowledge Encoding — engineering what's always available
-
-<a id="tip-3-5"></a>
-**3.5 CLAUDE.md = gotchas + conventions, not an encyclopedia.**
+<a id="tip-2-10"></a>
+**2.10 CLAUDE.md = gotchas + conventions, not an encyclopedia.**
 > **Instead of:** a 500-line style manual.
 >
 > **Prefer:** architecture, key commands, forbidden patterns, and the mistakes it keeps repeating — pruned often.
@@ -666,8 +713,8 @@ For the payment flow, see docs/payments.md.
 NOTE: src/legacy/* is deprecated — use src/v2/* equivalents.
 ```
 
-<a id="tip-3-6"></a>
-**3.6 Put occasional knowledge in Skills — loaded only when the task matches.**
+<a id="tip-2-11"></a>
+**2.11 Put occasional knowledge in Skills — loaded only when the task matches.**
 > **Instead of:** cramming the migration protocol into CLAUDE.md.
 >
 > **Prefer:** a Skill that auto-loads only when the task matches its description.
@@ -684,8 +731,8 @@ description: Use when creating or altering database schema or writing migrations
 ```
 *A slash command is the same idea you trigger by hand. In fact commands are now skills under the hood — `.claude/commands/review.md` and `.claude/skills/review/SKILL.md` both make `/review`. Add `disable-model-invocation: true` to a skill to make it explicit-only.*
 
-<a id="tip-3-7"></a>
-**3.7 Add the right MCP servers; keep the surface small.**
+<a id="tip-2-12"></a>
+**2.12 Add the right MCP servers; keep the surface small.**
 > **Instead of:** copy-pasting data in and out by hand, or wiring 30 thin tools.
 >
 > **Prefer:** connect a few high-value MCP servers (browser, DB, issue tracker) and let Claude use them directly.
@@ -703,13 +750,13 @@ Or commit `.mcp.json` to the repo root:
 ```
 *>~20k tokens of MCP definitions already eats your working context. Few powerful gateway tools beat many thin REST mirrors.*
 
-<a id="tip-3-8"></a>
-**3.8 Use external memory for multi-session work — compaction won't carry decisions across sessions.**
+<a id="tip-2-13"></a>
+**2.13 Use external memory for multi-session work — compaction won't carry decisions across sessions.**
 > **Instead of:** trusting compaction to carry decisions across sessions.
 >
 > **Prefer:** write `STATUS.md` at session end; reload it at the next session's start.
 
-*Tier 6 scales this into a full hand-off protocol for multi-session builds — [Tip 6.5](#tip-6-5).*
+*Tier 5 scales this into a full hand-off protocol for multi-session builds — [Tip 5.5](#tip-5-5).*
 
 ---
 
@@ -727,26 +774,30 @@ The coach plugin catches these in real time. The table is the fast index; each "
 | Describing a bug or layout issue in prose | Show, don't tell — paste the screenshot + `@Component.tsx`; pipe raw logs straight in | [Tip 1.8](#tip-1-8) |
 | Begging "think hard / ultrathink" everywhere | Dial effort instead; reserve ultrathink for one hard turn | [Tip 1.13](#tip-1-13) |
 | Firing a one-liner and steering the whole task turn by turn | Say it all in your first message — one complete brief beats ten corrections | [Tip 1.14](#tip-1-14) |
+| Dumping the whole repo / huge context | Feed high-signal context, not everything | [Tip 1.15](#tip-1-15) |
+| Re-fixing the same bug over and over in one session | `/clear` and rewrite the opening prompt | [Tip 1.16](#tip-1-16) |
 | Jumping straight to code in unfamiliar areas | Investigate first (read-only), *then* edit | [Tip 2.1](#tip-2-1) |
 | Letting the agent touch many files unsupervised | Force an approval checkpoint + blast radius | [Tip 2.3](#tip-2-3) |
 | Asking for one big feature in one pass | Slice vertically — thin end-to-end increments | [Tip 2.5](#tip-2-5) |
-| Dumping the whole repo / huge context | Feed high-signal context, not everything | [Tip 3.1](#tip-3-1) |
-| Keeping secrets/keys in the repo, or pasting a key | Keep secrets out of git and context (`.env` + gitignore) | [Tip 3.2](#tip-3-2) |
-| Re-fixing the same bug over and over in one session | `/clear` and rewrite the opening prompt | [Tip 3.3](#tip-3-3) |
-| Re-explaining the same conventions each session | Put them in CLAUDE.md | [Tip 3.5](#tip-3-5) |
-| Working with no checkable "done" | Make the Definition of Done executable | [Tip 4.1](#tip-4-1) |
-| Implementing without a failing test first | Do TDD — failing test first; don't edit tests to pass | [Tip 4.2](#tip-4-2) |
-| Accepting "done, it works" with no proof | Demand evidence — the test command + its output | [Tip 4.5](#tip-4-5) |
-| Asking for a "conservative" review | Ask for *all* findings, severity-labeled — a conservative prompt suppresses real ones | [Tip 4.6](#tip-4-6) |
-| Running long work that loses progress | Commit every green step — checkpoints to revert to | [Tip 5.1](#tip-5-1) |
-| Putting one agent on a huge audit/refactor | Let it self-orchestrate parallel subagents | [Tip 6.1](#tip-6-1) |
+| Keeping secrets/keys in the repo, or pasting a key | Keep secrets out of git and context (`.env` + gitignore) | [Tip 2.9](#tip-2-9) |
+| Re-explaining the same conventions each session | Put them in CLAUDE.md | [Tip 2.10](#tip-2-10) |
+| Working with no checkable "done" | Make the Definition of Done executable | [Tip 3.1](#tip-3-1) |
+| Implementing without a failing test first | Do TDD — failing test first; don't edit tests to pass | [Tip 3.2](#tip-3-2) |
+| Accepting "done, it works" with no proof | Demand evidence — the test command + its output | [Tip 3.5](#tip-3-5) |
+| Asking for a "conservative" review | Ask for *all* findings, severity-labeled — a conservative prompt suppresses real ones | [Tip 3.6](#tip-3-6) |
+| Running long work that loses progress | Commit every green step — checkpoints to revert to | [Tip 3.12](#tip-3-12) |
+| Putting one agent on a huge audit/refactor | Let it self-orchestrate parallel subagents | [Tip 5.1](#tip-5-1) |
 
 ---
 
-<a id="tier-4"></a>
-## Tier 4 — Loop Until Done: Make the agent prove it's done, so you can trust the output
+<a id="tier-3"></a>
+## Tier 3 — Verify: Make the agent prove it's done, so you can trust the output
 
-**Reach for this tier when** you can't trust the output without reading every line, and "done" means nothing concrete.
+| You stop | You do instead | Climb when |
+|---|---|---|
+| Reading every line | Define "done" | You give the same correction again; "remember to run the tests" |
+
+**Reach for this tier when** you can't trust the output without reading every line, and "done" means nothing concrete — or a long run goes wrong and you lose good work with nothing to roll back to.
 
 **This is the heart of professional agentic engineering, so read the framing first.**
 
@@ -773,11 +824,11 @@ This is why agentic quality needs no new techniques — the discipline already e
 
 In the agentic era they're **mandatory**: they're what turns a wandering agent into one that converges instead of declaring success on vibes.
 
-These old practices are now essential — that's what makes it *engineering* and not just generation. It's why practitioners like [Robert C. "Uncle Bob" Martin report](https://x.com/unclebobmartin/status/2080257779395154409) surrounding agents with "extreme constraints — unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage" and trusting the result *because* it cleared that gauntlet. (Just don't drop the review step to get there — see [4.7](#tip-4-7).)
+These old practices are now essential — that's what makes it *engineering* and not just generation. It's why practitioners like [Robert C. "Uncle Bob" Martin report](https://x.com/unclebobmartin/status/2080257779395154409) surrounding agents with "extreme constraints — unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage" and trusting the result *because* it cleared that gauntlet. (Just don't drop the review step to get there — see [3.7](#tip-3-7).)
 
 **This is just your Definition of Done, made executable.** In agile, the DoD is the shared, explicit checklist a work item must satisfy to count as finished — tests pass, code reviewed, lint clean, types check, docs updated, deployed to staging.
 
-It used to be enforced by team discipline. With agents it becomes the **machine-checkable contract the loop runs against**: every DoD item that *can* be a command (tests, lint, typecheck, build, e2e, [diff-coverage gate](#tip-4-10)) becomes part of the bar the agent iterates toward; the few that can't be automated — "does this actually solve the user's problem?" — stay human gates.
+It used to be enforced by team discipline. With agents it becomes the **machine-checkable contract the loop runs against**: every DoD item that *can* be a command (tests, lint, typecheck, build, e2e, [diff-coverage gate](#tip-3-10)) becomes part of the bar the agent iterates toward; the few that can't be automated — "does this actually solve the user's problem?" — stay human gates.
 
 The whole skill is writing a DoD precise enough that the agent knows, without you, whether it's done.
 
@@ -785,15 +836,15 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 
 **You decide what to test for; the agent doesn't.** The tests that catch real bugs are usually integration and end-to-end, not single units. So treat those as first-class: you say what they must check, the agent writes them to your spec and adds them to CI, and you confirm they check the right things. Build the rails; don't let the agent build its own. *(Raised in [#1](https://github.com/krivitsky/professional-agentic-product-engineering/issues/1).)*
 
-<a id="tip-4-1"></a>
-**4.1 Make your Definition of Done executable — a command is what the loop converges to.**
+<a id="tip-3-1"></a>
+**3.1 Make your Definition of Done executable — a command is what the loop converges to.**
 > **Instead of:** "Make it work."
 >
 > **Prefer:** spell out the DoD as commands the agent runs itself:
 > "Done when: `npm test` green, `npm run lint` clean, `npm run typecheck` passes, and `curl /health` returns 200. Loop until all four pass; show each output. Flag anything you couldn't verify."
 
-<a id="tip-4-2"></a>
-**4.2 Do TDD — the unit-level check.**
+<a id="tip-3-2"></a>
+**3.2 Do TDD — the unit-level check.**
 > **Instead of:** "Implement and test calculateTotal."
 >
 > **Prefer:** drive the code with a failing test first.
@@ -808,20 +859,20 @@ The whole skill is writing a DoD precise enough that the agent knows, without yo
 
 *Passing unit tests doesn't mean the app works — the worst bugs usually show up in integration and end-to-end tests, not single units.*
 
-<a id="tip-4-3"></a>
-**4.3 Use BDD — the behavior-level check.**
+<a id="tip-3-3"></a>
+**3.3 Use BDD — the behavior-level check.**
 > **Instead of:** vague acceptance ("it should handle bad input").
 >
 > **Prefer:** Given/When/Then scenarios the agent codes against and runs.
 
-**How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 2.6](#tip-2-6)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md` (your house rules for writing scenarios — one file, checked in, so every agent writes Gherkin the same way), then: *"Generate step definitions for refund.feature. Implement **one scenario at a time** — red → green → commit before you start the next, not all at once — and sanity-check each by mutation: break the implementation on purpose, confirm the scenario fails, then revert."* Automate that check once it's a habit — [Tip 4.11](#tip-4-11).
+**How:** take the Given/When/Then scenarios you shaped in the spec (Tier 2, [Tip 2.6](#tip-2-6)) and make them the loop's exit check — hand the agent the `.feature` and a shared `gherkin-guidelines.md` (your house rules for writing scenarios — one file, checked in, so every agent writes Gherkin the same way), then: *"Generate step definitions for refund.feature. Implement **one scenario at a time** — red → green → commit before you start the next, not all at once — and sanity-check each by mutation: break the implementation on purpose, confirm the scenario fails, then revert."* Automate that check once it's a habit — [Tip 3.11](#tip-3-11).
 
 *Pin it to one scenario at a time on purpose: left alone, the agent codes every scenario in a single sprawling pass, blowing up work-in-progress into one diff you can't review. One at a time keeps WIP small and makes every green a checkpoint — the [vertical-slice](#tip-2-5) discipline, at the scenario level.*
 
 *Mental model: **TDD** = test first (developer level) · **BDD** = behavior first in business language (acceptance level) · **SDD** = whole spec first, agent generates code + tests + docs. They nest — Gherkin sits between a user story and unit tests. That nesting **is** the [three loops](#loops-of-agentic-engineering): the spec sets the behavior to verify (**feature loop**), the tests turn red to green underneath (**coding loop**). All three give the loop a target it can test itself against.*
 
-<a id="tip-4-4"></a>
-**4.4 Test the UI for real with Playwright MCP — don't eyeball it.**
+<a id="tip-3-4"></a>
+**3.4 Test the UI for real with Playwright MCP — don't eyeball it.**
 > **Instead of:** "make sure the checkout page looks right."
 >
 > **Prefer:** have the agent drive a live browser, perform the flow, and assert.
@@ -833,103 +884,96 @@ total reads $40 and "Payment received" appears. Save the run as an e2e spec.
 ```
 *It works off the accessibility tree (~200–400 tokens/snapshot), not screenshot guessing. Division of labor: **Claude in Chrome** for interactive dev, **Playwright MCP** for the suite/CI, **Chrome DevTools MCP** for performance.*
 
-<a id="tip-4-5"></a>
-**4.5 Demand evidence, not a claim of success.**
+<a id="tip-3-5"></a>
+**3.5 Demand evidence, not a claim of success.**
 > **Instead of:** accepting "done, it works."
 >
 > **Prefer:** "Paste the exact test command and its output before you say it's done."
 
-<a id="tip-4-6"></a>
-**4.6 Ask for all findings, not a conservative review.**
+<a id="tip-3-6"></a>
+**3.6 Ask for all findings, not a conservative review.**
 > **Instead of:** "Only flag high-severity issues." (current models obey and hide real ones)
 >
 > **Prefer:** "List every issue with a severity label and line reference. Don't pre-filter — I'll triage."
 
-<a id="tip-4-7"></a>
-**4.7 Review with fresh eyes, not the context that wrote it.**
+<a id="tip-3-7"></a>
+**3.7 Review with fresh eyes, not the context that wrote it.**
 > **Instead of:** the same session grading its own code.
 >
 > **Prefer:** a fresh subagent/session reviews the diff against the criteria; correctness only, not style. *(Stronger still: have a **different model** review it — see [multi-model use](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook).)*
 
-<a id="tip-4-8"></a>
-**4.8 Run a pre-mortem; treat it like a teammate.**
+<a id="tip-3-8"></a>
+**3.8 Run a pre-mortem; treat it like a teammate.**
 > **Instead of:** "Looks great, ship it."
 >
 > **Prefer:** "What could fail here? What did you assume? What's missing?"
 
-<a id="tip-4-9"></a>
-**4.9 Iterate UI visually when there's no spec to assert.**
+<a id="tip-3-9"></a>
+**3.9 Iterate UI visually when there's no spec to assert.**
 > **Instead of:** "Make the dashboard look good."
 >
 > **Prefer:** mock → implement → screenshot → compare → fix (2–3 rounds). Override the model's default house style (on Opus 4.8 currently: cream, serif, terracotta) with a concrete palette spec.
 
-<a id="tip-4-10"></a>
-**4.10 Gate on the coverage of *this change*, not the project's average.**
+<a id="tip-3-10"></a>
+**3.10 Gate on the coverage of *this change*, not the project's average.**
 > **Instead of:** "keep coverage above 80%." (a big enough codebase absorbs an untested change without moving the number)
 >
 > **Prefer:** "every line you changed must be covered — `--changed-since=HEAD~1`, and it fails the build if not."
 
-*Global coverage is the wrong dial in the agentic era: an agent adding 300 lines to a 50,000-line repo can leave them entirely untested and still raise the percentage. Diff coverage asks the only question that matters at merge time — is the code you just wrote exercised? Add it to the Definition of Done ([4.1](#tip-4-1)) as a command, not a policy.*
+*Global coverage is the wrong dial in the agentic era: an agent adding 300 lines to a 50,000-line repo can leave them entirely untested and still raise the percentage. Diff coverage asks the only question that matters at merge time — is the code you just wrote exercised? Add it to the Definition of Done ([3.1](#tip-3-1)) as a command, not a policy.*
 
-<a id="tip-4-11"></a>
-**4.11 Mutation-test the suite itself — coverage proves the line ran, not that anything checked it.**
+<a id="tip-3-11"></a>
+**3.11 Mutation-test the suite itself — coverage proves the line ran, not that anything checked it.**
 > **Instead of:** trusting a green suite because coverage is high.
 >
 > **Prefer:** break the implementation on purpose and confirm a test goes red. Automate it — Stryker (JS/TS), mutmut (Python), cargo-mutants (Rust), PIT (Java) — on the changed files.
 
 *This is the check that catches **tests that don't test anything** — the signature failure of agent-written tests, which call the function, assert nothing meaningful, and light up coverage anyway. A surviving mutant is a line your suite executes but does not defend. Start by mutating only what the change touched; whole-repo mutation runs are slow enough to get switched off.*
 
----
+### Checkpoints — the loop's memory and undo
 
-<a id="tier-5"></a>
-## Tier 5 — Checkpointing & Hardening: Checkpoint in git and harden the harness, so you can always roll back
+*Git isn't bookkeeping here — it's the loop's memory and undo. With a checkpoint at every green step, a bad run costs minutes to undo, not a rewrite.*
 
-**Reach for this tier when** a long run goes wrong and you've lost good work with nothing to roll back to. With a checkpoint at every green step, a bad run costs minutes to undo, not a rewrite.
-
-*These are the triad's constraints, hardened — from a line in the prompt into checkpoints, CI, and rollback the harness enforces for you.*
-
-*Git isn't bookkeeping here — it's the loop's memory and undo. And the harness around it — hooks that always run your tests, CI, the `gh` CLI — makes the whole loop deterministic and shareable with the team.*
-
-<a id="tip-5-1"></a>
-**5.1 Commit every working step — checkpoints are what make a loop safe.**
+<a id="tip-3-12"></a>
+**3.12 Commit every working step — checkpoints are what make a loop safe.**
 > **Instead of:** one giant commit at the end (or none).
 >
 > **Prefer:** commit after each green step; each commit is a state the loop (or you) can revert to.
 
-**How:** "After each task step that passes tests, commit with a descriptive message." Combine with a `Stop` hook (below) that won't let it stop on red, and you get an agent whose every checkpoint is a *working* state — it can iterate hard and never lose ground.
+**How:** "After each task step that passes tests, commit with a descriptive message." Combine with a `Stop` hook ([Tip 4.1](#tip-4-1)) that won't let it stop on red, and you get an agent whose every checkpoint is a *working* state — it can iterate hard and never lose ground.
 
 Start from a clean tree; back up anything it can't regenerate before granting write access.
 
-<a id="tip-5-2"></a>
-**5.2 Let Claude drive `gh` — the collaboration layer is harness too.**
-> **Instead of:** copy-pasting diffs into the GitHub web UI.
->
-> **Prefer:** have Claude use the `gh` CLI to open PRs, read issues, check CI, and answer review comments.
-
-**How:**
-```bash
-gh issue view 123          # pull the task context into the session
-gh pr create --fill        # open the PR from the working branch
-gh pr checks               # watch CI; feed failures back into the loop
-gh pr comment 45 --body "addressed in 3f9a1c2"
-```
-*Claude has native git (stage/commit/branch/PR) and can run `gh`. In CI, `claude -p` + `gh` closes the loop from issue → branch → PR → review.*
-
-<a id="tip-5-3"></a>
-**5.3 Try risky work in a worktree — a disposable checkpoint you can throw away.**
+<a id="tip-3-13"></a>
+**3.13 Try risky work in a worktree — a disposable checkpoint you can throw away.**
 > **Instead of:** a risky refactor or spike directly on your working branch, hoping you can `git reset` your way out.
 >
 > **Prefer:** `git worktree add ../spike-x spike-x` — experiment there; keep it if it works, delete the directory if it doesn't. Your main working copy never sees the mess.
 
-*Worktrees also isolate **parallel** agents so they don't clobber each other — that's the Tier 7 use — see [Tip 7.2](#tip-7-2).*
+*Worktrees also isolate **parallel** agents so they don't clobber each other — that's the Tier 5 use — see [Tip 5.9](#tip-5-9).*
 
-<a id="tip-5-4"></a>
-**5.4 Replace "remember to run tests" with a hook.**
+---
+
+<a id="tier-4"></a>
+## Tier 4 — Enforce: Write the rules into the harness, so you stop reminding and approving
+
+| You stop | You do instead | Climb when |
+|---|---|---|
+| Reminding and approving | Write the rules | One agent is too slow, or a big build floods its context |
+
+**Reach for this tier when** you give the agent the same correction again, or your prompt still says "remember to run the tests." A request can be forgotten; a hook can't. Recurring feedback becomes code: every correction you repeat, and every approval you click through, is a rule waiting to be written into the harness.
+
+*These are the triad's constraints, hardened — from a line in the prompt into hooks, CI, and permissions the harness enforces for you.*
+
+*The harness around the loop — hooks that always run your tests, CI, the `gh` CLI — makes the whole loop deterministic and shareable with the team.*
+
+<a id="tip-4-1"></a>
+**4.1 Replace "remember to run tests" with a hook.**
 > **Instead of:** "run the tests after each change" (a request it can forget).
 >
 > **Prefer:** a hook that always runs them, and one that won't let it stop on red.
 
-*This is where Tier 4 becomes durable: the check you defined there gets wired into the harness, so it runs every time and can't be skipped or forgotten.*
+*This is where Tier 3 becomes durable: the check you defined there gets wired into the harness, so it runs every time and can't be skipped or forgotten.*
 
 **How:** `.claude/settings.json` (commit it so the team shares the gate):
 ```json
@@ -949,8 +993,8 @@ gh pr comment 45 --body "addressed in 3f9a1c2"
 ```
 *`exit 2` on a `Stop` hook forces the agent to keep working (guard with `stop_hook_active` so it can't loop forever — Claude overrides a Stop hook after 8 consecutive blocks). `PreToolUse` `exit 2` blocks a tool outright — use it to protect `.env`, `package-lock.json`, `.git/`; a `PreToolUse` **deny fires before the permission check, so it holds even under `--dangerously-skip-permissions`** (hooks can tighten, never loosen). Hooks aren't only shell + exit codes: beyond `command`, a hook can be a `prompt` (a quick Haiku yes/no judgment) or an `agent` (a subagent that verifies before allowing stop) — an [agent-based verify hook](https://code.claude.com/docs/en/hooks-guide) is a sturdier loop check than a brittle test-runner line.*
 
-<a id="tip-5-5"></a>
-**5.5 Move repetitive engineering into CI / headless — run it without you in the seat.**
+<a id="tip-4-2"></a>
+**4.2 Move repetitive engineering into CI / headless — run it without you in the seat.**
 > **Instead of:** doing PR review, issue triage, and release notes by hand each time.
 >
 > **Prefer:** run the agent non-interactively in your pipeline, scoped tightly.
@@ -962,16 +1006,74 @@ claude -p "Review this PR diff for correctness and security; comment only on rea
 ```
 *Or the Claude Code GitHub Action on `pull_request`. Note: as of mid-2026, programmatic use (`claude -p`, Agent SDK, Actions) bills from a separate Agent-SDK pool at API rates — budget for it.*
 
+<a id="tip-4-3"></a>
+**4.3 Let Claude drive `gh` — the collaboration layer is harness too.**
+> **Instead of:** copy-pasting diffs into the GitHub web UI.
+>
+> **Prefer:** have Claude use the `gh` CLI to open PRs, read issues, check CI, and answer review comments.
+
+**How:**
+```bash
+gh issue view 123          # pull the task context into the session
+gh pr create --fill        # open the PR from the working branch
+gh pr checks               # watch CI; feed failures back into the loop
+gh pr comment 45 --body "addressed in 3f9a1c2"
+```
+*Claude has native git (stage/commit/branch/PR) and can run `gh`. In CI, `claude -p` + `gh` closes the loop from issue → branch → PR → review.*
+
+<a id="tip-4-4"></a>
+**4.4 Turn a correction you keep giving into a rule that tells the agent the fix.**
+> **Instead of:** typing "use the logger, not `console.log`" into the chat for the third time this week.
+>
+> **Prefer:** a lint rule or a hook that blocks the mistake and says how to fix it: "No `console.log` in `src/` — use `logger.debug()` from `@/lib/logger`."
+
+*The failure message is the prompt. When the check fails, the agent reads why and makes the fix on its own; a bare "lint failed" sends it guessing. Every correction you write down is one you never give again.*
+
+**How:** the linter you already run is the cheapest home, and most let you write the message:
+```js
+// eslint.config.js — in your config object
+rules: {
+  'no-restricted-properties': ['error', {
+    object: 'console', property: 'log',
+    message: "Use logger.debug() from '@/lib/logger' instead.",
+  }],
+},
+```
+For what no linter can see, use a `PreToolUse` hook ([Tip 4.1](#tip-4-1)): `exit 2` blocks the action, and whatever it prints to stderr is the correction the agent reads.
+
+<a id="tip-4-5"></a>
+**4.5 Put approvals in rules, not prompts — a prompt you always approve has stopped being a check.**
+> **Instead of:** clicking "approve" on every `npm test`, `git diff`, and file edit, one prompt at a time.
+>
+> **Prefer:** write the decisions you keep making into `.claude/settings.json` — `allow` the safe commands, `deny` the dangerous ones — so the prompts that still reach you are the ones worth reading.
+
+*Anthropic's own telemetry showed Claude Code users approving roughly 93% of permission prompts — and the more approvals someone sees, the less attention they pay to each ([How we contain Claude across products](https://www.anthropic.com/research/how-we-contain-claude)). An approval given on reflex protects nothing. A rule written once, and committed so the team shares it, holds on every run.*
+
+**How:** `.claude/settings.json`:
+```json
+{
+  "permissions": {
+    "allow": ["Bash(npm test:*)", "Bash(npm run lint)", "Bash(git diff:*)", "Bash(git status)"],
+    "deny":  ["Bash(git push --force:*)", "Bash(rm -rf:*)", "Read(./.env)", "Read(./.env.*)"]
+  }
+}
+```
+*Deny wins over allow. For the commands that must never run, back the deny list with a `PreToolUse` hook ([Tip 4.1](#tip-4-1)) — it holds even when permissions are skipped.*
+
 ---
 
-<a id="tier-6"></a>
-## Tier 6 — Orchestration: Run many agents at once, to ship more work in parallel
+<a id="tier-5"></a>
+## Tier 5 — Orchestrate: Run many agents at once, to ship more work in parallel
+
+| You stop | You do instead | Climb when |
+|---|---|---|
+| Running agents one by one | Split and coordinate the work | Runs die when you leave; you start every run yourself |
 
 **Reach for this tier when** one agent is too slow or floods its own context, and the build is too big for one pass. The next gain is parallelism — many subagents on independent slices, specialist roles, and a second model catching what the first missed.
 
 ### The model toolkit — bring in more models (the multi-model playbook)
 
-Using more than one model works at **any** tier — but you lean on it hardest here (per-subagent models, racing agents across labs, specialist roles), which is why it leads off Tier 6.
+Using more than one model works at **any** tier — but you lean on it hardest here (per-subagent models, racing agents across labs, specialist roles), which is why it leads off Tier 5.
 
 It works for one reason: **different models have different blind spots**, so a second model catches what the first missed.
 
@@ -1030,7 +1132,7 @@ flowchart LR
 >
 > **Prefer:** declare an ordered fallback so the turn retries on the next model instead of failing.
 
-**How:** `claude --fallback-model sonnet,haiku` (or `"fallbackModel": ["sonnet","haiku"]` in settings) — tried in order on overload, capped at 3, lasts the turn. This is a *reliability* lever (availability), distinct from the advisor's *quality/cost* lever — both matter once runs go unattended (Tier 7–8).
+**How:** `claude --fallback-model sonnet,haiku` (or `"fallbackModel": ["sonnet","haiku"]` in settings) — tried in order on overload, capped at 3, lasts the turn. This is a *reliability* lever (availability), distinct from the advisor's *quality/cost* lever — both matter once runs go unattended (Tier 6).
 
 #### Level 2 — Reaching beyond Anthropic (other frontier, open-weight, self-hosted)
 
@@ -1039,7 +1141,7 @@ The advanced case. The payoff is real — a different lab's blind spots aren't y
 Do this once Level 1 is second nature.
 
 <a id="toolkit-cross-lab-review"></a>
-**Have a different lab review the diff.** *(the cross-model form of the review-agent pattern in Tier 8)*
+**Have a different lab review the diff.** *(the cross-model form of the review-agent pattern in Tier 6)*
 > **Instead of:** the model that wrote the code reviewing its own code — it carries the same blind spots into the review.
 >
 > **Prefer:** Claude writes, **Codex (GPT-5.5-class) or Gemini reviews the diff**. A different training distribution catches bug classes self-review misses. Loop until the reviewer comes back clean — a human still owns the merge.
@@ -1099,20 +1201,20 @@ Invoke it three ways: **auto** (the parent delegates when the task matches the d
 
 **Skill vs subagent vs command — the distinction that matters.** Same Markdown-plus-frontmatter shape; the difference is *where the work happens*. A **command/skill loads into your current conversation** — its instructions join the active context and every step accumulates in your main window. A **subagent runs in its own context window** and returns just a summary. So: reach for a **skill** to *teach the main thread* a workflow; reach for a **subagent** to *offload heavy work and protect the main thread's context*. (You can even preload skills into a subagent with a `skills:` frontmatter field.)
 
-<a id="tip-6-1"></a>
-**6.1 Let it self-orchestrate big, parallel work — it fans out faster than you can by hand.**
+<a id="tip-5-1"></a>
+**5.1 Let it self-orchestrate big, parallel work — it fans out faster than you can by hand.**
 > **Instead of:** manually spawning and merging a dozen subagents.
 >
 > **Prefer:** `/effort ultracode` → "audit every endpoint for missing auth, fix it, prove each fix with a test." It fans out parallel subagents and self-verifies; you spot-check the report.
 
-<a id="tip-6-2"></a>
-**6.2 Use subagents to isolate context.**
+<a id="tip-5-2"></a>
+**5.2 Use subagents to isolate context.**
 > **Instead of:** a giant exploration that floods your main thread.
 >
 > **Prefer:** "subagent: trace how auth is wired across the repo; return a summary plus the 3 files I should read." (Low effort for batch subagents to control cost.)
 
-<a id="tip-6-3"></a>
-**6.3 Race several agents on the same task; keep the winner.**
+<a id="tip-5-3"></a>
+**5.3 Race several agents on the same task; keep the winner.**
 > **Instead of:** betting a high-value task on one agent's single attempt.
 >
 > **Prefer:** run the same spec in several parallel git worktrees — and vary the model across them (Claude, Codex, Gemini) so their blind spots differ — then diff the results and merge the best. Budget ~2–4× the cost; reserve it for work where being right beats being cheap.
@@ -1122,10 +1224,10 @@ Invoke it three ways: **auto** (the parent delegates when the task matches the d
 git worktree add ../try-a -b try/a   # repeat for try/b, try/c
 # run one agent per worktree (vary the model), then compare the diffs
 ```
-*Or assign the same issue to several agents in GitHub Agent HQ (Tier 8) and pick the winning PR.*
+*Or assign the same issue to several agents in GitHub Agent HQ (Tier 6) and pick the winning PR.*
 
-<a id="tip-6-4"></a>
-**6.4 Decompose complex builds into specialist roles — narrow context per role beats one big pass.**
+<a id="tip-5-4"></a>
+**5.4 Decompose complex builds into specialist roles — narrow context per role beats one big pass.**
 > **Instead of:** one prompt that builds everything in one pass.
 >
 > **Prefer:** architect → backend → frontend → tests → security-review, each a subagent with narrow context, reviewing each other.
@@ -1147,8 +1249,8 @@ plan to the backend subagent to implement, the test-writer subagent to cover it,
 the security-reviewer subagent to audit the diff. Each returns a summary.
 ```
 
-<a id="tip-6-5"></a>
-**6.5 Engineer the long-horizon hand-off — so the next session doesn't guess.**
+<a id="tip-5-5"></a>
+**5.5 Engineer the long-horizon hand-off — so the next session doesn't guess.**
 > **Instead of:** "build the whole app" in one window (it runs out of context mid-feature and the next session guesses).
 >
 > **Prefer:** an initializer session that writes a checklist; fresh sessions execute it one item at a time.
@@ -1166,8 +1268,8 @@ the security-reviewer subagent to audit the diff. Each returns a summary.
 ```
 *When compaction starts losing detail, `/clear` and let the next session rebuild from PROGRESS.md — a clean hand-off beats a degraded context. Keep the authoritative task ledger as **JSON, not prose** — Anthropic's [long-running-agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) write-up found models reliably "tidy" or overwrite Markdown but treat a `features.json` of `{name, passes: false}` (flip one boolean per session) as real data they won't casually rewrite. Prose hand-off in the doc; the status registry in JSON.*
 
-<a id="tip-6-6"></a>
-**6.6 Steer long runs mid-flight instead of restarting them.**
+<a id="tip-5-6"></a>
+**5.6 Steer long runs mid-flight instead of restarting them.**
 > **Instead of:** killing a 40-minute run to change a permission, budget, or direction.
 >
 > **Prefer:** inject a steering message while it runs.
@@ -1179,23 +1281,14 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 { "role": "system", "content": "Permissions update: read-only from here. Summarize findings; make no further edits." }
 ```
 
-<a id="tip-6-7"></a>
-**6.7 Engineer the environment, not the wording.**
+<a id="tip-5-7"></a>
+**5.7 Engineer the environment, not the wording.**
 > **Instead of:** endlessly tuning the perfect prompt.
 >
 > **Prefer:** invest in CLAUDE.md, Skills, MCP, git discipline, tests as the check, hooks, and CI. Every methodology converges on **research → plan → execute → review → ship**, human-gated — build the system that runs that loop. That system, not the prompt, is the product of professional agentic engineering.
 
----
-
-<a id="tier-7"></a>
-## Tier 7 — Fleet Ops: Operate your agents as a fleet, so long runs don't die on you
-
-**Reach for this tier when** runs die because your laptop slept, parallel agents collide, or you want to drive them from your phone. Get this right and a run survives your laptop closing and keeps going while you're away.
-
-*Once you're running more than one agent, or runs longer than you'll sit and watch, **where and how you run them** becomes its own engineering problem. This is the operations layer of agentic work.*
-
-<a id="tip-7-1"></a>
-**7.1 Manage parallel agents in an agent-aware terminal — so you see which one is blocked.**
+<a id="tip-5-8"></a>
+**5.8 Manage parallel agents in an agent-aware terminal — so you see which one is blocked.**
 > **Instead of:** a dozen plain terminal tabs where you lose track of which agent is blocked.
 >
 > **Prefer:** a terminal built for agents (Warp) — panes per agent, notifications when one needs input, a built-in diff/review panel.
@@ -1204,8 +1297,8 @@ In an automated harness on the Agent SDK, push a `system` entry into the live `m
 
 `Cmd+Shift++` opens the code-review panel to diff what an agent changed and send inline comments back. (Claude Code also has its own agent view for grouping sessions.)
 
-<a id="tip-7-2"></a>
-**7.2 Isolate parallel agents with worktrees + one session each.**
+<a id="tip-5-9"></a>
+**5.9 Isolate parallel agents with worktrees + one session each.**
 > **Instead of:** two agents editing the same working copy and clobbering each other.
 >
 > **Prefer:** one git worktree + branch + session per agent.
@@ -1218,8 +1311,28 @@ git worktree add ../feat-search feat-search
 ```
 *Bonus: run the same task with Claude Code in one worktree and Codex in another, then diff the two approaches side by side.*
 
-<a id="tip-7-3"></a>
-**7.3 Host long runs on a box that doesn't sleep; persist with tmux.**
+---
+
+<a id="tier-6"></a>
+## Tier 6 — Supervise: Put agents into production, so they work without you
+
+| You stop | You do instead | Climb when |
+|---|---|---|
+| Starting and watching runs | Certify the evidence; improve the system | — (top) |
+
+**Reach for this tier when** runs die because your laptop slept, or every run still waits for you to start it — and the team needs agents to pick up tickets and open PRs without anyone babysitting a terminal. Get this right and a run survives your laptop closing and keeps going while you're away.
+
+*Once runs go longer than you'll sit and watch, **where they run and who starts them** becomes its own engineering problem. Two steps take you from your box to the team's system:*
+
+| Step | Where it runs | Who starts it |
+|---|---|---|
+| **1 · Your box** — [6.1](#tip-6-1)–[6.3](#tip-6-3) | Your always-on box, one tmux session per run | You — at your desk or from your phone |
+| **2 · The execution layer** — [6.4](#tip-6-4)–[6.8](#tip-6-8) | A hosted runtime: managed cloud sessions, or sandboxes you run | A ticket or an event, behind a human gate on the plan and the merge |
+
+### Your box — runs that survive you leaving
+
+<a id="tip-6-1"></a>
+**6.1 Host long runs on a box that doesn't sleep; persist with tmux.**
 > **Instead of:** a run that dies the moment your laptop sleeps or wifi drops.
 >
 > **Prefer:** run on a small always-on server and wrap each agent in tmux.
@@ -1233,8 +1346,8 @@ tmux attach -t claude-auth     # reattach later, from any device
 ```
 *Why this works: Claude Code is **API-bound, not compute-bound** — inference runs on Anthropic's servers; your machine just holds the thread. A box that doesn't sleep keeps the agent moving. A 4 GB VPS handles one agent; budget **16 GB+** for dynamic workflows or many parallel subagents (heavy orchestration OOM-kills small boxes, and that takes the tmux session with it). Caveat: tmux survives disconnects, not crashes or reboots.*
 
-<a id="tip-7-4"></a>
-**7.4 Drive the fleet from your phone — clear blockers from anywhere.**
+<a id="tip-6-2"></a>
+**6.2 Drive the fleet from your phone — clear blockers from anywhere.**
 > **Instead of:** being chained to a desk to answer one permission prompt.
 >
 > **Prefer:** SSH in from a mobile client and clear decision points from anywhere.
@@ -1245,8 +1358,8 @@ For unattended runs, give an explicit **stopping condition** ("work until the te
 
 *(Claude Code's built-in Remote Control still runs on your local machine — the server + tmux setup is the only true close-the-laptop persistence.)*
 
-<a id="tip-7-5"></a>
-**7.5 Secure the agent server like production.**
+<a id="tip-6-3"></a>
+**6.3 Secure the agent server like production.**
 > **Instead of:** root login and API keys in a committed file on an internet-facing box.
 >
 > **Prefer:** non-root sudo user, SSH-keys-only, firewall, secrets in env / a secrets manager.
@@ -1257,16 +1370,11 @@ If you run unattended with `--dangerously-skip-permissions`, put it behind a `Pr
 
 *Next level up is the managed version of all this: Warp's Oz and Claude Code's dynamic workflows run agents in the cloud on schedules/triggers with central tracking — the same fleet ideas, hosted.*
 
----
+### The execution layer — the team's system
 
-<a id="tier-8"></a>
-## Tier 8 — Agent Execution Layer: Put agents into production, so they work without you
+> **While running a local loop is perfect for individual spec-driven development, enterprise agentic loops require a dedicated *Agent Execution Layer*.** It's the layer beyond your own server (the box above): loops run **hosted, isolated, and event-triggered**.
 
-**Reach for this tier when** the team needs it — agents must pick up tickets and open PRs without anyone babysitting a terminal.
-
-> **While running a local loop is perfect for individual spec-driven development, enterprise agentic loops require a dedicated *Agent Execution Layer*.** It's the layer beyond your own server (Tier 7): loops run **hosted, isolated, and event-triggered**.
-
-**Less new than it looks — it's the same loop you already built.** Everything from Tier 4 (act → test → fix against a Definition of Done) and Tier 5 (commit, `gh`, CI) is unchanged.
+**Less new than it looks — it's the same loop you already built.** Everything from Tier 3 (act → test → fix against a Definition of Done, commit every green step) and Tier 4 (`gh`, CI) is unchanged.
 
 The execution layer only answers three new questions: *where does it run, what triggers it, and how do many agents avoid colliding?*
 
@@ -1289,7 +1397,7 @@ When you outgrow managed (control, data residency, custom tools), the layer has 
 | Layer | Job | Options |
 |---|---|---|
 | **Runtime sandbox** | Run untrusted agent code + tests in throwaway isolation, so a runaway loop burns a cheap container, not prod | E2B (Firecracker microVMs), Modal (serverless + GPU), Daytona / Northflank (compliance, BYOC); Claude Code's own `/sandbox` and web VMs |
-| **Connectivity (MCP)** | Let the agent read Slack / Notion / Postgres / Sentry without hardcoded creds | MCP servers (Tier 3) |
+| **Connectivity (MCP)** | Let the agent read Slack / Notion / Postgres / Sentry without hardcoded creds | MCP servers (Tier 2) |
 | **Orchestration / state** | Track which phase each agent is in; coordinate many | LangGraph, Claude Agent SDK, Warp Oz, Claude Code dynamic workflows |
 | **System of record** | The ground truth + state machine — the agent forgets, the board remembers | Linear / GitHub issues, whose workflow states *are* the state machine |
 
@@ -1297,7 +1405,7 @@ When you outgrow managed (control, data residency, custom tools), the layer has 
 
 ### The loop — from ticket to merged PR
 
-This is just Tier 4's loop, hosted and gated:
+This is just Tier 3's loop, hosted and gated:
 
 ```mermaid
 flowchart TD
@@ -1324,40 +1432,48 @@ PR review is where to start: high value, low risk. The pattern:
 
 - **Feed the diff, not the codebase.** Pull only the changed lines + surrounding functions. Dumping the whole repo destroys the reviewer's context.
 - **Load the rulebook.** Inject your `ARCHITECTURE.md` or a `code-review` Skill ("always use the repository pattern for DB access") so it reviews against *your* standards.
-- **Prompt adversarially.** "Identify side effects this diff introduces that are **not** covered by the modified tests." (And per Tip 4.6: ask for all findings, severity-labeled — never tell it to be conservative.)
+- **Prompt adversarially.** "Identify side effects this diff introduces that are **not** covered by the modified tests." (And per Tip 3.6: ask for all findings, severity-labeled — never tell it to be conservative.)
 - **Use a different model than the author.** A cross-lab reviewer catches blind spots a self-review shares — see [multi-model use](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook).
 
 ### Instead / Prefer — the decisions that matter
 
-<a id="tip-8-1"></a>
-**8.1 Sandbox the loop; never run autonomous agents on a dev box or prod.**
+<a id="tip-6-4"></a>
+**6.4 Sandbox the loop; never run autonomous agents on a dev box or prod.**
 > **Instead of:** an unattended agent with write access on your laptop or a shared CI runner.
 >
 > **Prefer:** an ephemeral sandbox (E2B/Modal/Daytona/Northflank, or Claude Code's web VMs) — a runaway loop burns a throwaway container, not your environment.
 
-<a id="tip-8-2"></a>
-**8.2 Gate the plan, not every keystroke.**
+<a id="tip-6-5"></a>
+**6.5 Gate the plan, not every keystroke.**
 > **Instead of:** full autopilot from ticket to merge, or approving every edit.
 >
 > **Prefer:** auto-run the loop but pause for human approval at the spec and before merge. Gate the irreversible; automate the rest.
 
-<a id="tip-8-3"></a>
-**8.3 Cap the strikes — a stuck agent shouldn't burn tokens forever.**
+<a id="tip-6-6"></a>
+**6.6 Cap the strikes — a stuck agent shouldn't burn tokens forever.**
 > **Instead of:** "loop until the tests pass," unbounded.
 >
 > **Prefer:** "loop until green, max 5 attempts, then stop and summarize what's blocking." An exit condition needs a give-up condition too.
 
-<a id="tip-8-4"></a>
-**8.4 Make the tracker the state machine — the agent forgets; the board remembers.**
+<a id="tip-6-7"></a>
+**6.7 Make the tracker the state machine — the agent forgets; the board remembers.**
 > **Instead of:** holding workflow state in the agent's conversation (it gets archived/compacted away).
 >
 > **Prefer:** store state as ticket status/labels (Todo → Planning → Approved → In Review). It survives restarts, and a human can override by moving the card.
+
+<a id="tip-6-8"></a>
+**6.8 Certify the evidence instead of reading the diff — review the proof, not every line.**
+> **Instead of:** reading every line of every PR the agents open, until your review is the bottleneck the agents were meant to remove.
+>
+> **Prefer:** have every run attach its evidence — test and e2e output, a screenshot of the changed UI, coverage of the changed lines, the mutation score, the review agent's findings — and certify that: does it cover the change, and does it prove what the ticket asked for? Open the code only where the evidence is thin.
+
+*This is the [Big Idea](#big-idea--from-prompts-to-systems) at full scale: confidence comes from the gauntlet the output survives, not from reading it. Each piece of evidence is a tip you already use — [3.5](#tip-3-5), [3.10](#tip-3-10), [3.11](#tip-3-11), the review agent above — now read by you at the merge gate ([6.5](#tip-6-5)). Put the time you no longer spend on diffs into the system: add the missing check, fix the flaky gate, turn a repeated correction into a rule ([4.4](#tip-4-4)).*
 
 ### The reality check
 
 **Most pilots die before production.** IDC found [88% of AI proof-of-concepts never reach wide deployment](https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html); Gartner [predicts over 40% of agentic AI projects will be canceled by end of 2027](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) — costs, unclear value, inadequate risk controls. In practice, for a coding agent, that means the boring parts: isolation, governance, least-privilege permissions, audit, data residency.
 
-So treat the execution layer like any production system: scope tools per agent (Tier 6), keep secrets in a manager not prompts, log everything, and use BYOC/on-prem sandboxes if you're regulated.
+So treat the execution layer like any production system: scope tools per agent (Tier 5), keep secrets in a manager not prompts, log everything, and use BYOC/on-prem sandboxes if you're regulated.
 
 Start with one managed loop (PR review), prove it, then expand. This is the top of the arc: the agent stops being a chatbot and becomes an **asynchronous worker operating inside your org's existing system of record.**
 
@@ -1371,8 +1487,8 @@ Frontier models are converging on the same traits — so these habits transfer e
 
 - **They follow instructions literally.** Say what you want, not what to avoid — specificity and positive framing pay off on every model → [Tier 1](#tier-1).
 - **They over-engineer when left unconstrained.** Give them room and they gold-plate, so bound the scope and the edit surface → [Tier 1](#tier-1) ([Tip 1.11](#tip-1-11)).
-- **They run longer on their own — and can check their own work.** The payoff is in the bar you set: an executable Definition of Done and a loop that proves it → [Tier 4](#tier-4).
-- **Their context windows keep growing.** More room is not license to dump more in — feed high signal and manage what's in context → [Tier 3](#tier-3).
+- **They run longer on their own — and can check their own work.** The payoff is in the bar you set: an executable Definition of Done and a loop that proves it → [Tier 3](#tier-3).
+- **Their context windows keep growing.** More room is not license to dump more in — feed high signal and manage what's in context → [Tier 1's context hygiene](#context-hygiene--managing-the-active-window).
 
 The *mechanisms* here — `/effort`, `ultracode`, dynamic workflows, hooks, CLAUDE.md, Skills, MCP — are Claude Code's; other harnesses expose their own analogues. **Port the principle, swap the syntax.**
 
@@ -1380,7 +1496,7 @@ The *mechanisms* here — `/effort`, `ultracode`, dynamic workflows, hooks, CLAU
 
 ## Sources
 
-- Anthropic — [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), [Prompting Claude Opus 4.8](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8), [Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8); [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices); [Create custom subagents](https://code.claude.com/docs/en/sub-agents) & [Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) docs; [Automate actions with hooks](https://code.claude.com/docs/en/hooks-guide); [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents); [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents); [Writing effective tools for AI agents](https://www.anthropic.com/engineering/writing-tools-for-agents); [Claude Code GitHub Action](https://code.claude.com/docs/en/github-actions)
+- Anthropic — [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), [Prompting Claude Opus 4.8](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8), [Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8); [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices); [Create custom subagents](https://code.claude.com/docs/en/sub-agents) & [Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) docs; [Automate actions with hooks](https://code.claude.com/docs/en/hooks-guide); [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents); [How we contain Claude across products](https://www.anthropic.com/research/how-we-contain-claude) (permission-prompt approval rates); [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents); [Writing effective tools for AI agents](https://www.anthropic.com/engineering/writing-tools-for-agents); [Claude Code GitHub Action](https://code.claude.com/docs/en/github-actions)
 - Multi-model — Anthropic [The advisor strategy](https://claude.com/blog/the-advisor-strategy) (+2.7pt / −11.9% cost) & Claude Code [model-config/advisor docs](https://code.claude.com/docs/en/model-config); `opusplan` write-ups; Aider architect/editor benchmark; cross-lab review reports (charlesjones.dev, dev.to, Milvus model-debate); MoA (Wang et al. 2406.04692) vs Self-MoA (Li et al. 2502.00674); Sakana AB-MCTS; GitHub Agent HQ; `johannesjo/parallel-code`
 - OpenRouter routing — OpenRouter *Claude Code integration* + *Anthropic Skin* docs/blog; Morph, TokenMix, mykolaaleksandrov.dev setup guides; `musistudio/claude-code-router`
 - Agents vs one-shot builders — Claude Code vs Lovable/Bolt/v0/Replit/Base44 comparisons (lowcode.agency, builder.io, buildthisnow, nxcode, 2026)
@@ -1394,3 +1510,78 @@ The *mechanisms* here — `/effort`, `ultracode`, dynamic workflows, hooks, CLAU
 - Effort / `ultracode` / dynamic workflows — Claude Code model-config docs + 2026 guides (claudefa.st, stacknotice)
 - DataCamp *Claude Code Best Practices*; rosmur 12-source synthesis; stevekinney AI-dev course; Addy Osmani *Agent Harness Engineering*; Viv Trivedy *Anatomy of an Agent Harness*
 - Methodologies to study: Superpowers, Spec Kit, BMAD-METHOD, OpenSpec · Directories: `awesome-claude-code`, Playwright MCP
+
+---
+
+<a id="tip-map"></a>
+## Tip map — old numbers to new
+
+The guide was reorganized from eight tiers into six. Every tip kept its words; most got a new number, and three are new. An old link to `#tip-T-N` now lands on whatever holds that number today — look the old number up here.
+
+| Old tip | New tip | Title |
+|---|---|---|
+| 1.1 | [1.1](#tip-1-1) | Hand over the outcome, not a file list |
+| 1.2 | [1.2](#tip-1-2) | Be specific — vagueness is now taken literally |
+| 1.3 | [1.3](#tip-1-3) | Say what to do, not what to avoid |
+| 1.4 | [1.4](#tip-1-4) | Give the reason; motivation makes it generalize |
+| 1.5 | [1.5](#tip-1-5) | Specify the output shape, not just the goal |
+| 1.6 | [1.6](#tip-1-6) | Show examples instead of describing style |
+| 1.7 | [1.7](#tip-1-7) | Follow the house style, don't invent one |
+| 1.8 | [1.8](#tip-1-8) | Show, don't tell — use the input channels |
+| 1.9 | [1.9](#tip-1-9) | Invite uncertainty instead of forcing an answer |
+| 1.10 | [1.10](#tip-1-10) | Paste raw errors, don't paraphrase them |
+| 1.11 | [1.11](#tip-1-11) | Constrain scope — modern models over-engineer unless you stop them |
+| 1.12 | [1.12](#tip-1-12) | Narrow the edit surface — a small diff is a reviewable diff |
+| 1.13 | [1.13](#tip-1-13) | Dial effort; don't beg for thoroughness |
+| 1.14 | [1.14](#tip-1-14) | Say it all in your first message |
+| 2.1 | [2.1](#tip-2-1) | Investigate before you edit — a wrong mental model wrecks the diff |
+| 2.2 | [2.2](#tip-2-2) | Plan the uncertain; skip the plan for the trivial |
+| 2.3 | [2.3](#tip-2-3) | Force an approval checkpoint and see what it will touch — nothing irreversible runs unseen |
+| 2.4 | [2.4](#tip-2-4) | Ask for options, not the first idea |
+| 2.5 | [2.5](#tip-2-5) | Slice vertically — thin end-to-end increments, not horizontal layers |
+| 2.6 | [2.6](#tip-2-6) | Turn big features into a spec, then a fresh session |
+| 2.7 | [2.7](#tip-2-7) | Plan with the smart model, build with the cheap one |
+| 2.8 | [2.8](#tip-2-8) | Have one agent draft the spec and a different one critique it — before any code |
+| 3.1 | [1.15](#tip-1-15) | Feed high-signal context, not the whole repo |
+| 3.2 | [2.9](#tip-2-9) | Keep secrets out of git and out of context — set this up first |
+| 3.3 | [1.16](#tip-1-16) | `/clear` between tasks; reset after repeated failure |
+| 3.4 | [1.17](#tip-1-17) | Steer compaction, don't run it blind |
+| 3.5 | [2.10](#tip-2-10) | CLAUDE.md = gotchas + conventions, not an encyclopedia |
+| 3.6 | [2.11](#tip-2-11) | Put occasional knowledge in Skills — loaded only when the task matches |
+| 3.7 | [2.12](#tip-2-12) | Add the right MCP servers; keep the surface small |
+| 3.8 | [2.13](#tip-2-13) | Use external memory for multi-session work — compaction won't carry decisions across sessions |
+| 4.1 | [3.1](#tip-3-1) | Make your Definition of Done executable — a command is what the loop converges to |
+| 4.2 | [3.2](#tip-3-2) | Do TDD — the unit-level check |
+| 4.3 | [3.3](#tip-3-3) | Use BDD — the behavior-level check |
+| 4.4 | [3.4](#tip-3-4) | Test the UI for real with Playwright MCP — don't eyeball it |
+| 4.5 | [3.5](#tip-3-5) | Demand evidence, not a claim of success |
+| 4.6 | [3.6](#tip-3-6) | Ask for all findings, not a conservative review |
+| 4.7 | [3.7](#tip-3-7) | Review with fresh eyes, not the context that wrote it |
+| 4.8 | [3.8](#tip-3-8) | Run a pre-mortem; treat it like a teammate |
+| 4.9 | [3.9](#tip-3-9) | Iterate UI visually when there's no spec to assert |
+| 4.10 | [3.10](#tip-3-10) | Gate on the coverage of *this change*, not the project's average |
+| 4.11 | [3.11](#tip-3-11) | Mutation-test the suite itself — coverage proves the line ran, not that anything checked it |
+| 5.1 | [3.12](#tip-3-12) | Commit every working step — checkpoints are what make a loop safe |
+| 5.2 | [4.3](#tip-4-3) | Let Claude drive `gh` — the collaboration layer is harness too |
+| 5.3 | [3.13](#tip-3-13) | Try risky work in a worktree — a disposable checkpoint you can throw away |
+| 5.4 | [4.1](#tip-4-1) | Replace "remember to run tests" with a hook |
+| 5.5 | [4.2](#tip-4-2) | Move repetitive engineering into CI / headless — run it without you in the seat |
+| 6.1 | [5.1](#tip-5-1) | Let it self-orchestrate big, parallel work — it fans out faster than you can by hand |
+| 6.2 | [5.2](#tip-5-2) | Use subagents to isolate context |
+| 6.3 | [5.3](#tip-5-3) | Race several agents on the same task; keep the winner |
+| 6.4 | [5.4](#tip-5-4) | Decompose complex builds into specialist roles — narrow context per role beats one big pass |
+| 6.5 | [5.5](#tip-5-5) | Engineer the long-horizon hand-off — so the next session doesn't guess |
+| 6.6 | [5.6](#tip-5-6) | Steer long runs mid-flight instead of restarting them |
+| 6.7 | [5.7](#tip-5-7) | Engineer the environment, not the wording |
+| 7.1 | [5.8](#tip-5-8) | Manage parallel agents in an agent-aware terminal — so you see which one is blocked |
+| 7.2 | [5.9](#tip-5-9) | Isolate parallel agents with worktrees + one session each |
+| 7.3 | [6.1](#tip-6-1) | Host long runs on a box that doesn't sleep; persist with tmux |
+| 7.4 | [6.2](#tip-6-2) | Drive the fleet from your phone — clear blockers from anywhere |
+| 7.5 | [6.3](#tip-6-3) | Secure the agent server like production |
+| 8.1 | [6.4](#tip-6-4) | Sandbox the loop; never run autonomous agents on a dev box or prod |
+| 8.2 | [6.5](#tip-6-5) | Gate the plan, not every keystroke |
+| 8.3 | [6.6](#tip-6-6) | Cap the strikes — a stuck agent shouldn't burn tokens forever |
+| 8.4 | [6.7](#tip-6-7) | Make the tracker the state machine — the agent forgets; the board remembers |
+| — *(new)* | [4.4](#tip-4-4) | Turn a correction you keep giving into a rule that tells the agent the fix |
+| — *(new)* | [4.5](#tip-4-5) | Put approvals in rules, not prompts — a prompt you always approve has stopped being a check |
+| — *(new)* | [6.8](#tip-6-8) | Certify the evidence instead of reading the diff — review the proof, not every line |
