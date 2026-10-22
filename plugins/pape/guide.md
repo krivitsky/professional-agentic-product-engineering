@@ -4,183 +4,78 @@
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
 **⭐ Star it; submit issues or PRs** — help yourself and the next person learn better.
 
-<div class="testimonial testimonial-lead">
-<p>&ldquo;The purpose of knowledge is action, not knowledge.&rdquo;</p>
-<span class="testimonial-cite">— Aristotle</span>
-</div>
+Maybe writing code was never the human job.  
+We did it, and many of us loved it, because computers couldn't do it themselves.  
+The job was always understanding the problem and deciding what's worth building.  
+Now machines can write the code, if we build the system around them.  
+That system is what this guide teaches: tier by tier, it takes over a chore and frees the human to decide the outcome.
 
-### Goal of this Guide
+**From coding features to designing systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
 
-> *Agentic engineering is a profession, not a prompt.*
-
-Get **professionally good** at operating coding agents to create new software and work on real codebases. The work spans the full range: from "fix bug xyz" all the way to autonomous engineering loops running in production.
-
-Why this is now its own profession, not just a knack for prompting:
-
-- **The bottleneck moved.** The scarce skill is no longer typing code — it's specifying the work, bounding the agent, and verifying the result. Different muscles than classic coding.
-- **Leverage cuts both ways.** An agent ships a week of work in a day — and ships bugs just as fast. Method is what turns raw speed into shippable output instead of slop.
-- **Trust has to be engineered.** You can't read every line an agent writes at this volume. Confidence comes from the system around it — tests, guardrails, review loops — not from watching it work.
-- **It compounds.** A prompt is a one-off; a harness you build once keeps paying out across every task and every teammate.
-
-Throughout this guide, Claude Code is the running example because it's the most widely used agentic coding harness as of July 2026 — but the principles and practices carry across harnesses and labs. Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemini 3.x+** — the habits are built to outlast any single model or tool; see [Port these habits to any model](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini).
-
-<div class="testimonial">
-<p>&ldquo;Nice! Thank you for the compact guide where all the basics are in one place.&rdquo;</p>
-<span class="testimonial-cite">— <a href="https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29">Michal Svoboda</a>, Security &amp; Engineering Mentor</span>
-</div>
-
-### Part of the Agentic Shift System
-
-This is a guide to the **technical** side of the agentic shift — how engineers and product teams get genuinely good at building with coding agents. It stops there on purpose.
-
-The shift has a second front: the **structural** one — how organizations, teams, roles, and ways of working reshape themselves around agentic work.
-
-**Technical and structural shifts form one system: they enable and reinforce one another, and cannot be managed in isolation.** A team that masters the tools but keeps its old org design stalls; a reorg with no engineering practice underneath is theatre.
-
-For the structural half — the organizational picture this guide deliberately leaves out — see **[agentic-shift.com](https://agentic-shift.com/)**.
-
-### Formats of this Guide
-
-Read it in whichever form fits how you work — all four stay in sync with this repo:
-
-- **📄 Markdown** — [`guide.md`](guide.md) in this repo. The canonical source; everything else is generated from it. Best for reading in your editor, feeding to an agent, or sending a PR.
-- **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts from this repo.
-- **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into linked pages — one per tier, concept, and entity — cross-referenced with `[[wikilinks]]`. Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph instead of top-to-bottom: jump between related tips, see how concepts connect, and explore the harness, loops, and primitives as a web. Best when you want to *study* the material, not just read it.
-- **🔌 In your repo** — install the plugin (`/plugin install pape@pape`) and the whole guide ships with it, byte-identical and enforced by CI. `/pape:agentic-coach` quotes tips from it as you work, and `/pape:harness-audit` rates the repo you're in against the six tiers — see [Audit your harness](#audit-your-harness). The guide is *there* while you work, instead of somewhere you go.
+> **Free the human. Elevate human intelligence.**
+>
+> From operating the model to deciding the outcome, tier by tier.
 
 ### Contents
-1. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
+
+**The six tiers**
+
+1. [The six tiers at a glance](#the-six-tiers-at-a-glance)
+
+**How it works**
+
 2. [Big Idea 💡: From Prompts to Systems](#big-idea--from-prompts-to-systems)
-3. [Audit your harness](#audit-your-harness)
-4. [Loops of Agentic Engineering](#loops-of-agentic-engineering)
-5. [The six tiers at a glance](#the-six-tiers-at-a-glance)
-   - [Coming from the eight tiers?](#coming-from-the-eight-tiers)
-6. [Climb the six tiers — to spend effort only where your work needs it](#climb-the-six-tiers--to-spend-effort-only-where-your-work-needs-it)
+3. [Loops of Agentic Engineering](#loops-of-agentic-engineering)
+4. [Climb the six tiers — to spend effort only where your work needs it](#climb-the-six-tiers--to-spend-effort-only-where-your-work-needs-it)
    - [Which tier do you need?](#which-tier-do-you-need)
-7. [Who this is for](#who-this-is-for)
-8. [TL;DR — if you do only five things](#tldr--if-you-do-only-five-things)
-9. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
-10. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
-11. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
-12. [Tier 1 — Prompt: Write prompts the agent can act on](#tier-1)
-    - [1.1 Hand over the outcome, not a file list](#tip-1-1)
-    - [1.2 Be specific](#tip-1-2)
-    - [1.3 Say what to do, not what to avoid](#tip-1-3)
-    - [1.4 Give the reason](#tip-1-4)
-    - [1.5 Specify the output shape](#tip-1-5)
-    - [1.6 Show examples](#tip-1-6)
-    - [1.7 Follow the house style](#tip-1-7)
-    - [1.8 Show, don't tell](#tip-1-8)
-    - [1.9 Invite uncertainty](#tip-1-9)
-    - [1.10 Paste raw errors](#tip-1-10)
-    - [1.11 Constrain scope](#tip-1-11)
-    - [1.12 Narrow the edit surface](#tip-1-12)
-    - [1.13 Dial effort](#tip-1-13)
-    - [1.14 Say it all in your first message](#tip-1-14)
-    - [1.15 Feed high-signal context](#tip-1-15)
-    - [1.16 `/clear` between tasks](#tip-1-16)
-    - [1.17 Steer compaction](#tip-1-17)
-13. [Tier 2 — Plan: Shape and slice the work before you build](#tier-2)
-    - [2.1 Investigate before you edit](#tip-2-1)
-    - [2.2 Plan the uncertain](#tip-2-2)
-    - [2.3 Force an approval checkpoint](#tip-2-3)
-    - [2.4 Ask for options](#tip-2-4)
-    - [2.5 Slice vertically](#tip-2-5)
-    - [2.6 Turn features into a spec](#tip-2-6)
-    - [2.7 Plan smart, build cheap](#tip-2-7)
-    - [2.8 Draft-and-critique the spec](#tip-2-8)
-    - [2.9 Keep secrets out of git and context](#tip-2-9)
-    - [2.10 CLAUDE.md = gotchas + conventions](#tip-2-10)
-    - [2.11 Put occasional knowledge in Skills](#tip-2-11)
-    - [2.12 Add the right MCP servers](#tip-2-12)
-    - [2.13 Use external memory](#tip-2-13)
-14. [Common failure patterns — catch them before they cost you](#common-failure-patterns)
-15. [Tier 3 — Verify: Make the agent prove it's done](#tier-3)
-    - [3.1 Make Definition of Done executable](#tip-3-1)
-    - [3.2 Do TDD](#tip-3-2)
-    - [3.3 Use BDD](#tip-3-3)
-    - [3.4 Test the UI with Playwright MCP](#tip-3-4)
-    - [3.5 Demand evidence](#tip-3-5)
-    - [3.6 Ask for all findings](#tip-3-6)
-    - [3.7 Review with fresh eyes](#tip-3-7)
-    - [3.8 Run a pre-mortem](#tip-3-8)
-    - [3.9 Iterate UI visually](#tip-3-9)
-    - [3.10 Gate on the coverage of *this change*](#tip-3-10)
-    - [3.11 Mutation-test the suite itself](#tip-3-11)
-    - [3.12 Commit every working step](#tip-3-12)
-    - [3.13 Use worktrees for disposable checkpoints](#tip-3-13)
-16. [Tier 4 — Enforce: Write the rules into the harness](#tier-4)
-    - [4.1 Replace "remember to run tests" with a hook](#tip-4-1)
-    - [4.2 Move repetitive engineering into CI](#tip-4-2)
-    - [4.3 Let Claude drive `gh`](#tip-4-3)
-    - [4.4 Turn a repeated correction into a rule](#tip-4-4)
-    - [4.5 Put approvals in rules, not prompts](#tip-4-5)
-17. [Tier 5 — Orchestrate: Run many agents at once](#tier-5)
-    - [The model toolkit — bring in more models (any tier)](#the-model-toolkit--bring-in-more-models-the-multi-model-playbook)
-      - [Assign a model per subagent](#toolkit-model-per-subagent)
-      - [Keep a stronger model on call — the advisor](#toolkit-advisor)
-      - [Keep the fleet alive with fallback chains](#toolkit-fallback)
-      - [Have a different lab review the diff](#toolkit-cross-lab-review)
-    - [5.1 Let it self-orchestrate](#tip-5-1)
-    - [5.2 Use subagents to isolate context](#tip-5-2)
-    - [5.3 Race several agents](#tip-5-3)
-    - [5.4 Decompose into specialist roles](#tip-5-4)
-    - [5.5 Engineer the long-horizon hand-off](#tip-5-5)
-    - [5.6 Steer long runs mid-flight](#tip-5-6)
-    - [5.7 Engineer the environment](#tip-5-7)
-    - [5.8 Use an agent-aware terminal](#tip-5-8)
-    - [5.9 Isolate with worktrees + one session each](#tip-5-9)
-18. [Tier 6 — Supervise: Put agents into production](#tier-6)
-    - [6.1 Host on a box that doesn't sleep](#tip-6-1)
-    - [6.2 Drive the fleet from your phone](#tip-6-2)
-    - [6.3 Secure the agent server](#tip-6-3)
-    - [6.4 Sandbox the loop](#tip-6-4)
-    - [6.5 Gate the plan, not every keystroke](#tip-6-5)
-    - [6.6 Cap the strikes](#tip-6-6)
-    - [6.7 Make the tracker the state machine](#tip-6-7)
-    - [6.8 Certify the evidence, not the diff](#tip-6-8)
-19. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
-20. [Sources](#sources)
-21. [Tip map — old numbers to new](#tip-map)
+5. [Learn the primitives — so the rest of the guide clicks (your building blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
+6. [Coming from the eight tiers?](#coming-from-the-eight-tiers)
+
+**Tier by tier**
+
+7. [Tier 1 — Prompt: Write prompts the agent can act on](#tier-1) · tips 1.1–1.17
+8. [Tier 2 — Plan: Shape and slice the work before you build](#tier-2) · tips 2.1–2.13
+9. [Tier 3 — Verify: Make the agent prove it's done](#tier-3) · tips 3.1–3.13
+10. [Tier 4 — Enforce: Write the rules into the harness](#tier-4) · tips 4.1–4.5
+11. [Tier 5 — Orchestrate: Run many agents at once](#tier-5) · the model toolkit, tips 5.1–5.9
+12. [Tier 6 — Supervise: Put agents into production](#tier-6) · tips 6.1–6.8
+
+**More**
+
+13. [Common failure patterns — catch them before they cost you](#common-failure-patterns)
+14. [Port these habits to any model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
+15. [Audit your harness](#audit-your-harness)
+16. [Goal of this Guide](#goal-of-this-guide)
+17. [Who this is for](#who-this-is-for)
+18. [TL;DR — if you do only five things](#tldr--if-you-do-only-five-things)
+19. [Unlearn the old playbook — so stale advice stops sabotaging you](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
+20. [Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
+21. [Learn this with an agent (the fastest way through)](#learn-this-with-an-agent-the-fastest-way-through)
+22. [Formats of this Guide](#formats-of-this-guide)
+23. [Part of the Agentic Shift System](#part-of-the-agentic-shift-system)
+24. [Tip map — old numbers to new](#tip-map)
+25. [Sources](#sources)
 
 ---
 
-## Learn this with an agent (the fastest way through)
+## The six tiers at a glance
 
-You don't have to read this alone. The same material comes in **four modes** — **read it**, get **tutored** through it, get **coached** while you work, or have your repo **audited** against it. Pick by how hands-on you want to be.
+| Stage | Tier | You stop doing by hand | What you do instead | Pain that pushes you up |
+|---|---|---|---|---|
+| Direct | **T1 Prompt** | — | State the outcome | You re-explain the same things; big asks go sideways |
+| Direct | **T2 Plan** | Explaining the project; steering each step | Decide the plan and the slice | You can't trust the output without reading every line |
+| Trust | **T3 Verify** | Reading every line | Define "done" | You give the same correction again; "remember to run the tests" |
+| Trust | **T4 Enforce** | Reminding and approving | Write the rules | One agent is too slow, or a big build floods its context |
+| Scale | **T5 Orchestrate** | Running agents one by one | Split and coordinate the work | Runs die when you leave; you start every run yourself |
+| Scale | **T6 Supervise** | Starting and watching runs | Certify the evidence; improve the system | — (top) |
 
-### 1) The Guide — `guide.md`
+Three stages, two tiers each — and every tier name is a verb for what you do:
 
-**Read it — old school.** This website (or [`guide.md`](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md)) top to bottom, or jump to the tier your work needs — one ladder of **six tiers, simple → hard**, every tip a concrete **Instead → Prefer** pair (the anti-example, then the fix). No agent required; best when you just want the reference.
-
-### 2) The Tutor — `CLAUDE.md`
-
-Turns Claude Code into an interactive tutor for the Guide: **one small concept at a time** (~7 min each), you do every rep in a scratch repo, and a separate quizmaster checks it stuck before you advance. Clone the repo, open Claude Code in the folder, and say `hi`:
-```shell
-git clone https://github.com/krivitsky/professional-agentic-product-engineering
-cd professional-agentic-product-engineering
-claude        # then type:  hi
-```
-It diagnoses your level and — with your consent — glances at your past prompts (read-only, local, nothing leaves your machine) to tailor every example to *your* stack and habits instead of a generic one. Best when you want to **learn it by doing**.
-
-> "First impressions? Good :) It reads my history and estimates my current level, but is also transparent and asks me for my self assessment. Tell tell sign of quality — right there."
-> — [Magnus Vestin](https://www.linkedin.com/feed/update/urn:li:activity:7477965874549739520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477965874549739520%2C7477975689984442368%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287477975689984442368%2Curn%3Ali%3Aactivity%3A7477965874549739520%29)
-
-### 3) The Coach — `/pape:agentic-coach`
-
-An ambient plugin: install once, then work in Claude Code as usual. It stays silent until it catches a learning moment mid-task, then drops **one nudge linked straight to the fix** — the thinking, not the syntax.
-```shell
-/plugin marketplace add krivitsky/professional-agentic-product-engineering
-/plugin install pape@pape
-/reload-plugins
-```
-Then just work; say `coach me` to ask it directly, or `stop coaching` to silence it. Best when you'd rather learn **in the flow of real work**. *(Needs `jq` on your PATH.)*
-
-### 4) The Audit — `/pape:harness-audit`
-
-Ships with the same plugin. Point it at a repo you actually work in and it reads the harness you've checked in — instructions, tests, hooks, permissions, CI — then rates all six tiers, names the gaps with the evidence for each, and picks **the one next thing to fix**. Best when you want to know **where you stand** before deciding what to learn. See [Audit your harness](#audit-your-harness).
-
-*Harness-agnostic: the repo ships both `CLAUDE.md` and `AGENTS.md`, so any agent that reads them works. No repo handy? Paste this guide into any capable model and tell it to tutor you one concept at a time — Connection → Concept → Concrete practice → Conclusion, tier by tier, not advancing until you pass.*
+| Stage | Tiers | What it gets you |
+|---|---|---|
+| **Direct** | T1 Prompt · T2 Plan | Get the right work |
+| **Trust** | T3 Verify · T4 Enforce | Stop checking it yourself |
+| **Scale** | T5 Orchestrate · T6 Supervise | Stop running it yourself |
 
 ---
 
@@ -197,10 +92,6 @@ Prompting alone is **vibe coding**: you poke the model and hope it converges. It
 An **agentic system** puts the same model inside a *harness*: a **workflow** — the loop it runs — bounded by three constraints. **Guidelines** shape how it should behave, **autotests** give it ground truth from the environment, and **guardrails** are the limits it can't cross. Inside those bounds the model converges on its own, and your attention is freed for what actually matters: growing understanding and driving impact.
 
 That's the whole shift. As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows. [The six tiers](#the-six-tiers-at-a-glance) are that climb: from a single request (T1) to whole loops running autonomously in production (T6). Learn the ladder and the 65 tips fall into place.
-
-> **From operating the model to deciding the outcome: freeing human intelligence, tier by tier.**
->
-> Climb as your skill, your harness and your confidence grow.
 
 Each tier hands one manual chore to the system, and you keep the judgment:
 
@@ -219,69 +110,9 @@ Don't take it on faith — take it from the person who spent two decades telling
 
 *— [Robert C. "Uncle Bob" Martin](https://x.com/unclebobmartin/status/2080257779395154409), July 2026*
 
-**Who's saying it matters as much as what's said.** Uncle Bob is a signatory of the [Agile Manifesto](https://agilemanifesto.org/), the author of *Clean Code* and *Clean Architecture*, the one who named the [SOLID](https://en.wikipedia.org/wiki/SOLID) principles, and for a generation the loudest voice for software craftsmanship and test-driven development. His entire life's work was about the quality of the lines a human writes and *reads*.
+**Who's saying it matters as much as what's said.** Uncle Bob is a signatory of the [Agile Manifesto](https://agilemanifesto.org/), the author of *Clean Code*, and for a generation the loudest voice for software craftsmanship and test-driven development. So when **he** says he no longer reads the code his agents produce — and trusts it anyway — it's the strongest possible version of the Big Idea: **confidence doesn't come from reading the output; it comes from the gauntlet the output has to survive.**
 
-So when **he** says he no longer reads the code his agents produce — and trusts it anyway — this isn't a hype-chaser cheering a trend. It's the strongest possible version of the Big Idea, from the one person you'd least expect to say it: **confidence doesn't come from reading the output; it comes from the gauntlet the output has to survive.**
-
-And look at *what* his gauntlet is made of — unit tests, gherkin/BDD tests, coverage, mutation testing. Those are the craftsmanship disciplines he's preached for twenty years. **Craftsmanship didn't die with agents; it moved** — from the code you hand-write to the *system you build around the model*.
-
-## Audit your harness
-
-[![Left: Uncle Bob's tweet — "My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity." Right: his advice is not to stop reading, but to invest in engineering the harness so it becomes the source of quality and trust — and the PAPE guide's six tiers plus the harness-audit skill are how you tell whether yours is good enough.](assets/harness-audit-banner.png)](https://x.com/unclebobmartin/status/2080257779395154409)
-
-We all saw this powerful yet controversial tweet from Uncle Bob (aka [Robert C. Martin](https://x.com/unclebobmartin/status/2080257779395154409)), the author of *Clean Code*. Let me pause here and explain the depth of this and an interesting development that follows.
-
-When Uncle Bob says "he no longer reads the code his agents write", that is not a recommendation to stop reading code and start being careless. It is a call to **invest in the agent's harness** so you can trust its outputs.
-
-Which leaves the question: how do you know whether your own harness is any good? Where is it strong, where does it leak, and what should you build next?
-
-In response to growing awareness of the need for a guide for Professional Agentic Product Engineering (PAPE), we developed a harness audit skill.
-
-Run **`/pape:harness-audit`** to read the repo's existing agentic setup and generate a detailed 6-tier report based on the PAPE guide. The detailed report (md and html) will explain the strengths and weaknesses of your setup. It will then detail and prioritize the outstanding issues and propose a draft backlog to start fixing them.
-
-Every finding names the file and line it came from and cites the tip behind it. Before a finding ships, a separate agent opens that file and tries to refute it; the report says what got cut.
-
-### It rates the six tiers and names one next step
-
-The report rates each of the [six tiers](#the-six-tiers-at-a-glance) and adds a line explaining the rating. It then walks the tiers from T1 upwards and names the lowest one that does not hold yet. That tier is the recommendation.
-
-The reason is the ladder itself: each tier builds on the ones below, so a weak lower tier limits what the ones above it can do. Hardening CI while nothing tells the agent what "done" means is work on a tier that cannot hold.
-
-> *"T1 and T2 hold, so the next lever is T3. T4 and T5 are weak too, but both rest on T3, so it goes first."*
-
-Where a tier does not apply — nothing runs unattended, so there is nothing to supervise — the report says what that tier depends on instead of counting it as a gap. This guide's advice is to climb only as far as your work needs, and the audit follows it.
-
-### What the report contains
-
-Two files per run, written to `harness-audits/` — one for you, one for an agent picking up where the audit stopped. The human report runs in this order, decisions first and evidence last:
-
-| § | Section | What it's for |
-|---|---|---|
-| 1 | **Scorecard** | The six tiers rated, what's genuinely good, and the next lever. The only section that says several findings are really *one* thing. |
-| 2 | **Issues Summary** | Severity counts, then one table: ID, finding, tier, severity, confidence. The whole audit at a glance. |
-| 3 | **Recommended backlog** | One flat ranked list — worst first, and within each severity the lower tier first, so a High on T3 goes before a High on T5. |
-| 4 | **Trend** | What changed since the last run: fixed, still open, newly found, or withdrawn because the earlier finding didn't hold. |
-| 5 | **Observations** | Things worth knowing that need no response. Explicitly labelled as such. |
-| 6 | **Method and limits** | What was read, what was looked for and absent, what this method cannot see at all, and the questions left open. |
-| 7 | **Issues** | The long appendix — every finding with its evidence, its cited tip, and two proposed fixes. Last, because every reference to it is a link. |
-
-Commit the folder. The second run compares itself against the first, so §4 tells you what actually moved rather than what you meant to do.
-
-### Install and run it
-
-```
-/plugin marketplace add krivitsky/professional-agentic-product-engineering
-/plugin install pape@pape
-/reload-plugins
-```
-
-Then, in any repo you work in:
-
-```
-/pape:harness-audit
-```
-
-It asks how deep to go and what output you want, then writes the two files when it's done. It is read-only apart from those files: it never edits your code, runs your tests, or touches git.
+And look at *what* his gauntlet is made of — unit tests, gherkin/BDD tests, coverage, mutation testing. **Craftsmanship didn't die with agents; it moved** — from the code you hand-write to the *system you build around the model*.
 
 ## Loops of Agentic Engineering
 
@@ -303,62 +134,13 @@ The system you build around the model isn't a line — it's **three nested loops
 
 Six tiers, three loops: climbing the ladder is how you build the loops up.
 
-## The six tiers at a glance
-
-Three stages, two tiers each — and every tier name is a verb for what you do:
-
-| Stage | Tiers | What it gets you |
-|---|---|---|
-| **Direct** | T1 Prompt · T2 Plan | Get the right work |
-| **Trust** | T3 Verify · T4 Enforce | Stop checking it yourself |
-| **Scale** | T5 Orchestrate · T6 Supervise | Stop running it yourself |
-
-| Stage | Tier | You stop doing by hand | What you do instead | Pain that pushes you up |
-|---|---|---|---|---|
-| Direct | **T1 Prompt** | — | State the outcome | You re-explain the same things; big asks go sideways |
-| Direct | **T2 Plan** | Explaining the project; steering each step | Decide the plan and the slice | You can't trust the output without reading every line |
-| Trust | **T3 Verify** | Reading every line | Define "done" | You give the same correction again; "remember to run the tests" |
-| Trust | **T4 Enforce** | Reminding and approving | Write the rules | One agent is too slow, or a big build floods its context |
-| Scale | **T5 Orchestrate** | Running agents one by one | Split and coordinate the work | Runs die when you leave; you start every run yourself |
-| Scale | **T6 Supervise** | Starting and watching runs | Certify the evidence; improve the system | — (top) |
-
-Climb only as high as your work demands.
-
-### Coming from the eight tiers?
-
-Every old tip kept its words and has a new home, and three tips are new. The [tip map](#tip-map) at the end lists every old tip number next to its new one.
-
-| Old tier | New tier | Why it moved |
-|---|---|---|
-| T1 Professional Prompting | **T1 Prompt** | Renamed; also takes context hygiene from old T3 |
-| T2 Shaping & Slicing | **T2 Plan** | Renamed; also takes knowledge encoding from old T3 |
-| T3 Context Management | **T1 Prompt** + **T2 Plan** | Split: hygiene (the active window) → Prompt; knowledge (CLAUDE.md, Skills, MCP, memory) → Plan |
-| T4 Loop Until Done | **T3 Verify** | Renamed; also takes checkpointing from old T5 |
-| T5 Checkpointing & Hardening | **T3 Verify** + **T4 Enforce** | Split: checkpointing → Verify; hardening (hooks, CI, `gh`) → Enforce |
-| T6 Orchestration | **T5 Orchestrate** | Renamed; also takes the parallel half of old T7 |
-| T7 Fleet Ops | **T5 Orchestrate** + **T6 Supervise** | Split: parallel (terminal, a worktree per agent) → Orchestrate; always-on (box, phone, server) → Supervise |
-| T8 Agent Execution Layer | **T6 Supervise** | Joined by old T7's always-on runs: from your box to the team's system |
-
 ## Climb the six tiers — to spend effort only where your work needs it
 
 This guide is one ladder: **six tiers, simple → hard.** A tier is a level of skill *and* a level of where you're applying effort.
 
-As you climb, the work shifts from **wording the prompt** to **engineering the system around the model** — prompts shrink, the system carries the intelligence.
+Climb as your skill, your harness and your confidence grow. Climb only as high as your work demands.
 
-You don't need all six. Climb until the agent is as reliable as the work demands, then stop.
-
-The trick is knowing *what pushes you to the next tier* — it's always a specific pain, not ambition. When you feel the pain in the right column, you're ready for the next tier.
-
-| Tier | What you work on | Level it applies at | What pushes you up |
-|---|---|---|---|
-| **T1 — Prompt** | The single request, and the window it lands in | One message | Big asks go sideways; it edits the wrong things or tries to do everything in one pass. You re-explain the same conventions every session; it can't see your DB/browser/docs |
-| **T2 — Plan** | The task before you start, and the project the agent sees | One task · the repo | You can't trust the output without reading every line; "done" means nothing concrete |
-| **T3 — Verify** | A "done" the agent can check itself, and a checkpoint at every green step | The task, automated | You give the same correction again; your prompt still says "remember to run the tests" |
-| **T4 — Enforce** | Rules and checks the harness runs for you | Every session, every push | One agent is too slow or floods its context; the build is too big for one pass |
-| **T5 — Orchestrate** | Many agents, long horizons | Multi-step / multi-agent | Runs die when your laptop sleeps; you start every run yourself; the team needs agents to pick up tickets and open PRs without anyone babysitting a terminal |
-| **T6 — Supervise** | Agents as async workers, and the evidence they return | Your machines · your org / production | — the top of the ladder |
-
-**Read the right column as a diagnostic:** find the pain you're feeling now — the next tier down the table is the one that fixes it. Climb there, then stop. Each tier exists to kill a specific failure of the one below it.
+The trick is knowing *what pushes you to the next tier* — it's always a specific pain, not ambition. **Read the pain column of [the six tiers at a glance](#the-six-tiers-at-a-glance) as a diagnostic:** find the pain you're feeling now — the next tier is the one that fixes it. Climb there, then stop. Each tier exists to kill a specific failure of the one below it.
 
 The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against a clear, testable standard, inside a real repo you own.
 
@@ -371,54 +153,6 @@ Match the job to a target tier and stop there — climbing higher than the work 
 | A landing page, throwaway script, or one-off for yourself | **Tier 1–2** — or skip the agent and use a [one-shot builder](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder) (Lovable/v0/Bolt) | Low stakes, short-lived. A clear prompt is enough; you don't need tests, git discipline, or a loop |
 | A feature in a side project you intend to keep | **Tier 1–3** | Now correctness matters over time — you want a verify loop and checkpoints so it doesn't rot |
 | Production code in a shared team repo | **Tier 1–4**, reaching into **5–6** as scale demands | Multiple people, real consequences. Context engineering, git hygiene, and review become non-negotiable; orchestration and a hosted execution layer follow when one agent or one machine isn't enough |
-
----
-
-## Who this is for
-- **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
-- **Product managers** closing the tech gap — ship real changes, not just specs.
-- **Senior leaders** who want real hands-on experience, not slideware.
-- **Non-IT professionals** entering product development in the age of AI.
-
-## TL;DR — if you do only five things
-1. **Be specific and positive.** Name files, constraints, and the pattern to follow; say what to *do*, not what to avoid.
-2. **Give the agent an executable Definition of Done.** Tests/lint/typecheck as commands — that's the loop's exit condition.
-3. **Plan before you edit; slice the work thin.** Investigate → approve a plan → one vertical slice at a time.
-4. **Commit on every green step.** Each commit is a checkpoint the loop can revert to.
-5. **Engineer the environment, not the prompt.** CLAUDE.md, Skills, hooks, MCP, CI carry the intelligence.
-
-## Unlearn the old playbook — so stale advice stops sabotaging you
-
-Before frontier models, prompting was a craft of *coaxing*. Most moves that worked then backfire now. Worth knowing, because half the advice still circulating is from this era.
-
-| The old move | Why it worked then | What to do now |
-|---|---|---|
-| **Magic thinking words** — "think", "think hard", "ultrathink" | They mapped to literal reasoning-token budgets (ultrathink ≈ 32k) | Adaptive thinking + effort settings; current frontier models default to *high*. Use `/effort`; reserve `ultrathink` for one hard turn |
-| **Anti-laziness pep talks** — "Don't hold back. Give it your all. Go above and beyond." | Older models under-delivered without a push | Newer models *over-trigger* and over-engineer. Push thoroughness **down**; scope tight |
-| **Negative constraints** — "Don't use X" | Models were loose enough to need fencing | Literal instruction-following makes negations backfire. Say what to **do** |
-| **Context babysitting** — cram everything under 200k, trim obsessively | Context was scarce and precious | 1M is the default; manage by **signal**, not a percentage (rot is still real) |
-| **"Be conservative" reviews** | Kept review noise down | Current models obey and **suppress real findings**. Ask for everything, severity-labeled |
-| **Turn-by-turn steering** | Models lost the thread fast | Multi-turn costs more and the model rewards autonomy. **Front-load** the brief |
-| **Manual subagent choreography** | The only way to parallelize | It can **self-orchestrate** parallel subagents now. Give it the goal + the bar |
-
-The throughline: you used to *push the model to do more*. Now you *constrain it to do exactly the right thing*, and move your effort to the system around it.
-
----
-
-## Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)
-
-Know what kind of tool you're holding. Two families:
-
-- **One-shot app builders** — Lovable, Bolt, v0, Replit, Base44. Describe an app in a text box; they generate a full stack (often React + Supabase) and deploy to a URL, managing the infra for you. The loop is fast and addictive — superb for blank-canvas prototypes, MVPs, and non-technical founders. (Several run on Claude under the hood; Lovable is a scaffolding/deploy *layer* on the same intelligence.)
-- **Coding agents** — Claude Code (also Codex, opencode, Cursor). A terminal-native agent that works inside your *real repo* — your git, tools, tests, stack. No capability ceiling, you own the code, it makes **targeted diffs** (not full-file rewrites), runs commands, opens PRs.
-
-The dividing line is **prototype vs production** and **code ownership**. One-shot builders handle standard forms-and-database apps well, but may stall on custom logic, odd integrations, or any architecture off their template; apps that outgrow them are **rebuilt, not refactored**. And moving an app out of the vendor's walls onto your own stack — your git, your database, your deployment — is eventually the same engineering you'd have taken on by starting on the coding-agent path. You don't avoid that work. You defer it, and pay it later with a running product on the line.
-
-A coding agent has the higher ceiling but demands engineering discipline (git, tests, architecture) in return.
-
-The pragmatic play: prototype on a one-shot builder to validate, then rebuild on Claude Code once it has traction — or start in Claude Code if you're technical and it's meant to live in production. **This guide is about the second mode**: owning and operating the process, the result, and full understanding of both — not shipping a demo.
-
----
 
 ## Learn the primitives — so the rest of the guide clicks (your building blocks)
 
@@ -440,6 +174,21 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 *Most of these are files you commit. The central config is **`.claude/settings.json`** (precedence: managed › CLI args › local › project › user) — it's where `permissions`, `hooks`, `mcpServers`, `model`, and inline `agents` can all be declared. A **plugin** is just a pre-packaged set of these files, so a teammate runs `/plugin install` on day one and inherits your whole setup.*
 
 *Each primitive's full anatomy — the frontmatter, a worked example, when to reach for it — lands in the tier that uses it: [Skills](#tip-2-11) and [MCP servers](#tip-2-12) in Tier 2, [hooks](#tier-4) in Tier 4, [subagents](#tier-5) in Tier 5.*
+
+## Coming from the eight tiers?
+
+Every old tip kept its words and has a new home, and three tips are new. The [tip map](#tip-map) at the end lists every old tip number next to its new one.
+
+| Old tier | New tier | Why it moved |
+|---|---|---|
+| T1 Professional Prompting | **T1 Prompt** | Renamed; also takes context hygiene from old T3 |
+| T2 Shaping & Slicing | **T2 Plan** | Renamed; also takes knowledge encoding from old T3 |
+| T3 Context Management | **T1 Prompt** + **T2 Plan** | Split: hygiene (the active window) → Prompt; knowledge (CLAUDE.md, Skills, MCP, memory) → Plan |
+| T4 Loop Until Done | **T3 Verify** | Renamed; also takes checkpointing from old T5 |
+| T5 Checkpointing & Hardening | **T3 Verify** + **T4 Enforce** | Split: checkpointing → Verify; hardening (hooks, CI, `gh`) → Enforce |
+| T6 Orchestration | **T5 Orchestrate** | Renamed; also takes the parallel half of old T7 |
+| T7 Fleet Ops | **T5 Orchestrate** + **T6 Supervise** | Split: parallel (terminal, a worktree per agent) → Orchestrate; always-on (box, phone, server) → Supervise |
+| T8 Agent Execution Layer | **T6 Supervise** | Joined by old T7's always-on runs: from your box to the team's system |
 
 ---
 
@@ -757,36 +506,6 @@ Or commit `.mcp.json` to the repo root:
 > **Prefer:** write `STATUS.md` at session end; reload it at the next session's start.
 
 *Tier 5 scales this into a full hand-off protocol for multi-session builds — [Tip 5.5](#tip-5-5).*
-
----
-
-<a id="common-failure-patterns"></a>
-## Common failure patterns — catch them before they cost you
-
-The coach plugin catches these in real time. The table is the fast index; each "Tip T.N" links to the full Instead/Prefer in the guide.
-
-| The habit | The fix | Tip |
-|---|---|---|
-| Handing the agent a file list ("create these 15 files…") | Hand over the *outcome* + constraints, not a file list | [Tip 1.1](#tip-1-1) |
-| Writing a vague ask ("clean up", "improve", "make it work") | Be specific — name the symbol/file/change | [Tip 1.2](#tip-1-2) |
-| Phrasing it as "don't do X" | Say what *to do*, not what to avoid | [Tip 1.3](#tip-1-3) |
-| Giving a rule with no reason | Add the *why* — motivation makes it generalize | [Tip 1.4](#tip-1-4) |
-| Describing a bug or layout issue in prose | Show, don't tell — paste the screenshot + `@Component.tsx`; pipe raw logs straight in | [Tip 1.8](#tip-1-8) |
-| Begging "think hard / ultrathink" everywhere | Dial effort instead; reserve ultrathink for one hard turn | [Tip 1.13](#tip-1-13) |
-| Firing a one-liner and steering the whole task turn by turn | Say it all in your first message — one complete brief beats ten corrections | [Tip 1.14](#tip-1-14) |
-| Dumping the whole repo / huge context | Feed high-signal context, not everything | [Tip 1.15](#tip-1-15) |
-| Re-fixing the same bug over and over in one session | `/clear` and rewrite the opening prompt | [Tip 1.16](#tip-1-16) |
-| Jumping straight to code in unfamiliar areas | Investigate first (read-only), *then* edit | [Tip 2.1](#tip-2-1) |
-| Letting the agent touch many files unsupervised | Force an approval checkpoint + blast radius | [Tip 2.3](#tip-2-3) |
-| Asking for one big feature in one pass | Slice vertically — thin end-to-end increments | [Tip 2.5](#tip-2-5) |
-| Keeping secrets/keys in the repo, or pasting a key | Keep secrets out of git and context (`.env` + gitignore) | [Tip 2.9](#tip-2-9) |
-| Re-explaining the same conventions each session | Put them in CLAUDE.md | [Tip 2.10](#tip-2-10) |
-| Working with no checkable "done" | Make the Definition of Done executable | [Tip 3.1](#tip-3-1) |
-| Implementing without a failing test first | Do TDD — failing test first; don't edit tests to pass | [Tip 3.2](#tip-3-2) |
-| Accepting "done, it works" with no proof | Demand evidence — the test command + its output | [Tip 3.5](#tip-3-5) |
-| Asking for a "conservative" review | Ask for *all* findings, severity-labeled — a conservative prompt suppresses real ones | [Tip 3.6](#tip-3-6) |
-| Running long work that loses progress | Commit every green step — checkpoints to revert to | [Tip 3.12](#tip-3-12) |
-| Putting one agent on a huge audit/refactor | Let it self-orchestrate parallel subagents | [Tip 5.1](#tip-5-1) |
 
 ---
 
@@ -1481,6 +1200,34 @@ Start with one managed loop (PR review), prove it, then expand. This is the top 
 
 ---
 
+<a id="common-failure-patterns"></a>
+## Common failure patterns — catch them before they cost you
+
+The coach plugin catches these in real time. The table is the fast index; each "Tip T.N" links to the full Instead/Prefer in the guide.
+
+| The habit | The fix | Tip |
+|---|---|---|
+| Handing the agent a file list ("create these 15 files…") | Hand over the *outcome* + constraints, not a file list | [Tip 1.1](#tip-1-1) |
+| Writing a vague ask ("clean up", "improve", "make it work") | Be specific — name the symbol/file/change | [Tip 1.2](#tip-1-2) |
+| Phrasing it as "don't do X" | Say what *to do*, not what to avoid | [Tip 1.3](#tip-1-3) |
+| Giving a rule with no reason | Add the *why* — motivation makes it generalize | [Tip 1.4](#tip-1-4) |
+| Describing a bug or layout issue in prose | Show, don't tell — paste the screenshot + `@Component.tsx`; pipe raw logs straight in | [Tip 1.8](#tip-1-8) |
+| Begging "think hard / ultrathink" everywhere | Dial effort instead; reserve ultrathink for one hard turn | [Tip 1.13](#tip-1-13) |
+| Firing a one-liner and steering the whole task turn by turn | Say it all in your first message — one complete brief beats ten corrections | [Tip 1.14](#tip-1-14) |
+| Dumping the whole repo / huge context | Feed high-signal context, not everything | [Tip 1.15](#tip-1-15) |
+| Re-fixing the same bug over and over in one session | `/clear` and rewrite the opening prompt | [Tip 1.16](#tip-1-16) |
+| Jumping straight to code in unfamiliar areas | Investigate first (read-only), *then* edit | [Tip 2.1](#tip-2-1) |
+| Letting the agent touch many files unsupervised | Force an approval checkpoint + blast radius | [Tip 2.3](#tip-2-3) |
+| Asking for one big feature in one pass | Slice vertically — thin end-to-end increments | [Tip 2.5](#tip-2-5) |
+| Keeping secrets/keys in the repo, or pasting a key | Keep secrets out of git and context (`.env` + gitignore) | [Tip 2.9](#tip-2-9) |
+| Re-explaining the same conventions each session | Put them in CLAUDE.md | [Tip 2.10](#tip-2-10) |
+| Working with no checkable "done" | Make the Definition of Done executable | [Tip 3.1](#tip-3-1) |
+| Implementing without a failing test first | Do TDD — failing test first; don't edit tests to pass | [Tip 3.2](#tip-3-2) |
+| Accepting "done, it works" with no proof | Demand evidence — the test command + its output | [Tip 3.5](#tip-3-5) |
+| Asking for a "conservative" review | Ask for *all* findings, severity-labeled — a conservative prompt suppresses real ones | [Tip 3.6](#tip-3-6) |
+| Running long work that loses progress | Commit every green step — checkpoints to revert to | [Tip 3.12](#tip-3-12) |
+| Putting one agent on a huge audit/refactor | Let it self-orchestrate parallel subagents | [Tip 5.1](#tip-5-1) |
+
 ## Port these habits to any model, so this outlasts today's models (Opus / GPT / Gemini)
 
 Frontier models are converging on the same traits — so these habits transfer even as the model underneath changes. Four traits, and the habit each one rewards:
@@ -1494,22 +1241,188 @@ The *mechanisms* here — `/effort`, `ultracode`, dynamic workflows, hooks, CLAU
 
 ---
 
-## Sources
+## Audit your harness
 
-- Anthropic — [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), [Prompting Claude Opus 4.8](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8), [Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8); [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices); [Create custom subagents](https://code.claude.com/docs/en/sub-agents) & [Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) docs; [Automate actions with hooks](https://code.claude.com/docs/en/hooks-guide); [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents); [How we contain Claude across products](https://www.anthropic.com/research/how-we-contain-claude) (permission-prompt approval rates); [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents); [Writing effective tools for AI agents](https://www.anthropic.com/engineering/writing-tools-for-agents); [Claude Code GitHub Action](https://code.claude.com/docs/en/github-actions)
-- Multi-model — Anthropic [The advisor strategy](https://claude.com/blog/the-advisor-strategy) (+2.7pt / −11.9% cost) & Claude Code [model-config/advisor docs](https://code.claude.com/docs/en/model-config); `opusplan` write-ups; Aider architect/editor benchmark; cross-lab review reports (charlesjones.dev, dev.to, Milvus model-debate); MoA (Wang et al. 2406.04692) vs Self-MoA (Li et al. 2502.00674); Sakana AB-MCTS; GitHub Agent HQ; `johannesjo/parallel-code`
-- OpenRouter routing — OpenRouter *Claude Code integration* + *Anthropic Skin* docs/blog; Morph, TokenMix, mykolaaleksandrov.dev setup guides; `musistudio/claude-code-router`
-- Agents vs one-shot builders — Claude Code vs Lovable/Bolt/v0/Replit/Base44 comparisons (lowcode.agency, builder.io, buildthisnow, nxcode, 2026)
-- Playwright MCP (`@playwright/mcp`, Microsoft) — official docs; Builder.io & qaskills setup guides
-- BDD/specs — AutomationPanda *gherkin-guidelines-for-ai*; *ATDD with AI*; *Spec-Driven Development* (Fowler; arXiv 2602.00180; BCMS 2026 guide)
-- Vertical slicing — CODE Magazine *AI-Assisted Greenfield Dev: Vertical Slices*
-- "Vibe coding vs agentic system" figure — original concept by [Denis Turkov](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj); this rendition by Alexey Krivitsky
-- Terminal & session ops — Warp Agents docs (vertical tabs, notifications, code review, Oz orchestration); *Run many Claude Code sessions in parallel* (Towards Data Science); Claude Code-on-VPS + tmux guides (claudefa.st, virtua.cloud, codeongrass, Medium); Claude Code remote-session feature request (#13613)
-- Agent Execution Layer — Northflank & Modal enterprise-deployment + sandbox guides; E2B/Modal/Daytona sandbox comparison (AgentMarketCap); [Linear — teaching an agent to auto-fix bugs](https://linear.app/now/linear-agent-bug-fix) + changelog (cloud coding sessions); Cyrus + Hookdeck (Claude Code as a Linear agent); daily.dev *Huginn* Linear coding agent; Claude Code GitHub Actions + GitHub *Agent HQ*; `ai-boost/awesome-harness-engineering`
-- Pilot-to-production stats — [IDC/Lenovo CIO Playbook 2025, via CIO.com](https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html) (88% of AI POCs); [Gartner, June 2025](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) (40%+ of agentic AI projects canceled by 2027)
-- Effort / `ultracode` / dynamic workflows — Claude Code model-config docs + 2026 guides (claudefa.st, stacknotice)
-- DataCamp *Claude Code Best Practices*; rosmur 12-source synthesis; stevekinney AI-dev course; Addy Osmani *Agent Harness Engineering*; Viv Trivedy *Anatomy of an Agent Harness*
-- Methodologies to study: Superpowers, Spec Kit, BMAD-METHOD, OpenSpec · Directories: `awesome-claude-code`, Playwright MCP
+[![Left: Uncle Bob's tweet — "My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity." Right: his advice is not to stop reading, but to invest in engineering the harness so it becomes the source of quality and trust — and the PAPE guide's six tiers plus the harness-audit skill are how you tell whether yours is good enough.](assets/harness-audit-banner.png)](https://x.com/unclebobmartin/status/2080257779395154409)
+
+We all saw this powerful yet controversial tweet from Uncle Bob (aka [Robert C. Martin](https://x.com/unclebobmartin/status/2080257779395154409)), the author of *Clean Code*. Let me pause here and explain the depth of this and an interesting development that follows.
+
+When Uncle Bob says "he no longer reads the code his agents write", that is not a recommendation to stop reading code and start being careless. It is a call to **invest in the agent's harness** so you can trust its outputs.
+
+Which leaves the question: how do you know whether your own harness is any good? Where is it strong, where does it leak, and what should you build next?
+
+In response to growing awareness of the need for a guide for Professional Agentic Product Engineering (PAPE), we developed a harness audit skill.
+
+Run **`/pape:harness-audit`** to read the repo's existing agentic setup and generate a detailed 6-tier report based on the PAPE guide. The detailed report (md and html) will explain the strengths and weaknesses of your setup. It will then detail and prioritize the outstanding issues and propose a draft backlog to start fixing them.
+
+Every finding names the file and line it came from and cites the tip behind it. Before a finding ships, a separate agent opens that file and tries to refute it; the report says what got cut.
+
+### It rates the six tiers and names one next step
+
+The report rates each of the [six tiers](#the-six-tiers-at-a-glance) and adds a line explaining the rating. It then walks the tiers from T1 upwards and names the lowest one that does not hold yet. That tier is the recommendation.
+
+The reason is the ladder itself: each tier builds on the ones below, so a weak lower tier limits what the ones above it can do. Hardening CI while nothing tells the agent what "done" means is work on a tier that cannot hold.
+
+> *"T1 and T2 hold, so the next lever is T3. T4 and T5 are weak too, but both rest on T3, so it goes first."*
+
+Where a tier does not apply — nothing runs unattended, so there is nothing to supervise — the report says what that tier depends on instead of counting it as a gap. This guide's advice is to climb only as far as your work needs, and the audit follows it.
+
+### What the report contains
+
+Two files per run, written to `harness-audits/` — one for you, one for an agent picking up where the audit stopped. The human report runs in this order, decisions first and evidence last:
+
+| § | Section | What it's for |
+|---|---|---|
+| 1 | **Scorecard** | The six tiers rated, what's genuinely good, and the next lever. The only section that says several findings are really *one* thing. |
+| 2 | **Issues Summary** | Severity counts, then one table: ID, finding, tier, severity, confidence. The whole audit at a glance. |
+| 3 | **Recommended backlog** | One flat ranked list — worst first, and within each severity the lower tier first, so a High on T3 goes before a High on T5. |
+| 4 | **Trend** | What changed since the last run: fixed, still open, newly found, or withdrawn because the earlier finding didn't hold. |
+| 5 | **Observations** | Things worth knowing that need no response. Explicitly labelled as such. |
+| 6 | **Method and limits** | What was read, what was looked for and absent, what this method cannot see at all, and the questions left open. |
+| 7 | **Issues** | The long appendix — every finding with its evidence, its cited tip, and two proposed fixes. Last, because every reference to it is a link. |
+
+Commit the folder. The second run compares itself against the first, so §4 tells you what actually moved rather than what you meant to do.
+
+### Install and run it
+
+```
+/plugin marketplace add krivitsky/professional-agentic-product-engineering
+/plugin install pape@pape
+/reload-plugins
+```
+
+Then, in any repo you work in:
+
+```
+/pape:harness-audit
+```
+
+It asks how deep to go and what output you want, then writes the two files when it's done. It is read-only apart from those files: it never edits your code, runs your tests, or touches git.
+
+## Goal of this Guide
+
+<div class="testimonial testimonial-lead">
+<p>&ldquo;The purpose of knowledge is action, not knowledge.&rdquo;</p>
+<span class="testimonial-cite">— Aristotle</span>
+</div>
+
+> *Agentic engineering is a profession, not a prompt.*
+
+Get **professionally good** at operating coding agents to create new software and work on real codebases. The work spans the full range: from "fix bug xyz" all the way to autonomous engineering loops running in production.
+
+Why this is now its own profession, not just a knack for prompting:
+
+- **The bottleneck moved.** The scarce skill is no longer typing code — it's specifying the work, bounding the agent, and verifying the result. Different muscles than classic coding.
+- **Leverage cuts both ways.** An agent ships a week of work in a day — and ships bugs just as fast. Method is what turns raw speed into shippable output instead of slop.
+- **Trust has to be engineered.** You can't read every line an agent writes at this volume. Confidence comes from the system around it — tests, guardrails, review loops — not from watching it work.
+- **It compounds.** A prompt is a one-off; a harness you build once keeps paying out across every task and every teammate.
+
+Throughout this guide, Claude Code is the running example because it's the most widely used agentic coding harness as of July 2026 — but the principles and practices carry across harnesses and labs. Calibrated for the current frontier class — **Opus 4.8+, GPT-5.5-class+, Gemini 3.x+** — the habits are built to outlast any single model or tool; see [Port these habits to any model](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini).
+
+<div class="testimonial">
+<p>&ldquo;Nice! Thank you for the compact guide where all the basics are in one place.&rdquo;</p>
+<span class="testimonial-cite">— <a href="https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29">Michal Svoboda</a>, Security &amp; Engineering Mentor</span>
+</div>
+
+## Who this is for
+- **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
+- **Product managers** closing the tech gap — ship real changes, not just specs.
+- **Senior leaders** who want real hands-on experience, not slideware.
+- **Non-IT professionals** entering product development in the age of AI.
+
+## TL;DR — if you do only five things
+1. **Be specific and positive.** Name files, constraints, and the pattern to follow; say what to *do*, not what to avoid.
+2. **Give the agent an executable Definition of Done.** Tests/lint/typecheck as commands — that's the loop's exit condition.
+3. **Plan before you edit; slice the work thin.** Investigate → approve a plan → one vertical slice at a time.
+4. **Commit on every green step.** Each commit is a checkpoint the loop can revert to.
+5. **Engineer the environment, not the prompt.** CLAUDE.md, Skills, hooks, MCP, CI carry the intelligence.
+
+## Unlearn the old playbook — so stale advice stops sabotaging you
+
+Before frontier models, prompting was a craft of *coaxing*. Most moves that worked then backfire now. Worth knowing, because half the advice still circulating is from this era.
+
+| The old move | Why it worked then | What to do now |
+|---|---|---|
+| **Magic thinking words** — "think", "think hard", "ultrathink" | They mapped to literal reasoning-token budgets (ultrathink ≈ 32k) | Adaptive thinking + effort settings; current frontier models default to *high*. Use `/effort`; reserve `ultrathink` for one hard turn |
+| **Anti-laziness pep talks** — "Don't hold back. Give it your all. Go above and beyond." | Older models under-delivered without a push | Newer models *over-trigger* and over-engineer. Push thoroughness **down**; scope tight |
+| **Negative constraints** — "Don't use X" | Models were loose enough to need fencing | Literal instruction-following makes negations backfire. Say what to **do** |
+| **Context babysitting** — cram everything under 200k, trim obsessively | Context was scarce and precious | 1M is the default; manage by **signal**, not a percentage (rot is still real) |
+| **"Be conservative" reviews** | Kept review noise down | Current models obey and **suppress real findings**. Ask for everything, severity-labeled |
+| **Turn-by-turn steering** | Models lost the thread fast | Multi-turn costs more and the model rewards autonomy. **Front-load** the brief |
+| **Manual subagent choreography** | The only way to parallelize | It can **self-orchestrate** parallel subagents now. Give it the goal + the bar |
+
+The throughline: you used to *push the model to do more*. Now you *constrain it to do exactly the right thing*, and move your effort to the system around it.
+
+## Pick the right tool — so you don't build production on a prototype engine (agent vs one-shot builder)
+
+Know what kind of tool you're holding. Two families:
+
+- **One-shot app builders** — Lovable, Bolt, v0, Replit, Base44. Describe an app in a text box; they generate a full stack (often React + Supabase) and deploy to a URL, managing the infra for you. The loop is fast and addictive — superb for blank-canvas prototypes, MVPs, and non-technical founders. (Several run on Claude under the hood; Lovable is a scaffolding/deploy *layer* on the same intelligence.)
+- **Coding agents** — Claude Code (also Codex, opencode, Cursor). A terminal-native agent that works inside your *real repo* — your git, tools, tests, stack. No capability ceiling, you own the code, it makes **targeted diffs** (not full-file rewrites), runs commands, opens PRs.
+
+The dividing line is **prototype vs production** and **code ownership**. One-shot builders handle standard forms-and-database apps well, but may stall on custom logic, odd integrations, or any architecture off their template; apps that outgrow them are **rebuilt, not refactored**. And moving an app out of the vendor's walls onto your own stack — your git, your database, your deployment — is eventually the same engineering you'd have taken on by starting on the coding-agent path. You don't avoid that work. You defer it, and pay it later with a running product on the line.
+
+A coding agent has the higher ceiling but demands engineering discipline (git, tests, architecture) in return.
+
+The pragmatic play: prototype on a one-shot builder to validate, then rebuild on Claude Code once it has traction — or start in Claude Code if you're technical and it's meant to live in production. **This guide is about the second mode**: owning and operating the process, the result, and full understanding of both — not shipping a demo.
+
+## Learn this with an agent (the fastest way through)
+
+You don't have to read this alone. The same material comes in **four modes** — **read it**, get **tutored** through it, get **coached** while you work, or have your repo **audited** against it. Pick by how hands-on you want to be.
+
+### 1) The Guide — `guide.md`
+
+**Read it — old school.** This website (or [`guide.md`](https://github.com/krivitsky/professional-agentic-product-engineering/blob/main/guide.md)) top to bottom, or jump to the tier your work needs — one ladder of **six tiers, simple → hard**, every tip a concrete **Instead → Prefer** pair (the anti-example, then the fix). No agent required; best when you just want the reference.
+
+### 2) The Tutor — `CLAUDE.md`
+
+Turns Claude Code into an interactive tutor for the Guide: **one small concept at a time** (~7 min each), you do every rep in a scratch repo, and a separate quizmaster checks it stuck before you advance. Clone the repo, open Claude Code in the folder, and say `hi`:
+```shell
+git clone https://github.com/krivitsky/professional-agentic-product-engineering
+cd professional-agentic-product-engineering
+claude        # then type:  hi
+```
+It diagnoses your level and — with your consent — glances at your past prompts (read-only, local, nothing leaves your machine) to tailor every example to *your* stack and habits instead of a generic one. Best when you want to **learn it by doing**.
+
+> "First impressions? Good :) It reads my history and estimates my current level, but is also transparent and asks me for my self assessment. Tell tell sign of quality — right there."
+> — [Magnus Vestin](https://www.linkedin.com/feed/update/urn:li:activity:7477965874549739520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477965874549739520%2C7477975689984442368%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287477975689984442368%2Curn%3Ali%3Aactivity%3A7477965874549739520%29)
+
+### 3) The Coach — `/pape:agentic-coach`
+
+An ambient plugin: install once, then work in Claude Code as usual. It stays silent until it catches a learning moment mid-task, then drops **one nudge linked straight to the fix** — the thinking, not the syntax.
+```shell
+/plugin marketplace add krivitsky/professional-agentic-product-engineering
+/plugin install pape@pape
+/reload-plugins
+```
+Then just work; say `coach me` to ask it directly, or `stop coaching` to silence it. Best when you'd rather learn **in the flow of real work**. *(Needs `jq` on your PATH.)*
+
+### 4) The Audit — `/pape:harness-audit`
+
+Ships with the same plugin. Point it at a repo you actually work in and it reads the harness you've checked in — instructions, tests, hooks, permissions, CI — then rates all six tiers, names the gaps with the evidence for each, and picks **the one next thing to fix**. Best when you want to know **where you stand** before deciding what to learn. See [Audit your harness](#audit-your-harness).
+
+*Harness-agnostic: the repo ships both `CLAUDE.md` and `AGENTS.md`, so any agent that reads them works. No repo handy? Paste this guide into any capable model and tell it to tutor you one concept at a time — Connection → Concept → Concrete practice → Conclusion, tier by tier, not advancing until you pass.*
+
+## Formats of this Guide
+
+Read it in whichever form fits how you work — all four stay in sync with this repo:
+
+- **📄 Markdown** — [`guide.md`](guide.md) in this repo. The canonical source; everything else is generated from it. Best for reading in your editor, feeding to an agent, or sending a PR.
+- **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts from this repo.
+- **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into linked pages — one per tier, concept, and entity — cross-referenced with `[[wikilinks]]`. Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph instead of top-to-bottom: jump between related tips, see how concepts connect, and explore the harness, loops, and primitives as a web. Best when you want to *study* the material, not just read it.
+- **🔌 In your repo** — install the plugin (`/plugin install pape@pape`) and the whole guide ships with it, byte-identical and enforced by CI. `/pape:agentic-coach` quotes tips from it as you work, and `/pape:harness-audit` rates the repo you're in against the six tiers — see [Audit your harness](#audit-your-harness). The guide is *there* while you work, instead of somewhere you go.
+
+## Part of the Agentic Shift System
+
+PAPE is the deep dive into the [agentic shift](https://agentic-shift.com/) from coding features to designing systems.
+
+This is a guide to the **technical** side of the agentic shift — how engineers and product teams get genuinely good at building with coding agents. It stops there on purpose.
+
+The shift has a second front: the **structural** one — how organizations, teams, roles, and ways of working reshape themselves around agentic work.
+
+**Technical and structural shifts form one system: they enable and reinforce one another, and cannot be managed in isolation.** A team that masters the tools but keeps its old org design stalls; a reorg with no engineering practice underneath is theatre.
+
+For the structural half — the organizational picture this guide deliberately leaves out — see **[agentic-shift.com](https://agentic-shift.com/)**.
 
 ---
 
@@ -1585,3 +1498,20 @@ The guide was reorganized from eight tiers into six. Every tip kept its words; m
 | — *(new)* | [4.4](#tip-4-4) | Turn a correction you keep giving into a rule that tells the agent the fix |
 | — *(new)* | [4.5](#tip-4-5) | Put approvals in rules, not prompts — a prompt you always approve has stopped being a check |
 | — *(new)* | [6.8](#tip-6-8) | Certify the evidence instead of reading the diff — review the proof, not every line |
+
+## Sources
+
+- Anthropic — [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), [Prompting Claude Opus 4.8](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8), [Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8); [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices); [Create custom subagents](https://code.claude.com/docs/en/sub-agents) & [Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) docs; [Automate actions with hooks](https://code.claude.com/docs/en/hooks-guide); [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents); [How we contain Claude across products](https://www.anthropic.com/research/how-we-contain-claude) (permission-prompt approval rates); [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents); [Writing effective tools for AI agents](https://www.anthropic.com/engineering/writing-tools-for-agents); [Claude Code GitHub Action](https://code.claude.com/docs/en/github-actions)
+- Multi-model — Anthropic [The advisor strategy](https://claude.com/blog/the-advisor-strategy) (+2.7pt / −11.9% cost) & Claude Code [model-config/advisor docs](https://code.claude.com/docs/en/model-config); `opusplan` write-ups; Aider architect/editor benchmark; cross-lab review reports (charlesjones.dev, dev.to, Milvus model-debate); MoA (Wang et al. 2406.04692) vs Self-MoA (Li et al. 2502.00674); Sakana AB-MCTS; GitHub Agent HQ; `johannesjo/parallel-code`
+- OpenRouter routing — OpenRouter *Claude Code integration* + *Anthropic Skin* docs/blog; Morph, TokenMix, mykolaaleksandrov.dev setup guides; `musistudio/claude-code-router`
+- Agents vs one-shot builders — Claude Code vs Lovable/Bolt/v0/Replit/Base44 comparisons (lowcode.agency, builder.io, buildthisnow, nxcode, 2026)
+- Playwright MCP (`@playwright/mcp`, Microsoft) — official docs; Builder.io & qaskills setup guides
+- BDD/specs — AutomationPanda *gherkin-guidelines-for-ai*; *ATDD with AI*; *Spec-Driven Development* (Fowler; arXiv 2602.00180; BCMS 2026 guide)
+- Vertical slicing — CODE Magazine *AI-Assisted Greenfield Dev: Vertical Slices*
+- "Vibe coding vs agentic system" figure — original concept by [Denis Turkov](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj); this rendition by Alexey Krivitsky
+- Terminal & session ops — Warp Agents docs (vertical tabs, notifications, code review, Oz orchestration); *Run many Claude Code sessions in parallel* (Towards Data Science); Claude Code-on-VPS + tmux guides (claudefa.st, virtua.cloud, codeongrass, Medium); Claude Code remote-session feature request (#13613)
+- Agent Execution Layer — Northflank & Modal enterprise-deployment + sandbox guides; E2B/Modal/Daytona sandbox comparison (AgentMarketCap); [Linear — teaching an agent to auto-fix bugs](https://linear.app/now/linear-agent-bug-fix) + changelog (cloud coding sessions); Cyrus + Hookdeck (Claude Code as a Linear agent); daily.dev *Huginn* Linear coding agent; Claude Code GitHub Actions + GitHub *Agent HQ*; `ai-boost/awesome-harness-engineering`
+- Pilot-to-production stats — [IDC/Lenovo CIO Playbook 2025, via CIO.com](https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html) (88% of AI POCs); [Gartner, June 2025](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) (40%+ of agentic AI projects canceled by 2027)
+- Effort / `ultracode` / dynamic workflows — Claude Code model-config docs + 2026 guides (claudefa.st, stacknotice)
+- DataCamp *Claude Code Best Practices*; rosmur 12-source synthesis; stevekinney AI-dev course; Addy Osmani *Agent Harness Engineering*; Viv Trivedy *Anatomy of an Agent Harness*
+- Methodologies to study: Superpowers, Spec Kit, BMAD-METHOD, OpenSpec · Directories: `awesome-claude-code`, Playwright MCP
