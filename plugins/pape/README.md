@@ -1,6 +1,6 @@
 # pape — Professional Agentic Product Engineering
 
-Two skills for getting better at operating a coding agent, both drawing on the [Professional Agentic Product Engineering guide](https://agentic-engineering.guide/):
+Two skills for getting better at operating a coding agent, both drawing on the [Professional Agentic Product Engineering guide](https://agenticengineering.guide/):
 
 | Command | What it does |
 |---|---|

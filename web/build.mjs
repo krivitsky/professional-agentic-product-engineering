@@ -20,7 +20,7 @@ const AUTHOR_URL = 'https://www.krivitsky.com';
 const AUTHOR_NAME = 'Alexey Krivitsky';
 // Absolute origin for canonical/OG/sitemap. Override at build time: SITE_URL=https://… node build.mjs
 // On Vercel, VERCEL_PROJECT_PRODUCTION_URL is injected automatically.
-const BASE = (process.env.SITE_URL || 'https://agentic-engineering.guide').replace(/\/+$/, '');
+const BASE = (process.env.SITE_URL || 'https://agenticengineering.guide').replace(/\/+$/, '');
 const SITE_DESC = 'Free the human. Elevate human intelligence. A continuously updated field guide to operating coding agents professionally — six tiers from prompting to autonomous production loops, using Claude Code as the worked example.';
 // Build stamp — time + commit, surfaced as "updated at" / build #. Refreshes each deploy.
 const BUILD_TIME = new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC';

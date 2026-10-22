@@ -14,7 +14,7 @@ WHAT THIS COVERS
   CLAUDE.md, AGENTS.md         tutor mode
   README.md                    this repo's front page
   wiki/                        the Obsidian vault derived from the guide
-  the built website at https://agentic-engineering.guide/
+  the built website at https://agenticengineering.guide/
 
 The SOFTWARE in this repository — hook scripts, stylesheets, the static-site
 generator, helper scripts, CI workflows and the plugin manifests — is licensed

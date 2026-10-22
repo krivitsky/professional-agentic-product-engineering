@@ -32,7 +32,7 @@ Every one passes a presence check. **`checks.md` has two classes and Class C is 
 
 An independent review of a shipped report re-checked every claim against the working tree and returned: *diagnosis sound · three of seven findings misstated · one false.* **Its architecture held; its citations did not.** The single pass that wrote it had used 14 of its 35 allowed reads — budget was never the constraint. A grep hit was being treated as a read.
 
-That is not fixable by trying harder in one context, and the skill already knew why: *the session that wrote a recommendation should not be the only one that checks it.* This is [Tip 3.7](https://agentic-engineering.guide/tier-3#tip-3-7) — *review with fresh eyes, not the context that wrote it* — applied to the audit itself.
+That is not fixable by trying harder in one context, and the skill already knew why: *the session that wrote a recommendation should not be the only one that checks it.* This is [Tip 3.7](https://agenticengineering.guide/tier-3#tip-3-7) — *review with fresh eyes, not the context that wrote it* — applied to the audit itself.
 
 | Pass | Job | Count |
 |---|---|---|
@@ -732,7 +732,7 @@ This matters most for tiers with **no** findings — those notes are the section
 
 **Ask for it in the same `AskUserQuestion` as depth and output — a third question, still one interaction:** *"Rate T1 as well? It reads this project's prompt history — read-only, scoped to this repo, nothing leaves the machine."* **Default no.** It is the only read this skill makes outside the repo it was pointed at, and it is the one a reader has the strongest right to refuse.
 
-**On yes**, rate T1 from the digest against the tips in [Tier 1](https://agentic-engineering.guide/tier-1): bare imperatives against outcome-plus-constraint, whether files and paths are named, whether scope is bounded, whether the ask arrives in one message or in five, whether `/clear` and `/compact` are used deliberately. **The digest is a sample, so the rating is a rating of a sample — say so**, and cite prompts rather than characterising them.
+**On yes**, rate T1 from the digest against the tips in [Tier 1](https://agenticengineering.guide/tier-1): bare imperatives against outcome-plus-constraint, whether files and paths are named, whether scope is bounded, whether the ask arrives in one message or in five, whether `/clear` and `/compact` are used deliberately. **The digest is a sample, so the rating is a rating of a sample — say so**, and cite prompts rather than characterising them.
 
 **On no, the row says what was declined and how to get it:**
 
@@ -749,7 +749,7 @@ This matters most for tiers with **no** findings — those notes are the section
 
 Render the two non-ratings visibly but neutrally — they are answers, not footnotes, and a mark that whispers reads as a pass.
 
-**Link every tier name to its chapter** — `https://agentic-engineering.guide/tier-<N>` — and the section's opening line to `…/climb-the-six-tiers`. A weak rung that does not tell the reader where to read is the tier axis doing none of the work it was chosen for.
+**Link every tier name to its chapter** — `https://agenticengineering.guide/tier-<N>` — and the section's opening line to `…/climb-the-six-tiers`. A weak rung that does not tell the reader where to read is the tier axis doing none of the work it was chosen for.
 
 ### The report never promises what it did not do
 
@@ -861,7 +861,7 @@ target · branch · audited · auditor                        ← the four field
 Light theme. For the dark version, …                       ← theme note
 ```
 
-The kicker's two links are the guide (`agentic-engineering.guide`) and its source repo. A reader who finds a rule wrong or a check missing can go straight to where it is written and open a PR — the report is the most likely place someone meets this material, so it carries the way back.
+The kicker's two links are the guide (`agenticengineering.guide`) and its source repo. A reader who finds a rule wrong or a check missing can go straight to where it is written and open a PR — the report is the most likely place someone meets this material, so it carries the way back.
 
 **The kicker carries the brand, never a description of the report.** *"Professional Agentic Product Engineering"* names where the method comes from and says nothing the title says — that is why it earns the line. A kicker that describes the report instead is both duplication and a decorative constant nobody re-checks when the method changes.
 
@@ -871,7 +871,7 @@ The kicker was also quietly false: once a run reads session transcripts to rate 
 
 The kicker at the top says where the method comes from. The footer says what to do with it, for the reader who has now read sixteen findings and wants somewhere to go:
 
-> Method: the [Professional Agentic Product Engineering guide](https://agentic-engineering.guide/) — 65 tips across six tiers. To get these caught while you work, install the coach (`/pape:agentic-coach`); to learn a rung properly, the guide repo tutors you through it.
+> Method: the [Professional Agentic Product Engineering guide](https://agenticengineering.guide/) — 65 tips across six tiers. To get these caught while you work, install the coach (`/pape:agentic-coach`); to learn a rung properly, the guide repo tutors you through it.
 
 Count the tips when you write it — `grep -c '<a id="tip-' ${CLAUDE_PLUGIN_ROOT}/guide.md` — rather than trusting the number in this sample. **One line, in the `footer`, and only there.** Not in §1, not in the backlog, not repeated per tier. A report whose *findings* advertise are an advertisement with findings attached, and the reader stops crediting the findings.
 
@@ -1153,7 +1153,7 @@ Same values as §1's prose and the scorecard table — this is the machine-reada
 
 **Report the budget actually spent, per pass**, in the cover block: `finders: 18 + 14 reads · verifier: 21 · caps not hit`. The shipped report that failed used 14 of 35 — a low number next to a high cap is the signature of under-reading, and it is only visible if both numbers are printed.
 
-**Verify every tip citation before printing it:** `rg '<a id="tip-4-1">' ${CLAUDE_PLUGIN_ROOT}/guide.md`. No anchor, no citation. Cite the live guide: `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`.
+**Verify every tip citation before printing it:** `rg '<a id="tip-4-1">' ${CLAUDE_PLUGIN_ROOT}/guide.md`. No anchor, no citation. Cite the live guide: `https://agenticengineering.guide/tier-<T>#tip-<T>-<N>`.
 
 **No tiers, no ceiling.** Don't infer how ambitious the repo is and don't gate on it. *"This is only a side project"* is a claim about intent, which a repo cannot observe — an earlier version guessed and classified a 561-commit live site as throwaway. Severity already carries the ranking. Where something genuinely doesn't apply, say what it depends on — *"only matters once agents run unattended"* — not *"above your level"*.
 
@@ -1243,7 +1243,7 @@ Or turn on the coach, so this gets caught as you work.
 
 **Then offer the three ways forward — but only the ones that fit:**
 
-**Hand the fix to a fresh session, not to this one.** By now the audit context holds two finders' output, a verifier's, and the whole report — several hundred thousand tokens, none of it about the fix. Offering to implement here contradicts three tips this skill audits against: [1.16](https://agentic-engineering.guide/tier-1#tip-1-16) `/clear` between tasks, [5.5](https://agentic-engineering.guide/tier-5#tip-5-5) engineer the long-horizon hand-off, [2.6](https://agentic-engineering.guide/tier-2#tip-2-6) spec, then a fresh session.
+**Hand the fix to a fresh session, not to this one.** By now the audit context holds two finders' output, a verifier's, and the whole report — several hundred thousand tokens, none of it about the fix. Offering to implement here contradicts three tips this skill audits against: [1.16](https://agenticengineering.guide/tier-1#tip-1-16) `/clear` between tasks, [5.5](https://agenticengineering.guide/tier-5#tip-5-5) engineer the long-horizon hand-off, [2.6](https://agenticengineering.guide/tier-2#tip-2-6) spec, then a fresh session.
 
 **So give them the prompt, ready to paste**, naming the report path and the issue. The `.md` is the spec — that is what it was written for, and until something says so out loud, *"for an agent to pick up"* is a label nobody knows how to act on.
 

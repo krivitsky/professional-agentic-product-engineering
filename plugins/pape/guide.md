@@ -85,7 +85,7 @@ Professional agentic engineering is **not prompt engineering. It's engineering t
 
 ![Vibe coding vs an agentic system: on the left a model poked with prompt after prompt, drifting inside a formless shape; on the right a model bouncing cleanly inside a harness of workflows, guidelines, autotests, and guardrails](assets/vibing-vs-agentic-engineering.png)
 
-*Adapted from [Denis Turkov's illustration](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj). ▶ [Watch it animate](assets/vibing-vs-agentic-engineering.gif) · [open the interactive version](https://agentic-engineering.guide/big-idea)*
+*Adapted from [Denis Turkov's illustration](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj). ▶ [Watch it animate](assets/vibing-vs-agentic-engineering.gif) · [open the interactive version](https://agenticengineering.guide/big-idea)*
 
 Prompting alone is **vibe coding**: you poke the model and hope it converges. It can — but only under constant hand-steering, and left to prompts alone the product sprawls, features drift, and quality slides into slop, while your own attention drains into operating the model.
 
@@ -1408,7 +1408,7 @@ Ships with the same plugin. Point it at a repo you actually work in and it reads
 Read it in whichever form fits how you work — all four stay in sync with this repo:
 
 - **📄 Markdown** — [`guide.md`](guide.md) in this repo. The canonical source; everything else is generated from it. Best for reading in your editor, feeding to an agent, or sending a PR.
-- **📖 Online** — [agentic-engineering.guide](https://agentic-engineering.guide) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts from this repo.
+- **📖 Online** — [agenticengineering.guide](https://agenticengineering.guide) — a browsable web version: one page per tier, dark/light mode, easy to share. Built from `guide.md` by the static-site generator in [`web/`](web/) and rebuilt on every change, so it never drifts from this repo.
 - **🕸️ Obsidian vault** — the [`wiki/`](wiki/) folder is a wikified version: the guide split into linked pages — one per tier, concept, and entity — cross-referenced with `[[wikilinks]]`. Open `wiki/` as an [Obsidian](https://obsidian.md) vault to navigate by graph instead of top-to-bottom: jump between related tips, see how concepts connect, and explore the harness, loops, and primitives as a web. Best when you want to *study* the material, not just read it.
 - **🔌 In your repo** — install the plugin (`/plugin install pape@pape`) and the whole guide ships with it, byte-identical and enforced by CI. `/pape:agentic-coach` quotes tips from it as you work, and `/pape:harness-audit` rates the repo you're in against the six tiers — see [Audit your harness](#audit-your-harness). The guide is *there* while you work, instead of somewhere you go.
 
