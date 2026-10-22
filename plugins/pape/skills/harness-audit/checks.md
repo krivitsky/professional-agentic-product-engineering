@@ -8,29 +8,29 @@ A run that reports only Class P has done the inventory and called it an audit.
 
 ## Categories
 
-Every finding is filed under one. **Categories are never rated** — the scorecard's axis is the tier ladder (T1–T8), and it is §1. Use the Tier column below to carry a finding onto that axis.
+Every finding is filed under one. **Categories are never rated** — the scorecard's axis is the tier ladder (T1–T6), and it is §1. Use the Tier column below to carry a finding onto that axis.
 
 | Category | Code | Tier | Covers |
 |---|---|---|---|
-| Instruction architecture | INSTR | T3 | `CLAUDE.md` hierarchy — scope, conflicts, overrides |
-| Context economy | CTX | T3 · T6 | What's in the always-loaded budget and whether it earns its place |
-| Permission model | PERM | T8 | Tool grants, allow/deny, per-agent narrowing |
-| Deterministic enforcement | ENFORCE | T5 · T4 | Hooks, CI, and whether stated rules have anything behind them |
-| Autotests | TEST | T4 | Suite, e2e, coverage, mutation — the ground truth the loop converges to |
-| Delegation design | DELEG | T6 · T4 | Subagents — roles, tool scoping, runtime feasibility |
-| Extension surface | EXT | T3 | Skills, commands — overlap and trigger collisions |
-| External integrations | MCP | T3 | MCP servers, scope, trust boundary |
-| Repo hygiene | HYGIENE | T3 | Secrets, machine-specific state, what's tracked |
-| Verification and feedback | VERIFY | T4 · T7 | Evals, golden outputs, recorded regressions |
+| Instruction architecture | INSTR | T2 | `CLAUDE.md` hierarchy — scope, conflicts, overrides |
+| Context economy | CTX | T2 · T5 | What's in the always-loaded budget and whether it earns its place |
+| Permission model | PERM | T4 · T6 | Tool grants, allow/deny, per-agent narrowing |
+| Deterministic enforcement | ENFORCE | T4 · T3 | Hooks, CI, and whether stated rules have anything behind them |
+| Autotests | TEST | T3 | Suite, e2e, coverage, mutation — the ground truth the loop converges to |
+| Delegation design | DELEG | T5 · T3 | Subagents — roles, tool scoping, runtime feasibility |
+| Extension surface | EXT | T2 | Skills, commands — overlap and trigger collisions |
+| External integrations | MCP | T2 | MCP servers, scope, trust boundary |
+| Repo hygiene | HYGIENE | T2 | Secrets, machine-specific state, what's tracked |
+| Verification and feedback | VERIFY | T3 · T6 | Evals, golden outputs, recorded regressions |
 | Runtime behaviour | RUNTIME | T1 · T2 | Prompting and shaping habits, which skills ever fire, whether rules are followed. **Not visible in files; visible in local transcripts with consent** — see below |
 
-**The Tier column feeds the scorecard**, which is indexed T1–T8 (see SKILL.md §The scorecard). A finding's authoritative tier is the tier of the tip it cites; this column is the coarse default for checks whose tip varies.
+**The Tier column feeds the scorecard**, which is indexed T1–T6 (see SKILL.md §The scorecard). A finding's authoritative tier is the tier of the tip it cites; this column is the coarse default for checks whose tip varies.
 
-**Two rungs no *file* reaches — but the transcript does.** **T1 Professional Prompting** and **T2 Shaping & Slicing** are invisible in checked-in configuration: prompt quality and shaping both happen before the commit. They are **not** invisible to this method. The local session transcripts at `~/.claude/projects/<slug>/*.jsonl` record every prompt the user typed in this project, and `${CLAUDE_PLUGIN_ROOT}/scripts/mine-prompts.sh` ships with this plugin and extracts them read-only. **With consent, rate T1 and T2 from real prompts** — bare imperatives versus outcome-plus-constraint, `@file` use, plan-mode and verify habits — against Tier 1 and Tier 2's tips. Static proxies (`specs/`, `*.plan.md`, commit granularity) are the fallback, not the ceiling.
+**A rung and a half no *file* reaches — but the transcript does.** **T1 Prompt** and the planning half of **T2 Plan** are invisible in checked-in configuration: prompt quality, context hygiene and shaping all happen before the commit. (T2's other half — `CLAUDE.md`, Skills, MCP, secrets hygiene, hand-off notes — is files, and is rated from them like any other rung.) They are **not** invisible to this method. The local session transcripts at `~/.claude/projects/<slug>/*.jsonl` record every prompt the user typed in this project, and `${CLAUDE_PLUGIN_ROOT}/scripts/mine-prompts.sh` ships with this plugin and extracts them read-only. **With consent, rate T1 and T2's planning from real prompts** — bare imperatives versus outcome-plus-constraint, `@file` use, `/clear` and `/compact` habits, plan-mode and verify habits — against Tier 1 and Tier 2's tips. Static proxies (`specs/`, `*.plan.md`, commit granularity) are the fallback, not the ceiling.
 
 **`Not assessed` must name which reason.** *"Consent not given"* and *"nothing in the repo runs unattended"* and *"needs evidence this method cannot reach"* are three different states, and only the last is a limit of the audit. Writing the blanket phrase for all three hides a choice as a constraint — an earlier run marked T1 unassessable while the auditing session was itself reading transcripts for other purposes.
 
-**T7 Fleet Ops** stays `Not assessed` unless something in the repo actually runs unattended — say that, rather than scoring an absent fleet as a weakness.
+**T6 Supervise** is `Not applicable` unless something in the repo actually runs unattended — say that, rather than scoring an absent fleet as a weakness.
 
 ---
 
@@ -40,24 +40,24 @@ Literal paths, because the *harness* defines them and they're stable for years. 
 
 | What | Where | Category | Tip |
 |---|---|---|---|
-| Project memory | `CLAUDE.md`, `AGENTS.md` — root and subdirs | INSTR | 3.5 |
-| Skills / commands | `.claude/skills/*/SKILL.md`, `.claude/commands/*.md` | EXT | 3.6 |
-| Subagents | `.claude/agents/*.md` | DELEG | 6.2, 6.4 |
-| Hooks | `.claude/settings.json` → `hooks` | ENFORCE | 5.4 |
-| Permissions | `.claude/settings.json` → `permissions` | PERM | 8.2 |
-| MCP servers | `.mcp.json`, or `mcpServers` in settings | MCP | 3.7 |
-| Secrets hygiene | `.gitignore` ⊇ `.env*`/`*.pem`/`*.key`; `git ls-files` | HYGIENE | 3.2 |
-| Executable DoD | one command composing test + lint + typecheck | TEST | 4.1 |
-| Test suite | test-shaped files **and** a resolvable command | TEST | 4.2 |
-| BDD | `**/*.feature`, step defs, `gherkin-guidelines.md` | TEST | 4.3 |
-| Browser e2e | Playwright/Cypress config, `e2e/` | TEST | 4.4 |
-| Coverage gate | a **diff**-coverage threshold wired into CI | TEST | 4.10 |
-| Mutation testing | Stryker · mutmut · cargo-mutants · PIT | TEST | 4.11 |
-| Fresh-eyes review | read-only reviewer in `.claude/agents/`, or a CI review job | DELEG | 4.7 |
-| CI | `.github/workflows/*.yml`, `.gitlab-ci.yml`, `Jenkinsfile`, `.circleci/` | ENFORCE | 5.5 |
-| Commit granularity | `git log` — count and median diff size | ENFORCE | 5.1 |
-| Session hand-off | `STATUS.md`, `PROGRESS.md`, `features.json` | CTX | 3.8, 6.5 |
-| Sandboxing / gates / strike caps | loop config, `environment:` protection, max-attempt cap | PERM | 8.1, 8.2, 8.3 |
+| Project memory | `CLAUDE.md`, `AGENTS.md` — root and subdirs | INSTR | 2.10 |
+| Skills / commands | `.claude/skills/*/SKILL.md`, `.claude/commands/*.md` | EXT | 2.11 |
+| Subagents | `.claude/agents/*.md` | DELEG | 5.2, 5.4 |
+| Hooks | `.claude/settings.json` → `hooks` | ENFORCE | 4.1 |
+| Permissions | `.claude/settings.json` → `permissions` | PERM | 4.5, 6.5 |
+| MCP servers | `.mcp.json`, or `mcpServers` in settings | MCP | 2.12 |
+| Secrets hygiene | `.gitignore` ⊇ `.env*`/`*.pem`/`*.key`; `git ls-files` | HYGIENE | 2.9 |
+| Executable DoD | one command composing test + lint + typecheck | TEST | 3.1 |
+| Test suite | test-shaped files **and** a resolvable command | TEST | 3.2 |
+| BDD | `**/*.feature`, step defs, `gherkin-guidelines.md` | TEST | 3.3 |
+| Browser e2e | Playwright/Cypress config, `e2e/` | TEST | 3.4 |
+| Coverage gate | a **diff**-coverage threshold wired into CI | TEST | 3.10 |
+| Mutation testing | Stryker · mutmut · cargo-mutants · PIT | TEST | 3.11 |
+| Fresh-eyes review | read-only reviewer in `.claude/agents/`, or a CI review job | DELEG | 3.7 |
+| CI | `.github/workflows/*.yml`, `.gitlab-ci.yml`, `Jenkinsfile`, `.circleci/` | ENFORCE | 4.2 |
+| Commit granularity | `git log` — count and median diff size | ENFORCE | 3.12 |
+| Session hand-off | `STATUS.md`, `PROGRESS.md`, `features.json` | CTX | 2.13, 5.5 |
+| Sandboxing / gates / strike caps | loop config, `environment:` protection, max-attempt cap | PERM | 6.4, 6.5, 6.6 |
 | Evals | `.claude/evals/`, golden outputs, recorded regressions | VERIFY | — |
 
 **Test-file glob union**, excluding `node_modules` · `vendor` · `target` · `.venv` · `dist` · `build`:
@@ -139,13 +139,13 @@ Dropped under `--quick`; otherwise rendered. Uncle Bob's six constraints, quoted
 
 | Constraint | Guide | Detection |
 |---|---|---|
-| Unit tests | `[Tip 4.2]` | Class P + C-11 |
-| Gherkin tests | `[Tip 4.3]` | Class P |
-| QA procedures | `[Tip 4.4]` `[Tip 4.7]` | e2e config, reviewer subagent, review job |
-| Test coverage | `[Tip 4.10]` | diff-coverage gate in CI |
-| Mutation testing | `[Tip 4.11]` | Stryker · mutmut · cargo-mutants · PIT |
+| Unit tests | `[Tip 3.2]` | Class P + C-11 |
+| Gherkin tests | `[Tip 3.3]` | Class P |
+| QA procedures | `[Tip 3.4]` `[Tip 3.7]` | e2e config, reviewer subagent, review job |
+| Test coverage | `[Tip 3.10]` | diff-coverage gate in CI |
+| Mutation testing | `[Tip 3.11]` | Stryker · mutmut · cargo-mutants · PIT |
 | Quality metrics | *not yet a tip in this guide* | lint/complexity/Sonar config |
 
-**Citation vocabulary — three forms, a fourth is forbidden:** `[Tip 4.2]` when a real tip covers it (anchor grepped first) · `— guide: Big Idea (Uncle Bob's gauntlet)` for the tweet itself · `— not yet a tip in this guide` as **plain text, no link, no number, ever**.
+**Citation vocabulary — three forms, a fourth is forbidden:** `[Tip 3.2]` when a real tip covers it (anchor grepped first) · `— guide: Big Idea (Uncle Bob's gauntlet)` for the tweet itself · `— not yet a tip in this guide` as **plain text, no link, no number, ever**.
 
 Close with: *"The guide doesn't teach quality metrics yet — [open an issue or PR](https://github.com/krivitsky/professional-agentic-product-engineering/issues)."*

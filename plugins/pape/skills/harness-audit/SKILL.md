@@ -32,7 +32,7 @@ Every one passes a presence check. **`checks.md` has two classes and Class C is 
 
 An independent review of a shipped report re-checked every claim against the working tree and returned: *diagnosis sound · three of seven findings misstated · one false.* **Its architecture held; its citations did not.** The single pass that wrote it had used 14 of its 35 allowed reads — budget was never the constraint. A grep hit was being treated as a read.
 
-That is not fixable by trying harder in one context, and the skill already knew why: *the session that wrote a recommendation should not be the only one that checks it.* This is [Tip 4.7](https://agentic-engineering.guide/tier-4#tip-4-7) — *review with fresh eyes, not the context that wrote it* — applied to the audit itself.
+That is not fixable by trying harder in one context, and the skill already knew why: *the session that wrote a recommendation should not be the only one that checks it.* This is [Tip 3.7](https://agentic-engineering.guide/tier-3#tip-3-7) — *review with fresh eyes, not the context that wrote it* — applied to the audit itself.
 
 | Pass | Job | Count |
 |---|---|---|
@@ -103,7 +103,7 @@ Three verdicts per issue, and the third is not a failure:
 
 | Tried | What happened |
 |---|---|
-| A four-column markdown table | The tip column carried a full `https://…/tier-3#tip-3-5`, ate half a hundred-character terminal, and squeezed the claim to three words a line |
+| A four-column markdown table | The tip column carried a full `https://…/tier-2#tip-2-10`, ate half a hundred-character terminal, and squeezed the claim to three words a line |
 | `Tip: / Claim: / Where: / Status:` blocks | Four lines per finding — forty-four for eleven — with trailing empty fields where a row had no data |
 
 **But the layout was the symptom.** The content was the problem: **every row read `⏳`, because nothing resolves until the verifier runs.** A status column that says *pending* on every line for ten minutes carries no information, and a reader shown one asked *"what's the value?"* There isn't one.
@@ -122,7 +122,7 @@ Three verdicts per issue, and the third is not a failure:
 |---|---|
 | Three claims, prose, at one boundary | Rows, a status column, `…N more`, a live tracker |
 | *"none verified yet"*, said once for all three | `⏳` repeated on every line, which was the only thing the column ever said |
-| The claim in the reader's terms | A `https://…/tier-3#tip-3-5` column eating a third of the width |
+| The claim in the reader's terms | A `https://…/tier-2#tip-2-10` column eating a third of the width |
 
 **The invitation is the point.** A reader who works in that repo settles *"eslint is invoked by nothing"* in two seconds — faster and more reliably than a subagent re-deriving it. Withholding the claim to protect them from a possible error also denies the run its best available check.
 
@@ -225,13 +225,13 @@ The second reads better and is wrong, which is the whole reason this pass exists
 
 **Say one thing the repo does well, at cross-check.** The scorecard's credit line is the only place the report says anything good, and it lands at the very end:
 
-> Worth saying: 561 commits, median two files — T5 checkpointing already holds.
+> Worth saying: 561 commits, median two files — checkpointing (T3) already holds.
 
 One line, drawn from what the finders actually counted, never invented. **It changes the shape of the wait from *how bad is this* to *here is where you stand*** — and it is what makes the criticism land instead of bounce. A run that lists twenty-four problems and never once says what works has written an accusation.
 
 **Show where the gaps cluster, at fact-check**, once the tiers are known:
 
-> Clustering: T3 (9) · T4 (7) · T5 (5) · T8 (1).
+> Clustering: T3 (9) · T4 (7) · T5 (5) · T6 (1).
 
 **That histogram is the most transferable thing the audit produces.** A specific issue is about this repo; the shape of the distribution is about how the reader works, and it will look similar in their next one. It also previews the lever honestly — the reader can see T3 leading before §1 says so, which makes the verdict feel derived rather than pronounced.
 
@@ -302,7 +302,7 @@ The test is what the user sees first. A directory listing that resolves instantl
 harness-audit v0.44 · from the Professional Agentic Product Engineering (PAPE) guide
 
 I read the agent setup checked into this repo — instruction files, skills,
-hooks, permissions, tests, CI — and rate it against the guide's eight tiers.
+hooks, permissions, tests, CI — and rate it against the guide's six tiers.
 I change nothing: read-only, apart from the report I write to harness-audits/.
 
 Six phases. This strip closes every message, so you always know where it is:
@@ -339,7 +339,7 @@ questions before anything spawns.
 **State no duration and no token figure here.** Not a range, not a hedge, not a prior run's measurement — see §Say nothing about how long it takes for why every figure this file ever carried was wrong. Say what it *does* and what it *writes*; the live meter reports the rest as it happens.
 
 ```
-Harness audit — rates this repo's agent config against the eight tiers.
+Harness audit — rates this repo's agent config against the six tiers.
 Read-only; writes to harness-audits/.
 ```
 
@@ -351,7 +351,7 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 | **What output?** | *Markdown only* · *Markdown + light HTML* · *Markdown + dark HTML* | `Markdown + light HTML`, or whichever theme `--theme:` named |
 | **Rate T1 too?** | *No — repo only* · *Yes, read this project's prompt history* | **No.** The only read outside the repo, and the one most worth refusing |
 
-**Three questions, still one interaction.** The T1 question is the difference between eight rated rungs and seven, and it cannot be inferred from anything in the tree — so it is asked once, here, where the reader is already deciding what the run may do.
+**Three questions, still one interaction.** The T1 question is the difference between six rated rungs and five, and it cannot be inferred from anything in the tree — so it is asked once, here, where the reader is already deciding what the run may do.
 
 **Format and theme are one question, not two.** Theme is the least consequential axis in the run and asking it separately spends a decision on it. Folded in, it is only asked where it means something — and the *Markdown only* path never has to answer it at all.
 
@@ -581,13 +581,13 @@ Never collapse these. `Medium / Probable` and `Medium / Confirmed` are different
 
 ---
 
-## The scorecard rates the guide's eight tiers
+## The scorecard rates the guide's six tiers
 
-**The axis is the tier ladder, not the check catalogue.** `checks.md` categories stay where they are good — filing a finding — but the scorecard is indexed **T1–T8**, so a reader who sees a weak rung knows which part of the guide to open. Take the names from `guide.md`'s `## Tier N —` headings, never from a mirror:
+**The axis is the tier ladder, not the check catalogue.** `checks.md` categories stay where they are good — filing a finding — but the scorecard is indexed **T1–T6**, so a reader who sees a weak rung knows which part of the guide to open. Take the names from `guide.md`'s `## Tier N —` headings, never from a mirror:
 
-`T1 Professional Prompting · T2 Shaping & Slicing · T3 Context Management · T4 Loop Until Done · T5 Checkpointing & Hardening · T6 Orchestration · T7 Fleet Ops · T8 Agent Execution Layer`
+`T1 Prompt · T2 Plan · T3 Verify · T4 Enforce · T5 Orchestrate · T6 Supervise`
 
-Each finding already cites a tip; the tip number gives its tier. **A finding that blocks two tiers counts against both** — a missing `.claude/settings.json` genuinely stops you doing T5's hardening *and* T8's permission work, and a rating reads as *"can this repo do this tier's work"*, not as a fault tally.
+Each finding already cites a tip; the tip number gives its tier. **A finding that blocks two tiers counts against both** — a missing `.claude/settings.json` genuinely stops you doing T4's hooks and permissions *and* T6's guardrails for unattended runs, and a rating reads as *"can this repo do this tier's work"*, not as a fault tally.
 
 Rate each **Strong · Satisfactory · Moderate · Weak · Missing · Not assessed**, with a one-line note.
 
@@ -595,7 +595,7 @@ Rate each **Strong · Satisfactory · Moderate · Weak · Missing · Not assesse
 
 ### Recommend where to focus — from evidence, never from guessed intent
 
-**Close the lead with a short "where that is, for this repo" paragraph.** Which rungs carry this repo's weight is the most useful thing the tier axis can produce, and leaving the reader to derive it from eight ratings wastes the axis.
+**Close the lead with a short "where that is, for this repo" paragraph.** Which rungs carry this repo's weight is the most useful thing the tier axis can produce, and leaving the reader to derive it from six ratings wastes the axis.
 
 Three conditions make it a recommendation rather than the ceiling `## Method` bans:
 
@@ -605,9 +605,9 @@ Three conditions make it a recommendation rather than the ceiling `## Method` ba
 | **Marked as an assumption** | Say plainly it is drawn from the repo's shape and can be wrong. The reader knows their own plans; the audit is offering a reading, not a verdict. |
 | **Changes nothing that ships** | **State outright that no issue was withheld, renamed, or downgraded because of it.** Every issue is listed at its own severity regardless of which rung it lands on. The moment focus starts filtering findings, it has become the ceiling. |
 
-Signals worth reading for this: author count and merge ratio (`git log --format=%an`, `--merges`), whether anything runs unattended, whether a push reaches production directly, whether skills already dispatch subagents. **Where a rung genuinely doesn't bite, say what it depends on** — *"nothing here runs unattended, so T7 has nothing to operate"* — never *"above your level."* That belongs in the rung's own note, not the lead.
+Signals worth reading for this: author count and merge ratio (`git log --format=%an`, `--merges`), whether anything runs unattended, whether a push reaches production directly, whether skills already dispatch subagents. **Where a rung genuinely doesn't bite, say what it depends on** — *"nothing here runs unattended, so T6 has nothing to supervise"* — never *"above your level."* That belongs in the rung's own note, not the lead.
 
-**Name only the rungs that carry the weight.** A draft went on to say *"T7 has nothing to operate. T8 matters in one way only…"* — both of which are the table's own rows, in the table's own words, eight lines above the table. **The lead says where to look; every other rung speaks for itself in its row.**
+**Name only the rungs that carry the weight.** A draft went on to say *"T6 has nothing to supervise. T5 matters in one way only…"* — both of which are the table's own rows, in the table's own words, eight lines above the table. **The lead says where to look; every other rung speaks for itself in its row.**
 
 ### Name one next lever, and derive it
 
@@ -623,7 +623,7 @@ The rule falls out of the ladder itself: each rung rests on the ones below, so a
 
 **Higher weak rungs get named as resting on the lever, never as parallel priorities.** A range — *"the weight sits on T3–T5"* — is not an answer to *what do I do next*, and it contradicts the sentence above it by implying T1 and T2 were skipped. **Where lower rungs hold, say they hold**; they were passed, not ignored.
 
-**When the lever lands on T1 or T2, the fix is a person, not a file.** Those two rungs are how the operator prompts and shapes work — there is nothing to add to the repo, so the usual corrective action has nothing to act on and *"write better prompts"* is not one. Name the two things that do work, in one line: **the coach** (`/pape:agentic-coach`, catches it in the flow of real work) and **the tutor** (the guide repo's `CLAUDE.md`, which teaches the rung and reads real prompts to tailor it). This is the only place in the report where the recommendation is a tool rather than a change.
+**When the lever lands on T1 — or on T2's planning habits — the fix is a person, not a file.** T1 is how the operator prompts and keeps the context window clean, and T2's planning half is how they shape and slice work — there is nothing to add to the repo, so the usual corrective action has nothing to act on and *"write better prompts"* is not one. T2's other half is files (`CLAUDE.md`, Skills, MCP, secrets, hand-off notes); a T2 lever that rests on those gets an ordinary corrective action. Name the two things that do work, in one line: **the coach** (`/pape:agentic-coach`, catches it in the flow of real work) and **the tutor** (the guide repo's `CLAUDE.md`, which teaches the rung and reads real prompts to tailor it). This is the only place in the report where the recommendation is a tool rather than a change.
 
 ### The lead's whole order
 
@@ -648,7 +648,7 @@ Context comes first because it frames everything after it, and a draft that open
 
 **`New` means new to the audit unless the baseline can prove otherwise.** A run reported *eleven new issues* against a baseline from **ninety-nine minutes earlier**, in a different mode, at a different version — nothing was introduced into that repo in ninety-nine minutes. **Say which one it is**, and where a re-check left keys untested, say the direction is partly unknown rather than quietly counting unknowns as closed.
 
-**Where a tier genuinely doesn't bite yet, say what it depends on** — *"nothing here runs unattended, so T7 has nothing to operate"* — never *"above your level."* That is `Not assessed` with a reason, and it is a real answer, not a gap.
+**Where a tier genuinely doesn't bite yet, say what it depends on** — *"nothing here runs unattended, so T6 has nothing to supervise"* — never *"above your level."* That is `Not applicable` with a reason, and it is a real answer, not a gap.
 
 **Avoid: the findings table in prose.** That is the name for this defect — a paragraph whose sentences are the table's rows, restated at greater length and stripped of the IDs, severities, confidence marks and links that made the table worth reading. It can appear in the lead, in a rating cell, or in §6, and it is always the same mistake: **a level of the report doing the job of the level below it, worse.**
 
@@ -664,13 +664,13 @@ Context comes first because it frames everything after it, and a draft that open
 | **Finding** | the evidence | — |
 
 > ❌ *"Two files load into every session and disagree about what finishing means. A third disagreement is new and louder: the always-loaded file declares a colour palette the single source of truth and says never to go outside it, while a second palette in the slides spec ships thirty-one colours that are not in it. And the outbound-link checker…"*
-> ✅ *"The instructions are where it hurts, and wider than the last run showed. Two layers load into every session — `CLAUDE.md` and five skills — and nothing reconciles them when either changes: nine of the twelve T3 issues are one of them contradicting another, the newest being a colour palette declared single-source-of-truth that a second palette already overrides. The pattern now reaches past instructions into the gates themselves."*
+> ✅ *"The instructions are where it hurts, and wider than the last run showed. Two layers load into every session — `CLAUDE.md` and five skills — and nothing reconciles them when either changes: nine of the twelve T2 issues are one of them contradicting another, the newest being a colour palette declared single-source-of-truth that a second palette already overrides. The pattern now reaches past instructions into the gates themselves."*
 
 **One instance, and it must be doing a job abstraction can't.** Stripping every specific is the opposite failure — §Write it plainly exists because abstract prose reads as authoritative while saying nothing. The lead earns one concrete anchor; the second and third are the table's.
 
 **The distributional facts are the lead's own material, and nothing else has them:** *nine of twelve*, *wider than the last run*, *the pattern reaches past instructions into the gates*. **A count of how the issues cluster is a statement about the repo; a list of the issues is a statement the table already makes better.**
 
-**Never claim a pattern the instances do not share.** That same lead opened *"the pattern is wider than the last one showed"* and supported it with two instruction files contradicting each other (T3), a palette contradiction (T3), and a working gate bypassed by its callers (T5) — a different tier and a different mechanism, with no contradiction in it. **The paragraph asserted a pattern and then changed subject to fill it out.**
+**Never claim a pattern the instances do not share.** That same lead opened *"the pattern is wider than the last one showed"* and supported it with two instruction files contradicting each other (T2), a palette contradiction (T2), and a working gate bypassed by its callers (T4) — a different tier and a different mechanism, with no contradiction in it. **The paragraph asserted a pattern and then changed subject to fill it out.**
 
 **The connectives are the tell.** *"A third disagreement is new and louder"* · *"And the outbound-link checker…"* — enumeration words. A lead doing analysis needs *because*, *which is why*, *in the same window*; a lead reaching for a third item to make a paragraph needs *and*.
 
@@ -691,18 +691,18 @@ Distribution, delta, direction, mechanism — four facts the run already holds, 
 
 The first is an event and belongs in the findings table. The second is a standing condition, and a rating is a rating *of* a condition. **Test each note: if it could be pasted into the findings table unchanged, it is written wrong.** Findings say what happened; the scorecard says what the repo is like.
 
-**This rule keeps being read as applying to one sentence.** A shipped `T3` cell obeyed it for its opening clause and then enumerated four findings in a row — *"Two instruction files give opposite orders about finishing a publish. A palette declared the single source of truth is contradicted by a second palette that already ships. Two skills forbid a dev server that two other places require. Three pointers…"* Each of those is an incident; four of them is an index.
+**This rule keeps being read as applying to one sentence.** A shipped `T2` cell obeyed it for its opening clause and then enumerated four findings in a row — *"Two instruction files give opposite orders about finishing a publish. A palette declared the single source of truth is contradicted by a second palette that already ships. Two skills forbid a dev server that two other places require. Three pointers…"* Each of those is an incident; four of them is an index.
 
 **The grade rests on count and kind, not on instances.** *"Twelve issues, nine of which are one instruction file contradicting another, and three of which are pointers to things that no longer exist"* tells the reader what `Weak` is measuring and sends them to §2 for which twelve. **A reader who can reconstruct the findings table from the scorecard has been given the same list twice at different lengths.**
 
 ### Every rung says what would lift it
 
-A rating of a condition raises a question the report has to answer, and a reader asked it outright: *"T3 is Weak and there are three High T3 issues — is fixing those three all it takes?"* **Usually not**, and nothing in the report said so.
+A rating of a condition raises a question the report has to answer, and a reader asked it outright: *"T2 is Weak and there are three High T2 issues — is fixing those three all it takes?"* **Usually not**, and nothing in the report said so.
 
 So each rung carries a third line beside `FOR` and `HERE`:
 
-> **T3 · Context Management** — Weak
-> **FOR** Give the agent the right context and tools, so it stops guessing.
+> **T2 · Plan** — Weak
+> **FOR** Shape and slice the work before you build, and give the agent the context it needs.
 > **HERE** Two instruction files and five skills hold rules on the same subjects. Neither wins, both load every session, and when one changes nothing updates the others.
 > **TO LIFT IT** One layer wins, or a step reconciles them when either changes. Closing ISSUE-1, 2 and 3 clears today's contradictions — not the structure that keeps producing them.
 
@@ -724,7 +724,7 @@ This matters most for tiers with **no** findings — those notes are the section
 
 | Mark | Means | Test |
 |---|---|---|
-| **Not applicable** | This rung does not apply to this work — *"nothing here runs unattended, so there is no fleet to operate."* **Explicitly not a gap.** | Would the mature version of this repo still have nothing here? Then it applies |
+| **Not applicable** | This rung does not apply to this work — *"nothing here runs unattended, so there is nothing to supervise."* **Explicitly not a gap.** | Would the mature version of this repo still have nothing here? Then it applies |
 | **Not assessed** | The audit did not reach the evidence. **Always name why** — *"consent for transcript access was not given"* is a different state from *"needs evidence this method cannot reach"*, and only the second is a limit of the audit rather than a choice | Could another pass have got this? Then say what it would take |
 | **A real rating** | The audit looked and found the answer, **including when the answer is "nothing is there."** | Is this backed by a finding? Then it is assessed |
 
@@ -732,7 +732,7 @@ This matters most for tiers with **no** findings — those notes are the section
 
 **Ask for it in the same `AskUserQuestion` as depth and output — a third question, still one interaction:** *"Rate T1 as well? It reads this project's prompt history — read-only, scoped to this repo, nothing leaves the machine."* **Default no.** It is the only read this skill makes outside the repo it was pointed at, and it is the one a reader has the strongest right to refuse.
 
-**On yes**, rate T1 from the digest against the tips in [Tier 1](https://agentic-engineering.guide/tier-1): bare imperatives against outcome-plus-constraint, whether files and paths are named, whether scope is bounded, whether the ask arrives in one message or in five. **The digest is a sample, so the rating is a rating of a sample — say so**, and cite prompts rather than characterising them.
+**On yes**, rate T1 from the digest against the tips in [Tier 1](https://agentic-engineering.guide/tier-1): bare imperatives against outcome-plus-constraint, whether files and paths are named, whether scope is bounded, whether the ask arrives in one message or in five, whether `/clear` and `/compact` are used deliberately. **The digest is a sample, so the rating is a rating of a sample — say so**, and cite prompts rather than characterising them.
 
 **On no, the row says what was declined and how to get it:**
 
@@ -743,13 +743,13 @@ This matters most for tiers with **no** findings — those notes are the section
 
 **`TO LIFT IT` is dropped on any unrated rung.** There is nothing to lift until there is a rating, and the line was reliably producing filler.
 
-**Distinguish it from a rung this run happened not to reach.** T7 went unrated because the schedulers publishing to that site live in the surrounding workspace, outside what was read — **contingent on where the audit was pointed, and another run would answer it.** T1's gap is consent, T7's is scope, and both are recoverable. Say which, and say what recovers it.
+**Distinguish it from a rung this run happened not to reach.** T6 went unrated because the schedulers publishing to that site live in the surrounding workspace, outside what was read — **contingent on where the audit was pointed, and another run would answer it.** T1's gap is consent, T6's is scope, and both are recoverable. Say which, and say what recovers it.
 
 **The trap: marking a confirmed finding as `Not assessed` because the thing is absent.** A rung where delegation is dispatched from three skills but no agent definition is versioned has been *assessed* — the answer is that it does not hold. That is `Weak`, and a run once wrote `Not assessed` over exactly that, burying a Medium finding behind a non-rating. **Absence you looked for and confirmed is evidence, not a gap in evidence.**
 
 Render the two non-ratings visibly but neutrally — they are answers, not footnotes, and a mark that whispers reads as a pass.
 
-**Link every tier name to its chapter** — `https://agentic-engineering.guide/tier-<N>` — and the section's opening line to `…/climb-the-eight-tiers`. A weak rung that does not tell the reader where to read is the tier axis doing none of the work it was chosen for.
+**Link every tier name to its chapter** — `https://agentic-engineering.guide/tier-<N>` — and the section's opening line to `…/climb-the-six-tiers`. A weak rung that does not tell the reader where to read is the tier axis doing none of the work it was chosen for.
 
 ### The report never promises what it did not do
 
@@ -871,13 +871,13 @@ The kicker was also quietly false: once a run reads session transcripts to rate 
 
 The kicker at the top says where the method comes from. The footer says what to do with it, for the reader who has now read sixteen findings and wants somewhere to go:
 
-> Method: the [Professional Agentic Product Engineering guide](https://agentic-engineering.guide/) — 62 tips across eight tiers. To get these caught while you work, install the coach (`/pape:agentic-coach`); to learn a rung properly, the guide repo tutors you through it.
+> Method: the [Professional Agentic Product Engineering guide](https://agentic-engineering.guide/) — 65 tips across six tiers. To get these caught while you work, install the coach (`/pape:agentic-coach`); to learn a rung properly, the guide repo tutors you through it.
 
-**One line, in the `footer`, and only there.** Not in §1, not in the backlog, not repeated per tier. A report whose *findings* advertise are an advertisement with findings attached, and the reader stops crediting the findings.
+Count the tips when you write it — `grep -c '<a id="tip-' ${CLAUDE_PLUGIN_ROOT}/guide.md` — rather than trusting the number in this sample. **One line, in the `footer`, and only there.** Not in §1, not in the backlog, not repeated per tier. A report whose *findings* advertise are an advertisement with findings attached, and the reader stops crediting the findings.
 
 **It is a pointer, never a pitch.** No benefit claims, no "supercharge", no second sentence. It earns its line the same way the kicker does: a reader who disagrees with a rating, or wants the rung explained rather than scored, currently has nowhere to go — this is the way back to the material the ratings came from.
 
-**The exception that outranks this** is §The scorecard's T1/T2 rule: when the next lever is a rung no file can fix, the tools *are* the recommendation and belong in the lead. That is not promotion, it is the only correct corrective action — and it does not remove the footer line.
+**The exception that outranks this** is §The scorecard's T1 rule: when the next lever is a rung no file can fix, the tools *are* the recommendation and belong in the lead. That is not promotion, it is the only correct corrective action — and it does not remove the footer line.
 
 ### The HTML is designed, not derived
 
@@ -950,7 +950,7 @@ An earlier version opened with scope, then open questions — two screens in whi
 
 **Decide** — everything the reader needs to act on, before any evidence
 
-1. **Scorecard** — the eight tiers, rated. See §The scorecard above. **It opens the report**, and its lead paragraph carries the two jobs a separate summary used to do:
+1. **Scorecard** — the six tiers, rated. See §The scorecard above. **It opens the report**, and its lead paragraph carries the two jobs a separate summary used to do:
 
    | | |
    |---|---|
@@ -1082,6 +1082,18 @@ Not *closed*, not *withdrawn*, not *regressed*, not *carried* — a reader asked
 
 **The single exception is persistence, and it earns its place:** an `open since <timestamp>` marker in the issues table, in its own column. How long something has been open is the one cross-run fact a reader needs *while weighing severity*, and sending them to §4 to get it separates the two halves of one judgement. Everything else about the runs — what closed, what moved, what changed — stays in §4.
 
+### A baseline from the eight-tier guide
+
+Reports written before plugin 1.0.0 rated eight tiers and cited the old tip numbers. **A `ratings` line naming a T7 or T8 is the tell.** Keys (`<check>@<location>`) carry no tier and no tip, so matching findings, display IDs and the `ids` ledger all carry over unchanged. Three things do not:
+
+| In the old report | Do |
+|---|---|
+| Cited tips | Translate them with the tip map at the end of `${CLAUDE_PLUGIN_ROOT}/guide.md` (old number → new) before quoting or comparing |
+| Ratings and `next-lever` | Never compare rung by rung — old T3 was context, new T3 is verification. The rungs moved: T1 → T1 · T2 → T2 · T3 → T1 + T2 · T4 → T3 · T5 → T3 + T4 · T6 → T5 · T7 → T5 + T6 · T8 → T6 |
+| Trend lines | Compare findings by key as usual; say a rating moved only on this run's own evidence |
+
+**Say it once, in §6:** *"The previous report (<date>) used the guide's earlier eight-tier scale; findings carry over by key, ratings are not compared."* One line. Trend needs no caveat of its own.
+
 ### Trend never lists the new issues
 
 **`new` is a count, never an enumeration.** On a run where twelve of sixteen issues are new, listing them reproduces the issues table one section later — the reader's verdict was *"this just duplicates the issues list, this is not a trend."* They were right: when most issues are new, "what's new" is simply the report.
@@ -1124,12 +1136,12 @@ The `.md` is read by agents, and the most common one is a **tutor deciding where
 
 ```
 next-lever:  T3
-ratings:     T1 Satisfactory · T2 Satisfactory · T3 Weak · T4 Moderate · T5 Weak · T6 Missing · T7 n/a · T8 Weak
+ratings:     T1 Satisfactory · T2 Satisfactory · T3 Weak · T4 Moderate · T5 Missing · T6 n/a
 ```
 
 Same values as §1's prose and the scorecard table — this is the machine-readable copy, not a second opinion. If they disagree, §1 is right and the fence is a bug.
 
-`ratings` carries all eight so a reader can see which rungs hold without re-reading the table; `next-lever` is one rung, derived by the rule above. Where T1/T2 are unrated, write `not-assessed` rather than omitting them — a missing key reads as an oversight, and the reason belongs in the rung's note.
+`ratings` carries all six so a reader can see which rungs hold without re-reading the table; `next-lever` is one rung, derived by the rule above. Where a rung is unrated (usually T1, without transcript consent), write `not-assessed` rather than omitting it — a missing key reads as an oversight, and the reason belongs in the rung's note.
 
 ---
 
@@ -1141,7 +1153,7 @@ Same values as §1's prose and the scorecard table — this is the machine-reada
 
 **Report the budget actually spent, per pass**, in the cover block: `finders: 18 + 14 reads · verifier: 21 · caps not hit`. The shipped report that failed used 14 of 35 — a low number next to a high cap is the signature of under-reading, and it is only visible if both numbers are printed.
 
-**Verify every tip citation before printing it:** `rg '<a id="tip-5-4">' ${CLAUDE_PLUGIN_ROOT}/guide.md`. No anchor, no citation. Cite the live guide: `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`.
+**Verify every tip citation before printing it:** `rg '<a id="tip-4-1">' ${CLAUDE_PLUGIN_ROOT}/guide.md`. No anchor, no citation. Cite the live guide: `https://agentic-engineering.guide/tier-<T>#tip-<T>-<N>`.
 
 **No tiers, no ceiling.** Don't infer how ambitious the repo is and don't gate on it. *"This is only a side project"* is a claim about intent, which a repo cannot observe — an earlier version guessed and classified a 561-commit live site as throwaway. Severity already carries the ranking. Where something genuinely doesn't apply, say what it depends on — *"only matters once agents run unattended"* — not *"above your level"*.
 
@@ -1212,7 +1224,7 @@ The report is a document; this is the message beside it. **Four short lines, in 
 Wrote harness-audits/2026-07-26-1420-report.md    ← the findings
       harness-audits/2026-07-26-1420-report.html  ← the same, designed
 
-Sixteen issues, five High. T1 and T2 hold; the next lever is T3 —
+Sixteen issues, five High. T1 holds; the next lever is T2 —
 two instruction layers with nothing reconciling them. Every issue
 links the tip behind it, if you want the why.
 
@@ -1231,7 +1243,7 @@ Or turn on the coach, so this gets caught as you work.
 
 **Then offer the three ways forward — but only the ones that fit:**
 
-**Hand the fix to a fresh session, not to this one.** By now the audit context holds two finders' output, a verifier's, and the whole report — several hundred thousand tokens, none of it about the fix. Offering to implement here contradicts three tips this skill audits against: [3.3](https://agentic-engineering.guide/tier-3#tip-3-3) `/clear` between tasks, [6.5](https://agentic-engineering.guide/tier-6#tip-6-5) engineer the long-horizon hand-off, [2.6](https://agentic-engineering.guide/tier-2#tip-2-6) spec, then a fresh session.
+**Hand the fix to a fresh session, not to this one.** By now the audit context holds two finders' output, a verifier's, and the whole report — several hundred thousand tokens, none of it about the fix. Offering to implement here contradicts three tips this skill audits against: [1.16](https://agentic-engineering.guide/tier-1#tip-1-16) `/clear` between tasks, [5.5](https://agentic-engineering.guide/tier-5#tip-5-5) engineer the long-horizon hand-off, [2.6](https://agentic-engineering.guide/tier-2#tip-2-6) spec, then a fresh session.
 
 **So give them the prompt, ready to paste**, naming the report path and the issue. The `.md` is the spec — that is what it was written for, and until something says so out loud, *"for an agent to pick up"* is a label nobody knows how to act on.
 
@@ -1245,8 +1257,8 @@ Or turn on the coach, so this gets caught as you work.
 
 **Offer at most two.** Three options is a menu and a menu defers the decision; pick the two the report actually argues for. **Never all three plus a re-run** — the audit doesn't sell its own second run.
 
-**When the next lever is T1 or T2, the tutor and the coach are the answer — say so plainly.** Those rungs are prompting and shaping, so there is no file to add and no gate to wire; a corrective action that says *"write better prompts"* is not one. This is the single case where the hand-off outranks "fix it now", and §The scorecard says the same thing from the rating side.
+**When the next lever is T1 — or T2's planning habits — the tutor and the coach are the answer; say so plainly.** That is prompting and shaping, so there is no file to add and no gate to wire; a corrective action that says *"write better prompts"* is not one. This is the single case where the hand-off outranks "fix it now", and §The scorecard says the same thing from the rating side.
 
-**If the audit couldn't rate T1/T2 at all** — no consent for transcript access — say what would change that, once: *"T1 and T2 are unrated; the tutor reads your real prompts (with consent) and rates them, or re-run this with transcript access."* One line, not a pitch.
+**If the audit couldn't rate T1 at all** — no consent for transcript access — say what would change that, once: *"T1 is unrated, and T2 is rated from its files only; the tutor reads your real prompts (with consent) and rates them, or re-run this with transcript access."* One line, not a pitch.
 
 **Not in this message:** how many finders ran, what the verifier cut, the budget, the theme, how long it took. All of that is on the cover for anyone who wants it. **The chat message is for deciding what to do next, and nothing that isn't a decision belongs in it.**
