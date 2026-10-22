@@ -286,8 +286,8 @@ button { font: inherit; }
 .mermaid svg .nodeLabel, .mermaid svg .label, .mermaid svg .label text, .mermaid svg span {
   color: var(--heading) !important; fill: var(--heading) !important; font-family: var(--font) !important;
 }
-.mermaid svg .flowchart-link, .mermaid svg .edgePath .path { stroke: var(--line2) !important; }
-.mermaid svg .arrowMarkerPath, .mermaid svg marker path { fill: var(--line2) !important; stroke: var(--line2) !important; }
+.mermaid svg .flowchart-link, .mermaid svg .edgePath .path { stroke: var(--muted) !important; }
+.mermaid svg .arrowMarkerPath, .mermaid svg marker path { fill: var(--muted) !important; stroke: var(--muted) !important; }
 .mermaid svg .edgeLabel, .mermaid svg .edgeLabel p, .mermaid svg .edgeLabel span {
   background: var(--bg) !important; background-color: var(--bg) !important; color: var(--body) !important;
 }
