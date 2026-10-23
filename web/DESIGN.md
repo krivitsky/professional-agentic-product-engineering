@@ -66,13 +66,13 @@ To change a color, edit the hex in `SCHEMES` — never the generated CSS. The bu
 
 - Header: square swatch button → panel with seven radio chips + Intensity slider + Reset (markup in `headerHtml()`, behavior in `app.js`).
 - A tiny pre-paint script (`PREPAINT` in build.mjs) runs in `<head>` before the stylesheet: sets `data-scheme`, `--intensity` and `data-nav` on `<html>`, so there is no flash.
-- localStorage keys: `pape.scheme`, `pape.intensity.<scheme>` (intensity is remembered **per scheme**), `pape.nav`, `pape.selfAudit`. All access is wrapped in try/catch; the site works with storage blocked.
+- localStorage keys: `pape.scheme`, `pape.intensity.<scheme>` (intensity is remembered **per scheme**), `pape.selfAudit`. All access is wrapped in try/catch; the site works with storage blocked.
 - URL parameters win and stick: `?scheme=signal`, `?intensity=0.6`.
 - The OG share card is always Cyanotype (the brand), whatever a reader picks.
 
 ### 3.3 Menu
 
-- **Inner pages, width ≥1024px:** menu docked open on the left; the user's open/closed choice is remembered (`pape.nav`). Current page highlighted and scrolled into view.
+- **Inner pages, width ≥1024px:** the menu always opens docked on the left, so following a link deeper into the guide keeps it in view. Closing it lasts for that page only (nothing is remembered). Current page highlighted and scrolled into view.
 - **Homepage (any width) and every page below 1024px:** menu is a drawer, always starts closed; opened by "Contents" in the top-left; overlay click, × button or Escape closes it; focus moves into the drawer and back.
 - Groups come from `NAV` in build.mjs (tiers, then "More"). A new guide section must be wired into `NAV` or it won't appear.
 
@@ -84,8 +84,8 @@ Built in `build.mjs` (`p.kind === 'home'`), read from `guide.md` by `homeData()`
 2. **The Six Tiers of Professional Agentic Product Engineering** (section heading): the subline ("From commanding the model to supervising the outcomes, a tier-by-tier guide.") as the section's subheader, then three stage columns (Direct · Trust · Scale), each tier a spec card: T-number, name, "You stop" / "You do instead", linking to its tier page. CSS subgrid lines the cards up across columns.
 3. **Buttons:** Start at T1 · How it works · All N tips · Learn it with your agent.
 4. **Audit your harness (self-audit radar):** six 0–5 sliders beside a hexagon radar SVG. Shows **Strongest** (highest-rated tier[s]) and **Next tier** = the lowest-numbered tier rated ≤2, as a link. **No total and no average**, which is the guide's own audit rule. Ratings saved in `pape.selfAudit`. Under the sliders (left column, so the right holds only the radar and its result): the four Claude Code commands that install the plugin and run `/pape:harness-audit` (a code box with Copy), a link to the plugin on GitHub, and "How the audit works". Radar maths is duplicated in build.mjs (server render) and app.js (live); keep them in sync.
-5. **The harness around the agent** diagram, from the Big Idea's "An **agentic system** …" paragraph.
-6. Remaining home markdown, then the footer CTA (spec-table style, Agentic Shift button).
+5. **The Harness Around the Agent:** a one-line lede, then the live vibe-coding-vs-agentic-system figure (the same widget the Big Idea page uses). On the homepage each animation's caption is replaced by the guide's own paragraph for that side, read from the Big Idea ("Prompting alone is **vibe coding**…" and "An **agentic system**…"). The "vibe coding" label is struck through in the accent color, on both pages.
+6. Remaining home markdown, then the footer spec table. (The Agentic Shift invitation was removed 2026-10-23.)
 
 The build fails, naming the part, if it can't read the opener, the `> **headline**` blockquote, the two tables in "The six tiers at a glance", or the harness paragraph from guide.md — or if the home links to a page that no longer exists.
 

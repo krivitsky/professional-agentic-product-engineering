@@ -10,8 +10,9 @@ const store = {
 };
 
 // --- menu -------------------------------------------------------------------
-// Inner pages dock the menu on wide screens (remembered); home and narrow
-// screens slide it in as a drawer that always starts closed.
+// Inner pages open with the menu docked on wide screens (closing it lasts for
+// that page only); home and narrow screens slide it in as a drawer that always
+// starts closed.
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const navToggle = document.querySelector('[data-nav-toggle]');
@@ -22,14 +23,13 @@ const docked = () => !isHome && wide.matches;
 function setNav(open, remember) {
   root.dataset.nav = open ? 'open' : 'closed';
   navToggle?.setAttribute('aria-expanded', String(open));
-  if (remember && docked()) store.set('pape.nav', open ? 'open' : 'closed');
   if (open && !docked()) (sidebar?.querySelector('a.active') || sidebar?.querySelector('a'))?.focus({ preventScroll: true });
 }
 setNav(root.dataset.nav === 'open', false);
 navToggle?.addEventListener('click', () => setNav(root.dataset.nav !== 'open', true));
 overlay?.addEventListener('click', () => setNav(false, false));
 document.querySelector('[data-nav-close]')?.addEventListener('click', () => { setNav(false, false); navToggle?.focus(); });
-wide.addEventListener?.('change', () => setNav(docked() && store.get('pape.nav') !== 'closed', false));
+wide.addEventListener?.('change', () => setNav(docked(), false));
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && root.dataset.nav === 'open' && !docked()) {
     setNav(false, false);

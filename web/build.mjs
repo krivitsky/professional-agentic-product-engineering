@@ -91,7 +91,7 @@ const ANIM_CSS = `
 @media (max-width:560px){.pae-fig .cols{grid-template-columns:1fr}}
 .pae-fig .col{display:flex;flex-direction:column;align-items:center;width:100%;max-width:340px}
 .pae-fig .lab{font-size:16px;margin:0 0 8px}
-.pae-fig .lab.myth{color:var(--coral)}
+.pae-fig .lab.myth{color:var(--coral);text-decoration:line-through;text-decoration-color:var(--accent);text-decoration-thickness:2px}
 .pae-fig .lab.real{color:var(--teal)}
 .pae-fig svg{width:100%;height:auto;display:block;max-width:340px}
 .pae-fig .ball{fill:var(--ball);stroke:var(--ballstroke);stroke-width:1.5}
@@ -111,7 +111,8 @@ const ANIM_FIGURE =
 const injectAnim = (html) =>
   html
     // swap the static PNG for the live widget on the website…
-    .replace(/(?:<p>\s*)?<img[^>]*src="assets\/vibing-vs-agentic-engineering\.png"[^>]*>(?:\s*<\/p>)?/, ANIM_FIGURE)
+    // (not the <noscript> fallback inside a figure that's already live)
+    .replace(/(?:<p>\s*)?(?<!<noscript>)<img[^>]*src="assets\/vibing-vs-agentic-engineering\.png"[^>]*>(?:\s*<\/p>)?/, ANIM_FIGURE)
     // …and drop the "watch it animate / interactive" caption (redundant here)
     .replace(/<p><em>[\s\S]*?vibing-vs-agentic-engineering\.gif[\s\S]*?<\/em><\/p>\s*/, '');
 
@@ -243,16 +244,12 @@ function headerHtml() {
   </div>
 </header>`;
 }
-// The footer: the Agentic Shift invitation and the guide's spec sheet.
+// The footer: the guide's spec sheet.
 function footerHtml() {
   const build = BUILD_SHA_FULL
     ? `built ${BUILD_TIME} · <a href="${REPO_URL}/commit/${BUILD_SHA_FULL}" target="_blank" rel="noopener">build ${BUILD_SHA}</a>`
     : `built ${BUILD_TIME} · build ${BUILD_SHA}`;
   return `<footer class="site-footer">
-  <div class="cta">
-    <p class="cta-title">Join a professional learning community for builders and leaders</p>
-    <a class="btn btn-primary" href="https://agentic-shift.com/" target="_blank" rel="noopener">Apply to Agentic Shift</a>
-  </div>
   <dl class="spec">
     <div><dt>Title</dt><dd>Professional Agentic Product Engineering</dd></div>
     <div><dt>Author</dt><dd><a href="${AUTHOR_URL}" target="_blank" rel="noopener">${AUTHOR_NAME}</a></dd></div>
@@ -277,7 +274,7 @@ var i=parseFloat(q.get('intensity'));if(i>=${INTENSITY.min}&&i<=${INTENSITY.max}
 if(!(i>=${INTENSITY.min}&&i<=${INTENSITY.max}))i=${INTENSITY.def};
 d.setAttribute('data-scheme',s);d.style.setProperty('--intensity',String(i));
 var w=window.matchMedia&&matchMedia('(min-width: 1024px)').matches;
-d.setAttribute('data-nav',!d.hasAttribute('data-home')&&w&&g('pape.nav')!=='closed'?'open':'closed');})();`;
+d.setAttribute('data-nav',!d.hasAttribute('data-home')&&w?'open':'closed');})();`;
 
 const anchorToPage = {}; // every known anchor/slug -> page slug
 anchorToPage[slug('contents')] = 'index';
@@ -434,6 +431,25 @@ function harnessParagraph() {
   return para;
 }
 const HARNESS_MD = harnessParagraph();
+// The other half of the contrast, from the same Big Idea section.
+function vibeParagraph() {
+  const big = sections.find((x) => /^Big Idea/i.test(x.heading));
+  const para = big && big.lines.join('\n').split(/\n\s*\n/).map((x) => x.trim()).find((x) => x.startsWith('Prompting alone is **vibe coding**'));
+  if (!para) {
+    console.error('✖ home page: the Big Idea no longer has the "Prompting alone is **vibe coding**" paragraph the harness section quotes');
+    process.exit(1);
+  }
+  return para;
+}
+const VIBE_MD = vibeParagraph();
+// The homepage's copy of the figure: each animation's short caption gives way
+// to the guide's own paragraph for that side, so the explanation sits under
+// the picture it explains.
+const HOME_FIGURE = (() => {
+  let k = 0;
+  return ANIM_FIGURE.replace(/<p class="cap">[\s\S]*?<\/p>/g, (m) =>
+    `<p class="cap">${marked.parseInline([VIBE_MD, HARNESS_MD][k++] || '')}</p>`);
+})();
 const stageOfTier = Object.fromEntries(HOME.tiers.map((t) => [t.n, t.stage]));
 
 // --------------------------------------------------- cross-page link fixer ---
@@ -745,17 +761,8 @@ function selfAuditHtml(fileOf) {
 function harnessHtml(fileOf) {
   return `<section class="home-section harness" aria-labelledby="harness-h">` +
     `<h2 id="harness-h">The Harness Around the Agent</h2>` +
-    `<p class="section-lede">${marked.parseInline(HARNESS_MD)}</p>` +
-    `<div class="hd" role="img" aria-label="Specify with guidelines, bound the coding agent with guardrails, verify with autotests, and loop until done.">` +
-    `<div class="hd-row">` +
-    `<div class="hd-box"><span class="hd-title">Specify</span><span class="hd-sub">Guidelines shape how it should behave</span></div>` +
-    `<span class="hd-arrow" aria-hidden="true"></span>` +
-    `<div class="hd-bound"><span class="hd-bound-label">Guardrails</span><div class="hd-agent">Coding agent</div><span class="hd-sub">The limits it can't cross</span></div>` +
-    `<span class="hd-arrow" aria-hidden="true"></span>` +
-    `<div class="hd-box"><span class="hd-title">Verify</span><span class="hd-sub">Autotests give it ground truth from the environment</span></div>` +
-    `</div>` +
-    `<div class="hd-loop" aria-hidden="true"><span class="hd-loop-head"></span><span class="hd-loop-label">Workflow — the loop it runs, until done</span></div>` +
-    `</div>` +
+    `<p class="section-lede">The same model, two ways to run it. On the left it is poked with prompt after prompt; on the right it runs inside a harness that keeps it on course.</p>` +
+    HOME_FIGURE +
     `<p class="hd-more"><a href="${fileOf('big-idea')}">Read the Big Idea →</a></p>` +
     `</section>`;
 }

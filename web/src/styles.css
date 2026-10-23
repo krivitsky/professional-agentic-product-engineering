@@ -332,11 +332,10 @@ button { font: inherit; }
 
 /* ------------------------------------------------------------ footer */
 .site-footer {
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 560px); align-items: end; gap: 32px 48px;
+  display: grid; grid-template-columns: minmax(0, 560px); gap: 24px;
   padding: 40px 32px 28px;
   border-top: 2px solid var(--line);
 }
-.cta-title { margin: 0 0 20px; font-size: 30px; line-height: 1.15; font-weight: 700; letter-spacing: -0.03em; color: var(--heading); }
 .spec { margin: 0; border: 2px solid var(--line); }
 .spec > div { display: grid; grid-template-columns: 130px minmax(0, 1fr); border-bottom: 1px solid var(--line2); }
 .spec > div:last-child { border-bottom: 0; }
@@ -452,50 +451,12 @@ button { font: inherit; }
 .content .audit-real .codebox { margin: 4px 0 12px; }
 .content .audit-real strong { color: var(--heading); }
 .content .audit-real strong.hl { color: var(--accent); font-weight: 600; }
-
-/* the harness around the agent: Specify → [Guardrails: agent] → Verify, looped */
-.hd { width: 884px; max-width: 100%; margin: 8px auto 0; padding: 12px 0 34px; }
-.hd-row { display: flex; align-items: stretch; }
-.hd-box {
-  flex: 0 0 240px; min-height: 132px; padding: 18px 22px;
-  display: flex; flex-direction: column; justify-content: center; gap: 6px;
-  border: 2px solid var(--line);
-}
-.hd-title { font-size: 26px; line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; color: var(--heading); }
-.hd-sub { font-size: 14.5px; line-height: 1.4; color: var(--body); }
-.hd-arrow { flex: 0 0 72px; align-self: center; height: 12px; position: relative; }
-.hd-arrow::before { content: ""; position: absolute; left: 0; right: 10px; top: 5px; height: 2px; background: var(--line); }
-.hd-arrow::after {
-  content: ""; position: absolute; right: 0; top: 0; width: 0; height: 0;
-  border-left: 10px solid var(--line); border-top: 6px solid transparent; border-bottom: 6px solid transparent;
-}
-.hd-bound {
-  flex: 0 0 260px; position: relative; padding: 30px 20px 14px;
-  border: 2px dashed var(--accent); display: flex; flex-direction: column; gap: 8px;
-}
-.hd-bound-label {
-  position: absolute; top: -13px; left: 16px; padding: 0 8px; background: var(--bg);
-  font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--accent);
-}
-.hd-agent {
-  min-height: 72px; display: flex; align-items: center; justify-content: center;
-  background: var(--line); color: var(--bg);
-  font-size: 24px; font-weight: 700; letter-spacing: -0.02em;
-}
-.hd-bound .hd-sub { text-align: center; }
-.hd-loop {
-  position: relative; margin-left: 120px; width: 644px; height: 56px;
-  border: 2px solid var(--line); border-top: 0;
-}
-.hd-loop-head {
-  position: absolute; left: -8px; top: -2px; width: 0; height: 0;
-  border-bottom: 12px solid var(--line); border-left: 7px solid transparent; border-right: 7px solid transparent;
-}
-.hd-loop-label {
-  position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%);
-  padding: 0 14px; background: var(--bg); white-space: nowrap;
-  font-size: 17px; font-weight: 600; line-height: 1.5; color: var(--heading);
-}
+/* the harness around the agent: the animated figure, then the two halves explained */
+.harness .pae-fig { max-width: 980px; margin: 8px 0 0; padding: 36px 32px 28px; }
+.harness .pae-fig .cols { max-width: 900px; gap: 48px; align-items: start; }
+.harness .pae-fig .col { max-width: 420px; }
+.harness .pae-fig .cap { margin: 20px 0 0; text-align: left; font: 400 16px/1.6 var(--font); color: var(--body); }
+.harness .pae-fig .cap strong { color: var(--heading); font-weight: 600; }
 .content .hd-more { margin: 24px 0 0; }
 
 /* ------------------------------------------------------------ narrow */
@@ -518,17 +479,6 @@ button { font: inherit; }
   .hero { display: block; }
   .hero-opener { margin: 0 0 28px; }
   .audit-grid { grid-template-columns: minmax(0, 1fr); }
-  .hd-row { flex-direction: column; align-items: stretch; }
-  .hd-box, .hd-bound { flex: none; }
-  .hd-box { min-height: 0; }
-  .hd-arrow { flex: none; width: 12px; height: 34px; align-self: center; }
-  .hd-arrow::before { left: 5px; right: auto; top: 0; bottom: 10px; width: 2px; height: auto; }
-  .hd-arrow::after { left: 0; right: auto; top: auto; bottom: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 10px solid var(--line); border-bottom: 0; }
-  .hd-bound { margin-top: 10px; }
-  .hd-loop { margin: 18px 0 0; width: auto; height: auto; border: 0; }
-  .hd-loop-head { display: none; }
-  .hd-loop-label { position: static; transform: none; display: block; padding: 0; white-space: normal; text-align: center; }
-  .hd-loop-label::before { content: "↺ "; color: var(--accent); }
 }
 @media (max-width: 720px) {
   :root { --gutter: 8px; }
@@ -539,7 +489,6 @@ button { font: inherit; }
   .content h2 { font-size: 26px; }
   .pager { padding: 0 18px; }
   .site-footer { grid-template-columns: minmax(0, 1fr); padding: 32px 18px 24px; }
-  .cta-title { font-size: 25px; }
   .spec > div { grid-template-columns: 100px minmax(0, 1fr); }
   .content.home { padding: 36px 18px 20px; }
   .hero { padding-bottom: 36px; }
