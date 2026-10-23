@@ -451,6 +451,7 @@ button { font: inherit; }
 .content .audit-real p { margin: 0 0 10px; }
 .content .audit-real .codebox { margin: 4px 0 12px; }
 .content .audit-real strong { color: var(--heading); }
+.content .audit-real strong.hl { color: var(--accent); font-weight: 600; }
 
 /* the harness around the agent: Specify → [Guardrails: agent] → Verify, looped */
 .hd { width: 884px; max-width: 100%; margin: 8px auto 0; padding: 12px 0 34px; }
