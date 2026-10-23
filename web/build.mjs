@@ -253,8 +253,8 @@ function footerHtml() {
   <dl class="spec">
     <div><dt>Title</dt><dd>Professional Agentic Product Engineering</dd></div>
     <div><dt>Author</dt><dd><a href="${AUTHOR_URL}" target="_blank" rel="noopener">${AUTHOR_NAME}</a></dd></div>
-    <div><dt>Revision</dt><dd>Updated continuously<span class="buildmeta">${build}</span></dd></div>
     <div><dt>Source</dt><dd><a href="${REPO_URL}" target="_blank" rel="noopener">GitHub repository</a> · <a href="${REPO_URL}/blob/main/guide.md" target="_blank" rel="noopener">guide.md</a></dd></div>
+    <div><dt>Revision</dt><dd>Updated continuously<span class="buildmeta">${build}</span></dd></div>
   </dl>
   <nav class="footer-links" aria-label="Site files">
     <a href="sitemap.xml">Sitemap</a>

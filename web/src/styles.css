@@ -332,7 +332,7 @@ button { font: inherit; }
 
 /* ------------------------------------------------------------ footer */
 .site-footer {
-  display: grid; grid-template-columns: minmax(0, 560px); gap: 24px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px;
   padding: 40px 32px 28px;
   border-top: 2px solid var(--line);
 }
@@ -344,6 +344,11 @@ button { font: inherit; }
 .spec dd a { font-weight: 500; text-underline-offset: 3px; }
 .spec .buildmeta { display: block; margin-top: 2px; font-size: 13px; font-weight: 400; color: var(--muted); }
 .spec .buildmeta a { color: var(--muted); }
+/* the footer's spec sheet runs full width in two columns, filled column by
+   column (Title, Author | Source, Revision), each cell a label | value pair */
+.site-footer .spec { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto auto; grid-auto-flow: column; }
+.site-footer .spec > div:nth-child(-n+2) { border-right: 1px solid var(--line2); }
+.site-footer .spec > div:nth-child(even) { border-bottom: 0; }
 .footer-links {
   grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 22px;
   padding-top: 18px; border-top: 1px solid var(--line2); font-size: 13.5px;
@@ -488,6 +493,10 @@ button { font: inherit; }
   .content h2 { font-size: 26px; }
   .pager { padding: 0 18px; }
   .site-footer { grid-template-columns: minmax(0, 1fr); padding: 32px 18px 24px; }
+  .site-footer .spec { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; grid-auto-flow: row; }
+  .site-footer .spec > div:nth-child(-n+2) { border-right: 0; }
+  .site-footer .spec > div:nth-child(even) { border-bottom: 1px solid var(--line2); }
+  .site-footer .spec > div:last-child { border-bottom: 0; }
   .spec > div { grid-template-columns: 100px minmax(0, 1fr); }
   .content.home { padding: 36px 18px 20px; }
   .hero { padding-bottom: 36px; }
