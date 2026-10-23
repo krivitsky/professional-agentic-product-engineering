@@ -58,12 +58,13 @@ for (const [scale, name] of [[1, 'og.png'], [2, 'og-2x.png']]) {
 }
 await rm(tmp, { force: true });
 
-// Square favicon: the logo in the brand colors, the harness as a solid yellow
-// square with the agent as a blue dot, on a transparent background.
+// Square favicon: the logo in Signal colors, the harness as a solid orange
+// square with a white rim (so it holds on dark tab bars) and the agent as a
+// black dot, on a transparent background.
 const favHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
 *{margin:0;padding:0}html,body{width:512px;height:512px;background:transparent}
 svg{display:block;width:512px;height:512px}
-</style></head><body><svg viewBox="0 0 100 100"><rect x="4" y="4" width="92" height="92" rx="20" fill="#FFD23F"/><circle cx="64" cy="36" r="13" fill="#0B3A8C"/></svg></body></html>`;
+</style></head><body><svg viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" rx="20" fill="#FF5A1F" stroke="#FFFFFF" stroke-width="6"/><circle cx="64" cy="36" r="13" fill="#0A0A0A"/></svg></body></html>`;
 const favTmp = join(HERE, '.fav-tmp.html');
 const favOut = join(ROOT, 'assets', 'favicon.png');
 await writeFile(favTmp, favHtml);
