@@ -98,7 +98,7 @@ The build fails, naming the part, if it can't read the opener, the `> **headline
 
 ## 6. Open Items — Need Alexey's Call Before or After Merge
 
-1. **Self-audit starting values.** It opens with example ratings `[4,3,2,2,1,0]` (`AUDIT_DEFAULT`), so a first-time visitor sees a "Next tier" they never rated. Options: label them "example ratings", or start at zero/empty.
+1. **Self-audit starting values.** Resolved 2026-10-23: the section is titled "Audit Your Harness: Example", so the opening ratings `[4,3,2,2,1,0]` (`AUDIT_DEFAULT`) read as an example. Starting at zero is still an option.
 2. **"Why this is now its own profession"** section from the mockup was not built. Bring it back with wording from the guide?
 3. **"dark/light mode" wording** still in README and guide.md "Formats" section; the site now has seven schemes. Changing guide.md requires `scripts/sync-plugin.sh` and a plugin version bump.
 4. **`assets/harness-audit-banner.png` still says "8-tier".** Source file is not in the repo; needs regenerating (tracked on the wiki PAPE Guide page).

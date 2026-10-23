@@ -725,7 +725,7 @@ function selfAuditHtml(fileOf) {
   return `<section class="home-section self-audit" id="self-audit" aria-labelledby="audit-h" data-audit ` +
     `data-tiers="${escapeHtml(JSON.stringify(HOME.tiers.map((t) => ({ n: t.n, name: t.name, href: fileOf(`tier-${t.n}`) }))))}">` +
     `<div class="audit-grid"><div class="audit-left">` +
-    `<h2 id="audit-h">Audit Your Harness</h2>` +
+    `<h2 id="audit-h">Audit Your Harness: Example</h2>` +
     `<p class="section-lede">Rate your practice on each tier from 0 to 5. The shape shows where you are strong and where to climb next.</p>` +
     `<div class="audit-rows">${rows}</div>` +
     `<p class="audit-note">Your ratings stay in this browser.</p>` +
