@@ -43,7 +43,7 @@ h1{font-size:70px;line-height:.98;letter-spacing:-.045em;font-weight:700;color:#
 <div class="top"><span class="mark">PAPE</span><span class="name">Professional Agentic Product Engineering</span><span class="dom">agenticengineering.guide</span></div>
 <div class="body">
 <h1>Free the human.<br>Elevate human intelligence.</h1>
-<div class="ruler"><span class="tick"></span><span class="line"></span><span class="rt">From operating the model to deciding the outcome, tier by tier.</span><span class="line"></span><span class="tick"></span></div>
+<div class="ruler"><span class="tick"></span><span class="line"></span><span class="rt">From commanding the model to supervising the outcomes, a tier-by-tier guide.</span><span class="line"></span><span class="tick"></span></div>
 </div>
 <div class="tiers">${TIERS.map(([stage, ts]) => `<div class="stage"><p>${stage}</p><div class="pair">${ts.map(([n, nm]) => `<div class="t"><b>${n}</b><span>${nm}</span></div>`).join('')}</div></div>`).join('')}</div>
 </div></body></html>`;

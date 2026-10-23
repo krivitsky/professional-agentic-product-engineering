@@ -14,7 +14,7 @@ That system is what this guide teaches: tier by tier, it takes over a chore and 
 
 > **Free the human. Elevate human intelligence.**
 >
-> From operating the model to deciding the outcome, tier by tier.
+> From commanding the model to supervising the outcomes, a tier-by-tier guide.
 
 ### Contents
 

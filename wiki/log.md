@@ -126,3 +126,7 @@ No tier or tip changed — counts stay at 62. Plugin bumped 0.57.0 → 0.57.1; b
 ## [2026-10-22] edit | T1 names the chore it hands over
 
 Tier 1's "You stop" was a dash; it now reads *writing the code by hand* — the chore the guide's opener is about. Updated [[Tier 1 — Prompt]] and [[The Six Tiers]]. No tip changed.
+
+## [2026-10-23] edit | New subline under the headline
+
+The line under **Free the human. Elevate human intelligence.** now reads *From commanding the model to supervising the outcomes, a tier-by-tier guide.* Updated [[The Six Tiers]]. No tip changed.

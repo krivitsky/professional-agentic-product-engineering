@@ -1,9 +1,9 @@
 # The Six Tiers
 **Source:** [guide.md](../../guide.md) (root of repo — canonical, not copied here)
 **Created:** 2026-07-04
-**Updated:** 2026-10-22
+**Updated:** 2026-10-23
 
-The guide opens with them: **Free the human. Elevate human intelligence.** — *from operating the model to deciding the outcome, tier by tier.*
+The guide opens with them: **Free the human. Elevate human intelligence.** — *from commanding the model to supervising the outcomes, a tier-by-tier guide.*
 
 The opener behind it: writing code was maybe never the human job; understanding the problem and deciding what's worth building was. Machines can write the code now, if we build the system around them — and each tier hands one more manual chore to that system while the human keeps the judgment. The guide calls itself a deep dive into that agentic shift, from coding features to designing systems.
 
