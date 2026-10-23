@@ -798,15 +798,14 @@ for (const p of pages) {
     contentHtml =
       `<section class="hero">` +
       `<h1 class="hero-title">Professional Agentic Product Engineering</h1>` +
+      `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
       `<p class="hero-sub">${escapeHtml(HOME.shiftHead)}</p>` +
       `<div class="hero-opener">${HOME.opener.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</div>` +
-      `<div class="hero-plugin">` +
-      `<p>Available as a <strong>Claude Code plugin</strong>: a coach while you work and an audit of your repo. ` +
-      `<a href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Install it →</a></p>` +
-      `<p>And as an <strong>Obsidian vault</strong>: the guide as linked pages, one per tier and tip. ` +
-      `<a href="${REPO_URL}/tree/main/wiki" target="_blank" rel="noopener">Get the vault →</a></p>` +
-      `</div>` +
-      `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
+      `<p class="hero-get">` +
+      `<a class="btn btn-primary" href="${fileOf('tier-1')}">Start at T1 →</a>` +
+      `<a class="btn" href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Claude Code plugin ↗</a>` +
+      `<a class="btn" href="${REPO_URL}/tree/main/wiki" target="_blank" rel="noopener">Obsidian vault ↗</a>` +
+      `</p>` +
       `</section>` +
       `<section class="home-section" aria-labelledby="tiers-h">` +
       `<h2 id="tiers-h">The Six Tiers of Professional Agentic Product Engineering</h2>` +
