@@ -138,3 +138,7 @@ The guide's headline is now **Free the human to judge and innovate.** (was *Free
 ## [2026-10-23] edit | Shorter opener
 
 The guide's opener went from five lines to three: *Maybe writing code was never the human job. / The job was always understanding the problem and deciding what's worth building. / Machines can write it now, if we build the system around them — this guide teaches that system.* [[The Six Tiers]] summarizes it and still holds. No tip changed.
+
+## [2026-10-23] edit | "designing agentic systems"
+
+The guide's shift line now reads *From coding features to designing **agentic** systems* (front matter and "Part of the Agentic Shift System"). Updated [[The Six Tiers]]. No tip changed.

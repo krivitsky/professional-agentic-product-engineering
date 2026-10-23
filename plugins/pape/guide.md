@@ -8,7 +8,7 @@ Maybe writing code was never the human job.
 The job was always understanding the problem and deciding what's worth building.  
 Machines can write it now, if we build the system around them — this guide teaches that system.
 
-**From coding features to designing systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
+**from coding features to designing agentic systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
 
 > **Free the human to judge and innovate.**
 >
@@ -1412,7 +1412,7 @@ Read it in whichever form fits how you work — all four stay in sync with this 
 
 ## Part of the Agentic Shift System
 
-PAPE is the deep dive into the [agentic shift](https://agentic-shift.com/) from coding features to designing systems.
+PAPE is the deep dive into the [agentic shift](https://agentic-shift.com/) from coding features to designing agentic systems.
 
 This is a guide to the **technical** side of the agentic shift — how engineers and product teams get genuinely good at building with coding agents. It stops there on purpose.
 
