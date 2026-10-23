@@ -5,7 +5,7 @@
 **⭐ Star it; submit issues or PRs** — help yourself and the next person learn better.
 
 What if writing code was never the human task?  
-The real job was always understanding the problem and deciding what's worth building.  
+**The real job** was always understanding the problem and deciding what's worth building.  
 Now that machines can build software, **the new profession** is to design the systems to ensure the quality.
 
 **From coding features to designing agentic systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
