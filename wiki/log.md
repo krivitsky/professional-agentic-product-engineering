@@ -146,3 +146,7 @@ The guide's shift line now reads *From coding features to designing **agentic** 
 ## [2026-10-23] edit | Title-case headings; opener lines 1–2
 
 Every heading in the guide and the vault's section headings are now in title case (rule in the repo `CLAUDE.md`). Page H1s and filenames are unchanged — tip pages mirror tip titles, which are sentences. The opener now opens *What if writing code was never the human job? / The real job was always understanding the problem…*. No tip changed.
+
+## [2026-10-23] edit | Opener: the new profession
+
+The opener's last line now names the shift as a profession: *Now that machines can build software, the new profession is to design the systems to ensure the quality.* Line one adds *(though we got good at that)*. Updated [[The Six Tiers]]. No tip changed.

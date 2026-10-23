@@ -5,7 +5,7 @@
 
 The guide opens with its headline: **Free the human to judge and innovate.** — *from commanding the model to supervising the outcomes, a tier-by-tier guide.*
 
-The opener behind it: writing code was maybe never the human job; understanding the problem and deciding what's worth building was. Machines can write the code now, if we build the system around them — and each tier hands one more manual chore to that system while the human keeps the judgment. The guide calls itself a deep dive into that agentic shift, from coding features to designing agentic systems.
+The opener behind it: writing code was maybe never the human task, though we got good at it; understanding the problem and deciding what's worth building was the real job. Now that machines can build software, the new profession is designing the systems that ensure the quality — and each tier hands one more manual chore to that system while the human keeps the judgment. The guide calls itself a deep dive into that agentic shift, from coding features to designing agentic systems.
 
 ## The Ladder — Three Stages, Two Tiers Each
 
