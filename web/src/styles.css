@@ -438,13 +438,14 @@ button { font: inherit; }
 .audit-rows { border-top: 2px solid var(--line); max-width: 720px; }
 .audit-row {
   display: flex; align-items: center; gap: 14px;
-  padding: 9px 4px; border-bottom: 1px solid var(--line2); cursor: pointer;
+  padding: 9px 4px; border-bottom: 1px solid var(--line2);
 }
 .ar-n { flex: 0 0 30px; font-size: 17px; font-weight: 700; color: var(--accent); }
 .ar-name { flex: 1 1 160px; font-size: 17px; font-weight: 500; letter-spacing: -0.01em; color: var(--heading); }
+.content a.ar-name { text-decoration: none; }
+.content a.ar-name:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 .audit-row input[type=range] { flex: 0 1 180px; min-width: 90px; height: 28px; margin: 0; accent-color: var(--accent); }
 .ar-v { flex: 0 0 18px; text-align: right; font-size: 17px; font-weight: 600; color: var(--heading); }
-.content .audit-note { margin: 12px 0 0; font-size: 14px; color: var(--muted); }
 .radar { display: block; width: 100%; max-width: 520px; height: auto; margin: 0 auto 16px; }
 .radar-ring, .radar-axis { fill: none; stroke: var(--line2); stroke-width: 1; }
 .radar-ring { stroke-opacity: .7; }

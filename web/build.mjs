@@ -88,9 +88,10 @@ const ANIM_CSS = `
 .pae-fig{--fg:var(--heading);--sub:var(--body);--card:var(--code-bg);--teal:var(--accent);--coral:var(--muted);--ball:var(--accent);--ballstroke:var(--bg);--myth-fill:color-mix(in oklab,var(--muted) 14%,transparent);--real-fill:var(--bg);background:var(--panel);color:var(--fg);font-family:var(--mono);display:flex;flex-direction:column;align-items:center;padding:32px 20px;margin:24px 0;border:1px solid var(--line2)}
 .pae-fig *{box-sizing:border-box}
 .pae-fig .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%;max-width:760px;justify-items:center;margin:0}
+@media (min-width:561px){.pae-fig .cols{transform:translateX(-32px)}}
 @media (max-width:560px){.pae-fig .cols{grid-template-columns:1fr}}
 .pae-fig .col{display:flex;flex-direction:column;align-items:center;width:100%;max-width:340px}
-.pae-fig .lab{font-size:16px;margin:0 0 8px}
+.pae-fig .lab{font-size:20px;margin:0 0 8px}
 .pae-fig .lab.myth{color:var(--coral);text-decoration:line-through;text-decoration-color:var(--accent);text-decoration-thickness:2px}
 .pae-fig .lab.real{color:var(--teal)}
 .pae-fig svg{width:100%;height:auto;display:block;max-width:340px}
@@ -98,7 +99,7 @@ const ANIM_CSS = `
 .pae-fig .sq{fill:var(--real-fill);stroke:var(--teal);stroke-width:1.3}
 .pae-fig .bnd{fill:var(--myth-fill);stroke:var(--muted);stroke-width:1;stroke-dasharray:5 4}
 .pae-fig .trail{fill:none;stroke:var(--sub);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
-.pae-fig .lbl{font-family:var(--mono);font-size:13px;fill:var(--fg)}
+.pae-fig .lbl{font-family:var(--mono);font-size:16px;fill:var(--fg)}
 .pae-fig .cap{color:var(--muted);font-size:12px;margin:16px 0 0;text-align:center;max-width:100%;line-height:1.6}
 .pae-fig .credit{margin-top:30px;width:100%;max-width:520px;text-align:center}
 .pae-fig .credit hr{border:0;border-top:1px solid var(--line2);margin:0 0 12px}
@@ -729,9 +730,9 @@ function auditSummary(tiers, values, fileOf) {
 function selfAuditHtml(fileOf) {
   const v = AUDIT_DEFAULT;
   const rows = HOME.tiers.map((t, i) =>
-    `<label class="audit-row"><span class="ar-n">T${t.n}</span><span class="ar-name">${escapeHtml(t.name)}</span>` +
+    `<div class="audit-row"><span class="ar-n">T${t.n}</span><a class="ar-name" href="${fileOf(`tier-${t.n}`)}">${escapeHtml(t.name)}</a>` +
     `<input type="range" min="0" max="5" step="1" value="${v[i]}" data-tier="${i}" aria-label="T${t.n} ${escapeHtml(t.name)}, rated 0 to 5">` +
-    `<output class="ar-v">${v[i]}</output></label>`).join('');
+    `<output class="ar-v">${v[i]}</output></div>`).join('');
   const sum = auditSummary(HOME.tiers, v, fileOf);
   return `<section class="home-section self-audit" id="self-audit" aria-labelledby="audit-h" data-audit ` +
     `data-tiers="${escapeHtml(JSON.stringify(HOME.tiers.map((t) => ({ n: t.n, name: t.name, href: fileOf(`tier-${t.n}`) }))))}">` +
@@ -739,9 +740,8 @@ function selfAuditHtml(fileOf) {
     `<h2 id="audit-h">Audit Your Harness: Example</h2>` +
     `<p class="section-lede">Rate your practice on each tier from 0 to 5. The shape shows where you are strong and where to climb next.</p>` +
     `<div class="audit-rows">${rows}</div>` +
-    `<p class="audit-note">Your ratings stay in this browser.</p>` +
     `<div class="audit-real">` +
-    `<p>This is a self-check. For a real one, run the <strong class="hl">harness audit</strong> in Claude Code, in a repo you work in: it reads the harness you've checked in, rates all six tiers, and names the one next thing to fix.</p>` +
+    `<p>Run the <strong class="hl">harness audit</strong> in Claude Code, in a repo you work in: it reads the harness you've checked in, rates all six tiers, and names the one next thing to fix.</p>` +
     `<div class="codebox" data-lang="in Claude Code"><button class="copy" type="button" aria-label="Copy to clipboard">${COPY_ICON}<span>Copy</span></button>` +
     `<pre><code class="language-text">/plugin marketplace add krivitsky/professional-agentic-product-engineering\n/plugin install pape@pape\n/reload-plugins\n/pape:harness-audit</code></pre></div>` +
     `<p><a href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">The plugin on GitHub ↗</a> · <a href="${fileOf('audit-your-harness')}">How the audit works →</a></p>` +
