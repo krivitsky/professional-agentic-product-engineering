@@ -391,12 +391,12 @@ if (harvestedTips.length) {
 function homeData() {
   const paras = HOME_INTRO_MD.trim().split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);
   // Two blockquotes: the headline ("> **…**" + subline) and the opener, quoted
-  // and signed ("> …" lines, then "> *Name, role*").
+  // and signed ("> …" lines, then "> — **Name**, role").
   const quote = paras.find((s) => /^>\s*\*\*/.test(s));
   const shift = paras.find((s) => s.startsWith('**'));
   const opener = paras.find((s) => s !== quote && s !== shift && !s.startsWith('<'));
   const openerLines = (opener || '').split('\n').map((l) => l.replace(/^>\s?/, '').trim()).filter(Boolean);
-  const cite = /^\*[^*].*\*$/.test(openerLines[openerLines.length - 1] || '') ? openerLines.pop().replace(/^\*|\*$/g, '') : '';
+  const cite = /^—\s/.test(openerLines[openerLines.length - 1] || '') ? openerLines.pop().replace(/^—\s*/, '') : '';
   const q = (quote || '').split('\n').map((l) => l.replace(/^>\s?/, '').trim()).filter(Boolean);
   const headline = (q[0] || '').replace(/^\*\*|\*\*$/g, '');
   const subline = q[1] || '';
@@ -810,7 +810,7 @@ for (const p of pages) {
       `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
       `<p class="hero-sub">${escapeHtml(HOME.shiftHead)}</p>` +
       `<figure class="hero-opener"><blockquote>${HOME.opener.map((l) => `<p>${marked.parseInline(l)}</p>`).join('')}</blockquote>` +
-      (HOME.cite ? `<figcaption>${escapeHtml(HOME.cite)}</figcaption>` : '') + `</figure>` +
+      (HOME.cite ? `<figcaption>— ${marked.parseInline(HOME.cite).replace(/<a href="http/g, '<a target="_blank" rel="noopener" href="http')}</figcaption>` : '') + `</figure>` +
       `<p class="hero-get">` +
       `<a class="btn btn-primary" href="${fileOf('big-idea')}">Read the guide →</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Claude Code plugin ↗</a>` +

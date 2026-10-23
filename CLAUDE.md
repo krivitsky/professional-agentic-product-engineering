@@ -52,7 +52,7 @@ The style (Chicago):
 
 ## Avoid Em Dashes
 
-**Don't write em dashes (—) in new or edited text** (Alexey, 2026-10-23). Use a comma, a colon, parentheses, or two sentences instead. When you rewrite a sentence that has one, take it out.
+**Don't write em dashes (—) in new or edited text** (Alexey, 2026-10-23). Use a comma, a colon, parentheses, or two sentences instead. When you rewrite a sentence that has one, take it out. **One exception:** the dash that introduces a quote's author (`> — **Alexey Krivitsky**, the creator of PAPE`).
 
 **Structural dashes stay** until Alexey asks for a sweep, because they are names other things depend on: tier headings (`Tier 1 — Prompt: …`), tip titles and their wiki pages (`Tip 1.1 — …`, which are filenames and wikilinks), and the build's heading parsing (`shortLabel()` splits on ` — `). The guide still has about 380 older em dashes in body text; don't mass-replace them unasked.
 

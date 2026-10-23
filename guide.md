@@ -8,7 +8,7 @@
 > The real job was always understanding the problem and deciding what's worth building.  
 > Now that machines can build software, **the new profession** is designing the systems that ensure quality, and spending the freed-up time on purely human work: judgment and innovation.
 >
-> *Alexey Krivitsky, the creator of PAPE*
+> — **[Alexey Krivitsky](https://www.krivitsky.com/)**, the creator of PAPE
 
 **From coding features to designing agentic systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
 
