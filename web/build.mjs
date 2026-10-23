@@ -849,7 +849,13 @@ for (const p of pages) {
   contentHtml = injectLoops(injectAnim(contentHtml));
   // Home is served at "/", so links to it say "./" and the address bar never
   // shows index.html (locally or on Vercel).
-  await writeFile(join(DIST, p.file), shell({ page: p, contentHtml }).replace(/href="index\.html(#[^"]*)?"/g, (m, h) => `href="./${h || ''}"`));
+  await writeFile(join(DIST, p.file), shell({ page: p, contentHtml }).replace(/href="index\.html(#[^"]*)?"/g, (m, h) => `href="./${h || ''}"`)
+    // every link off this site opens in a new tab
+    .replace(/<a\b([^>]*)>/g, (m, attrs) => {
+      const href = (attrs.match(/\bhref="([^"]*)"/) || [])[1] || '';
+      if (!/^https?:\/\//.test(href) || href.startsWith(BASE) || /\btarget=/.test(attrs)) return m;
+      return `<a${attrs} target="_blank" rel="noopener">`;
+    }));
 }
 
 // ----------------------------------------------------- SEO + agent files ---
