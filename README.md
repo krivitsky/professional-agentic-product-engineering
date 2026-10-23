@@ -181,11 +181,11 @@ Two licenses, because this repo is half tool and half writing:
 
 Share it, adapt it, use it commercially, teach from it. The only condition on the writing is credit:
 
-> "Professional Agentic Product Engineering Guide" by [Alexey Krivitsky](https://www.linkedin.com/in/alexeykrivitsky/), licensed under CC BY 4.0 — https://github.com/krivitsky/professional-agentic-product-engineering
+> "Professional Agentic Product Engineering Guide" by [Alexey Krivitsky](https://www.krivitsky.com/), licensed under CC BY 4.0 — https://github.com/krivitsky/professional-agentic-product-engineering
 
 **Not mine to license**, and excluded from both: the Uncle Bob tweet screenshot (`assets/uncle-bob-tweet.jpg`, also quoted in `assets/harness-audit-banner.png`), the vibe-coding illustration adapted from [Denis Turkov](https://www.linkedin.com/posts/turkovdenis_most-engineers-starting-with-coding-agents-activity-7450420428650676224-Ldwj), and the reader quotations. Those are quoted with attribution and belong to their authors — see [LICENSE-CONTENT](LICENSE-CONTENT).
 
 ## Credits
 
-**Maintainer:** [Alexey Krivitsky](https://www.linkedin.com/in/alexeykrivitsky/) (alexey@krivitsky.com)  
+**Maintainer:** [Alexey Krivitsky](https://www.krivitsky.com/) (alexey@krivitsky.com)  
 **Upstream:** https://github.com/krivitsky/professional-agentic-product-engineering

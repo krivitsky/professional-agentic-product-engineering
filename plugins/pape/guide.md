@@ -1,6 +1,6 @@
 # Professional Agentic Product Engineering Guide (Updated Continuously)
 
-**Main maintainer:** [Alexey Krivitsky](https://www.linkedin.com/in/alexeykrivitsky/) (alexey@krivitsky.com)  
+**Main maintainer:** [Alexey Krivitsky](https://www.krivitsky.com/) (alexey@krivitsky.com)  
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
 **⭐ Star it; submit issues or PRs** — help yourself and the next person learn better.
 
