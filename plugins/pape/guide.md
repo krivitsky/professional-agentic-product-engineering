@@ -4,9 +4,11 @@
 **Upstream repo:** https://github.com/krivitsky/professional-agentic-product-engineering  
 **⭐ Star it; submit issues or PRs** — help yourself and the next person learn better.
 
-What if writing code was never the human task?  
-The real job was always understanding the problem and deciding what's worth building.  
-Now that machines can build software, **the new profession** is designing the systems that ensure quality, and spending the freed-up time on bigger things.
+> What if writing code was never the human task?  
+> The real job was always understanding the problem and deciding what's worth building.  
+> Now that machines can build software, **the new profession** is designing the systems that ensure quality, and spending the freed-up time on bigger things.
+>
+> *Alexey Krivitsky, the creator of PAPE*
 
 **From coding features to designing agentic systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
 

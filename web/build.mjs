@@ -390,9 +390,13 @@ if (harvestedTips.length) {
 // shape fails the build instead of shipping an empty home.
 function homeData() {
   const paras = HOME_INTRO_MD.trim().split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);
-  const quote = paras.find((s) => s.startsWith('>'));
+  // Two blockquotes: the headline ("> **…**" + subline) and the opener, quoted
+  // and signed ("> …" lines, then "> *Name, role*").
+  const quote = paras.find((s) => /^>\s*\*\*/.test(s));
   const shift = paras.find((s) => s.startsWith('**'));
   const opener = paras.find((s) => s !== quote && s !== shift && !s.startsWith('<'));
+  const openerLines = (opener || '').split('\n').map((l) => l.replace(/^>\s?/, '').trim()).filter(Boolean);
+  const cite = /^\*[^*].*\*$/.test(openerLines[openerLines.length - 1] || '') ? openerLines.pop().replace(/^\*|\*$/g, '') : '';
   const q = (quote || '').split('\n').map((l) => l.replace(/^>\s?/, '').trim()).filter(Boolean);
   const headline = (q[0] || '').replace(/^\*\*|\*\*$/g, '');
   const subline = q[1] || '';
@@ -417,7 +421,7 @@ function homeData() {
   // The hero subheader: the shift line up to its colon ("From coding features to designing agentic systems").
   const shiftHead = (shift || '').replace(/^\*\*|\*\*$/g, '').split(':')[0].trim();
   if (!shiftHead) problems.push('no "**From …: …**" shift line in the front matter');
-  return { opener: opener.split('\n').map((l) => l.trim()), shift, shiftHead, headline, subline, tiers, stages, lede, rest };
+  return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest };
 }
 const HOME = homeData();
 function harnessParagraph() {
@@ -805,7 +809,8 @@ for (const p of pages) {
       `<h1 class="hero-title">Professional Agentic Product Engineering</h1>` +
       `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
       `<p class="hero-sub">${escapeHtml(HOME.shiftHead)}</p>` +
-      `<div class="hero-opener">${HOME.opener.map((l) => `<p>${marked.parseInline(l)}</p>`).join('')}</div>` +
+      `<figure class="hero-opener"><blockquote>${HOME.opener.map((l) => `<p>${marked.parseInline(l)}</p>`).join('')}</blockquote>` +
+      (HOME.cite ? `<figcaption>${escapeHtml(HOME.cite)}</figcaption>` : '') + `</figure>` +
       `<p class="hero-get">` +
       `<a class="btn btn-primary" href="${fileOf('big-idea')}">Read the guide →</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Claude Code plugin ↗</a>` +

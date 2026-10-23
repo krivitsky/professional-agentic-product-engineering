@@ -162,3 +162,7 @@ Line one is just *What if writing code was never the human task?* — the parent
 ## [2026-10-23] edit | Opener line three without the em dash
 
 *…designing the systems that ensure quality, and spending the freed-up time on bigger things.* New repo rule: no em dashes in new or edited text. Updated [[The Six Tiers]].
+
+## [2026-10-23] edit | Opener becomes a signed quote
+
+The three opener lines are now a blockquote signed *Alexey Krivitsky, the creator of PAPE*. No wording changed.

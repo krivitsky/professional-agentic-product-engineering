@@ -369,6 +369,9 @@ button { font: inherit; }
 }
 .content .hero-sub { margin: 0 0 22px; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; color: var(--heading); }
 .hero-opener { max-width: 760px; margin: 0 0 28px; }
+.content .hero-opener blockquote { margin: 0; padding: 2px 0 2px 20px; border: 0; border-left: 2px solid var(--line2); background: none; }
+.content .hero-opener blockquote p { margin: 0; }
+.content .hero-opener figcaption { margin: 12px 0 0; padding-left: 22px; font-size: 15px; font-weight: 500; color: var(--muted); }
 .content .hero-opener p { margin: 0; font-size: 18.5px; line-height: 1.6; color: var(--body); text-wrap: pretty; }
 .content .hero-opener strong { color: var(--accent); font-weight: 600; }
 .content .hero-get { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
