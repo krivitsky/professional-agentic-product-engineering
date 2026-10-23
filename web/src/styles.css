@@ -447,7 +447,7 @@ button { font: inherit; }
 .audit-result > div { grid-template-columns: 172px minmax(0, 1fr); }
 .audit-result dd a { color: var(--accent); font-weight: 600; }
 .audit-result .buildmeta { margin-top: 4px; line-height: 1.4; }
-.content .audit-real { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--body); }
+.content .audit-real { margin: 32px 0 0; padding-top: 24px; border-top: 1px solid var(--line2); font-size: 15.5px; line-height: 1.55; color: var(--body); }
 .content .audit-real p { margin: 0 0 10px; }
 .content .audit-real .codebox { margin: 4px 0 12px; }
 .content .audit-real strong { color: var(--heading); }
