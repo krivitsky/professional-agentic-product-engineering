@@ -15,7 +15,7 @@ const DIST = join(HERE, 'dist');
 const GUIDE = join(ROOT, 'guide.md');
 const LOGO_SRC = join(ROOT, 'assets', 'tutor-caveman.png');
 
-const SITE_TITLE = 'Professional Agentic Product Engineering (PAPE) — Field Guide';
+const SITE_TITLE = 'PAPE: Professional Agentic Product Engineering';
 const REPO_URL = 'https://github.com/krivitsky/professional-agentic-product-engineering';
 const AUTHOR_URL = 'https://www.krivitsky.com';
 const AUTHOR_NAME = 'Alexey Krivitsky';
