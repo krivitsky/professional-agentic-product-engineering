@@ -8,7 +8,7 @@ Maybe writing code was never the human job.
 The job was always understanding the problem and deciding what's worth building.  
 Machines can write it now, if we build the system around them — this guide teaches that system.
 
-**from coding features to designing agentic systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
+**From coding features to designing agentic systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
 
 > **Free the human to judge and innovate.**
 >

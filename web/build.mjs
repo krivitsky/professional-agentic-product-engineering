@@ -414,7 +414,7 @@ function homeData() {
     process.exit(1);
   }
   const rest = paras.filter((s) => s !== opener && s !== shift && s !== quote).join('\n\n');
-  // The hero subheader: the shift line up to its colon ("from coding features to designing agentic systems").
+  // The hero subheader: the shift line up to its colon ("From coding features to designing agentic systems").
   const shiftHead = (shift || '').replace(/^\*\*|\*\*$/g, '').split(':')[0].trim();
   if (!shiftHead) problems.push('no "**From …: …**" shift line in the front matter');
   return { opener: opener.split('\n').map((l) => l.trim()), shift, shiftHead, headline, subline, tiers, stages, lede, rest };
