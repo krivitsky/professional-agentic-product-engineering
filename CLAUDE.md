@@ -38,7 +38,7 @@ A `PostToolUse` hook (`.claude/hooks/check-derived.sh`, wired in `.claude/settin
 3. **Fix this file's mirror if structure changed.** If tier names/order or tip counts changed, update the tier table above and the progress-map labels/counts below — `guide.md` wins.
 4. **The website rebuilds itself** from `guide.md` on deploy — but if you *added a front-matter `### ` section*, wire its slug into `web/build.mjs`'s `NAV` or it won't appear in the menu. The homepage is read from the guide — the opener, the `> **headline**` blockquote, the two tables in "The Six Tiers at a Glance", and the Big Idea's "An **agentic system** …" paragraph — so if you change their shape, the build stops and says which part it could not read. Site colors live in `web/src/schemes.mjs`; the build also fails if any scheme drops a text pair below WCAG AA. The site's design (blueprint look, seven schemes, intensity, menu behavior, homepage, open items, how to ship) is specified in **`web/DESIGN.md`** — read it before touching `web/`.
 
-## Headings Use Title Case — Everywhere
+## Title Case for Every Heading
 
 **Every heading in this repo is in title case** (Alexey, 2026-10-23): Markdown `#` headings in `guide.md`, `README.md`, this file, the plugin's skills and READMEs, the wiki's section headings, `web/DESIGN.md`; the guide's Contents list; and the site's own headings and menu group titles in `web/build.mjs`. Applies to new headings too.
 
@@ -48,7 +48,13 @@ The style (Chicago):
 - **Hyphenated compounds:** capitalize each part except small words after the first (*One-Shot, Multi-Model, Tier-by-Tier, Back-to-Back*).
 - **Leave as written:** code spans, file names, commands (`/pape:harness-audit`), acronyms (TL;DR, GPT), and lowercase names (*pape*, *newstyle*).
 
-**Not headings, so not title case:** tip titles (`**1.1 Hand over the outcome, not a file list.**` — they're sentences, and the wiki's tip-page filenames and H1s mirror them), sentence-style subheaders that end in a period, body text, buttons, and the wiki's H1s (they're filenames). Slugs and anchors are lowercase, so a casing change never breaks a link — but `web/build.mjs` looks some headings up by text, so keep those lookups case-insensitive (`/…/i`).
+**Not headings, so not title case:** tip titles (`**1.1 Hand over the outcome, not a file list.**`; they are sentences, and the wiki's tip-page filenames and H1s mirror them), sentence-style subheaders that end in a period, body text, buttons, and the wiki's H1s (they're filenames). Slugs and anchors are lowercase, so a casing change never breaks a link. But `web/build.mjs` looks some headings up by text, so keep those lookups case-insensitive (`/…/i`).
+
+## Avoid Em Dashes
+
+**Don't write em dashes (—) in new or edited text** (Alexey, 2026-10-23). Use a comma, a colon, parentheses, or two sentences instead. When you rewrite a sentence that has one, take it out.
+
+**Structural dashes stay** until Alexey asks for a sweep, because they are names other things depend on: tier headings (`Tier 1 — Prompt: …`), tip titles and their wiki pages (`Tip 1.1 — …`, which are filenames and wikilinks), and the build's heading parsing (`shortLabel()` splits on ` — `). The guide still has about 380 older em dashes in body text; don't mass-replace them unasked.
 
 ---
 
