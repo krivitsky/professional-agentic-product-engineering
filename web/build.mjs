@@ -854,7 +854,9 @@ for (const p of pages) {
       renderMarkdown(body, p.slug);
   }
   contentHtml = injectLoops(injectAnim(contentHtml));
-  await writeFile(join(DIST, p.file), shell({ page: p, contentHtml }));
+  // Home is served at "/", so links to it say "./" and the address bar never
+  // shows index.html (locally or on Vercel).
+  await writeFile(join(DIST, p.file), shell({ page: p, contentHtml }).replace(/href="index\.html(#[^"]*)?"/g, (m, h) => `href="./${h || ''}"`));
 }
 
 // ----------------------------------------------------- SEO + agent files ---
