@@ -583,6 +583,8 @@ function prevNext(currentSlug) {
 }
 
 let ASSET_VER = 'dev';
+// The favicon's own version, so a new icon reaches tabs that cached the old one.
+const FAV_VER = createHash('sha1').update(await readFile(join(ROOT, 'assets', 'favicon.png'))).digest('hex').slice(0, 8);
 
 function jsonLd(page) {
   const graph = [
@@ -655,8 +657,8 @@ function shell({ page, contentHtml }) {
 <meta name="twitter:title" content="${escapeHtml(isHome ? fullTitle : page.title)}">
 <meta name="twitter:description" content="${escapeHtml(desc)}">
 <meta name="twitter:image" content="${OG_IMAGE}">
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" type="image/png" href="favicon.png?v=${FAV_VER}">
+<link rel="apple-touch-icon" href="favicon.png?v=${FAV_VER}">
 <script>${PREPAINT}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
