@@ -5,8 +5,10 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/coming-from-the-eight-tiers", "destination": "/tip-map", "statusCode": 301 },
-    { "source": "/coming-from-the-eight-tiers.html", "destination": "/tip-map", "statusCode": 301 },
+    { "source": "/coming-from-the-eight-tiers", "destination": "/all-tips", "statusCode": 301 },
+    { "source": "/coming-from-the-eight-tiers.html", "destination": "/all-tips", "statusCode": 301 },
+    { "source": "/tip-map", "destination": "/all-tips", "statusCode": 301 },
+    { "source": "/tip-map.html", "destination": "/all-tips", "statusCode": 301 },
     { "source": "/tier-7", "destination": "/tier-5", "statusCode": 301 },
     { "source": "/tier-7.html", "destination": "/tier-5", "statusCode": 301 },
     { "source": "/tier-8", "destination": "/tier-6", "statusCode": 301 },

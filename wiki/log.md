@@ -180,3 +180,7 @@ The guide's "Coming from the Eight Tiers?" section is gone; its old-to-new tier 
 The opener quote's signature now reads *Alexey Krivitsky, the creator of the PAPE guide*.
 
 The signature drops its em dash: *Alexey Krivitsky, the creator of the PAPE guide*.
+
+## [2026-10-23] edit | Six tiers only: the old-number map is gone
+
+The guide no longer mentions its earlier eight-tier shape. The Tip Map appendix (old tier and tip numbers to new) is removed from `guide.md`, and [[The Six Tiers]] drops its "Coming from the Eight Tiers" section. No tip, tier or wikilink changed, so no tip page moved.

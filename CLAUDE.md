@@ -23,7 +23,7 @@ It's organized as one ladder of **six tiers, simple → hard**, in three stages 
 | **T5 Orchestrate** | Running agents one by one | Split and coordinate the work |
 | **T6 Supervise** | Starting and watching runs | Certify the evidence; improve the system |
 
-The guide reads in four parts: the six tiers at a glance, how it works (Big Idea, loops, climbing, primitives), tier by tier, then everything else. Until plugin 1.0.0 it had eight tiers; the tip map at the end of `guide.md` lists every old tip number next to its new one.
+The guide reads in four parts: the six tiers at a glance, how it works (Big Idea, loops, climbing, primitives), tier by tier, then everything else.
 
 The reader is told to climb only as high as their work demands and stop.
 
@@ -257,7 +257,7 @@ The prompt history shows how I *ask*. It says nothing about what I've *built* �
 
 **Ask which repo — never audit this one.** You're running inside a clone of the guide's own repo, which is not my work. One line: *"Want me to audit the harness in a repo you actually work in? I'll read its config and tell you which rungs hold — takes a few minutes."* If I name a path, work there. If I'd rather not, drop it and move on; this is an offer, not a gate.
 
-**Look for an existing report first — it's free.** Glob `<repo>/harness-audits/*-report.md` and read the most recent. The `.md` file is written to be read by an agent in exactly this position, so a repo that's already been audited needs no new run. Say when it's from; if it's stale, offer a fresh run rather than assuming. A report written before plugin 1.0.0 rates the old eight tiers and cites old tip numbers — translate both with the tip map at the end of `guide.md` before you use it.
+**Look for an existing report first — it's free.** Glob `<repo>/harness-audits/*-report.md` and read the most recent. The `.md` file is written to be read by an agent in exactly this position, so a repo that's already been audited needs no new run. Say when it's from; if it's stale, offer a fresh run rather than assuming.
 
 **Running it.** Capture this repo's absolute path first — `pwd` before you go anywhere — because the audit runs in *my* repo, where a path relative to the guide repo resolves to nothing. Then read `<guide-repo>/plugins/pape/skills/harness-audit/SKILL.md` and follow it, resolving every `${CLAUDE_PLUGIN_ROOT}` in that file against `<guide-repo>/plugins/pape/` (it's unset in a tutor session). Prefer **`--quick`** here: the goal is placement, not a full audit, and I can always run the real thing later.
 

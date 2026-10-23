@@ -534,7 +534,7 @@ const NAV = [
   { title: 'The Six Tiers', slugs: ['index', 'the-six-tiers-at-a-glance'] },
   { title: 'How It Works', slugs: ['big-idea', 'loops-of-agentic-engineering', 'climb-the-six-tiers', 'learn-the-primitives'] },
   { title: 'Tier by Tier', slugs: tierSlugs },
-  { title: 'More', slugs: ['common-failure-patterns', 'all-tips', 'port-these-habits-to-any-model', 'audit-your-harness', 'goal-of-this-guide', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-this-with-an-agent', 'formats-of-this-guide', 'part-of-the-agentic-shift-system', 'tip-map', 'sources'] },
+  { title: 'More', slugs: ['common-failure-patterns', 'all-tips', 'port-these-habits-to-any-model', 'audit-your-harness', 'goal-of-this-guide', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-this-with-an-agent', 'formats-of-this-guide', 'part-of-the-agentic-shift-system', 'sources'] },
 ];
 const bySlug = Object.fromEntries(pages.map((p) => [p.slug, p]));
 

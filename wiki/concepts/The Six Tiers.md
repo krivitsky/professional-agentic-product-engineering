@@ -42,15 +42,6 @@ Climb as your skill, your harness and your confidence grow. **Climb only as high
 
 The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against a clear, testable standard, inside a real repo you own.
 
-## Coming from the Eight Tiers
-
-Until October 2026 the guide had eight tiers. Every old tip kept its words and found a new home; three tips are new, and the guide ends with a tip map from old numbers to new. The moves:
-
-- Professional Prompting → **T1**, which also takes the context-hygiene half of old Context Management.
-- Shaping & Slicing → **T2**, which also takes its knowledge-encoding half (CLAUDE.md, Skills, MCP, memory).
-- Loop Until Done → **T3**, which also takes checkpointing from old Checkpointing & Hardening; hardening becomes **T4**.
-- Orchestration → **T5**, which also takes the parallel half of old Fleet Ops; its always-on half joins old Agent Execution Layer in **T6**.
-
 ## Related
 
 - [[From Prompts to Systems]]

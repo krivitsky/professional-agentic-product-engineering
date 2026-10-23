@@ -1082,17 +1082,9 @@ Not *closed*, not *withdrawn*, not *regressed*, not *carried* — a reader asked
 
 **The single exception is persistence, and it earns its place:** an `open since <timestamp>` marker in the issues table, in its own column. How long something has been open is the one cross-run fact a reader needs *while weighing severity*, and sending them to §4 to get it separates the two halves of one judgement. Everything else about the runs — what closed, what moved, what changed — stays in §4.
 
-### A Baseline from the Eight-Tier Guide
+### A Baseline Rated on Another Tier Scale
 
-Reports written before plugin 1.0.0 rated eight tiers and cited the old tip numbers. **A `ratings` line naming a T7 or T8 is the tell.** Keys (`<check>@<location>`) carry no tier and no tip, so matching findings, display IDs and the `ids` ledger all carry over unchanged. Three things do not:
-
-| In the old report | Do |
-|---|---|
-| Cited tips | Translate them with the tip map at the end of `${CLAUDE_PLUGIN_ROOT}/guide.md` (old number → new) before quoting or comparing |
-| Ratings and `next-lever` | Never compare rung by rung — old T3 was context, new T3 is verification. The rungs moved: T1 → T1 · T2 → T2 · T3 → T1 + T2 · T4 → T3 · T5 → T3 + T4 · T6 → T5 · T7 → T5 + T6 · T8 → T6 |
-| Trend lines | Compare findings by key as usual; say a rating moved only on this run's own evidence |
-
-**Say it once, in §6:** *"The previous report (<date>) used the guide's earlier eight-tier scale; findings carry over by key, ratings are not compared."* One line. Trend needs no caveat of its own.
+**If the previous report's `ratings` line names a tier the guide doesn't have, it was rated on another scale.** Keys (`<check>@<location>`) carry no tier and no tip, so matching findings, display IDs and the `ids` ledger all carry over unchanged. Ratings and `next-lever` are never compared rung by rung, and a tip it cites is re-cited from today's guide by its title, never by number. Say it once, in §6: *"The previous report (<date>) used a different tier scale; findings carry over by key, ratings are not compared."*
 
 ### Trend Never Lists the New Issues
 

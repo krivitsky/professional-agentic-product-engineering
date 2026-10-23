@@ -52,8 +52,7 @@
 20. [Learn This with an Agent (The Fastest Way Through)](#learn-this-with-an-agent-the-fastest-way-through)
 21. [Formats of This Guide](#formats-of-this-guide)
 22. [Part of the Agentic Shift System](#part-of-the-agentic-shift-system)
-23. [Tip Map — Old Numbers to New](#tip-map)
-24. [Sources](#sources)
+23. [Sources](#sources)
 
 ---
 
@@ -1409,94 +1408,6 @@ The shift has a second front: the **structural** one — how organizations, team
 For the structural half — the organizational picture this guide deliberately leaves out — see **[agentic-shift.com](https://agentic-shift.com/)**.
 
 ---
-
-<a id="tip-map"></a>
-## Tip Map — Old Numbers to New
-
-The guide was reorganized from eight tiers into six. Every tip kept its words; most got a new number, and three are new. An old link to `#tip-T-N` now lands on whatever holds that number today — look the old number up here.
-
-Where each old tier went:
-
-| Old tier | New tier | Why it moved |
-|---|---|---|
-| T1 Professional Prompting | **T1 Prompt** | Renamed; also takes context hygiene from old T3 |
-| T2 Shaping & Slicing | **T2 Plan** | Renamed; also takes knowledge encoding from old T3 |
-| T3 Context Management | **T1 Prompt** + **T2 Plan** | Split: hygiene (the active window) → Prompt; knowledge (CLAUDE.md, Skills, MCP, memory) → Plan |
-| T4 Loop Until Done | **T3 Verify** | Renamed; also takes checkpointing from old T5 |
-| T5 Checkpointing & Hardening | **T3 Verify** + **T4 Enforce** | Split: checkpointing → Verify; hardening (hooks, CI, `gh`) → Enforce |
-| T6 Orchestration | **T5 Orchestrate** | Renamed; also takes the parallel half of old T7 |
-| T7 Fleet Ops | **T5 Orchestrate** + **T6 Supervise** | Split: parallel (terminal, a worktree per agent) → Orchestrate; always-on (box, phone, server) → Supervise |
-| T8 Agent Execution Layer | **T6 Supervise** | Joined by old T7's always-on runs: from your box to the team's system |
-
-And every tip:
-
-| Old tip | New tip | Title |
-|---|---|---|
-| 1.1 | [1.1](#tip-1-1) | Hand over the outcome, not a file list |
-| 1.2 | [1.2](#tip-1-2) | Be specific — vagueness is now taken literally |
-| 1.3 | [1.3](#tip-1-3) | Say what to do, not what to avoid |
-| 1.4 | [1.4](#tip-1-4) | Give the reason; motivation makes it generalize |
-| 1.5 | [1.5](#tip-1-5) | Specify the output shape, not just the goal |
-| 1.6 | [1.6](#tip-1-6) | Show examples instead of describing style |
-| 1.7 | [1.7](#tip-1-7) | Follow the house style, don't invent one |
-| 1.8 | [1.8](#tip-1-8) | Show, don't tell — use the input channels |
-| 1.9 | [1.9](#tip-1-9) | Invite uncertainty instead of forcing an answer |
-| 1.10 | [1.10](#tip-1-10) | Paste raw errors, don't paraphrase them |
-| 1.11 | [1.11](#tip-1-11) | Constrain scope — modern models over-engineer unless you stop them |
-| 1.12 | [1.12](#tip-1-12) | Narrow the edit surface — a small diff is a reviewable diff |
-| 1.13 | [1.13](#tip-1-13) | Dial effort; don't beg for thoroughness |
-| 1.14 | [1.14](#tip-1-14) | Say it all in your first message |
-| 2.1 | [2.1](#tip-2-1) | Investigate before you edit — a wrong mental model wrecks the diff |
-| 2.2 | [2.2](#tip-2-2) | Plan the uncertain; skip the plan for the trivial |
-| 2.3 | [2.3](#tip-2-3) | Force an approval checkpoint and see what it will touch — nothing irreversible runs unseen |
-| 2.4 | [2.4](#tip-2-4) | Ask for options, not the first idea |
-| 2.5 | [2.5](#tip-2-5) | Slice vertically — thin end-to-end increments, not horizontal layers |
-| 2.6 | [2.6](#tip-2-6) | Turn big features into a spec, then a fresh session |
-| 2.7 | [2.7](#tip-2-7) | Plan with the smart model, build with the cheap one |
-| 2.8 | [2.8](#tip-2-8) | Have one agent draft the spec and a different one critique it — before any code |
-| 3.1 | [1.15](#tip-1-15) | Feed high-signal context, not the whole repo |
-| 3.2 | [2.9](#tip-2-9) | Keep secrets out of git and out of context — set this up first |
-| 3.3 | [1.16](#tip-1-16) | `/clear` between tasks; reset after repeated failure |
-| 3.4 | [1.17](#tip-1-17) | Steer compaction, don't run it blind |
-| 3.5 | [2.10](#tip-2-10) | CLAUDE.md = gotchas + conventions, not an encyclopedia |
-| 3.6 | [2.11](#tip-2-11) | Put occasional knowledge in Skills — loaded only when the task matches |
-| 3.7 | [2.12](#tip-2-12) | Add the right MCP servers; keep the surface small |
-| 3.8 | [2.13](#tip-2-13) | Use external memory for multi-session work — compaction won't carry decisions across sessions |
-| 4.1 | [3.1](#tip-3-1) | Make your Definition of Done executable — a command is what the loop converges to |
-| 4.2 | [3.2](#tip-3-2) | Do TDD — the unit-level check |
-| 4.3 | [3.3](#tip-3-3) | Use BDD — the behavior-level check |
-| 4.4 | [3.4](#tip-3-4) | Test the UI for real with Playwright MCP — don't eyeball it |
-| 4.5 | [3.5](#tip-3-5) | Demand evidence, not a claim of success |
-| 4.6 | [3.6](#tip-3-6) | Ask for all findings, not a conservative review |
-| 4.7 | [3.7](#tip-3-7) | Review with fresh eyes, not the context that wrote it |
-| 4.8 | [3.8](#tip-3-8) | Run a pre-mortem; treat it like a teammate |
-| 4.9 | [3.9](#tip-3-9) | Iterate UI visually when there's no spec to assert |
-| 4.10 | [3.10](#tip-3-10) | Gate on the coverage of *this change*, not the project's average |
-| 4.11 | [3.11](#tip-3-11) | Mutation-test the suite itself — coverage proves the line ran, not that anything checked it |
-| 5.1 | [3.12](#tip-3-12) | Commit every working step — checkpoints are what make a loop safe |
-| 5.2 | [4.3](#tip-4-3) | Let Claude drive `gh` — the collaboration layer is harness too |
-| 5.3 | [3.13](#tip-3-13) | Try risky work in a worktree — a disposable checkpoint you can throw away |
-| 5.4 | [4.1](#tip-4-1) | Replace "remember to run tests" with a hook |
-| 5.5 | [4.2](#tip-4-2) | Move repetitive engineering into CI / headless — run it without you in the seat |
-| 6.1 | [5.1](#tip-5-1) | Let it self-orchestrate big, parallel work — it fans out faster than you can by hand |
-| 6.2 | [5.2](#tip-5-2) | Use subagents to isolate context |
-| 6.3 | [5.3](#tip-5-3) | Race several agents on the same task; keep the winner |
-| 6.4 | [5.4](#tip-5-4) | Decompose complex builds into specialist roles — narrow context per role beats one big pass |
-| 6.5 | [5.5](#tip-5-5) | Engineer the long-horizon hand-off — so the next session doesn't guess |
-| 6.6 | [5.6](#tip-5-6) | Steer long runs mid-flight instead of restarting them |
-| 6.7 | [5.7](#tip-5-7) | Engineer the environment, not the wording |
-| 7.1 | [5.8](#tip-5-8) | Manage parallel agents in an agent-aware terminal — so you see which one is blocked |
-| 7.2 | [5.9](#tip-5-9) | Isolate parallel agents with worktrees + one session each |
-| 7.3 | [6.1](#tip-6-1) | Host long runs on a box that doesn't sleep; persist with tmux |
-| 7.4 | [6.2](#tip-6-2) | Drive the fleet from your phone — clear blockers from anywhere |
-| 7.5 | [6.3](#tip-6-3) | Secure the agent server like production |
-| 8.1 | [6.4](#tip-6-4) | Sandbox the loop; never run autonomous agents on a dev box or prod |
-| 8.2 | [6.5](#tip-6-5) | Gate the plan, not every keystroke |
-| 8.3 | [6.6](#tip-6-6) | Cap the strikes — a stuck agent shouldn't burn tokens forever |
-| 8.4 | [6.7](#tip-6-7) | Make the tracker the state machine — the agent forgets; the board remembers |
-| — *(new)* | [4.4](#tip-4-4) | Turn a correction you keep giving into a rule that tells the agent the fix |
-| — *(new)* | [4.5](#tip-4-5) | Put approvals in rules, not prompts — a prompt you always approve has stopped being a check |
-| — *(new)* | [6.8](#tip-6-8) | Certify the evidence instead of reading the diff — review the proof, not every line |
 
 ## Sources
 
