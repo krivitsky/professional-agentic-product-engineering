@@ -807,7 +807,7 @@ for (const p of pages) {
       `<p class="hero-sub">${escapeHtml(HOME.shiftHead)}</p>` +
       `<div class="hero-opener">${HOME.opener.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</div>` +
       `<p class="hero-get">` +
-      `<a class="btn btn-primary" href="${fileOf(NAV_ORDER.find((p) => p.kind !== 'home').slug)}">Read the guide →</a>` +
+      `<a class="btn btn-primary" href="${fileOf('big-idea')}">Read the guide →</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Claude Code plugin ↗</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/wiki" target="_blank" rel="noopener">Obsidian vault ↗</a>` +
       `</p>` +
