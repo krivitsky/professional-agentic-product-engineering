@@ -805,7 +805,7 @@ for (const p of pages) {
       `<h1 class="hero-title">Professional Agentic Product Engineering</h1>` +
       `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
       `<p class="hero-sub">${escapeHtml(HOME.shiftHead)}</p>` +
-      `<div class="hero-opener">${HOME.opener.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</div>` +
+      `<div class="hero-opener">${HOME.opener.map((l) => `<p>${marked.parseInline(l)}</p>`).join('')}</div>` +
       `<p class="hero-get">` +
       `<a class="btn btn-primary" href="${fileOf('big-idea')}">Read the guide →</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Claude Code plugin ↗</a>` +
