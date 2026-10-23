@@ -170,3 +170,7 @@ The three opener lines are now a blockquote signed *Alexey Krivitsky, the creato
 ## [2026-10-23] edit | "purely human work: judgment and innovation"
 
 The opener's last line now ends *…spending the freed-up time on purely human work: judgment and innovation.*, echoing the headline. Updated [[The Six Tiers]].
+
+## [2026-10-23] edit | "Coming from the eight tiers?" folds into the tip map
+
+The guide's "Coming from the Eight Tiers?" section is gone; its old-to-new tier table now opens the Tip Map appendix, so the move from eight tiers to six is recorded in one place. [[The Six Tiers]] keeps its own short history section.

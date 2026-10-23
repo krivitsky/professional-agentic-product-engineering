@@ -59,19 +59,6 @@ One ladder of **six tiers, simple → hard**, in three stages. Each tier hands o
 
 Climb only as high as your work demands. New to this? Start at **T1**; already fluent? jump straight to the tier that matches you.
 
-**Coming from the eight tiers?** Every old tip kept its words and has a new home, and three tips are new — the [tip map](guide.md#tip-map) lists every old number next to its new one.
-
-| Old tier | New tier |
-|---|---|
-| T1 Professional Prompting | T1 Prompt, plus context hygiene from old T3 |
-| T2 Shaping & Slicing | T2 Plan, plus knowledge encoding from old T3 |
-| T3 Context Management | split: hygiene → T1 Prompt, knowledge → T2 Plan |
-| T4 Loop Until Done | T3 Verify, plus checkpointing from old T5 |
-| T5 Checkpointing & Hardening | split: checkpointing → T3 Verify, hardening → T4 Enforce |
-| T6 Orchestration | T5 Orchestrate, plus the parallel half of old T7 |
-| T7 Fleet Ops | split: parallel → T5 Orchestrate, always-on → T6 Supervise |
-| T8 Agent Execution Layer | T6 Supervise |
-
 Every tip is a concrete **Instead → Prefer** pair — the anti-example, then the fix. E.g. Tip 1.2:
 
 > ❌ "Clean up the auth code."

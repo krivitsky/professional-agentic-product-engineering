@@ -29,32 +29,31 @@
 4. [Climb the Six Tiers — To Spend Effort Only Where Your Work Needs It](#climb-the-six-tiers--to-spend-effort-only-where-your-work-needs-it)
    - [Which Tier Do You Need?](#which-tier-do-you-need)
 5. [Learn the Primitives — So the Rest of the Guide Clicks (Your Building Blocks)](#learn-the-primitives--so-the-rest-of-the-guide-clicks-your-building-blocks)
-6. [Coming from the Eight Tiers?](#coming-from-the-eight-tiers)
 
 **Tier by Tier**
 
-7. [Tier 1 — Prompt: Write Prompts the Agent Can Act On](#tier-1) · tips 1.1–1.17
-8. [Tier 2 — Plan: Shape and Slice the Work Before You Build](#tier-2) · tips 2.1–2.13
-9. [Tier 3 — Verify: Make the Agent Prove It's Done](#tier-3) · tips 3.1–3.13
-10. [Tier 4 — Enforce: Write the Rules into the Harness](#tier-4) · tips 4.1–4.5
-11. [Tier 5 — Orchestrate: Run Many Agents at Once](#tier-5) · the model toolkit, tips 5.1–5.9
-12. [Tier 6 — Supervise: Put Agents into Production](#tier-6) · tips 6.1–6.8
+6. [Tier 1 — Prompt: Write Prompts the Agent Can Act On](#tier-1) · tips 1.1–1.17
+7. [Tier 2 — Plan: Shape and Slice the Work Before You Build](#tier-2) · tips 2.1–2.13
+8. [Tier 3 — Verify: Make the Agent Prove It's Done](#tier-3) · tips 3.1–3.13
+9. [Tier 4 — Enforce: Write the Rules into the Harness](#tier-4) · tips 4.1–4.5
+10. [Tier 5 — Orchestrate: Run Many Agents at Once](#tier-5) · the model toolkit, tips 5.1–5.9
+11. [Tier 6 — Supervise: Put Agents into Production](#tier-6) · tips 6.1–6.8
 
 **More**
 
-13. [Common Failure Patterns — Catch Them Before They Cost You](#common-failure-patterns)
-14. [Port These Habits to Any Model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
-15. [Audit Your Harness](#audit-your-harness)
-16. [Goal of This Guide](#goal-of-this-guide)
-17. [Who This Is For](#who-this-is-for)
-18. [TL;DR — If You Do Only Five Things](#tldr--if-you-do-only-five-things)
-19. [Unlearn the Old Playbook — So Stale Advice Stops Sabotaging You](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
-20. [Pick the Right Tool — So You Don't Build Production on a Prototype Engine (Agent vs One-Shot Builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
-21. [Learn This with an Agent (The Fastest Way Through)](#learn-this-with-an-agent-the-fastest-way-through)
-22. [Formats of This Guide](#formats-of-this-guide)
-23. [Part of the Agentic Shift System](#part-of-the-agentic-shift-system)
-24. [Tip Map — Old Numbers to New](#tip-map)
-25. [Sources](#sources)
+12. [Common Failure Patterns — Catch Them Before They Cost You](#common-failure-patterns)
+13. [Port These Habits to Any Model (Opus / GPT / Gemini)](#port-these-habits-to-any-model-so-this-outlasts-todays-models-opus--gpt--gemini)
+14. [Audit Your Harness](#audit-your-harness)
+15. [Goal of This Guide](#goal-of-this-guide)
+16. [Who This Is For](#who-this-is-for)
+17. [TL;DR — If You Do Only Five Things](#tldr--if-you-do-only-five-things)
+18. [Unlearn the Old Playbook — So Stale Advice Stops Sabotaging You](#unlearn-the-old-playbook--so-stale-advice-stops-sabotaging-you)
+19. [Pick the Right Tool — So You Don't Build Production on a Prototype Engine (Agent vs One-Shot Builder)](#pick-the-right-tool--so-you-dont-build-production-on-a-prototype-engine-agent-vs-one-shot-builder)
+20. [Learn This with an Agent (The Fastest Way Through)](#learn-this-with-an-agent-the-fastest-way-through)
+21. [Formats of This Guide](#formats-of-this-guide)
+22. [Part of the Agentic Shift System](#part-of-the-agentic-shift-system)
+23. [Tip Map — Old Numbers to New](#tip-map)
+24. [Sources](#sources)
 
 ---
 
@@ -174,21 +173,6 @@ They're not hidden settings or some LLM dark magic. These agentic-engineering pr
 *Most of these are files you commit. The central config is **`.claude/settings.json`** (precedence: managed › CLI args › local › project › user) — it's where `permissions`, `hooks`, `mcpServers`, `model`, and inline `agents` can all be declared. A **plugin** is just a pre-packaged set of these files, so a teammate runs `/plugin install` on day one and inherits your whole setup.*
 
 *Each primitive's full anatomy — the frontmatter, a worked example, when to reach for it — lands in the tier that uses it: [Skills](#tip-2-11) and [MCP servers](#tip-2-12) in Tier 2, [hooks](#tier-4) in Tier 4, [subagents](#tier-5) in Tier 5.*
-
-## Coming from the Eight Tiers?
-
-Every old tip kept its words and has a new home, and three tips are new. The [tip map](#tip-map) at the end lists every old tip number next to its new one.
-
-| Old tier | New tier | Why it moved |
-|---|---|---|
-| T1 Professional Prompting | **T1 Prompt** | Renamed; also takes context hygiene from old T3 |
-| T2 Shaping & Slicing | **T2 Plan** | Renamed; also takes knowledge encoding from old T3 |
-| T3 Context Management | **T1 Prompt** + **T2 Plan** | Split: hygiene (the active window) → Prompt; knowledge (CLAUDE.md, Skills, MCP, memory) → Plan |
-| T4 Loop Until Done | **T3 Verify** | Renamed; also takes checkpointing from old T5 |
-| T5 Checkpointing & Hardening | **T3 Verify** + **T4 Enforce** | Split: checkpointing → Verify; hardening (hooks, CI, `gh`) → Enforce |
-| T6 Orchestration | **T5 Orchestrate** | Renamed; also takes the parallel half of old T7 |
-| T7 Fleet Ops | **T5 Orchestrate** + **T6 Supervise** | Split: parallel (terminal, a worktree per agent) → Orchestrate; always-on (box, phone, server) → Supervise |
-| T8 Agent Execution Layer | **T6 Supervise** | Joined by old T7's always-on runs: from your box to the team's system |
 
 ---
 
@@ -1430,6 +1414,21 @@ For the structural half — the organizational picture this guide deliberately l
 ## Tip Map — Old Numbers to New
 
 The guide was reorganized from eight tiers into six. Every tip kept its words; most got a new number, and three are new. An old link to `#tip-T-N` now lands on whatever holds that number today — look the old number up here.
+
+Where each old tier went:
+
+| Old tier | New tier | Why it moved |
+|---|---|---|
+| T1 Professional Prompting | **T1 Prompt** | Renamed; also takes context hygiene from old T3 |
+| T2 Shaping & Slicing | **T2 Plan** | Renamed; also takes knowledge encoding from old T3 |
+| T3 Context Management | **T1 Prompt** + **T2 Plan** | Split: hygiene (the active window) → Prompt; knowledge (CLAUDE.md, Skills, MCP, memory) → Plan |
+| T4 Loop Until Done | **T3 Verify** | Renamed; also takes checkpointing from old T5 |
+| T5 Checkpointing & Hardening | **T3 Verify** + **T4 Enforce** | Split: checkpointing → Verify; hardening (hooks, CI, `gh`) → Enforce |
+| T6 Orchestration | **T5 Orchestrate** | Renamed; also takes the parallel half of old T7 |
+| T7 Fleet Ops | **T5 Orchestrate** + **T6 Supervise** | Split: parallel (terminal, a worktree per agent) → Orchestrate; always-on (box, phone, server) → Supervise |
+| T8 Agent Execution Layer | **T6 Supervise** | Joined by old T7's always-on runs: from your box to the team's system |
+
+And every tip:
 
 | Old tip | New tip | Title |
 |---|---|---|
