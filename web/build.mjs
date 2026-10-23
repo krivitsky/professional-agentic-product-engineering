@@ -795,13 +795,13 @@ for (const p of pages) {
     contentHtml =
       `<section class="hero">` +
       `<h1 class="hero-title">Professional Agentic Product Engineering</h1>` +
-      `<p class="hero-subline">${escapeHtml(HOME.subline)}</p>` +
       `<div class="hero-opener">${HOME.opener.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</div>` +
       (HOME.shift ? `<p class="hero-shift">${marked.parseInline(HOME.shift)}</p>` : '') +
       `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
       `</section>` +
       `<section class="home-section" aria-labelledby="tiers-h">` +
       `<h2 id="tiers-h">The six tiers</h2>` +
+      `<p class="section-subhead">${escapeHtml(HOME.subline)}</p>` +
       (HOME.lede ? `<p class="section-lede">${escapeHtml(HOME.lede)}</p>` : '') +
       `<div class="stage-grid">${stages}</div>` +
       `<nav class="home-cta" aria-label="Where to go next">` +
