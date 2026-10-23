@@ -15,7 +15,7 @@ const CHROME = process.env.CHROME_BIN || '/Applications/Google Chrome.app/Conten
 const logo = await readFile(join(ROOT, 'assets', 'tutor-caveman.png'));
 const LOGO = `data:image/png;base64,${logo.toString('base64')}`;
 
-// Cyanotype, always — the share card is the brand, whatever scheme a reader picks.
+// Paper, always: the share card is black ink on off-white, whatever scheme a reader picks.
 const TIERS = [['Direct', [['T1', 'Prompt'], ['T2', 'Plan']]], ['Trust', [['T3', 'Verify'], ['T4', 'Enforce']]], ['Scale', [['T5', 'Orchestrate'], ['T6', 'Supervise']]]];
 const html = `<!doctype html><html><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,22 +23,22 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1200px;height:630px;overflow:hidden}
-body{background:#0B3A8C;background-image:linear-gradient(rgba(230,240,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(230,240,255,.08) 1px,transparent 1px);background-size:40px 40px;padding:24px;font-family:'Geist',sans-serif;color:#E6F0FF}
-.sheet{height:582px;border:2px solid #E6F0FF;background:rgba(11,58,140,.55);display:flex;flex-direction:column}
-.top{display:flex;align-items:center;gap:18px;padding:16px 30px;border-bottom:1px solid #9DBBF0}
-.mark{display:inline-flex;align-items:center;gap:12px;font-size:24px;font-weight:700;letter-spacing:-.02em;color:#fff}
-.name{font-size:18px;color:#C9DAF8}
-.dom{margin-left:auto;font-size:18px;font-weight:500;color:#E6F0FF}
+body{background:#FAFAF7;background-image:linear-gradient(rgba(26,26,26,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(26,26,26,.06) 1px,transparent 1px);background-size:40px 40px;padding:24px;font-family:'Geist',sans-serif;color:#2B2B2B}
+.sheet{height:582px;border:2px solid #1A1A1A;background:rgba(250,250,247,.6);display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:18px;padding:16px 30px;border-bottom:1px solid #C8C8C4}
+.mark{display:inline-flex;align-items:center;gap:12px;font-size:24px;font-weight:700;letter-spacing:-.02em;color:#0A0A0A}
+.name{font-size:18px;color:#6B6B6B}
+.dom{margin-left:auto;font-size:18px;font-weight:500;color:#2B2B2B}
 .body{flex:1;padding:0 30px;display:flex;flex-direction:column;justify-content:center}
-h1{font-size:70px;line-height:.98;letter-spacing:-.045em;font-weight:700;color:#fff;max-width:1000px}
-.rt{font-size:21px;font-weight:600;color:#fff;margin:22px 0 0}
+h1{font-size:70px;line-height:.98;letter-spacing:-.045em;font-weight:700;color:#0A0A0A;max-width:1000px}
+.rt{font-size:21px;font-weight:600;color:#2B2B2B;margin:22px 0 0}
 .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 30px 26px}
-.stage p{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#FFD23F;margin:0 0 8px}
+.stage p{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6B6B;margin:0 0 8px}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.t{border:2px solid #E6F0FF;padding:10px 12px;display:flex;align-items:baseline;gap:9px}
-.t b{font-size:17px;color:#FFD23F}.t span{font-size:22px;font-weight:700;letter-spacing:-.025em;color:#fff}
+.t{border:2px solid #1A1A1A;padding:10px 12px;display:flex;align-items:baseline;gap:9px}
+.t b{font-size:17px;color:#6B6B6B}.t span{font-size:22px;font-weight:700;letter-spacing:-.025em;color:#0A0A0A}
 </style></head><body><div class="sheet">
-<div class="top"><span class="mark"><svg viewBox="0 0 100 100" width="30" height="30"><rect x="4" y="4" width="92" height="92" rx="20" fill="#FFFFFF"/><circle cx="64" cy="36" r="13" fill="#0A0A0A"/></svg>PAPE</span><span class="name">Professional Agentic Product Engineering</span><span class="dom">agenticengineering.guide</span></div>
+<div class="top"><span class="mark"><svg viewBox="0 0 100 100" width="30" height="30"><rect x="4" y="4" width="92" height="92" rx="20" fill="#0A0A0A"/><circle cx="64" cy="36" r="13" fill="#FAFAF7"/></svg>PAPE</span><span class="name">Professional Agentic Product Engineering</span><span class="dom">agenticengineering.guide</span></div>
 <div class="body">
 <h1>Free the human<br>to judge and innovate.</h1>
 <p class="rt">From commanding the model to supervising the outcomes, a tier-by-tier guide.</p>

@@ -37,7 +37,7 @@ Files touched: `web/src/schemes.mjs` (new), `web/src/styles.css`, `web/src/app.j
 
 Source of truth for the look: the header comment of `web/src/styles.css`.
 
-- **Logo:** a solid rounded square (the harness) with one dot in its upper right (the agent). In the top bar next to "PAPE" (`.wordmark .logo`) it follows the reader's scheme: square in `--accent`, dot in `--accent-ink`. The favicon and the OG card's mark are the same black-and-white logo: white square, black dot. Both are rendered by `make-og.mjs`.
+- **Logo:** a solid rounded square (the harness) with one dot in its upper right (the agent). In the top bar next to "PAPE" (`.wordmark .logo`) it follows the reader's scheme: square in `--accent`, dot in `--accent-ink`. The favicon is white square, black dot; the OG card (Paper) inverts it to a black square with a light dot. Both are rendered by `make-og.mjs`.
 - **Type:** Geist (400/500/600/700) and Geist Mono, from Google Fonts. Fallback system-ui.
 - **Blueprint frame:** a 40px background grid (`--grid` token), a 2px framed "sheet", square corners everywhere, no shadows.
 - **Spec-sheet tables:** bordered, label column + value column. Used for markdown tables, the tier cards and the footer.
@@ -69,7 +69,7 @@ To change a color, edit the hex in `SCHEMES` — never the generated CSS. The bu
 - A tiny pre-paint script (`PREPAINT` in build.mjs) runs in `<head>` before the stylesheet: sets `data-scheme`, `--intensity` and `data-nav` on `<html>`, so there is no flash.
 - localStorage keys: `pape.scheme`, `pape.intensity.<scheme>` (intensity is remembered **per scheme**), `pape.selfAudit`, `pape.palette.seen` (the palette opens by itself once, on a first visit, without taking focus; any click outside closes it). All access is wrapped in try/catch; the site works with storage blocked.
 - URL parameters win and stick: `?scheme=signal`, `?intensity=0.6`.
-- The OG share card is always Cyanotype (the brand), whatever a reader picks.
+- The OG share card is always Paper (black ink on off-white, black logo with a light dot), whatever a reader picks.
 
 ### 3.3 Menu
 

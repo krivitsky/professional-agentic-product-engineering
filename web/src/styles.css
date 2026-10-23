@@ -77,7 +77,9 @@ button { font: inherit; }
 .wordmark .logo circle { fill: var(--accent-ink); }
 .topbar-sub { font-size: 14px; color: var(--muted); white-space: nowrap; }
 .topbar-end { margin-left: auto; display: flex; align-items: center; gap: 18px; }
-.topbar-link { font-size: 14.5px; font-weight: 500; text-decoration: none; }
+.topbar-sep { font-size: 14px; color: var(--line2); }
+.topbar-link { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; }
+.topbar-link:hover { color: var(--accent); }
 
 /* scheme switcher */
 .scheme { position: relative; }
@@ -483,7 +485,7 @@ button { font: inherit; }
   }
   [data-nav="open"] .sidebar { transform: none; visibility: visible; transition: transform .22s ease; }
   [data-nav="open"] .overlay { opacity: 1; pointer-events: auto; }
-  .topbar-sub { display: none; }
+  .topbar-sub, .topbar-sep { display: none; }
   .drawer-head { display: flex; }
 }
 @media (max-width: 1000px) {
