@@ -812,7 +812,7 @@ for (const p of pages) {
       `<figure class="hero-opener"><blockquote>${HOME.opener.map((l) => `<p>${marked.parseInline(l)}</p>`).join('')}</blockquote>` +
       (HOME.cite ? `<figcaption>— ${marked.parseInline(HOME.cite).replace(/<a href="http/g, '<a target="_blank" rel="noopener" href="http')}</figcaption>` : '') + `</figure>` +
       `<p class="hero-get">` +
-      `<a class="btn btn-primary" href="${fileOf('big-idea')}">Read the guide →</a>` +
+      `<a class="btn btn-primary" href="${fileOf('big-idea')}">Guide's big idea →</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Claude Code plugin ↗</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/wiki" target="_blank" rel="noopener">Obsidian vault ↗</a>` +
       `</p>` +
