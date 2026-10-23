@@ -62,7 +62,7 @@ guide.md  (root — the only node the tiers point back to)
 Cross-cutting concepts (The Harness, Vertical Slicing, …) and entities (Claude Code, …) hang off the guide at the tier level.
 ```
 
-**Why it matters:** if every tip links the root `guide.md`, the Obsidian graph collapses into a flat star with `guide` at the center and all ~60 tips orbiting it — the tier structure disappears. The rules below keep tips clustered under their tier.
+**Why it matters:** if every tip links the root `guide.md`, the Obsidian graph collapses into a flat star with `guide` at the center and all ~65 tips orbiting it — the tier structure disappears. The rules below keep tips clustered under their tier.
 
 ### Tier hub pages — `concepts/Tier N — <Name>.md`
 
@@ -109,7 +109,7 @@ For each tip that was **added / changed / removed / renamed**:
 - **Renamed title** → rename the file, update the H1, and update **every** inbound `[[Tip N.M — …]]` link in one pass (hub + sibling tips). Key the match on the stable `#tip-N-M` anchor.
 - **New/removed tier** → add/remove the `Tier N — <Name>` hub and re-tree its tips.
 
-Finish by verifying: **every `[[wikilink]]` resolves, 0 broken links, 0 orphans**, and no tip page hard-links `guide.md`. Update `index.md` (tier level only — do **not** list all ~60 tips there, or `index` becomes a second star) and append a `log.md` entry.
+Finish by verifying: **every `[[wikilink]]` resolves, 0 broken links, 0 orphans**, and no tip page hard-links `guide.md`. Update `index.md` (tier level only — do **not** list all ~65 tips there, or `index` becomes a second star) and append a `log.md` entry.
 
 ## Workflows
 
