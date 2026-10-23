@@ -8,7 +8,7 @@ The diagnostic counterpart to [[The Harness]]. If trust comes from the gauntlet 
 
 Shipped as a skill, `/pape:harness-audit`, in the repo's `pape` plugin. It reads the harness checked into a repo — instruction files, Skills, agent definitions, hooks, permissions, tests, CI (see [[Agentic Primitives]]) — and rates it against [[The Six Tiers]].
 
-## Absence is the easy half
+## Absence Is the Easy Half
 
 The distinction that makes it an audit rather than an inventory: what's *missing* is cheap to spot and usually already known. The valuable findings are what is **present but incoherent, unenforced, or failing open** — where the harness looks complete and isn't:
 
@@ -20,7 +20,7 @@ The distinction that makes it an audit rather than an inventory: what's *missing
 
 Every finding names the file and line it came from and cites the tip behind it, so a rating always traces to something the reader can open and dispute.
 
-## One next lever, derived from the ladder
+## One Next Lever, Derived from the Ladder
 
 All six tiers get a rating and a one-line note. Then the report walks the rungs from T1 upward and names **the lowest one that doesn't hold yet** — that single rung is the recommendation.
 
@@ -30,13 +30,13 @@ The rule falls out of the ladder itself: each rung rests on the ones below, so a
 
 Where a tier genuinely doesn't apply, the report says what the tier depends on — *"nothing here runs unattended, so there is nothing to supervise"* — instead of scoring it as a gap. **Climb only as high as the work demands** is the guide's own advice, so an audit that manufactured eight problems would argue against the material it comes from.
 
-## A rung and a half no file reaches
+## A Rung and a Half No File Reaches
 
 [[Tier 1 — Prompt]] and the planning half of [[Tier 2 — Plan]] are invisible in checked-in configuration — they live in how the operator prompts and shapes work, not in the repo. (T2's other half — `CLAUDE.md`, Skills, MCP, secrets — is files, and is audited like any other rung.) When the next lever lands there, there is nothing to add and *"write better prompts"* is not a corrective action, so the audit points at the coach or the tutor instead. This is the one place the report recommends a tool rather than a change.
 
 The inverse holds too: the tutor can read an audit report and start teaching at the rung it named. Prompts place T1–T2, the repo places T2–T6.
 
-## Findings are refuted, not just generated
+## Findings Are Refuted, Not Just Generated
 
 An audit's failure mode is not missing things — it is **confidently reporting something untrue**, which costs an afternoon and the reader's trust. Two agents given the same instructions and budget make the *same* shortcut, so parallel finders cannot catch it; agreement between them is not corroboration.
 
@@ -44,7 +44,7 @@ So the passes are asymmetric. Finders sweep for candidates; then a **separate ag
 
 The design came from a real failure: a shipped report quoted a hardcoded path that was actually the fallback in an `env ||` expression, and recommended reading the value from an environment variable — which the code already did.
 
-## What it produces
+## What It Produces
 
 Two files per run, in `harness-audits/`: a self-contained HTML report for the reader, and a markdown briefing written for an agent to carry on from. The human report runs decisions first, evidence last — scorecard, issue summary, ranked backlog, trend against the previous run, observations, method and limits, then the full findings appendix.
 

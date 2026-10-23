@@ -27,7 +27,7 @@ claude --plugin-dir ./plugins/pape
 
 Needs `jq` on your PATH — the coach's hooks use it.
 
-## `skills/agentic-coach` — the ambient nudge
+## `skills/agentic-coach` — The Ambient Nudge
 
 Model-invoked. Holds the "nudge, don't nag" protocol. **Silence is the default.**
 
@@ -37,7 +37,7 @@ Just work. When you write a vague prompt, skip a plan, or accept "done" without 
 
 Say **"coach me"** to ask it directly, **"coach me on that"** to turn the last nudge into a short lesson, and **"stop coaching"** to silence it.
 
-### How it triggers
+### How It Triggers
 
 Two layers, because skills alone trigger probabilistically:
 
@@ -51,14 +51,14 @@ The hooks guarantee the *reminder* fires; the skill keeps it quiet: **one nudge 
 
 **Off switch.** Say "stop coaching" and the skill drops a flag (`.claude/.agentic-coach-off`) that the hooks check — coaching goes silent deterministically, not just by the model's goodwill. "Coach me again" removes it. Install the plugin for the audit alone and you'll still get the prompt hook; that flag is how you turn it off.
 
-### Nudge vs lesson
+### Nudge vs Lesson
 
 The full guide ships with the plugin (`guide.md`, a snapshot of every tip), kept byte-identical to the canonical copy by CI.
 
 - **Default:** a one-line nudge that cites the tip.
 - **Opt in** ("show the full tip", "teach me this", "why?") and the coach reads the real tip from the bundled guide — the exact *Instead / Prefer* text — or runs a single 4C micro-lesson on it. It never auto-lectures.
 
-## `skills/harness-audit` — the on-demand audit
+## `skills/harness-audit` — The On-Demand Audit
 
 Ask *"audit my harness"*, *"what am I missing"*, *"is this repo agent-ready"* — or run `/pape:harness-audit`.
 
@@ -66,13 +66,13 @@ It reads the harness you've **checked into the repo** — instruction files, ski
 
 Every finding carries its evidence and cites the guide tip it comes from. All six tiers get rated, and the report names **one next lever** — the lowest rung that doesn't hold yet, because a weak rung caps everything resting on it.
 
-### It doesn't touch your repo
+### It Doesn't Touch Your Repo
 
 **Read-only, except the report.** It never edits, moves, or deletes a file; never runs tests, builds, installs, or migrations; never `git add/commit/checkout/stash/clean`. The only writes are the two report files. It stops at the offer — recommending fixes is the audit's job, applying them is a separate turn with your consent.
 
 Secrets it finds are reported by shape and location only (`"sk_live_••••••••"`), never reproduced.
 
-### What you get
+### What You Get
 
 Two files per run, in `harness-audits/`:
 
@@ -83,7 +83,7 @@ Two files per run, in `harness-audits/`:
 
 Commit the folder. A second run compares itself against the last one and tells you what moved — fixed, still open, newly found.
 
-### It asks before it spends
+### It Asks Before It Spends
 
 It opens with two lines and three questions: how deep, what output, and whether to rate T1 by reading this project's prompt history. Whatever you passed on the command line is pre-selected, so it's one tap to confirm. A progress strip then closes every message, showing which phase it is on and the time and tokens spent so far.
 

@@ -11,7 +11,7 @@ Tier 2 of [[The Six Tiers]], in the **Direct** stage. **Shape and slice the work
 
 This is [[The Prompt Triad]] externalized onto the page: intent becomes a written spec, context comes from investigating first, and each slice is a constraint small enough to check and undo.
 
-## Spec-driven shaping
+## Spec-Driven Shaping
 
 Shape the behavior into the spec itself so "done" is concrete *before* any code:
 
@@ -28,11 +28,11 @@ This is the **shape**; Tier 3 turns these scenarios into the loop's executable c
 
 A vertical slice is narrow, end-to-end, independently testable. It keeps each agent task inside the context window, makes dependencies explicit, and gives a working checkpoint after every slice instead of one giant unverifiable diff.
 
-## Knowledge encoding — engineering what's always available
+## Knowledge Encoding — Engineering What's Always Available
 
 The triad's context slot, scaled — from pasting context into a prompt to engineering it: `@files`, tools, MCP, durable memory. Secrets out of git first, then project memory in `CLAUDE.md`, occasional knowledge in Skills, a few high-value MCP servers, and external memory for multi-session work. These are files in the repo, which is why the [[Harness Audit]] rates this half of the tier from what is checked in. See [[Agentic Primitives]].
 
-## The 13 tips
+## The 13 Tips
 
 Each tip has its own page — click through for the Instead/Prefer pair.
 

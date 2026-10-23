@@ -5,7 +5,7 @@ updated: 2026-10-23
 owner: Alexey Krivitsky (approves) · built by Devi (agent), reviewed by Aidy
 ---
 
-# Site design spec — the "newstyle" blueprint redesign
+# Site Design Spec — The "newstyle" Blueprint Redesign
 
 What was built, how it works, and what is still open, so another agent can take over without the chat history.
 
@@ -33,7 +33,7 @@ Content is out of scope: `guide.md` is unchanged by this branch. The six-tier co
 
 Files touched: `web/src/schemes.mjs` (new), `web/src/styles.css`, `web/src/app.js`, `web/build.mjs`, `web/make-og.mjs`, `assets/og.png`, `assets/og-2x.png`, `README.md`, `CLAUDE.md`.
 
-## 3. The design system
+## 3. The Design System
 
 Source of truth for the look: the header comment of `web/src/styles.css`.
 
@@ -43,7 +43,7 @@ Source of truth for the look: the header comment of `web/src/styles.css`.
 - **Layout tokens** (`:root` in styles.css): `--topbar-h 56px`, `--sidebar-w 284px`, `--gutter 24px`, `--measure 72ch`.
 - **Every color is a token.** No hex in styles.css. Tokens: `--bg --line --line2 --heading --body --muted --accent --accent-ink --code-bg`, plus derived `--grid --panel --syn-string --frame-bg --accent-soft`.
 
-### 3.1 Color schemes — `web/src/schemes.mjs` (one source for all color)
+### 3.1 Color Schemes — `web/src/schemes.mjs` (One Source for All Color)
 
 | id | name | bg | accent | kind |
 |---|---|---|---|---|
@@ -62,7 +62,7 @@ To change a color, edit the hex in `SCHEMES` — never the generated CSS. The bu
 3. Emits an `@supports not (...)` fallback with the exact default hex for browsers that can't do the oklch maths (and hides the slider there).
 4. **Contrast gate:** `contrastReport()` checks every text pair the site uses (body, heading, muted, links, accent, button text, quote text, code, comment, keyword, string) at intensity min, default and max. **Any pair below WCAG AA 4.5:1 fails the build** (`build.mjs` exits 1). Lowest pair at hand-over: 4.66:1 (Paper, code comments). `line2` (rules/borders) is reported, never gated.
 
-### 3.2 Switcher and persistence
+### 3.2 Switcher and Persistence
 
 - Header: square swatch button → panel with seven radio chips + Intensity slider + Reset (markup in `headerHtml()`, behavior in `app.js`).
 - A tiny pre-paint script (`PREPAINT` in build.mjs) runs in `<head>` before the stylesheet: sets `data-scheme`, `--intensity` and `data-nav` on `<html>`, so there is no flash.
@@ -89,14 +89,14 @@ Built in `build.mjs` (`p.kind === 'home'`), read from `guide.md` by `homeData()`
 
 The build fails, naming the part, if it can't read the opener, the `> **headline**` blockquote, the two tables in "The six tiers at a glance", or the harness paragraph from guide.md — or if the home links to a page that no longer exists.
 
-## 5. Other pieces
+## 5. Other Pieces
 
 - **Figures:** the nested-loops figure is inlined as SVG and colored from tokens (`injectLoops`); mermaid diagrams are recolored by CSS from tokens, so a scheme switch needs no re-render (edges use `--muted` so they're legible on light schemes).
 - **Code:** highlight.js and mermaid load on demand from jsDelivr; if the CDN is down, menu and switcher still work. `prompt`/`text` blocks stay unhighlighted. Copy buttons on every code box.
 - **OG image:** `node web/make-og.mjs` renders `assets/og.png` + `og-2x.png` (1200×630) with local Google Chrome — Vercel can't run it, so the PNGs are committed. Regenerate when the title, headline or tiers change.
 - **Links:** pages link to `*.html`, so the local static server works; Vercel's `cleanUrls` serves them without the extension. Redirects for removed pages live in `web/vercel.json`.
 
-## 6. Open items — need Alexey's call before or after merge
+## 6. Open Items — Need Alexey's Call Before or After Merge
 
 1. **Self-audit starting values.** It opens with example ratings `[4,3,2,2,1,0]` (`AUDIT_DEFAULT`), so a first-time visitor sees a "Next tier" they never rated. Options: label them "example ratings", or start at zero/empty.
 2. **"Why this is now its own profession"** section from the mockup was not built. Bring it back with wording from the guide?
@@ -104,7 +104,7 @@ The build fails, naming the part, if it can't read the opener, the `> **headline
 4. **`assets/harness-audit-banner.png` still says "8-tier".** Source file is not in the repo; needs regenerating (tracked on the wiki PAPE Guide page).
 5. Social previews (LinkedIn, WhatsApp) cache the old OG card until they re-scrape.
 
-## 7. How to ship (once Alexey says "ship")
+## 7. How to Ship (Once Alexey Says "Ship")
 
 1. `git pull` main; merge `newstyle` into main (fast-forward if main hasn't moved).
 2. `cd web && node build.mjs` must pass (contrast gate, home parts, link check).

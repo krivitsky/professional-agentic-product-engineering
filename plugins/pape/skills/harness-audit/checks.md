@@ -1,4 +1,4 @@
-# Check catalogue
+# Check Catalogue
 
 Two classes. **Class P** asks *is it there* — cheap, mechanical, and the easy half. **Class C** asks *is it coherent, enforced, and safe* — it opens files and cross-references them, and it is where every finding worth reading comes from.
 
@@ -34,7 +34,7 @@ Every finding is filed under one. **Categories are never rated** — the scoreca
 
 ---
 
-## Class P — presence
+## Class P — Presence
 
 Literal paths, because the *harness* defines them and they're stable for years. Absence here **is** conclusive: there's no unusual place to hide a `.mcp.json`. Everything a project's *stack* defines (test/lint/typecheck commands, e2e runner) is resolved by judgement via the precedence chain in SKILL.md — **this file names no frameworks, on purpose.**
 
@@ -67,73 +67,73 @@ A Class P absence is only a finding if it has a consequence worth stating. "No `
 
 ---
 
-## Class C — coherence, enforcement, safety
+## Class C — Coherence, Enforcement, Safety
 
 Open the files. Cross-reference them. Each check states the standard, how to detect the failure, and the severity band it usually lands in — adjust to what you actually find.
 
-### C-1 · Instruction files contradict each other — INSTR, usually High
+### C-1 · Instruction Files Contradict Each Other — INSTR, Usually High
 **Criteria:** no two instruction files give conflicting orders on the same subject; where a narrower file overrides a broader one, it says so.
 **Detect:** read every `CLAUDE.md`/`AGENTS.md` in the tree. Extract imperative rules. Compare across files on the same subject — testing, commits, formatting, dependencies, branching. A contradiction is two rules that cannot both be obeyed.
 **Consequence to state:** behaviour depends on working directory — and once one "never" is visibly ignored, every other "never" in the file loses force.
 
-### C-2 · Absolutes with nothing enforcing them — ENFORCE, usually High
+### C-2 · Absolutes with Nothing Enforcing Them — ENFORCE, Usually High
 **Criteria:** a rule written as an absolute is either mechanically enforced or demoted to a preference. Absolutes that rely on the model remembering are preferences with misleading grammar.
 **Detect:** count rules phrased **never / always / must / do not** across instruction files. For each, ask what would catch a violation — a hook, a lint rule, a CI job, a type. Report the ratio. **Call out any that existing tooling could already check** (a no-console rule the ESLint config would catch); that's the cheap fix.
 **Consequence:** compliance degrades as context fills, and it degrades *silently* — the failure is a rule quietly not applied, not an error.
 
-### C-3 · Dead weight in the always-loaded budget — CTX, High if large
+### C-3 · Dead Weight in the Always-Loaded Budget — CTX, High If Large
 **Criteria:** everything in an always-loaded file changes what the agent does. Reference material it could read on demand doesn't belong in resident context.
 **Detect:** line-count each `CLAUDE.md`; classify sections as operative (rules, conventions, gotchas) vs reference (changelogs, onboarding narrative, architecture essays, API dumps). Report the share and the line ranges. Estimate tokens (~4 chars/token) spent every session.
 **Consequence:** operative rules end up buried below hundreds of lines of history, which is where adherence falls off. Compounds with C-2.
 
-### C-4 · A gate that fails open — ENFORCE, High
+### C-4 · A Gate That Fails Open — ENFORCE, High
 **Criteria:** a hook that cannot complete reports failure. **A gate that fails open is worse than no gate, because it is trusted.**
 **Detect:** read every hook command and script. Look for `|| true`, `|| exit 0`, a trailing `exit 0` after a command whose status was discarded, `set +e`, suppressed stderr. Also: a `Stop` hook with no `stop_hook_active` guard (loops forever), and a hook whose binary isn't a declared dependency.
 **Consequence:** the config reads as gated to anyone reviewing it while nothing blocks. **This one compounds with everything** — always check whether it does.
 
-### C-5 · Destructive grants with no blocking layer — PERM, Critical
+### C-5 · Destructive Grants with No Blocking Layer — PERM, Critical
 **Criteria:** any command that destroys work or rewrites shared history is denied outright, or gated by a hook that can block it.
 **Detect:** read `permissions.allow`. Flag `rm`, `git push --force`, `git reset --hard`, `git clean`, `DROP`, `truncate`, `kubectl delete`, `terraform destroy`, and bare wildcards. Then check whether a `deny` list or **any `PreToolUse` hook** exists to intercept. Grant with no interception → Critical.
 **Consequence:** a single misread instruction destroys uncommitted work or a colleague's branch, with no prompt and no record beyond the transcript. Say plainly when a finding is the one that's unrecoverable.
 
-### C-6 · Agent definitions describing impossible behaviour — DELEG, High
+### C-6 · Agent Definitions Describing Impossible Behaviour — DELEG, High
 **Criteria:** agent definitions describe what the runtime can actually do. Subagents run one level deep and cannot spawn subagents.
 **Detect:** read every `.claude/agents/*.md` body. Flag instructions to dispatch, spawn, or delegate to other subagents; references to tools not in its own `tools:` list; a read-only agent told to fix things.
 **Consequence:** the described hierarchy silently collapses into one context window — the exact context pressure the delegation was meant to relieve — while the config keeps suggesting it's handled.
 
-### C-7 · Secrets and machine state in tracked config — HYGIENE, Critical if live
+### C-7 · Secrets and Machine State in Tracked Config — HYGIENE, Critical If Live
 **Criteria:** local and machine-scoped config stays out of version control; no harness file contains a credential.
 **Detect:** `git ls-files` for `.claude/settings.local.json`, `.env*`, `*.pem`. **Verify each `.gitignore` pattern actually matches the file it targets** — `.claude/*.local.json` does *not* match `.claude/settings.local.json`; near-miss globs are the common failure. Scan tracked config for credential-shaped values (`sk_`, `ghp_`, `AKIA`, long base64, `-----BEGIN`). Scan for absolute paths under `/Users/`, `/home/`, `C:\`.
 **Report:** redact — `"sk_live_••••••••••••"`. **Rotation is the corrective action; deleting the file does not remove it from history.** Absolute paths mean hooks silently don't run for anyone else — shared enforcement quietly became personal.
 
-### C-8 · Competing triggers — EXT, Low to Medium
+### C-8 · Competing Triggers — EXT, Low to Medium
 **Criteria:** skill and command descriptions partition the trigger space; two shouldn't both claim the same request.
 **Detect:** read every `description:` frontmatter plus command names. Flag pairs leading with the same task, and any command duplicating a subagent.
 **Consequence:** selection is arbitrary, so the same request behaves differently between sessions.
 
-### C-9 · Over-scoped integrations — MCP, Medium
+### C-9 · Over-Scoped Integrations — MCP, Medium
 **Criteria:** an MCP server is scoped to the narrowest path the work requires.
 **Detect:** read `.mcp.json` args and env. Flag a filesystem root at `$HOME` or `/`, write-capable servers without stated justification, credentials inline rather than by env reference. Count total servers — the tip is *keep the surface small*.
 **Confidence:** usually **Probable** — whether a server is loaded in practice can't be determined from config alone. Say so.
 
-### C-10 · Enforcement that only exists locally — ENFORCE, Medium
+### C-10 · Enforcement That Only Exists Locally — ENFORCE, Medium
 **Criteria:** harness primitives are versioned and shared. The guide: *"not a config trapped on one laptop."*
 **Detect:** hooks or permissions present in `.claude/settings.local.json` but not `settings.json`; `settings.json` untracked; a `.claude/` largely gitignored.
 **Consequence:** the author believes the team is gated; nobody else is, and CI isn't.
 
-### C-11 · Tests that don't defend anything — TEST, Medium
+### C-11 · Tests That Don't Defend Anything — TEST, Medium
 **Criteria:** coverage proves a line ran, not that anything checked it.
 **Detect:** assertion-free test bodies (a call, no `expect`/`assert`); snapshot-only suites; tests skipped or `.only`'d in tracked code; a suite whose command excludes whole directories. Check whether coverage is gated on the **diff** rather than a global percentage, and whether any mutation tooling exists.
 **Consequence:** the signature failure of agent-written tests — they call the function, assert nothing meaningful, and light up coverage anyway.
 
-### C-12 · The DoD isn't what CI runs — TEST/ENFORCE, Medium
+### C-12 · The DoD Isn't What CI Runs — TEST/ENFORCE, Medium
 **Criteria:** the command the agent is told to converge to is the command that actually gates the branch.
 **Detect:** compare the DoD named in `CLAUDE.md` (or the hook) against what the CI workflow invokes. Flag divergence in either direction — CI stricter than the local gate, or a hook running a narrower command than the documented one.
 **Consequence:** the agent converges on a bar that isn't the real bar, so "done" and "mergeable" drift apart.
 
 ---
 
-## The gauntlet
+## The Gauntlet
 
 Dropped under `--quick`; otherwise rendered. Uncle Bob's six constraints, quoted in the guide's Big Idea, against what the repo has and what the guide teaches.
 

@@ -11,15 +11,15 @@ Tier 4 of [[The Six Tiers]], in the **Trust** stage. **Write the rules into the 
 
 These are the constraints of [[The Prompt Triad]], hardened — from a line in the prompt into hooks, CI, and permissions the harness enforces for you.
 
-## Hardening the harness
+## Hardening the Harness
 
 This tier is where Tier 3's check becomes durable. In [[Tier 3 — Verify]] you *defined* the check; here you wire it into the harness so it runs every time and can't be skipped or forgotten. The harness around the loop — hooks that always run your tests, CI, the `gh` CLI — makes the whole loop deterministic and shareable with the team. See [[The Harness]].
 
-## Corrections and approvals become rules
+## Corrections and Approvals Become Rules
 
 A correction you give twice belongs in a lint rule or a hook whose failure message tells the agent the fix. An approval you always click through belongs in an `allow`/`deny` rule: Anthropic's telemetry showed Claude Code users approving roughly 93% of permission prompts, and paying less attention the more they saw ([How we contain Claude across products](https://www.anthropic.com/research/how-we-contain-claude)).
 
-## The 5 tips
+## The 5 Tips
 
 Each tip has its own page — click through for the Instead/Prefer pair.
 

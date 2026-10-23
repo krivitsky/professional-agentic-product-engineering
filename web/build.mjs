@@ -373,7 +373,7 @@ if (harvestedTips.length) {
   pages.push({
     slug: 'all-tips',
     file: 'all-tips.html',
-    title: 'All tips — the complete index',
+    title: 'All Tips — The Complete Index',
     menuLabel: 'All tips',
     kind: 'section',
     n: 0,
@@ -396,7 +396,7 @@ function homeData() {
   const q = (quote || '').split('\n').map((l) => l.replace(/^>\s?/, '').trim()).filter(Boolean);
   const headline = (q[0] || '').replace(/^\*\*|\*\*$/g, '');
   const subline = q[1] || '';
-  const glance = sections.find((s) => /^The six tiers at a glance/.test(s.heading));
+  const glance = sections.find((s) => /^The six tiers at a glance/i.test(s.heading));
   const body = glance ? glance.lines.join('\n') : '';
   const tiers = [...body.matchAll(/^\|\s*(\w+)\s*\|\s*\*\*T(\d+) ([^*]+)\*\*\s*\|([^|\n]*)\|([^|\n]*)\|([^|\n]*)\|\s*$/gm)]
     .map((m) => ({ stage: m[1], n: +m[2], name: m[3].trim(), stop: m[4].trim(), instead: m[5].trim() }));
@@ -421,7 +421,7 @@ function homeData() {
 }
 const HOME = homeData();
 function harnessParagraph() {
-  const big = sections.find((x) => /^Big Idea/.test(x.heading));
+  const big = sections.find((x) => /^Big Idea/i.test(x.heading));
   const para = big && big.lines.join('\n').split(/\n\s*\n/).map((x) => x.trim()).find((x) => x.startsWith('An **agentic system**'));
   if (!para) {
     console.error('✖ home page: the Big Idea no longer has the "An **agentic system** …" paragraph the harness section quotes');
@@ -516,9 +516,9 @@ function renderMarkdown(md, currentSlug) {
 // Explicit menu order (decoupled from guide.md section order).
 const tierSlugs = pages.filter((p) => p.kind === 'tier').map((p) => p.slug);
 const NAV = [
-  { title: 'The six tiers', slugs: ['index', 'the-six-tiers-at-a-glance'] },
-  { title: 'How it works', slugs: ['big-idea', 'loops-of-agentic-engineering', 'climb-the-six-tiers', 'learn-the-primitives', 'coming-from-the-eight-tiers'] },
-  { title: 'Tier by tier', slugs: tierSlugs },
+  { title: 'The Six Tiers', slugs: ['index', 'the-six-tiers-at-a-glance'] },
+  { title: 'How It Works', slugs: ['big-idea', 'loops-of-agentic-engineering', 'climb-the-six-tiers', 'learn-the-primitives', 'coming-from-the-eight-tiers'] },
+  { title: 'Tier by Tier', slugs: tierSlugs },
   { title: 'More', slugs: ['common-failure-patterns', 'all-tips', 'port-these-habits-to-any-model', 'audit-your-harness', 'goal-of-this-guide', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-this-with-an-agent', 'formats-of-this-guide', 'part-of-the-agentic-shift-system', 'tip-map', 'sources'] },
 ];
 const bySlug = Object.fromEntries(pages.map((p) => [p.slug, p]));
@@ -721,7 +721,7 @@ function selfAuditHtml(fileOf) {
   return `<section class="home-section self-audit" id="self-audit" aria-labelledby="audit-h" data-audit ` +
     `data-tiers="${escapeHtml(JSON.stringify(HOME.tiers.map((t) => ({ n: t.n, name: t.name, href: fileOf(`tier-${t.n}`) }))))}">` +
     `<div class="audit-grid"><div class="audit-left">` +
-    `<h2 id="audit-h">Audit your harness</h2>` +
+    `<h2 id="audit-h">Audit Your Harness</h2>` +
     `<p class="section-lede">Rate your practice on each tier from 0 to 5. The shape shows where you are strong and where to climb next.</p>` +
     `<div class="audit-rows">${rows}</div>` +
     `<p class="audit-note">Your ratings stay in this browser.</p>` +
@@ -735,7 +735,7 @@ function selfAuditHtml(fileOf) {
 }
 function harnessHtml(fileOf) {
   return `<section class="home-section harness" aria-labelledby="harness-h">` +
-    `<h2 id="harness-h">The harness around the agent</h2>` +
+    `<h2 id="harness-h">The Harness Around the Agent</h2>` +
     `<p class="section-lede">${marked.parseInline(HARNESS_MD)}</p>` +
     `<div class="hd" role="img" aria-label="Specify with guidelines, bound the coding agent with guardrails, verify with autotests, and loop until done.">` +
     `<div class="hd-row">` +

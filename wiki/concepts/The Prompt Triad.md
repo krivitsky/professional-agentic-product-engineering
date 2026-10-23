@@ -6,7 +6,7 @@
 
 The opening mental model of [[Tier 1 — Prompt]]: every prompt is three things — **intent · context · constraint**. Fill all three in one message and the agent runs far on its own. The first 14 Tier 1 tips are how you fill each slot well.
 
-## The three slots
+## The Three Slots
 
 - **Intent** — the outcome, not the steps. You own the destination; the agent owns the route.
 - **Context** — the world the agent reasons inside. Without it, the model fills the gaps with its priors — it guesses. Context is how you replace guessing with knowing.
@@ -14,7 +14,7 @@ The opening mental model of [[Tier 1 — Prompt]]: every prompt is three things 
 
 **The through-line:** you give the ends and the edges; the agent works out the means — grounded in the context you supply.
 
-## Which Tier 1 tip fills which slot
+## Which Tier 1 Tip Fills Which Slot
 
 - **Intent** — [[Tip 1.1 — Hand over the outcome, not a file list]], [[Tip 1.2 — Be specific — vagueness is now taken literally]], [[Tip 1.3 — Say what to do, not what to avoid]], [[Tip 1.5 — Specify the output shape, not just the goal]]
 - **Context** — [[Tip 1.4 — Give the reason; motivation makes it generalize]], [[Tip 1.6 — Show examples instead of describing style]], [[Tip 1.7 — Follow the house style, don't invent one]], [[Tip 1.8 — Show, don't tell — use the input channels]], [[Tip 1.10 — Paste raw errors, don't paraphrase them]]
@@ -22,7 +22,7 @@ The opening mental model of [[Tier 1 — Prompt]]: every prompt is three things 
 - **The fourth move** (handling the gaps in any slot) — [[Tip 1.9 — Invite uncertainty instead of forcing an answer]]
 - **All three at once** — [[Tip 1.14 — Say it all in your first message]]
 
-## The triad up the ladder
+## The Triad up the Ladder
 
 The triad isn't only a Tier 1 device — it's the spine the later tiers build on:
 

@@ -23,7 +23,7 @@ The Guide is kept up-to-date to track how the best teams operate coding agents �
 
 Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
 
-## Who this is for
+## Who This Is For
 
 - **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
 - **Product managers** closing the tech gap — ship real changes, not just specs.
@@ -38,7 +38,7 @@ Professional agentic engineering is **not prompt engineering — it's engineerin
 
 The six tiers are how you make these loops close on their own — from wording a single prompt (T1) to whole loops running autonomously in production (T6). The prompt shrinks; the system grows.
 
-## What's inside
+## What's Inside
 
 **Four in one** — the same material in four forms: read it, get tutored through it, get coached *while you work*, or have a real repo **audited** against it.
 
@@ -168,7 +168,7 @@ It is read-only apart from the two files it writes to `harness-audits/`.
 
 **To learn more — how it rates the six tiers and what's in the report: [Audit your harness](https://agenticengineering.guide/audit-your-harness).**
 
-## What people are saying
+## What People Are Saying
 
 > "Nice! Thank you for the compact guide where all the basics are in one place."
 > — [Michal Svoboda](https://www.linkedin.com/feed/update/urn:li:activity:7477694511788421120?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7477694511788421120%2C7478060488128356352%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287478060488128356352%2Curn%3Ali%3Aactivity%3A7477694511788421120%29), Security & Engineering Mentor

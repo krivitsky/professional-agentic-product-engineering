@@ -9,15 +9,15 @@ Tier 1 of [[The Six Tiers]], in the **Direct** stage. **Write prompts the agent 
 
 **Reach for this tier when** the agent keeps doing *almost* the right thing — vague asks get literal, wrong results. The single request is your cheapest lever: say what you want so it can't guess wrong.
 
-## The prompt triad
+## The Prompt Triad
 
 The tier opens with one frame — [[The Prompt Triad]]: every prompt is three things, **intent · context · constraint**. Fill all three in one message and the agent runs far on its own. The first 14 tips below are how you fill each slot well; each is tagged with the slot it serves.
 
-## Context hygiene — managing the active window
+## Context Hygiene — Managing the Active Window
 
 The last three tips manage the window the prompt lands in. **Context is a finite budget with diminishing returns** — see [[Context Rot]]: load just-in-time, `/clear` between tasks, compact deliberately, and push heavy exploration to subagents ([[Tier 5 — Orchestrate]]).
 
-## The 17 tips
+## The 17 Tips
 
 Each tip has its own page — click through for the Instead/Prefer pair.
 
@@ -39,7 +39,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 - [[Tip 1.16 — `∕clear` between tasks; reset after repeated failure]] — After ~2 failed fixes, `/clear` and rewrite the opening prompt.
 - [[Tip 1.17 — Steer compaction, don't run it blind]] — Tell `/compact` what to keep (decisions, failing tests) and what to drop (exploration).
 
-## Key Instead/Prefer pairs
+## Key Instead/Prefer Pairs
 
 **1.1 Hand over the outcome, not a file list.**
 > ❌ Instead: "Add a dark-mode stylesheet, a toggle in the header, and save the choice in the browser."
@@ -57,7 +57,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 > ❌ Instead: "Add a way to export reports." — then ten messages fixing what it guessed wrong.
 > ✅ Prefer: "Add report export: a button on the reports page that downloads the current rows as a `.csv`. No new libraries. Work on your own; only stop if you hit a real decision."
 
-## If you forget the rest, keep these five
+## If You Forget the Rest, Keep These Five
 
 1. **Hand over the goal, not the steps.** Say what you want and the limits; let the agent pick the how.
 2. **Be specific and concrete.** Vague asks get taken literally now.
@@ -65,7 +65,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 4. **Show, don't describe.** Paste the real error, the screenshot, an example.
 5. **Say it all in the first message.** One full brief beats ten corrections.
 
-## If you forget the rest, keep these five
+## If You Forget the Rest, Keep These Five
 
 1. **Hand over the goal, not the steps.** Say what you want and the limits; let the agent pick the how.
 2. **Be specific and concrete.** Vague asks get taken literally now.

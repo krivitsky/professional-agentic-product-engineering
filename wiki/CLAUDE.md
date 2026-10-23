@@ -2,7 +2,7 @@
 
 This is an LLM-maintained wiki for professional knowledge. The LLM writes and maintains all wiki pages. The human curates sources, directs analysis, and asks questions.
 
-## Scope — professional knowledge only
+## Scope — Professional Knowledge Only
 
 This wiki holds **only Alexey's professional knowledge**: Org Topologies, AI × Org Design, agentic engineering, frameworks, case studies, sources, and people/orgs tied to that work. It feeds articles, talks, courses, and LinkedIn.
 
@@ -10,7 +10,7 @@ This wiki holds **only Alexey's professional knowledge**: Org Topologies, AI × 
 
 Nothing lands in the wiki unless the human explicitly adds a source and asks to ingest it (see Ingest workflow). No auto-dumping.
 
-## Directory structure
+## Directory Structure
 
 ```
 prof/
@@ -26,7 +26,7 @@ prof/
   CLAUDE.md       # This file — the schema
 ```
 
-## Page format
+## Page Format
 
 All wiki pages use plain markdown. No YAML frontmatter.
 
@@ -40,7 +40,7 @@ All wiki pages use plain markdown. No YAML frontmatter.
 - Keep pages focused — one entity/concept/source per page
 - Use bullet points and short paragraphs over long prose
 
-## Source of truth for this vault
+## Source of Truth for This Vault
 
 This vault is the wikified view of **`guide.md` at the repo root** — the single canonical source. **Never copy or summarize `guide.md` into `wiki/sources/`.** The guide lives at the root; the vault only *references* it:
 
@@ -49,7 +49,7 @@ This vault is the wikified view of **`guide.md` at the repo root** — the singl
 
 This override applies to the repo-native guide only. The generic `raw/` → `sources/` ingest below still holds for *external* documents added to the vault.
 
-## Vault structure — the guide as a 3-level tree
+## Vault Structure — The Guide as a 3-Level Tree
 
 The vault mirrors `guide.md` as a **tree**, not a flat list. This is the shape to preserve on every re-wikification:
 
@@ -64,13 +64,13 @@ Cross-cutting concepts (The Harness, Vertical Slicing, …) and entities (Claude
 
 **Why it matters:** if every tip links the root `guide.md`, the Obsidian graph collapses into a flat star with `guide` at the center and all ~65 tips orbiting it — the tier structure disappears. The rules below keep tips clustered under their tier.
 
-### Tier hub pages — `concepts/Tier N — <Name>.md`
+### Tier Hub Pages — `concepts/Tier N — <Name>.md`
 
 - Filename/H1 uses the guide's own em-dash heading form: `Tier 1 — Prompt` (an em-dash `—`, **not** a colon — a colon is unsafe in macOS/Obsidian filenames).
 - Has a `## The N tips` section that lists **every** tip as a wikilink: `- [[Tip N.M — Title]] — <gloss>`, in guide order, preceded by the line *"Each tip has its own page — click through for the Instead/Prefer pair."*
 - Keeps `**Source:** [guide.md](../../guide.md)` (tier hubs *do* link the root — that's the `guide → tier` edge).
 
-### Per-tip pages — `concepts/Tip N.M — <Title>.md` (one file per tip)
+### Per-Tip Pages — `concepts/Tip N.M — <Title>.md` (One File per Tip)
 
 Template (copy structurally, fill from the guide verbatim):
 
@@ -100,7 +100,7 @@ Hard rules for tip pages:
 - The `#tip-N-M` anchor is the **stable key**; the title drifts. When syncing, match tips by number, not by title.
 - **`/` is illegal in filenames.** If a tip title contains a slash (e.g. `/clear`, `CI / headless`), substitute a division slash `∕` (U+2215) or reword, and make the filename = H1 = every inbound wikilink **identical** so it still resolves.
 
-### Re-wikifying after a `guide.md` change (keep it granular)
+### Re-Wikifying After a `guide.md` Change (Keep It Granular)
 
 For each tip that was **added / changed / removed / renamed**:
 - **Added** → create its tip page from the template *and* add its bullet to the tier hub's `## The N tips` list.
@@ -163,7 +163,7 @@ When creating or updating concept pages, search the web for high-quality externa
 - Keep the index accurate — it's the primary navigation tool
 - Log entries use the format: `## [YYYY-MM-DD] action | Description`
 
-## Obsidian-specific rules (learned from experience)
+## Obsidian-Specific Rules (Learned from Experience)
 
 - **Every `[[wikilink]]` must resolve to an existing page.** Before finishing an ingest, verify that every wikilink target has a matching file. Extract all unique targets and compare against filenames.
 - **Only wikilink to pages that exist or will be created in the same operation.** For fictional characters, proper nouns without their own page, or general terms (e.g., "systems thinking"), use plain text — not wikilinks. Obsidian auto-creates empty stub files when the user clicks a broken wikilink, polluting the vault.

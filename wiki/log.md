@@ -142,3 +142,7 @@ The guide's opener went from five lines to three: *Maybe writing code was never 
 ## [2026-10-23] edit | "designing agentic systems"
 
 The guide's shift line now reads *From coding features to designing **agentic** systems* (front matter and "Part of the Agentic Shift System"). Updated [[The Six Tiers]]. No tip changed.
+
+## [2026-10-23] edit | Title-case headings; opener lines 1–2
+
+Every heading in the guide and the vault's section headings are now in title case (rule in the repo `CLAUDE.md`). Page H1s and filenames are unchanged — tip pages mirror tip titles, which are sentences. The opener now opens *What if writing code was never the human job? / The real job was always understanding the problem…*. No tip changed.

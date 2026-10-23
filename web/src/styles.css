@@ -363,7 +363,7 @@ button { font: inherit; }
   color: var(--accent);
 }
 .content .hero-headline {
-  margin: 0 0 18px; max-width: 14em;
+  margin: 0 0 18px; max-width: 14em; padding-left: 22px; border-left: 4px solid var(--accent);
   font-size: clamp(40px, 5.4vw, 76px); line-height: .98; font-weight: 700; letter-spacing: -0.045em;
   color: var(--heading); text-wrap: balance;
 }

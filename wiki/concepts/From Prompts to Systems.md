@@ -7,12 +7,12 @@ The Big Idea of the whole guide, in one line:
 
 > Professional agentic engineering is **not prompt engineering. It's engineering the system around the model.**
 
-## Two ways to run a model
+## Two Ways to Run a Model
 
 - **Vibe coding (poke and hope).** Prompting alone: "you poke the model and hope it converges." It can — "but only under constant hand-steering, and left to prompts alone the product sprawls, features drift, and quality slides into slop, while your own attention drains into operating the model."
 - **An agentic system.** The *same* model, placed inside a harness. "Inside those bounds the model converges on its own, and your attention is freed for what actually matters: growing understanding and driving impact."
 
-## What the harness is
+## What the Harness Is
 
 An agentic system "puts the same model inside a *harness*: a **workflow** — the loop it runs — bounded by three constraints":
 
@@ -22,13 +22,13 @@ An agentic system "puts the same model inside a *harness*: a **workflow** — th
 
 See [[The Harness]] for the full definition.
 
-## The shift
+## The Shift
 
 - "As the work gets harder, your effort moves from *wording one prompt* to *engineering that harness* — the prompt shrinks while the system around it grows."
 - The six tiers are that climb: "from a single request (T1) to whole loops running autonomously in production (T6)."
 - The harness has a shape — three nested loops, from the tight red-green cycle out to real-world impact.
 
-## External validation
+## External Validation
 
 [[Robert C. Martin]] ("Uncle Bob") — Agile Manifesto signatory, author of *Clean Code*, namer of SOLID, and for a generation the loudest voice for reading and crafting every line — now says he does *not* read the code his agents write, and instead *"surround[s] the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage… I have very high confidence in the code they produce because they've had to run the gauntlet of all my constraints and tests."*
 

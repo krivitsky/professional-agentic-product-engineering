@@ -9,29 +9,29 @@ Tier 6 of [[The Six Tiers]], in the **Scale** stage, and the top of the climb. *
 
 **Reach for this tier when** runs die because your laptop slept, or every run still waits for you to start it — and the team needs agents to pick up tickets and open PRs without anyone babysitting a terminal.
 
-## From your box to the team's system
+## From Your Box to the Team's System
 
 Once runs go longer than you'll sit and watch, **where they run and who starts them** becomes its own engineering problem. Two steps:
 
 1. **Your box** — a small always-on server, one tmux session per run; you start runs, from your desk or your phone, and secure the server like production.
 2. **The execution layer** — a hosted runtime (managed cloud sessions, or sandboxes you run); a ticket or an event starts the run, behind a human gate on the plan and the merge.
 
-## API-bound, not compute-bound
+## API-Bound, Not Compute-Bound
 
 Claude Code is **API-bound, not compute-bound** — inference runs on Anthropic's servers; your machine just holds the thread. So a box that doesn't sleep keeps the agent moving, and the hardware bar is modest: a 4 GB VPS handles one agent, but budget **16 GB+** for dynamic workflows or many parallel subagents (heavy orchestration OOM-kills small boxes and takes the tmux session with it).
 
-## The execution layer — the same loop you already built
+## The Execution Layer — The Same Loop You Already Built
 
 Enterprise agentic loops need a dedicated Agent Execution Layer: loops run **hosted, isolated, and event-triggered**. Everything from [[Tier 3 — Verify]] and [[Tier 4 — Enforce]] is unchanged; the layer only answers three new questions: *where does it run, what triggers it, and how do many agents avoid colliding?* Start fully managed (GitHub `@claude`, Linear agents, Anthropic-managed cloud VMs); self-host only when you need the control.
 
-## The stack — four parts when you build your own
+## The Stack — Four Parts When You Build Your Own
 
 - **Runtime sandbox** — run untrusted agent code + tests in throwaway isolation (E2B, Modal, Daytona / Northflank, or Claude Code's `/sandbox` and web VMs), so a runaway loop burns a cheap container, not prod.
 - **Connectivity (MCP)** — let the agent read Slack / Notion / Postgres / Sentry without hardcoded creds (see [[Tier 2 — Plan]]).
 - **Orchestration / state** — track which phase each agent is in (LangGraph, Claude Agent SDK, Warp Oz, dynamic workflows).
 - **System of record** — the ground truth + state machine (Linear / GitHub issues, whose workflow states *are* the state machine). Make the tracker the agent's memory: the conversation is disposable; the workflow state is durable.
 
-## The loop — from ticket to merged PR
+## The Loop — From Ticket to Merged PR
 
 Just [[Tier 3 — Verify]]'s loop, hosted and gated:
 
@@ -42,7 +42,7 @@ Just [[Tier 3 — Verify]]'s loop, hosted and gated:
 5. **PR.** Commits and opens a PR via `gh`, under your identity so `git blame` stays useful.
 6. **Review agent.** A separate review agent triggers on the PR, posts findings, and the execution agent fixes them before a human looks.
 
-## The review-agent pattern (most teams' first loop)
+## The Review-Agent Pattern (Most Teams' First Loop)
 
 PR review is where to start: high value, low risk. The pattern (see [[The Review-Agent Pattern]]):
 
@@ -51,11 +51,11 @@ PR review is where to start: high value, low risk. The pattern (see [[The Review
 - **Prompt adversarially.** "Identify side effects this diff introduces that are **not** covered by the modified tests." Ask for all findings, severity-labeled — never tell it to be conservative.
 - **Use a different model than the author.** A cross-lab reviewer catches blind spots a self-review shares.
 
-## Certify the evidence
+## Certify the Evidence
 
 At this volume the human reviews the proof, not every line: every run attaches its evidence — tests, e2e, screenshots, diff coverage, mutation score, the review agent's findings — and the human certifies it at the merge gate, then spends the saved time improving the system. This is [[From Prompts to Systems]] at full scale.
 
-## The 8 tips
+## The 8 Tips
 
 Each tip has its own page — click through for the Instead/Prefer pair.
 
@@ -68,7 +68,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 - [[Tip 6.7 — Make the tracker the state machine — the agent forgets; the board remembers]] — store workflow state as ticket status/labels so it survives restarts and a human can override by moving the card.
 - [[Tip 6.8 — Certify the evidence instead of reading the diff — review the proof, not every line]] — Every run attaches its evidence; you certify it, open the code only where it is thin, and spend the saved time on the system.
 
-## The reality check
+## The Reality Check
 
 **Most pilots die before production.** IDC found 88% of AI proof-of-concepts never reach wide deployment; Gartner predicts over 40% of agentic AI projects will be canceled by end of 2027 — costs, unclear value, inadequate risk controls. For a coding agent that means the boring parts: isolation, governance, least-privilege permissions, audit, data residency. Treat the execution layer like any production system, and start with one managed loop (PR review), prove it, then expand.
 

@@ -6,14 +6,14 @@
 
 Robert Cecil Martin (b. 1952), known as **"Uncle Bob"** — American software engineer, author, and instructor; a software professional since 1970. Cited in the guide's [[From Prompts to Systems]] Big Idea as outside validation.
 
-## Why he's referenced
+## Why He's Referenced
 
 - Signatory of the [Agile Manifesto](https://agilemanifesto.org/); first chairman of the Agile Alliance.
 - Named the **SOLID** object-oriented design principles.
 - Author of *Clean Code*, *The Clean Coder*, and *Clean Architecture* — for a generation the loudest voice for software craftsmanship and test-driven development.
 - His life's work centred on the quality of the lines a human writes and **reads**.
 
-## Why his agent claim is significant
+## Why His Agent Claim Is Significant
 
 In a [July 2026 post](https://x.com/unclebobmartin/status/2080257779395154409) he says his strategy is to **not read any of the code his agents write** — instead he surrounds them with "extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage" and trusts the result *because* it cleared that gauntlet.
 

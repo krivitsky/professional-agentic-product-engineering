@@ -9,7 +9,7 @@ An MCP server that lets the agent drive a **live browser** to test the UI for re
 - Instead of "make sure the checkout page looks right," have the agent open the app, run the flow, verify concrete outcomes, and save the run as an e2e spec.
 - Works off the **accessibility tree** (~200–400 tokens/snapshot), not screenshot guessing.
 
-## Division of labor
+## Division of Labor
 - **Claude in Chrome** — interactive dev.
 - **Playwright MCP** — the suite / CI.
 - **Chrome DevTools MCP** — performance.

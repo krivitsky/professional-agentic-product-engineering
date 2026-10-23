@@ -4,7 +4,7 @@ description: Use when the user asks what their repo is missing to run coding age
 argument-hint: "[--quick | --deep] [--theme:light | --theme:dark]"
 ---
 
-# Harness audit — a static review of the agent configuration in a repo
+# Harness Audit — A Static Review of the Agent Configuration in a Repo
 
 The guide's Big Idea: a **harness** is a **workflow** bounded by three constraints — **guidelines** (how the agent should behave), **autotests** (ground truth from the environment), **guardrails** (limits it can't cross). This skill reviews the one a repo actually has.
 
@@ -14,7 +14,7 @@ The full guide ships at **`${CLAUDE_PLUGIN_ROOT}/guide.md`**. The check catalogu
 
 ---
 
-## The distinction that makes this an audit and not an inventory
+## The Distinction That Makes This an Audit and Not an Inventory
 
 **Presence is the cheap half.** "Is there a hook?" is a glob. The findings worth the reader's time come from opening files and cross-referencing them:
 
@@ -28,7 +28,7 @@ Every one passes a presence check. **`checks.md` has two classes and Class C is 
 
 ---
 
-## Three passes: find wide, then falsify
+## Three Passes: Find Wide, Then Falsify
 
 An independent review of a shipped report re-checked every claim against the working tree and returned: *diagnosis sound · three of seven findings misstated · one false.* **Its architecture held; its citations did not.** The single pass that wrote it had used 14 of its 35 allowed reads — budget was never the constraint. A grep hit was being treated as a read.
 
@@ -41,7 +41,7 @@ That is not fixable by trying harder in one context, and the skill already knew 
 | **2 · Pooling** | Merge, dedupe, flag conflicts. Mechanical — done in the orchestrating context, no agent | — |
 | **3 · Verifier** | Falsify every pooled finding against the tree. Returns verdicts, not opinions | 1, always |
 
-### Pass 1 — finders, for recall
+### Pass 1 — Finders, for Recall
 
 Fan-out buys **coverage**, not correctness. Class C checks are open-ended — *"find contradictions between instruction files"* has no fixed answer set, and one pass finds what its lens is shaped for. The shipped report cited `ci.yml` **and** `playwright.config.ts` and never noticed that a comment in one contradicts the ternary in the other; a finder told to cross-read pairs would plausibly have caught it.
 
@@ -60,7 +60,7 @@ Under `--deep`, add **Hygiene** (C-7, secrets, tracked state, machine paths) and
 
 Each finder returns candidate findings in the §Findings shape, each with the `file:line` it rests on. **Finders do not write the report.**
 
-### Pass 1b — the re-checker, when a prior report exists
+### Pass 1b — The Re-Checker, When a Prior Report Exists
 
 **Spawn it alongside the finders, not after them.** It re-tests the previous run's open issues against the tree, and because every one of them arrives with a `file:line` and a stated condition, its work is targeted reads rather than an open-ended sweep. It finishes long before the finders do.
 
@@ -170,7 +170,7 @@ Three verdicts per issue, and the third is not a failure:
 
 **Where the traded coverage belongs is the record, not the wait.** The strip header carries the resolved mode (`Quick look · 1 finder + verifier`) and so does the report cover — so a reader comparing two reports can see the difference in the place where comparing happens. A ghost phase mid-run reaches only the one person who already knows.
 
-### The strip closes every message; substance only at boundaries
+### The Strip Closes Every Message; Substance Only at Boundaries
 
 **These are two things with two different costs, and bundling them was a mistake.** The strip is two lines. The substance a boundary carries is longer, and there is only something to say when a boundary has actually changed.
 
@@ -192,7 +192,7 @@ Two lines is not a token sink. Repeating a boundary's full content on every mess
 
 **Boundaries stay at five blocks — one per phase, never one per finding.** A block for each claim would bury the report under its own progress before the report existed.
 
-### Say what the audit looks for, once, while it looks
+### Say What the Audit Looks for, Once, While It Looks
 
 **A user thirty minutes into a real run asked *"what is this audit? common issues it finds?"*** — which is the run's own fault. It had shown them agent names, tool counts and a token meter, and never once said what it was for.
 
@@ -206,7 +206,7 @@ So the block that appears when research finishes carries **one short paragraph, 
 
 **This is the same content the tip links serve, at a different altitude.** The paragraph says what kind of thing goes wrong; the per-row links say what to do about the specific one. Neither replaces the other, and both cost almost nothing next to a thirty-minute wait.
 
-### Three lines that show the reader their repo, not the machinery
+### Three Lines That Show the Reader Their Repo, Not the Machinery
 
 The strip shows agents, phases and tokens — all of it about the audit. These three are about *them*, and each costs one line at a boundary that is already emitting one.
 
@@ -249,7 +249,7 @@ One line, drawn from what the finders actually counted, never invented. **It cha
 
 **Elapsed time needs no qualifier** — it is wall clock and always true.
 
-### Keep the subagents' tool calls legible
+### Keep the Subagents' Tool Calls Legible
 
 **Nothing `cd`s — not the subagents, and not the orchestrating context.** Everything already starts in the repo root. Runs have been observed emitting `cd /Users/alexey/src/aidy/repos/<repo>` before every command, which spends the visible width of the line on a constant, and then the actual command is what gets truncated. The reader is left with a path they already know and an ellipsis where the evidence was.
 
@@ -257,7 +257,7 @@ One line, drawn from what the finders actually counted, never invented. **It cha
 
 **Ask for short tool descriptions too.** A finder's Bash calls are the only window into what it is doing while it runs; `rg for hook definitions` tells the watcher something, and a truncated multi-line `echo` banner does not.
 
-### Name each subagent after the phase it belongs to
+### Name Each Subagent After the Phase It Belongs To
 
 The runtime prints every subagent's description directly beneath the strip, so the two are read together. A run showed `▸ research` in the strip and `Agent(Enforcement lens finder)` on the next line — **two vocabularies for one activity, stacked, with nothing connecting them.** A reader who has just been taught five phase names is then shown a word from none of them and cannot tell whether it is the same step or a different one.
 
@@ -290,7 +290,7 @@ The runtime prints every subagent's description directly beneath the strip, so t
 
 **Never upgrade *silently*.** A plain *"audit this repo"* may pre-select two finders, and *"don't miss anything"* may pre-select four — but neither spawns anything until the user has seen the shape and its cost and said go. The word doing the work is *silently*: mapping intent is fine, spending on it unasked is not.
 
-### Say what you are before you touch anything
+### Say What You Are Before You Touch Anything
 
 **Introduce yourself before doing any work.** A run was observed reading two files, listing a directory and running three shell commands *before* it said what it was — so the user's first information about the skill was a tool-use summary.
 
@@ -332,7 +332,7 @@ questions before anything spawns.
 
 **Say what happens next, in one clause.** Not a plan, not a numbered procedure — *"checking for a previous run, then three questions"* is enough to tell someone the tool calls they are about to see are not the audit starting without them.
 
-### Confirm before spawning — every run
+### Confirm Before Spawning — Every Run
 
 **This run is not cheap and the user has not agreed to it yet** — so the introduction is followed by a two-line frame and one `AskUserQuestion`. Short: they came for an audit, not a form.
 
@@ -377,7 +377,7 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 
 **Say what it writes before it writes it.** Two files into `harness-audits/`, and nothing else touched. That is the only write this skill makes, and it lands in the user's repo — it is the real consent moment, more than the finder count is.
 
-### Say nothing about how long it takes
+### Say Nothing About How Long It Takes
 
 **No duration, no token figure, no comparison to a previous run — at setup, in the report, or anywhere in between.** Not a range, not a hedge, not *"a few minutes"*, and not *"the last run here took 38m"* either. A measured past run is still presented as guidance for this one, and repo size and depth move it enough that the number misleads exactly when it matters.
 
@@ -385,7 +385,7 @@ Then **one** `AskUserQuestion` call carrying **two** questions, so it is a singl
 
 **What replaces it is the live meter in the strip** — elapsed time and tokens as they actually accrue. That reports what is happening rather than predicting what will, and it needs no baseline to be honest.
 
-### Then emit the block — it *is* the confirmation
+### Then Emit the Block — It *Is* the Confirmation
 
 **The moment the answers come back, emit the progress block and nothing else.** Its header line already carries the resolved config, so a separate *"Running Standard — 2 finders + verifier…"* sentence says the same thing twice:
 
@@ -452,7 +452,7 @@ The `auditor` field on the report cover carries the resolved shape, so the mode 
 
 ---
 
-## Write it plainly
+## Write It Plainly
 
 **The report's default register drifts abstract, and abstract prose reads as authoritative while saying nothing.** A shipped scorecard note read: *"Two instruction layers, neither authoritative and both resident, with no step that reconciles them when one changes."* The reader's verdict was *"I don't understand this."* They were right — three nominalisations, no picture, nothing a person could point at.
 
@@ -497,7 +497,7 @@ Severity alone interleaves rungs inside a band — a High on T3 sitting under a 
 | **Corrective action — now** | The smallest thing that closes it, with the literal lines to paste |
 | **Corrective action — structural** | What stops it recurring |
 
-### The finding asserts. The fix proposes. Keep the voices apart.
+### The Finding Asserts. The Fix Proposes. Keep the Voices Apart.
 
 A report once recommended the wrong hook event with total confidence. The reader's verdict — *"trust the report's problem, not its wiring"* — is the whole design brief: when diagnosis and prescription speak in one voice, a wrong prescription discredits a correct diagnosis. Separate them and a bad fix costs only the fix.
 
@@ -513,7 +513,7 @@ A report once recommended the wrong hook event with total confidence. The reader
 
 **Ship runnable content, at the altitude you can defend.** This is not a licence to hand back homework — a corrective action with nothing executable in it is worthless. But the mechanism is the part this pass is most often wrong about, and the acting reader can check it in seconds where the audit could not. So the requirement binds, the lines illustrate, and the check that would falsify them is named. *"Baseline — confirm `X` before applying"* is worth more than a confident block of JSON, because the confident block is what shipped wrong twice.
 
-### Write for a reader who can do better than you
+### Write for a Reader Who Can Do Better than You
 
 **Design target: a report an agent with more context can trust and act on.** Whoever acts on this — a person who has worked in the repo for a year, or an agent that can run the suite, read every file, and try three approaches — is very often **better positioned than this pass was.** That sets the altitude for everything below. This audit is a budgeted, read-only, single-pass review; where it descends into specifics it cannot check, it manufactures exactly the claims a better-positioned reader will refute, and each refuted claim spends trust the sound findings needed.
 
@@ -556,7 +556,7 @@ Say it once in §6: **corrective actions are proposals; a finding stands even if
 
 **Say when findings compound.** *"Combined with ISSUE-1, the configuration reads as gated to anyone reviewing it, while in practice nothing blocks."* Two findings that multiply are worth more than their sum, and a reader who fixes one and not the other has fixed nothing. Look for these deliberately.
 
-### Severity — the cost if it goes wrong
+### Severity — The Cost If It Goes Wrong
 
 | | |
 |---|---|
@@ -566,7 +566,7 @@ Say it once in §6: **corrective actions are proposals; a finding stands even if
 | **Low** | Friction or a latent trap |
 | **Info** | Worth knowing, no action |
 
-### Confidence — how sure you are, a *separate* axis
+### Confidence — How Sure You Are, a *Separate* Axis
 
 - **Confirmed** — read directly from a file. Quote it.
 - **Probable** — inferred, and say from what: *"whether this server is loaded in practice cannot be determined from configuration alone."*
@@ -581,7 +581,7 @@ Never collapse these. `Medium / Probable` and `Medium / Confirmed` are different
 
 ---
 
-## The scorecard rates the guide's six tiers
+## The Scorecard Rates the Guide's Six Tiers
 
 **The axis is the tier ladder, not the check catalogue.** `checks.md` categories stay where they are good — filing a finding — but the scorecard is indexed **T1–T6**, so a reader who sees a weak rung knows which part of the guide to open. Take the names from `guide.md`'s `## Tier N —` headings, never from a mirror:
 
@@ -593,7 +593,7 @@ Rate each **Strong · Satisfactory · Moderate · Weak · Missing · Not assesse
 
 **This is not tier-gating.** `## Method` forbids inferring *how ambitious a repo should be* and withholding findings above an imagined ceiling — a claim about intent a repo cannot support. Reporting where the harness currently sits is an observation, and the guide's own *"which tier do you need?"* exists so the reader sets their own finish line.
 
-### Recommend where to focus — from evidence, never from guessed intent
+### Recommend Where to Focus — From Evidence, Never from Guessed Intent
 
 **Close the lead with a short "where that is, for this repo" paragraph.** Which rungs carry this repo's weight is the most useful thing the tier axis can produce, and leaving the reader to derive it from six ratings wastes the axis.
 
@@ -609,7 +609,7 @@ Signals worth reading for this: author count and merge ratio (`git log --format=
 
 **Name only the rungs that carry the weight.** A draft went on to say *"T6 has nothing to supervise. T5 matters in one way only…"* — both of which are the table's own rows, in the table's own words, eight lines above the table. **The lead says where to look; every other rung speaks for itself in its row.**
 
-### Name one next lever, and derive it
+### Name One Next Lever, and Derive It
 
 **Walk the rungs from T1 upward. The next lever is the lowest one not rated `Strong` or `Satisfactory`.** Name that rung and no other.
 
@@ -625,7 +625,7 @@ The rule falls out of the ladder itself: each rung rests on the ones below, so a
 
 **When the lever lands on T1 — or on T2's planning habits — the fix is a person, not a file.** T1 is how the operator prompts and keeps the context window clean, and T2's planning half is how they shape and slice work — there is nothing to add to the repo, so the usual corrective action has nothing to act on and *"write better prompts"* is not one. T2's other half is files (`CLAUDE.md`, Skills, MCP, secrets, hand-off notes); a T2 lever that rests on those gets an ordinary corrective action. Name the two things that do work, in one line: **the coach** (`/pape:agentic-coach`, catches it in the flow of real work) and **the tutor** (the guide repo's `CLAUDE.md`, which teaches the rung and reads real prompts to tailor it). This is the only place in the report where the recommendation is a tool rather than a change.
 
-### The lead's whole order
+### The Lead's Whole Order
 
 `what this repo is` → `the verdict, and the mechanism behind it` → `the direction` → `the lever, and why that rung`. Four beats, roughly 200 words.
 
@@ -682,7 +682,7 @@ Context comes first because it frames everything after it, and a draft that open
 
 Distribution, delta, direction, mechanism — four facts the run already holds, none of them available anywhere else in the report.
 
-### The note describes a condition, not an incident
+### The Note Describes a Condition, Not an Incident
 
 **The failure to avoid: notes written as findings-in-miniature**, which turn the scorecard into another index of the same events.
 
@@ -695,7 +695,7 @@ The first is an event and belongs in the findings table. The second is a standin
 
 **The grade rests on count and kind, not on instances.** *"Twelve issues, nine of which are one instruction file contradicting another, and three of which are pointers to things that no longer exist"* tells the reader what `Weak` is measuring and sends them to §2 for which twelve. **A reader who can reconstruct the findings table from the scorecard has been given the same list twice at different lengths.**
 
-### Every rung says what would lift it
+### Every Rung Says What Would Lift It
 
 A rating of a condition raises a question the report has to answer, and a reader asked it outright: *"T2 is Weak and there are three High T2 issues — is fixing those three all it takes?"* **Usually not**, and nothing in the report said so.
 
@@ -718,7 +718,7 @@ This matters most for tiers with **no** findings — those notes are the section
 
 **Never total them.** No overall score, no percentage, no averaged bar, and **no "you are at T4" sentence.** An earlier version drew a fill bar per group; the bars ended up identical and cheerful regardless of content, and a repo with excellent CI and no agent guardrails scored as healthy. **A gauge is read as a grade whatever the caption says** — so a rating may only ever appear per tier, next to the note that explains it, never summed and never collapsed into a level.
 
-### Three non-ratings, not one
+### Three Non-Ratings, Not One
 
 `Not assessed` was doing three incompatible jobs, and a reader could not tell them apart. Use the one that is true:
 
@@ -751,7 +751,7 @@ Render the two non-ratings visibly but neutrally — they are answers, not footn
 
 **Link every tier name to its chapter** — `https://agenticengineering.guide/tier-<N>` — and the section's opening line to `…/climb-the-six-tiers`. A weak rung that does not tell the reader where to read is the tier axis doing none of the work it was chosen for.
 
-### The report never promises what it did not do
+### The Report Never Promises What It Did Not Do
 
 **A guarantee is addressed to a suspicion, and printing it is how the suspicion arrives.** Three separate lines were cut for this, all saying the same kind of thing to the wrong audience:
 
@@ -765,7 +765,7 @@ The test: *who is this sentence addressed to?* If the answer is "someone worried
 
 The exception is a fact that changes what to trust: **what verification removed** — *"one candidate was cut: the quoted line was a fallback"* — belongs in §6, because a reader deciding whether to act on this report is better off knowing a claim was withdrawn. That is information, not reassurance.
 
-### Never print this skill's own rules in the report
+### Never Print This Skill's Own Rules in the Report
 
 A run once opened the scorecard with *"Ratings are per tier, never totalled, and never collapsed into a level."* Nothing is totalled, so the reader can see that; the sentence exists to stop **the author** doing something, and it was addressed to the wrong person. Same defect as the verification tallies on the cover — the audit narrating its own machinery instead of the repo.
 
@@ -773,7 +773,7 @@ A run once opened the scorecard with *"Ratings are per tier, never totalled, and
 
 ---
 
-## Report structure
+## Report Structure
 
 Both files, every run, same basename in `harness-audits/`:
 
@@ -782,7 +782,7 @@ Both files, every run, same basename in `harness-audits/`:
 | `<YYYY-MM-DD-HHMM>-report.md` | agents — a **briefing** (see below) | **first** |
 | `<YYYY-MM-DD-HHMM>-report.html` | humans — the designed report | second |
 
-### The `.md` lands first, and the run says so
+### The `.md` Lands First, and the Run Says So
 
 **Write the markdown completely, announce its path, then render the HTML.**
 
@@ -796,7 +796,7 @@ Two reasons, and the second is the one that matters:
 
 **This is not the re-render exemption.** §*A re-render is not a run* governs re-presenting an existing finding set as a new report; this is one run writing its two outputs in a sensible order. Same timestamp, same basename, one audit.
 
-### When the run is markdown-only, offer the HTML at the end
+### When the Run Is Markdown-Only, Offer the HTML at the End
 
 The findings are written and the reader has them. **Then ask once, and stop:**
 
@@ -813,7 +813,7 @@ The findings are written and the reader has them. **Then ask once, and stop:**
 | `<YYYY-MM-DD-HHMM>-report.html` | humans — self-contained, **no external fonts or assets**, print stylesheet |
 | `<YYYY-MM-DD-HHMM>-report.md` | agents — a **briefing**: same findings plus `open-questions` and the budget actually spent, so a better-positioned reader can go past where this pass stopped |
 
-### The cover carries four facts
+### The Cover Carries Four Facts
 
 **`target` · `branch` · `audited` · `auditor`.** That is the whole HTML cover:
 
@@ -867,7 +867,7 @@ The kicker's two links are the guide (`agenticengineering.guide`) and its source
 
 The kicker was also quietly false: once a run reads session transcripts to rate T1, *"static configuration review"* stops being true. Method belongs in `auditor`, where it is one string that changes with the run instead of a decorative constant nobody re-checks.
 
-### The footer carries the way onward, in one line
+### The Footer Carries the Way Onward, in One Line
 
 The kicker at the top says where the method comes from. The footer says what to do with it, for the reader who has now read sixteen findings and wants somewhere to go:
 
@@ -879,7 +879,7 @@ Count the tips when you write it — `grep -c '<a id="tip-' ${CLAUDE_PLUGIN_ROOT
 
 **The exception that outranks this** is §The scorecard's T1 rule: when the next lever is a rung no file can fix, the tools *are* the recommendation and belong in the lead. That is not promotion, it is the only correct corrective action — and it does not remove the footer line.
 
-### The HTML is designed, not derived
+### The HTML Is Designed, Not Derived
 
 **Inline `${CLAUDE_PLUGIN_ROOT}/skills/harness-audit/report.css` verbatim into a `<style>` block.** Never link it, never rewrite it, never invent a stylesheet per run.
 
@@ -892,7 +892,7 @@ This exists because the design was left unspecified once, and the next run reinv
 
 `report.css` carries its own constraints in comments — light-only, serif body, and **no gauge class**. Honour them. The report before last rendered eleven fill bars that §Rating categories forbids in prose; the rule lived in this file and the CSS lived in the output, so nothing reconciled them. Now the prohibition is in both.
 
-### Every ID is a link, in both files
+### Every ID Is a Link, in Both Files
 
 `ISSUE-3` is clickable **everywhere it appears** — the §2 table, the Trend entries, the compounding notes, the §3 recommended backlog. All of them are same-document anchors; the report never links out to another file for its own content.
 
@@ -913,7 +913,7 @@ Check before shipping: every `#issue-N` referenced has a matching anchor emitted
 
 **The check is on the output, not the method:** if the emitted HTML contains no `.finding`, no `.attr`, and no `.sechead`, it does not ship regardless of how it was made.
 
-### The head is part of the contract, and `charset` is not optional
+### The Head Is Part of the Contract, and `charset` Is Not Optional
 
 ```html
 <!DOCTYPE html>
@@ -928,7 +928,7 @@ Check before shipping: every `#issue-N` referenced has a matching anchor emitted
 
 **Grep for it before shipping**, alongside the class contract: `grep -q 'charset' report.html`. It is one line and it closes the whole class.
 
-### Do not render the report to check it
+### Do Not Render the Report to Check It
 
 **Verification of this artifact is textual: the class contract and the head above.** Do not start a web server, do not drive a browser, do not screenshot it. A run did all three — losing minutes to a port collision — because a global instruction file said to verify UI changes in a real browser, and it read the report as UI.
 
@@ -976,7 +976,7 @@ These were once the first and last sections, saying the same thing twice at oppo
 
 **An index does not need to sit beside its detail once both are anchored.** An earlier version kept the issues table welded above the detailed issues for exactly that reason — a rule written before every row became a link. With anchors, adjacency buys nothing and costs §2 the lead position.
 
-### Cut: "Questions this report answers"
+### Cut: "Questions This Report Answers"
 
 A former section, removed. It posed 5–7 questions with verdicts and finding pointers, sold as the 90-second read — and every question turned out to be a finding title with a question mark: *"Does the done check match the repo's definition of done?"* → the top finding. *"Can a bad turn reach the live site?"* → another one. Same content as §2, same ranking, one extra phrasing.
 
@@ -997,7 +997,7 @@ Its one distinct move was the **"checked, and it's fine"** answer, which a findi
 | **Display ID** — `ISSUE-1` | **Belongs to a finding for as long as that repo has reports.** Allocated once, carried on every later run, and never reassigned. Anchor is the lowercased ID: `#issue-1`. |
 | **Key** — `<check>@<primary location>` | e.g. `C-2@CLAUDE.md`, `C-12@ci.yml`, `P-hooks@.claude/settings.json`. Derived from *what the finding is about*. **This is what matches a finding to its ID across runs**, and what Trend compares on. |
 
-### Display IDs are allocated once and never reused
+### Display IDs Are Allocated Once and Never Reused
 
 **Earlier runs assigned IDs in severity order, per report.** `ISSUE-1` was the workspace-publish finding on 27 Jul and the palette finding two days later — the same badge on two different problems, in two files sitting side by side in a committed folder. **A reader who says "let's fix ISSUE-1" on Monday and re-runs on Wednesday is now talking about something else and has no way to notice.**
 
@@ -1082,7 +1082,7 @@ Not *closed*, not *withdrawn*, not *regressed*, not *carried* — a reader asked
 
 **The single exception is persistence, and it earns its place:** an `open since <timestamp>` marker in the issues table, in its own column. How long something has been open is the one cross-run fact a reader needs *while weighing severity*, and sending them to §4 to get it separates the two halves of one judgement. Everything else about the runs — what closed, what moved, what changed — stays in §4.
 
-### A baseline from the eight-tier guide
+### A Baseline from the Eight-Tier Guide
 
 Reports written before plugin 1.0.0 rated eight tiers and cited the old tip numbers. **A `ratings` line naming a T7 or T8 is the tell.** Keys (`<check>@<location>`) carry no tier and no tip, so matching findings, display IDs and the `ids` ledger all carry over unchanged. Three things do not:
 
@@ -1094,7 +1094,7 @@ Reports written before plugin 1.0.0 rated eight tiers and cited the old tip numb
 
 **Say it once, in §6:** *"The previous report (<date>) used the guide's earlier eight-tier scale; findings carry over by key, ratings are not compared."* One line. Trend needs no caveat of its own.
 
-### Trend never lists the new issues
+### Trend Never Lists the New Issues
 
 **`new` is a count, never an enumeration.** On a run where twelve of sixteen issues are new, listing them reproduces the issues table one section later — the reader's verdict was *"this just duplicates the issues list, this is not a trend."* They were right: when most issues are new, "what's new" is simply the report.
 
@@ -1130,7 +1130,7 @@ ids-retired: 3=C-4@pre-push — fixed 2026-07-27 · 4=C-11@sharp — withdrawn, 
 
 **Do not add a note explaining why the ledger holds keys that aren't findings.** A run wrote an `ids-note` field for this, but `keys-not-retested` already lists them by name one line above, and the ledger holding more than the report is the specified behaviour rather than an anomaly needing a caption.
 
-### The `.md` states the next lever as a field
+### The `.md` States the Next Lever as a Field
 
 The `.md` is read by agents, and the most common one is a **tutor deciding where to start teaching**. Make the answer a field rather than a sentence it has to parse out of §1:
 
@@ -1159,7 +1159,7 @@ Same values as §1's prose and the scorecard table — this is the machine-reada
 
 ---
 
-## The two gates
+## The Two Gates
 
 **These are steps, not advice. Nothing is written until both have run.**
 
@@ -1169,7 +1169,7 @@ Every failure this skill has shipped came from one place: **naming a thing witho
 
 Finders should apply Gate 1 to their own candidates as a matter of craft. **The verifier's application is the binding one.**
 
-### Gate 1 — every finding · run by the verifier
+### Gate 1 — Every Finding · Run by the Verifier
 
 The brief, from the review that produced this design: **"trust its architecture, verify its citations."**
 
@@ -1183,7 +1183,7 @@ For **each** finding, before it may ship:
 
 **`Confirmed` means read in full file context.** Short of that it is `Probable` with the search printed, or it does not ship.
 
-### Gate 2 — every corrective action
+### Gate 2 — Every Corrective Action
 
 For **each** corrective action, in order:
 
@@ -1196,7 +1196,7 @@ For **each** corrective action, in order:
 
 If an action survives all six and still rests on inference, say so in the finding rather than presenting it as settled. **Gate 2 is the one check still administered by the context that authored the thing being checked** — pass 3 verifies findings, not fixes, because a static verifier cannot run a proposed hook either. Treat its verdicts as weaker evidence than Gate 1's and let the confidence reflect that.
 
-### The three instances that produced Gate 2
+### The Three Instances That Produced Gate 2
 
 Kept as worked examples, not as separate rules — they are what steps 1 through 4 look like when skipped.
 
@@ -1204,7 +1204,7 @@ Kept as worked examples, not as separate rules — they are what steps 1 through
 - **`npm run verify` with no `CI=1`.** `playwright.config.ts` selected `start:e2e` under CI and `npm run dev` otherwise, with `reuseExistingServer: !CI`. The gate would have blocked good pushes at random, and a gate that cries wolf gets ripped out. *(step 2 — the config was never opened)*
 - **Merging "test before commit" and "build before push" into one gate**, in a report whose summary had just praised 561 small checkpoint commits. *(step 4)*
 
-## Five specifics, subordinate to the gates above
+## Five Specifics, Subordinate to the Gates Above
 
 1. **Verify the path you recommend against what you already found.** A run once reported "no `.claude/settings.json` anywhere" and routed the fix to `site/.claude/` while its own skills check had found `.claude/` at the root. The file would never have been read.
 2. **The command in the fix must be the command in the evidence.** Don't praise `npm run build` as the gate and then propose a hook running `npm test`.
@@ -1216,7 +1216,7 @@ Kept as worked examples, not as separate rules — they are what steps 1 through
 
 ---
 
-## The hand-off — what to say in the chat when it's done
+## The Hand-off — What to Say in the Chat When It's Done
 
 The report is a document; this is the message beside it. **Four short lines, in this order, and nothing else:**
 

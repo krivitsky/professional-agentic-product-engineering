@@ -11,7 +11,7 @@ Tier 3 of [[The Six Tiers]], in the **Trust** stage. **Make the agent prove it's
 
 This is the intent slot of [[The Prompt Triad]] made executable: the Given/When/Then you specced in Tier 2 becomes the check the loop has to pass before it can call the work done.
 
-## The framing
+## The Framing
 
 > **Prompts don't make agents reliable. Verification does.**
 
@@ -23,11 +23,11 @@ You don't get great output from one prompt — you get it from a **loop**: the a
 - **The spec is the new source code.** When the loop regenerates the implementation on demand against an executable spec, the code becomes throwaway output and `SPEC.md` + tests become the artifact you author, version, and review. Your job moves up — from writing syntax to writing the rules the agent executes against.
 - **You decide what to test for; the agent doesn't.** The tests that catch real bugs are usually integration and end-to-end. You say what they must check; the agent writes them to your spec and adds them to CI; you confirm they check the right things. Build the rails; don't let the agent build its own.
 
-## Checkpoints — the loop's memory and undo
+## Checkpoints — The Loop's Memory and Undo
 
 Git isn't bookkeeping here — it's the loop's memory and undo. With a checkpoint at every green step, a bad run costs minutes to undo, not a rewrite: commit every green step, and spike risky work in a worktree you can throw away.
 
-## The 13 tips
+## The 13 Tips
 
 Each tip has its own page — click through for the Instead/Prefer pair.
 
@@ -45,7 +45,7 @@ Each tip has its own page — click through for the Instead/Prefer pair.
 - [[Tip 3.12 — Commit every working step — checkpoints are what make a loop safe]] — commit after each green step so every checkpoint is a working state the loop can revert to.
 - [[Tip 3.13 — Try risky work in a worktree — a disposable checkpoint you can throw away]] — spike in `git worktree add ../spike-x`; keep it if it works, delete the directory if it doesn't.
 
-## Key Instead/Prefer pairs
+## Key Instead/Prefer Pairs
 
 **3.1 Make your Definition of Done executable.**
 > ❌ Instead: "Make it work."

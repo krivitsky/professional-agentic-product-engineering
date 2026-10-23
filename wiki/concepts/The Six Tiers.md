@@ -7,7 +7,7 @@ The guide opens with its headline: **Free the human to judge and innovate.** —
 
 The opener behind it: writing code was maybe never the human job; understanding the problem and deciding what's worth building was. Machines can write the code now, if we build the system around them — and each tier hands one more manual chore to that system while the human keeps the judgment. The guide calls itself a deep dive into that agentic shift, from coding features to designing agentic systems.
 
-## The ladder — three stages, two tiers each
+## The Ladder — Three Stages, Two Tiers Each
 
 Every tier name is a verb for what you do.
 
@@ -21,7 +21,7 @@ Every tier name is a verb for what you do.
   - **T5 [[Tier 5 — Orchestrate]]** — you stop running agents one by one · you split and coordinate the work.
   - **T6 [[Tier 6 — Supervise]]** — you stop starting and watching runs · you certify the evidence and improve the system.
 
-## What pushes you up — read the pain column as a diagnostic
+## What Pushes You Up — Read the Pain Column as a Diagnostic
 
 The trick is knowing *what pushes you to the next tier* — it's always a specific pain, not ambition. Find the pain you feel now; the next tier is the one that fixes it. **Each tier exists to kill a specific failure of the one below it.**
 
@@ -34,7 +34,7 @@ The trick is knowing *what pushes you to the next tier* — it's always a specif
 
 Climb as your skill, your harness and your confidence grow. **Climb only as high as your work demands.**
 
-## Which tier do you need?
+## Which Tier Do You Need?
 
 - **A landing page, throwaway script, or one-off for yourself** → **Tier 1–2** (or skip the agent for a one-shot builder like Lovable/v0/Bolt). Low stakes, short-lived; a clear prompt is enough.
 - **A feature in a side project you intend to keep** → **Tier 1–3**. Correctness matters over time — you want a verify loop and checkpoints so it doesn't rot.
@@ -42,7 +42,7 @@ Climb as your skill, your harness and your confidence grow. **Climb only as high
 
 The destination, if you go all the way, is **professional agentic product engineering**: agents running in a loop against a clear, testable standard, inside a real repo you own.
 
-## Coming from the eight tiers
+## Coming from the Eight Tiers
 
 Until October 2026 the guide had eight tiers. Every old tip kept its words and found a new home; three tips are new, and the guide ends with a tip map from old numbers to new. The moves:
 

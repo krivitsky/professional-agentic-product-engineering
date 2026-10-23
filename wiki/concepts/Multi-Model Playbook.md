@@ -5,7 +5,7 @@
 
 It works for one reason: **different models have different blind spots**, so a second model catches what the first missed. Reach for it when a task is **high-stakes, decomposable, or verifiable**; skip it when one strong model already clears the bar.
 
-## The basics (Tier 2)
+## The Basics (Tier 2)
 
 Two moves, no infrastructure:
 
@@ -15,11 +15,11 @@ Two moves, no infrastructure:
   > ✅ Prefer: `/model opusplan` — Opus reasons through the plan, Sonnet writes the code. One command, top-tier planning, without paying Opus rates on every edit.
 - **Tip 2.8 — Have one agent draft the spec and a different one critique it — before any code.** One agent drafts SPEC.md; a *different* model attacks it ("Find gaps, wrong assumptions, missing edge cases; list them, don't rewrite"). The spec is the contract the whole build runs against, so this is the highest-leverage place to spend a second model.
 
-## The full toolkit (Tier 5) — two levels
+## The Full Toolkit (Tier 5) — Two Levels
 
 Get fluent with Level 1 before reaching for Level 2.
 
-### Level 1 — Multiple Anthropic models inside Claude Code
+### Level 1 — Multiple Anthropic Models Inside Claude Code
 
 Native path: built in, fully supported, costs nothing but a flag or a frontmatter line. Default division of labor: **Opus** for reasoning/planning/judgment, **Sonnet** for implementation, **Haiku** for search/explore/classification.
 
@@ -27,7 +27,7 @@ Native path: built in, fully supported, costs nothing but a flag or a frontmatte
 - **The advisor.** Run a cheaper main model and let it consult a stronger one only at decision points. Anthropic's numbers: Sonnet + an Opus advisor beat Sonnet alone by 2.7 pts on SWE-bench Multilingual *while cutting cost per task ~12%*. The advisor reads shared context and writes only a short plan (~400–700 tokens), never tools or user-facing output. A **quality/cost** lever.
 - **Fallback chains.** Declare an ordered fallback (`claude --fallback-model sonnet,haiku`) so the turn retries on the next model instead of dying on a single `overloaded` response. A **reliability** lever, distinct from the advisor.
 
-### Level 2 — Reaching beyond Anthropic
+### Level 2 — Reaching Beyond Anthropic
 
 The advanced case: other frontier labs (GPT-5.5-class, Gemini 3.x), open-weight models (DeepSeek/Qwen/Llama-class), or models you self-host. More power and more cost/privacy control, but you leave the natively-supported path and take on compatibility + governance work.
 

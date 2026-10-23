@@ -5,7 +5,7 @@
 
 A separate agent reviews the PR before a human; findings get fixed first. This is where most teams start — **high value, low risk** — and often their first production loop.
 
-## The pattern
+## The Pattern
 
 - **Feed the diff, not the codebase.** Pull only the changed lines + surrounding functions. Dumping the whole repo destroys the reviewer's context.
 - **Load the rulebook.** Inject your `ARCHITECTURE.md` or a `code-review` Skill ("always use the repository pattern for DB access") so it reviews against *your* standards.
@@ -13,7 +13,7 @@ A separate agent reviews the PR before a human; findings get fixed first. This i
 - **Use a different model than the author.** A cross-lab reviewer catches blind spots a self-review shares.
 - A **human still owns the merge.**
 
-## Why a different model
+## Why a Different Model
 
 > ❌ Instead of: the model that wrote the code reviewing its own code — it carries the same blind spots into the review.
 >
