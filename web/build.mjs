@@ -730,7 +730,12 @@ function selfAuditHtml(fileOf) {
     `<div><dt>Strongest</dt><dd data-strongest>${sum.strongest}</dd></div>` +
     `<div><dt>Next tier to work on</dt><dd><span data-next>${sum.nextHtml}</span><span class="buildmeta">The lowest-numbered tier rated 2 or less — each tier rests on the ones below.</span></dd></div>` +
     `</dl>` +
-    `<p class="audit-real">This is a self-check. For a real one, run <code>/pape:harness-audit</code> in a repo you work in: it reads the harness you've checked in, rates all six tiers, and names the one next thing to fix. <a href="${fileOf('audit-your-harness')}">How the audit works →</a></p>` +
+    `<div class="audit-real">` +
+    `<p>This is a self-check. For a real one, run the audit in <strong>Claude Code</strong>, in a repo you work in: it reads the harness you've checked in, rates all six tiers, and names the one next thing to fix.</p>` +
+    `<div class="codebox" data-lang="in Claude Code"><button class="copy" type="button" aria-label="Copy to clipboard">${COPY_ICON}<span>Copy</span></button>` +
+    `<pre><code class="language-text">/plugin marketplace add krivitsky/professional-agentic-product-engineering\n/plugin install pape@pape\n/reload-plugins\n/pape:harness-audit</code></pre></div>` +
+    `<p><a href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">The plugin on GitHub ↗</a> · <a href="${fileOf('audit-your-harness')}">How the audit works →</a></p>` +
+    `</div>` +
     `</div></div></section>`;
 }
 function harnessHtml(fileOf) {
