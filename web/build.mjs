@@ -442,14 +442,6 @@ function vibeParagraph() {
   return para;
 }
 const VIBE_MD = vibeParagraph();
-// The homepage's copy of the figure: each animation's short caption gives way
-// to the guide's own paragraph for that side, so the explanation sits under
-// the picture it explains.
-const HOME_FIGURE = (() => {
-  let k = 0;
-  return ANIM_FIGURE.replace(/<p class="cap">[\s\S]*?<\/p>/g, (m) =>
-    `<p class="cap">${marked.parseInline([VIBE_MD, HARNESS_MD][k++] || '')}</p>`);
-})();
 const stageOfTier = Object.fromEntries(HOME.tiers.map((t) => [t.n, t.stage]));
 
 // --------------------------------------------------- cross-page link fixer ---
@@ -762,7 +754,8 @@ function harnessHtml(fileOf) {
   return `<section class="home-section harness" aria-labelledby="harness-h">` +
     `<h2 id="harness-h">The Harness Around the Agent</h2>` +
     `<p class="section-lede">The same model, two ways to run it. On the left it is poked with prompt after prompt; on the right it runs inside a harness that keeps it on course.</p>` +
-    HOME_FIGURE +
+    ANIM_FIGURE +
+    `<div class="harness-text"><p>${marked.parseInline(VIBE_MD)}</p><p>${marked.parseInline(HARNESS_MD)}</p></div>` +
     `<p class="hd-more"><a href="${fileOf('big-idea')}">Read the Big Idea →</a></p>` +
     `</section>`;
 }

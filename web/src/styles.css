@@ -452,11 +452,10 @@ button { font: inherit; }
 .content .audit-real strong { color: var(--heading); }
 .content .audit-real strong.hl { color: var(--accent); font-weight: 600; }
 /* the harness around the agent: the animated figure, then the two halves explained */
-.harness .pae-fig { max-width: 980px; margin: 8px 0 0; padding: 36px 32px 28px; }
-.harness .pae-fig .cols { max-width: 900px; gap: 48px; align-items: start; }
-.harness .pae-fig .col { max-width: 420px; }
-.harness .pae-fig .cap { margin: 20px 0 0; text-align: left; font: 400 16px/1.6 var(--font); color: var(--body); }
-.harness .pae-fig .cap strong { color: var(--heading); font-weight: 600; }
+.harness .pae-fig { max-width: 980px; margin: 8px 0 0; }
+.harness .pae-fig .cap { display: none; }
+.harness-text { max-width: var(--measure); margin: 28px 0 0; }
+.content .harness-text p { margin: 0 0 1em; font-size: 18px; line-height: 1.6; color: var(--body); }
 .content .hd-more { margin: 24px 0 0; }
 
 /* ------------------------------------------------------------ narrow */
