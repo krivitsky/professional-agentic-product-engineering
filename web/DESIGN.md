@@ -48,8 +48,8 @@ Source of truth for the look: the header comment of `web/src/styles.css`.
 
 | id | name | bg | accent | kind |
 |---|---|---|---|---|
-| `cyanotype` | Cyanotype (**default**, the brand) | #0B3A8C | #FFD23F | dark |
-| `signal` | Signal | #111214 | #FF5A1F | dark |
+| `signal` | Signal (**default**, first in the list since 2026-10-23) | #111214 | #FF5A1F | dark |
+| `cyanotype` | Cyanotype (the brand: logo and OG card colors) | #0B3A8C | #FFD23F | dark |
 | `acid` | Acid | #0E2A1F | #C6FF3D | dark |
 | `klein` | Klein | #F4F1EA | #1F3BFF | light |
 | `ultraviolet` | Ultraviolet | #1A0B2E | #FF3D9A | dark |
@@ -110,7 +110,7 @@ The build fails, naming the part, if it can't read the opener, the `> **headline
 1. `git pull` main; merge `newstyle` into main (fast-forward if main hasn't moved).
 2. `cd web && node build.mjs` must pass (contrast gate, home parts, link check).
 3. Push main → Vercel builds production. `vercel ls professional-agentic-product-engineering` — top Production row must be `● Ready`; on error read `vercel inspect <url> --logs`.
-4. Check the live site with a browser (screenshot): homepage in Cyanotype, `?scheme=paper`, the slider, menu drawer on home, docked menu on `/tier-3`, a 375px-wide mobile view, console clean. Check `/tier-7` still 301s to `/tier-5`.
+4. Check the live site with a browser (screenshot): homepage in Signal (the default), `?scheme=cyanotype`, `?scheme=paper`, the slider, menu drawer on home, docked menu on `/tier-3`, a 375px-wide mobile view, console clean. Check `/tier-7` still 301s to `/tier-5`.
 5. Report the live URL to Alexey. Mark the task on the wiki page `PAPE Guide` (wiki repo, `wiki/projects/PAPE Guide.md`).
 
 Workspace rules that apply: source edits are done by the Devi agent and reviewed; never report done before the Vercel deploy is Ready and the live page is checked; US English.

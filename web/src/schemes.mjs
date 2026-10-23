@@ -15,12 +15,12 @@ const ACCENT_FLOOR = 0.6;    // the accent keeps ≥60% of its chroma at the low
 const AA = 4.5;
 
 export const SCHEMES = [
-  { id: 'cyanotype', name: 'Cyanotype', grid: ['line', 0.08], panel: 0.08,
-    t: { bg: '#0B3A8C', line: '#E6F0FF', line2: '#9DBBF0', heading: '#FFFFFF', body: '#DCE7FB',
-         muted: '#A9C1EE', accent: '#FFD23F', accentInk: '#0B3A8C', codeBg: '#072C6E' } },
   { id: 'signal', name: 'Signal', grid: ['line', 0.06], panel: 0.07,
     t: { bg: '#111214', line: '#F2F0EA', line2: '#4A4B50', heading: '#FFFFFF', body: '#D6D4CE',
          muted: '#9C9A93', accent: '#FF5A1F', accentInk: '#111214', codeBg: '#1C1D21' } },
+  { id: 'cyanotype', name: 'Cyanotype', grid: ['line', 0.08], panel: 0.08,
+    t: { bg: '#0B3A8C', line: '#E6F0FF', line2: '#9DBBF0', heading: '#FFFFFF', body: '#DCE7FB',
+         muted: '#A9C1EE', accent: '#FFD23F', accentInk: '#0B3A8C', codeBg: '#072C6E' } },
   { id: 'acid', name: 'Acid', grid: ['line', 0.07], panel: 0.08,
     t: { bg: '#0E2A1F', line: '#E8F5EC', line2: '#5E8A73', heading: '#FFFFFF', body: '#D3E6DA',
          muted: '#93BBA3', accent: '#C6FF3D', accentInk: '#0E2A1F', codeBg: '#091F17' } },
