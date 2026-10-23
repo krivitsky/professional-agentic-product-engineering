@@ -414,7 +414,10 @@ function homeData() {
     process.exit(1);
   }
   const rest = paras.filter((s) => s !== opener && s !== shift && s !== quote).join('\n\n');
-  return { opener: opener.split('\n').map((l) => l.trim()), shift, headline, subline, tiers, stages, lede, rest };
+  // The hero subheader: the shift line up to its colon ("From coding features to designing systems").
+  const shiftHead = (shift || '').replace(/^\*\*|\*\*$/g, '').split(':')[0].trim();
+  if (!shiftHead) problems.push('no "**From …: …**" shift line in the front matter');
+  return { opener: opener.split('\n').map((l) => l.trim()), shift, shiftHead, headline, subline, tiers, stages, lede, rest };
 }
 const HOME = homeData();
 function harnessParagraph() {
@@ -795,12 +798,18 @@ for (const p of pages) {
     contentHtml =
       `<section class="hero">` +
       `<h1 class="hero-title">Professional Agentic Product Engineering</h1>` +
+      `<p class="hero-sub">${escapeHtml(HOME.shiftHead)}</p>` +
       `<div class="hero-opener">${HOME.opener.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</div>` +
-      (HOME.shift ? `<p class="hero-shift">${marked.parseInline(HOME.shift)}</p>` : '') +
+      `<div class="hero-plugin">` +
+      `<p>Available as a <strong>Claude Code plugin</strong>: a coach while you work and an audit of your repo. ` +
+      `<a href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Install it →</a></p>` +
+      `<p>And as an <strong>Obsidian vault</strong>: the guide as linked pages, one per tier and tip. ` +
+      `<a href="${REPO_URL}/tree/main/wiki" target="_blank" rel="noopener">Get the vault →</a></p>` +
+      `</div>` +
       `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
       `</section>` +
       `<section class="home-section" aria-labelledby="tiers-h">` +
-      `<h2 id="tiers-h">The six tiers</h2>` +
+      `<h2 id="tiers-h">The Six Tiers of Professional Agentic Product Engineering</h2>` +
       `<p class="section-subhead">${escapeHtml(HOME.subline)}</p>` +
       (HOME.lede ? `<p class="section-lede">${escapeHtml(HOME.lede)}</p>` : '') +
       `<div class="stage-grid">${stages}</div>` +

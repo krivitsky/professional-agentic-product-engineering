@@ -358,8 +358,7 @@ button { font: inherit; }
   display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); column-gap: 64px;
   padding-bottom: 40px;
 }
-.hero-title { grid-column: 1 / -1; }
-.hero-opener, .hero-shift { grid-column: 1; }
+.hero-title, .hero-sub, .hero-opener, .hero-plugin { grid-column: 1; }
 .hero-title {
   margin: 0 0 22px; max-width: 13em;
   font-size: clamp(42px, 5vw, 72px); line-height: .95; font-weight: 700; letter-spacing: -0.045em;
@@ -367,11 +366,15 @@ button { font: inherit; }
 }
 .hero-opener { max-width: 760px; margin: 0 0 18px; }
 .content .hero-opener p { margin: 0; font-size: 18.5px; line-height: 1.6; color: var(--body); text-wrap: pretty; }
-.content .hero-shift { max-width: 760px; margin: 0; font-size: 18.5px; color: var(--heading); }
-.content .hero-shift a { color: var(--accent); text-decoration-color: currentColor; }
+.content .hero-sub { max-width: 900px; margin: -6px 0 24px; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; color: var(--heading); }
+.content .hero-plugin { max-width: 760px; margin: 0; padding: 12px 16px; border: 1px solid var(--line2); font-size: 16px; line-height: 1.5; color: var(--body); }
+.content .hero-plugin p { margin: 0; }
+.content .hero-plugin p + p { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line2); }
+.content .hero-plugin strong { color: var(--heading); }
+.content .hero-plugin a { color: var(--accent); font-weight: 600; text-decoration-color: currentColor; white-space: nowrap; }
 .content .hero-headline {
-  grid-column: 2; grid-row: 3 / span 2; align-self: center;
-  margin: 0 0 22px; max-width: 12em; padding-left: 22px; border-left: 4px solid var(--accent);
+  grid-column: 2; grid-row: 1 / span 4; align-self: start;
+  margin: 6px 0 0; max-width: 12em; padding-left: 22px; border-left: 4px solid var(--accent);
   font-size: clamp(32px, 3.6vw, 52px); line-height: 1.04; font-weight: 700; letter-spacing: -0.035em;
   color: var(--heading);
 }
@@ -526,7 +529,8 @@ button { font: inherit; }
   .content.home { padding: 36px 18px 20px; }
   .hero { display: block; padding-bottom: 40px; }
   .content .hero-headline { margin-top: 8px; }
-  .content .hero-opener p, .content .hero-shift { font-size: 17.5px; }
+  .content .hero-opener p { font-size: 17.5px; }
+  .content .hero-sub { font-size: 20px; }
   .content .home-section h2 { font-size: 34px; }
   .stage-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; gap: 26px; }
   .stage { grid-row: auto; grid-template-rows: none; display: flex; flex-direction: column; gap: 12px; }
