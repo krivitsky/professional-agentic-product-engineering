@@ -154,3 +154,7 @@ The opener's last line now names the shift as a profession: *Now that machines c
 ## [2026-10-23] edit | Opener line one, shorter
 
 Line one is just *What if writing code was never the human task?* — the parenthesis is gone. Updated [[The Six Tiers]].
+
+## [2026-10-23] edit | Opener line three, completed
+
+*…the new profession is designing the systems that ensure quality — and spending the freed-up time on bigger things.* Updated [[The Six Tiers]].
