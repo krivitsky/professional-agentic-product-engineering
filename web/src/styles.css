@@ -354,7 +354,16 @@ button { font: inherit; }
 
 /* -------------------------------------------------------------- home */
 .content.home { max-width: none; padding: 40px 32px 24px; }
-.hero { max-width: 880px; padding-bottom: 44px; }
+.hero {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 72px;
+  grid-template-areas: "eyebrow quote" "headline quote" "sub quote" "get quote";
+  grid-template-rows: auto auto auto 1fr; padding-bottom: 44px;
+}
+.hero-title { grid-area: eyebrow; }
+.hero-headline { grid-area: headline; }
+.hero-sub { grid-area: sub; }
+.hero-get { grid-area: get; align-self: start; }
+.hero-opener { grid-area: quote; align-self: center; }
 /* One message leads: the headline. The site name is an eyebrow above it (the
    top bar already carries it too); the subheader and opener support it. */
 .content .hero-title {
@@ -367,8 +376,8 @@ button { font: inherit; }
   font-size: clamp(40px, 5.4vw, 76px); line-height: .98; font-weight: 700; letter-spacing: -0.045em;
   color: var(--heading); text-wrap: balance;
 }
-.content .hero-sub { margin: 0 0 22px; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; color: var(--heading); }
-.hero-opener { max-width: 760px; margin: 0 0 28px; }
+.content .hero-sub { margin: 0 0 28px; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; color: var(--heading); }
+.hero-opener { max-width: 620px; margin: 0; }
 .content .hero-opener blockquote { margin: 0; padding: 0; border: 0; background: none; }
 .content .hero-opener blockquote::before { content: "\201C"; display: block; height: .5em; margin: 0 0 6px -2px; font: 700 88px/1 var(--font); color: var(--accent); }
 .content .hero-opener blockquote p { margin: 0; }
@@ -505,6 +514,8 @@ button { font: inherit; }
   .drawer-head { display: flex; }
 }
 @media (max-width: 1000px) {
+  .hero { display: block; }
+  .hero-opener { margin: 0 0 28px; }
   .audit-grid { grid-template-columns: minmax(0, 1fr); }
   .hd-row { flex-direction: column; align-items: stretch; }
   .hd-box, .hd-bound { flex: none; }
