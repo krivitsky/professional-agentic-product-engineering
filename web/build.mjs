@@ -251,7 +251,7 @@ function footerHtml() {
   return `<footer class="site-footer">
   <div class="cta">
     <p class="cta-title">Join a professional learning community for builders and leaders</p>
-    <a class="btn btn-primary" href="https://agentic-shift.com/community" target="_blank" rel="noopener">Apply to Agentic Shift</a>
+    <a class="btn btn-primary" href="https://agentic-shift.com/" target="_blank" rel="noopener">Apply to Agentic Shift</a>
   </div>
   <dl class="spec">
     <div><dt>Title</dt><dd>Professional Agentic Product Engineering</dd></div>
