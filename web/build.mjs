@@ -226,7 +226,7 @@ function headerHtml() {
     `<span>${escapeHtml(c.name)}</span></label>`).join('');
   return `<header class="topbar">
   <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" data-nav-toggle>${ICON_MENU}<span>Contents</span></button>
-  <a class="wordmark" href="index.html" aria-label="PAPE — home">PAPE</a>
+  <a class="wordmark" href="index.html" aria-label="PAPE — home"><svg class="logo" viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="20"/><circle cx="64" cy="36" r="13"/></svg>PAPE</a>
   <span class="topbar-sub">Professional Agentic Product Engineering</span>
   <div class="topbar-end">
     <a class="topbar-link" href="${REPO_URL}" target="_blank" rel="noopener">GitHub</a>

@@ -37,6 +37,7 @@ Files touched: `web/src/schemes.mjs` (new), `web/src/styles.css`, `web/src/app.j
 
 Source of truth for the look: the header comment of `web/src/styles.css`.
 
+- **Logo:** a solid rounded square (the harness) with one dot in its upper right (the agent), black and white in every scheme: the square takes `--heading`, the dot `--bg`. In the top bar next to "PAPE" (`.wordmark .logo`), on the OG card (white square, blue dot), and as the favicon (black square, white dot, transparent background), both rendered by `make-og.mjs`.
 - **Type:** Geist (400/500/600/700) and Geist Mono, from Google Fonts. Fallback system-ui.
 - **Blueprint frame:** a 40px background grid (`--grid` token), a 2px framed "sheet", square corners everywhere, no shadows.
 - **Spec-sheet tables:** bordered, label column + value column. Used for markdown tables, the tier cards and the footer.

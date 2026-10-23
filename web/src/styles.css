@@ -69,6 +69,12 @@ button { font: inherit; }
   color: var(--heading); text-decoration: none;
 }
 .wordmark:hover { color: var(--accent); }
+/* the logo, black and white in every scheme: the harness as a solid square in
+   the heading color, the agent as a dot in the background color */
+.wordmark { display: inline-flex; align-items: center; gap: 10px; }
+.wordmark .logo { width: 26px; height: 26px; flex: none; }
+.wordmark .logo rect { fill: var(--heading); }
+.wordmark .logo circle { fill: var(--bg); }
 .topbar-sub { font-size: 14px; color: var(--muted); white-space: nowrap; }
 .topbar-end { margin-left: auto; display: flex; align-items: center; gap: 18px; }
 .topbar-link { font-size: 14.5px; font-weight: 500; text-decoration: none; }

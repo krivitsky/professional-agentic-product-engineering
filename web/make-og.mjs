@@ -26,7 +26,7 @@ html,body{width:1200px;height:630px;overflow:hidden}
 body{background:#0B3A8C;background-image:linear-gradient(rgba(230,240,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(230,240,255,.08) 1px,transparent 1px);background-size:40px 40px;padding:24px;font-family:'Geist',sans-serif;color:#E6F0FF}
 .sheet{height:582px;border:2px solid #E6F0FF;background:rgba(11,58,140,.55);display:flex;flex-direction:column}
 .top{display:flex;align-items:center;gap:18px;padding:16px 30px;border-bottom:1px solid #9DBBF0}
-.mark{font-size:24px;font-weight:700;letter-spacing:-.02em;color:#fff}
+.mark{display:inline-flex;align-items:center;gap:12px;font-size:24px;font-weight:700;letter-spacing:-.02em;color:#fff}
 .name{font-size:18px;color:#C9DAF8}
 .dom{margin-left:auto;font-size:18px;font-weight:500;color:#E6F0FF}
 .body{flex:1;padding:0 30px;display:flex;flex-direction:column;justify-content:center}
@@ -38,7 +38,7 @@ h1{font-size:70px;line-height:.98;letter-spacing:-.045em;font-weight:700;color:#
 .t{border:2px solid #E6F0FF;padding:10px 12px;display:flex;align-items:baseline;gap:9px}
 .t b{font-size:17px;color:#FFD23F}.t span{font-size:22px;font-weight:700;letter-spacing:-.025em;color:#fff}
 </style></head><body><div class="sheet">
-<div class="top"><span class="mark">PAPE</span><span class="name">Professional Agentic Product Engineering</span><span class="dom">agenticengineering.guide</span></div>
+<div class="top"><span class="mark"><svg viewBox="0 0 100 100" width="30" height="30"><rect x="4" y="4" width="92" height="92" rx="20" fill="#FFFFFF"/><circle cx="64" cy="36" r="13" fill="#0B3A8C"/></svg>PAPE</span><span class="name">Professional Agentic Product Engineering</span><span class="dom">agenticengineering.guide</span></div>
 <div class="body">
 <h1>Free the human<br>to judge and innovate.</h1>
 <p class="rt">From commanding the model to supervising the outcomes, a tier-by-tier guide.</p>
@@ -58,22 +58,17 @@ for (const [scale, name] of [[1, 'og.png'], [2, 'og-2x.png']]) {
 }
 await rm(tmp, { force: true });
 
-// Square favicon in the Cyanotype look: the blueprint grid, a framed sheet,
-// the headline's yellow bar and the wordmark stacked PA/PE in bold white, so it
-// still reads at tab size.
-const favHtml = `<!doctype html><html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@700&display=swap" rel="stylesheet"><style>
-*{margin:0;padding:0;box-sizing:border-box}html,body{width:512px;height:512px}
-.tile{width:512px;height:512px;background:#0B3A8C;background-image:linear-gradient(rgba(230,240,255,.10) 2px,transparent 2px),linear-gradient(90deg,rgba(230,240,255,.10) 2px,transparent 2px);background-size:64px 64px;background-position:-1px -1px;padding:40px}
-.sheet{width:100%;height:100%;border:16px solid #E6F0FF;display:flex;align-items:center;justify-content:center;gap:26px}
-.bar{width:30px;height:290px;background:#FFD23F}
-.p{font:700 168px/.86 'Geist',sans-serif;letter-spacing:-.05em;color:#FFFFFF;margin-top:-6px}
-</style></head><body><div class="tile"><div class="sheet"><span class="bar"></span><span class="p">PA<br>PE</span></div></div></body></html>`;
+// Square favicon: the logo in black and white, the harness as a solid black
+// square with the agent as a white dot, on a transparent background.
+const favHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0}html,body{width:512px;height:512px;background:transparent}
+svg{display:block;width:512px;height:512px}
+</style></head><body><svg viewBox="0 0 100 100"><rect x="4" y="4" width="92" height="92" rx="20" fill="#0A0A0A"/><circle cx="64" cy="36" r="13" fill="#FFFFFF"/></svg></body></html>`;
 const favTmp = join(HERE, '.fav-tmp.html');
 const favOut = join(ROOT, 'assets', 'favicon.png');
 await writeFile(favTmp, favHtml);
 await run(CHROME, ['--headless=new', '--hide-scrollbars', '--force-device-scale-factor=1',
-  `--screenshot=${favOut}`, '--window-size=512,512', '--virtual-time-budget=6000',
+  '--default-background-color=00000000', `--screenshot=${favOut}`, '--window-size=512,512', '--virtual-time-budget=6000',
   `file://${favTmp}`]);
 await rm(favTmp, { force: true });
 console.log(`Wrote ${favOut}`);
