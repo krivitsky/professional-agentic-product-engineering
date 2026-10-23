@@ -74,7 +74,16 @@ function openPanel(open, focus = true) {
   if (open && focus) (radios.find((r) => r.checked) || radios[0])?.focus();
 }
 setScheme(current(), false);
-radios.forEach((r) => r.addEventListener('change', () => setScheme(r.value, true)));
+// Picking a scheme with the mouse or a tap closes the palette. Arrowing
+// through the schemes by keyboard keeps it open (Escape closes it).
+let pointerPick = false;
+panel?.addEventListener('pointerdown', () => { pointerPick = true; });
+radios.forEach((r) => r.addEventListener('change', () => {
+  setScheme(r.value, true);
+  if (pointerPick) openPanel(false);
+  pointerPick = false;
+}));
+panel?.addEventListener('keydown', () => { pointerPick = false; });
 range?.addEventListener('input', () => setIntensity(parseFloat(range.value), true));
 reset?.addEventListener('click', () => setIntensity(DEF, true));
 schemeBtn?.addEventListener('click', () => openPanel(panel.hidden));
