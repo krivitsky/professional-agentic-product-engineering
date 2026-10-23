@@ -166,3 +166,7 @@ Line one is just *What if writing code was never the human task?* — the parent
 ## [2026-10-23] edit | Opener becomes a signed quote
 
 The three opener lines are now a blockquote signed *Alexey Krivitsky, the creator of PAPE*. No wording changed.
+
+## [2026-10-23] edit | "purely human work: judgment and innovation"
+
+The opener's last line now ends *…spending the freed-up time on purely human work: judgment and innovation.*, echoing the headline. Updated [[The Six Tiers]].
