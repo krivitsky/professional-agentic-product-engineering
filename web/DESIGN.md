@@ -1,6 +1,6 @@
 ---
 title: Site design spec — the "newstyle" blueprint redesign
-status: built on branch newstyle, awaiting Alexey's approval; not merged, not in production
+status: shipped 2026-10-23 (merged into main, live on agenticengineering.guide; branch newstyle deleted)
 updated: 2026-10-23
 owner: Alexey Krivitsky (approves) · built by Devi (agent), reviewed by Aidy
 ---
@@ -25,13 +25,11 @@ Content is out of scope: `guide.md` is unchanged by this branch. The six-tier co
 
 | | |
 |---|---|
-| Branch | `newstyle`, 6 commits on top of main `b2d495c`, pushed to origin 2026-10-23 |
-| Commits | 384ae05 blueprint redesign · cf57583 home self-audit radar + harness diagram + loops figure · 22008e3 OG card · ce119dc tighter hero · e1fa2ff mermaid edges · 58cb1bd remove mockup |
-| Preview | Vercel preview deploy of the branch (behind Vercel login): `vercel ls professional-agentic-product-engineering` → newest Preview row |
-| Production | agenticengineering.guide still serves main. Nothing merged. |
+| Shipped | 2026-10-23: `newstyle` fast-forwarded into `main` (60 commits on top of `b2d495c`), then polished on `main`. The branch is deleted. |
+| Production | agenticengineering.guide serves `main`; Vercel builds every push. |
 | Local demo | `cd web && node build.mjs && cd dist && python3 -m http.server 3010` |
 
-Files touched: `web/src/schemes.mjs` (new), `web/src/styles.css`, `web/src/app.js`, `web/build.mjs`, `web/make-og.mjs`, `assets/og.png`, `assets/og-2x.png`, `README.md`, `CLAUDE.md`.
+Files the redesign touched: `web/src/schemes.mjs` (new), `web/src/styles.css`, `web/src/app.js`, `web/build.mjs`, `web/make-og.mjs`, `assets/og.png`, `assets/og-2x.png`, `README.md`, `CLAUDE.md`.
 
 ## 3. The Design System
 
