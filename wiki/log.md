@@ -130,3 +130,7 @@ Tier 1's "You stop" was a dash; it now reads *writing the code by hand* — the 
 ## [2026-10-23] edit | New subline under the headline
 
 The line under **Free the human. Elevate human intelligence.** now reads *From commanding the model to supervising the outcomes, a tier-by-tier guide.* Updated [[The Six Tiers]]. No tip changed.
+
+## [2026-10-23] edit | New headline
+
+The guide's headline is now **Free the human to judge and innovate.** (was *Free the human. Elevate human intelligence.*). Updated [[The Six Tiers]] and `index.md`. No tip changed.

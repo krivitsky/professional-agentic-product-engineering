@@ -12,7 +12,7 @@ Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 
 
 **Aim of the guide.** Take engineers and technical founders from "used Claude Code a few times" to *professional agentic product engineering*.
 
-It's organized as one ladder of **six tiers, simple → hard**, in three stages (Direct · Trust · Scale). Each tier hands one manual chore to the system while the human keeps the judgment — *Free the human. Elevate human intelligence.*
+It's organized as one ladder of **six tiers, simple → hard**, in three stages (Direct · Trust · Scale). Each tier hands one manual chore to the system while the human keeps the judgment — *Free the human to judge and innovate.*
 
 | Tier | You stop doing by hand | What you do instead |
 |---|---|---|

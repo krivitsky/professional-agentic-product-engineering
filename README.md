@@ -3,7 +3,7 @@
 > [!NOTE]
 > 🧭 **Agentic Shift** — Join a **professional learning community** for builders and leaders — [Apply now →](https://agentic-shift.com/community)
 
-<img src="assets/og-2x.png?v=4" alt="Professional Agentic Product Engineering — Free the human. Elevate human intelligence. The six tiers, from Prompt to Supervise." width="100%">
+<img src="assets/og-2x.png?v=5" alt="Professional Agentic Product Engineering — Free the human to judge and innovate. The six tiers, from Prompt to Supervise." width="100%">
 
 > "The purpose of knowledge is action, not knowledge."
 > — Aristotle

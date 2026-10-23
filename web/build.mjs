@@ -22,7 +22,7 @@ const AUTHOR_NAME = 'Alexey Krivitsky';
 // Absolute origin for canonical/OG/sitemap. Override at build time: SITE_URL=https://… node build.mjs
 // On Vercel, VERCEL_PROJECT_PRODUCTION_URL is injected automatically.
 const BASE = (process.env.SITE_URL || 'https://agenticengineering.guide').replace(/\/+$/, '');
-const SITE_DESC = 'Free the human. Elevate human intelligence. A continuously updated field guide to operating coding agents professionally — six tiers from prompting to autonomous production loops, using Claude Code as the worked example.';
+const SITE_DESC = 'Free the human to judge and innovate. A continuously updated field guide to operating coding agents professionally — six tiers from prompting to autonomous production loops, using Claude Code as the worked example.';
 // Build stamp — time + commit, surfaced as "updated at" / build #. Refreshes each deploy.
 const BUILD_TIME = new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
 const BUILD_SHA_FULL =
@@ -635,7 +635,7 @@ function shell({ page, contentHtml }) {
 <meta property="og:image" content="${OG_IMAGE}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Professional Agentic Product Engineering — Free the human. Elevate human intelligence. The six tiers, from Prompt to Supervise.">
+<meta property="og:image:alt" content="Professional Agentic Product Engineering — Free the human to judge and innovate. The six tiers, from Prompt to Supervise.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(isHome ? fullTitle : page.title)}">
 <meta name="twitter:description" content="${escapeHtml(desc)}">

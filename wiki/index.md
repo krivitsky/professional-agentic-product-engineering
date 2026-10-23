@@ -4,7 +4,7 @@ The central catalog of all wiki pages. Updated on every ingest.
 
 ## Source
 
-This vault is generated from **`guide.md`** — the canonical field guide at the repo root (Alexey Krivitsky, mid-2026, updated continuously) on operating coding agents ([[Claude Code]]) to build software in real repos. Six tiers in three stages (Direct · Trust · Scale), from prompting to supervising agents in production — *Free the human. Elevate human intelligence.* The guide lives at the root and is **referenced, never copied** into this vault; every page below links back to it.
+This vault is generated from **`guide.md`** — the canonical field guide at the repo root (Alexey Krivitsky, mid-2026, updated continuously) on operating coding agents ([[Claude Code]]) to build software in real repos. Six tiers in three stages (Direct · Trust · Scale), from prompting to supervising agents in production — *Free the human to judge and innovate.* The guide lives at the root and is **referenced, never copied** into this vault; every page below links back to it.
 
 ## Concepts
 

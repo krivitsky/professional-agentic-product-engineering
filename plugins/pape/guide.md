@@ -12,7 +12,7 @@ That system is what this guide teaches: tier by tier, it takes over a chore and 
 
 **From coding features to designing systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
 
-> **Free the human. Elevate human intelligence.**
+> **Free the human to judge and innovate.**
 >
 > From commanding the model to supervising the outcomes, a tier-by-tier guide.
 
