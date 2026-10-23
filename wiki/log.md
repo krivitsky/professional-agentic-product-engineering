@@ -134,3 +134,7 @@ The line under **Free the human. Elevate human intelligence.** now reads *From c
 ## [2026-10-23] edit | New headline
 
 The guide's headline is now **Free the human to judge and innovate.** (was *Free the human. Elevate human intelligence.*). Updated [[The Six Tiers]] and `index.md`. No tip changed.
+
+## [2026-10-23] edit | Shorter opener
+
+The guide's opener went from five lines to three: *Maybe writing code was never the human job. / The job was always understanding the problem and deciding what's worth building. / Machines can write it now, if we build the system around them — this guide teaches that system.* [[The Six Tiers]] summarizes it and still holds. No tip changed.

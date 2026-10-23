@@ -5,10 +5,8 @@
 **⭐ Star it; submit issues or PRs** — help yourself and the next person learn better.
 
 Maybe writing code was never the human job.  
-We did it, and many of us loved it, because computers couldn't do it themselves.  
 The job was always understanding the problem and deciding what's worth building.  
-Now machines can write the code, if we build the system around them.  
-That system is what this guide teaches: tier by tier, it takes over a chore and frees the human to decide the outcome.
+Machines can write it now, if we build the system around them — this guide teaches that system.
 
 **From coding features to designing systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
 

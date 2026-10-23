@@ -80,7 +80,7 @@ To change a color, edit the hex in `SCHEMES` — never the generated CSS. The bu
 
 Built in `build.mjs` (`p.kind === 'home'`), read from `guide.md` by `homeData()`. Order:
 
-1. **Hero:** title "Professional Agentic Product Engineering", a ruler line carrying the subline ("From commanding the model to supervising the outcomes, a tier-by-tier guide."), the 5-line opener, the deep-dive line ("From coding features to designing systems…"), and the headline "Free the human to judge and innovate."
+1. **Hero:** title "Professional Agentic Product Engineering", the subline ("From commanding the model to supervising the outcomes, a tier-by-tier guide.") as plain text, the 3-line opener, the deep-dive line ("From coding features to designing systems…"), and the headline "Free the human to judge and innovate."
 2. **The six tiers:** three stage columns (Direct · Trust · Scale), each tier a spec card: T-number, name, "You stop" / "You do instead", linking to its tier page. CSS subgrid lines the cards up across columns.
 3. **Buttons:** Start at T1 · How it works · All N tips · Learn it with your agent.
 4. **Audit your harness (self-audit radar):** six 0–5 sliders beside a hexagon radar SVG. Shows **Strongest** (highest-rated tier[s]) and **Next tier** = the lowest-numbered tier rated ≤2, as a link. **No total and no average**, which is the guide's own audit rule. Ratings saved in `pape.selfAudit`. Points to `/pape:harness-audit` for a real audit. Radar maths is duplicated in build.mjs (server render) and app.js (live); keep them in sync.

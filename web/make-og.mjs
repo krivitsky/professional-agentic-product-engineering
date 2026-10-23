@@ -31,9 +31,7 @@ body{background:#0B3A8C;background-image:linear-gradient(rgba(230,240,255,.08) 1
 .dom{margin-left:auto;font-size:18px;font-weight:500;color:#E6F0FF}
 .body{flex:1;padding:0 30px;display:flex;flex-direction:column;justify-content:center}
 h1{font-size:70px;line-height:.98;letter-spacing:-.045em;font-weight:700;color:#fff;max-width:1000px}
-.ruler{display:flex;align-items:center;gap:12px;margin:22px 0 0;max-width:820px}
-.tick{flex:0 0 2px;height:18px;background:#9DBBF0}.line{flex:1 1 20px;height:2px;background:#9DBBF0}
-.rt{font-size:21px;font-weight:600;color:#fff;white-space:nowrap}
+.rt{font-size:21px;font-weight:600;color:#fff;margin:22px 0 0}
 .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 30px 26px}
 .stage p{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#FFD23F;margin:0 0 8px}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -43,7 +41,7 @@ h1{font-size:70px;line-height:.98;letter-spacing:-.045em;font-weight:700;color:#
 <div class="top"><span class="mark">PAPE</span><span class="name">Professional Agentic Product Engineering</span><span class="dom">agenticengineering.guide</span></div>
 <div class="body">
 <h1>Free the human<br>to judge and innovate.</h1>
-<div class="ruler"><span class="tick"></span><span class="line"></span><span class="rt">From commanding the model to supervising the outcomes, a tier-by-tier guide.</span><span class="line"></span><span class="tick"></span></div>
+<p class="rt">From commanding the model to supervising the outcomes, a tier-by-tier guide.</p>
 </div>
 <div class="tiers">${TIERS.map(([stage, ts]) => `<div class="stage"><p>${stage}</p><div class="pair">${ts.map(([n, nm]) => `<div class="t"><b>${n}</b><span>${nm}</span></div>`).join('')}</div></div>`).join('')}</div>
 </div></body></html>`;

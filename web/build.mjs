@@ -795,9 +795,7 @@ for (const p of pages) {
     contentHtml =
       `<section class="hero">` +
       `<h1 class="hero-title">Professional Agentic Product Engineering</h1>` +
-      `<p class="ruler"><span class="ruler-tick"></span><span class="ruler-line"></span>` +
-      `<span class="ruler-text">${escapeHtml(HOME.subline)}</span>` +
-      `<span class="ruler-line"></span><span class="ruler-tick"></span></p>` +
+      `<p class="hero-subline">${escapeHtml(HOME.subline)}</p>` +
       `<div class="hero-opener">${HOME.opener.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</div>` +
       (HOME.shift ? `<p class="hero-shift">${marked.parseInline(HOME.shift)}</p>` : '') +
       `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
