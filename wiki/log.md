@@ -178,3 +178,5 @@ The guide's "Coming from the Eight Tiers?" section is gone; its old-to-new tier 
 ## [2026-10-23] edit | Quote signed "the creator of the PAPE guide"
 
 The opener quote's signature now reads *Alexey Krivitsky, the creator of the PAPE guide*.
+
+The signature drops its em dash: *Alexey Krivitsky, the creator of the PAPE guide*.
