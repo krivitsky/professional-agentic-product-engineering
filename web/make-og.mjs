@@ -38,7 +38,7 @@ h1{font-size:70px;line-height:.98;letter-spacing:-.045em;font-weight:700;color:#
 .t{border:2px solid #E6F0FF;padding:10px 12px;display:flex;align-items:baseline;gap:9px}
 .t b{font-size:17px;color:#FFD23F}.t span{font-size:22px;font-weight:700;letter-spacing:-.025em;color:#fff}
 </style></head><body><div class="sheet">
-<div class="top"><span class="mark"><svg viewBox="0 0 100 100" width="30" height="30"><rect x="4" y="4" width="92" height="92" rx="20" fill="#FFD23F"/><circle cx="64" cy="36" r="13" fill="#0B3A8C"/></svg>PAPE</span><span class="name">Professional Agentic Product Engineering</span><span class="dom">agenticengineering.guide</span></div>
+<div class="top"><span class="mark"><svg viewBox="0 0 100 100" width="30" height="30"><rect x="4" y="4" width="92" height="92" rx="20" fill="#FFFFFF"/><circle cx="64" cy="36" r="13" fill="#0A0A0A"/></svg>PAPE</span><span class="name">Professional Agentic Product Engineering</span><span class="dom">agenticengineering.guide</span></div>
 <div class="body">
 <h1>Free the human<br>to judge and innovate.</h1>
 <p class="rt">From commanding the model to supervising the outcomes, a tier-by-tier guide.</p>
