@@ -58,19 +58,22 @@ for (const [scale, name] of [[1, 'og.png'], [2, 'og-2x.png']]) {
 }
 await rm(tmp, { force: true });
 
-// Square favicon — caveman centred on a navy tile (the 2:1 logo squished into
-// a square looks bad; this gives it room and a branded backdrop).
-const favHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
-*{margin:0;padding:0}html,body{width:512px;height:512px}
-.tile{width:512px;height:512px;background:#22303c;display:grid;place-items:center;position:relative}
-.tile:before{content:'';position:absolute;left:0;top:0;bottom:0;width:34px;background:#1abc9c}
-img{width:400px}
-</style></head><body><div class="tile"><img src="${LOGO}"></div></body></html>`;
+// Square favicon in the Cyanotype look: the blueprint grid, a framed sheet,
+// the headline's yellow bar and the wordmark stacked PA/PE in bold white, so it
+// still reads at tab size.
+const favHtml = `<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@700&display=swap" rel="stylesheet"><style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{width:512px;height:512px}
+.tile{width:512px;height:512px;background:#0B3A8C;background-image:linear-gradient(rgba(230,240,255,.10) 2px,transparent 2px),linear-gradient(90deg,rgba(230,240,255,.10) 2px,transparent 2px);background-size:64px 64px;background-position:-1px -1px;padding:40px}
+.sheet{width:100%;height:100%;border:16px solid #E6F0FF;display:flex;align-items:center;justify-content:center;gap:26px}
+.bar{width:30px;height:290px;background:#FFD23F}
+.p{font:700 168px/.86 'Geist',sans-serif;letter-spacing:-.05em;color:#FFFFFF;margin-top:-6px}
+</style></head><body><div class="tile"><div class="sheet"><span class="bar"></span><span class="p">PA<br>PE</span></div></div></body></html>`;
 const favTmp = join(HERE, '.fav-tmp.html');
 const favOut = join(ROOT, 'assets', 'favicon.png');
 await writeFile(favTmp, favHtml);
 await run(CHROME, ['--headless=new', '--hide-scrollbars', '--force-device-scale-factor=1',
-  `--screenshot=${favOut}`, '--window-size=512,512', '--virtual-time-budget=2000',
+  `--screenshot=${favOut}`, '--window-size=512,512', '--virtual-time-budget=6000',
   `file://${favTmp}`]);
 await rm(favTmp, { force: true });
 console.log(`Wrote ${favOut}`);
