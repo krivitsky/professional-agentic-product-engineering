@@ -67,17 +67,23 @@ function setScheme(id, remember) {
   schemeBtn?.setAttribute('aria-label', `Color scheme: ${nameOf(id)}`);
   if (remember) store.set('pape.scheme', id);
 }
-function openPanel(open) {
+function openPanel(open, focus = true) {
   if (!panel) return;
   panel.hidden = !open;
   schemeBtn?.setAttribute('aria-expanded', String(open));
-  if (open) (radios.find((r) => r.checked) || radios[0])?.focus();
+  if (open && focus) (radios.find((r) => r.checked) || radios[0])?.focus();
 }
 setScheme(current(), false);
 radios.forEach((r) => r.addEventListener('change', () => setScheme(r.value, true)));
 range?.addEventListener('input', () => setIntensity(parseFloat(range.value), true));
 reset?.addEventListener('click', () => setIntensity(DEF, true));
 schemeBtn?.addEventListener('click', () => openPanel(panel.hidden));
+// First visit: show the palette once, so people find the schemes. Only when
+// storage works, or a blocked-storage reader would see it on every page.
+if (panel && store.get('pape.palette.seen') === null) {
+  store.set('pape.palette.seen', '1');
+  if (store.get('pape.palette.seen') === '1') openPanel(true, false);
+}
 panel?.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { e.stopPropagation(); openPanel(false); schemeBtn?.focus(); }
 });
