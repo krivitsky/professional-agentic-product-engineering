@@ -150,3 +150,7 @@ Every heading in the guide and the vault's section headings are now in title cas
 ## [2026-10-23] edit | Opener: the new profession
 
 The opener's last line now names the shift as a profession: *Now that machines can build software, the new profession is to design the systems to ensure the quality.* Line one adds *(though we got good at that)*. Updated [[The Six Tiers]]. No tip changed.
+
+## [2026-10-23] edit | Opener line one, shorter
+
+Line one is just *What if writing code was never the human task?* — the parenthesis is gone. Updated [[The Six Tiers]].
