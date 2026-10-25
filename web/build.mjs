@@ -424,27 +424,6 @@ function homeData() {
   return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest };
 }
 const HOME = homeData();
-function harnessParagraph() {
-  const big = sections.find((x) => /^Big Idea/i.test(x.heading));
-  const para = big && big.lines.join('\n').split(/\n\s*\n/).map((x) => x.trim()).find((x) => x.startsWith('An **agentic system**'));
-  if (!para) {
-    console.error('✖ home page: the Big Idea no longer has the "An **agentic system** …" paragraph the harness section quotes');
-    process.exit(1);
-  }
-  return para;
-}
-const HARNESS_MD = harnessParagraph();
-// The other half of the contrast, from the same Big Idea section.
-function vibeParagraph() {
-  const big = sections.find((x) => /^Big Idea/i.test(x.heading));
-  const para = big && big.lines.join('\n').split(/\n\s*\n/).map((x) => x.trim()).find((x) => x.startsWith('Prompting alone is **vibe coding**'));
-  if (!para) {
-    console.error('✖ home page: the Big Idea no longer has the "Prompting alone is **vibe coding**" paragraph the harness section quotes');
-    process.exit(1);
-  }
-  return para;
-}
-const VIBE_MD = vibeParagraph();
 const stageOfTier = Object.fromEntries(HOME.tiers.map((t) => [t.n, t.stage]));
 
 // --------------------------------------------------- cross-page link fixer ---
@@ -759,7 +738,6 @@ function harnessHtml(fileOf) {
     `<h2 id="harness-h">The Harness Around the Agent</h2>` +
     `<p class="section-lede">The same model, two ways to run it. On the left it is poked with prompt after prompt; on the right it runs inside a harness that keeps it on course.</p>` +
     ANIM_FIGURE +
-    `<div class="harness-text"><p>${marked.parseInline(VIBE_MD)}</p><p>${marked.parseInline(HARNESS_MD)}</p></div>` +
     `<p class="hd-more"><a href="${fileOf('big-idea')}">Read the Big Idea →</a></p>` +
     `</section>`;
 }
