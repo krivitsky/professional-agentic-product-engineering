@@ -810,7 +810,7 @@ for (const p of pages) {
       `</section>`).join('');
     contentHtml =
       `<section class="hero">` +
-      `<h1 class="hero-title">Professional Agentic Product Engineering</h1>` +
+      `<h1 class="hero-title">Professional Agentic Product Engineering Guide</h1>` +
       `<p class="hero-headline">${escapeHtml(HOME.headline)}</p>` +
       `<p class="hero-sub">${escapeHtml(HOME.shiftHead)}</p>` +
       `<figure class="hero-opener"><blockquote>${HOME.opener.map((l) => `<p>${marked.parseInline(l)}</p>`).join('')}</blockquote>` +
