@@ -738,6 +738,7 @@ function harnessHtml(fileOf) {
     `<h2 id="harness-h">The Harness Around the Agent</h2>` +
     `<p class="section-lede">The same model, two ways to run it: poked with prompt after prompt in vibe coding, or kept on course by a harness in agentic system design.</p>` +
     ANIM_FIGURE +
+    `<ul class="harness-qs"><li>Why does the same model act so differently on each side?</li><li>What would you need to build to stop steering it?</li><li>What skills does it take to move from vibe coding to harness engineering?</li></ul>` +
     `<p class="hd-more"><a href="${fileOf('big-idea')}">Read the Big Idea →</a></p>` +
     `</section>`;
 }

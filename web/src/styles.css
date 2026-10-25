@@ -518,3 +518,7 @@ button { font: inherit; }
   .radar-name, .radar-scale { display: none; }
   .audit-result > div { grid-template-columns: 112px minmax(0, 1fr); }
 }
+
+/* Home: the questions under the harness figure that lead into the Big Idea. */
+.content .harness-qs { list-style: none; margin: 28px 0 0; padding: 0; max-width: var(--measure); }
+.content .harness-qs li { margin: 0 0 .4em; font-size: 20px; line-height: 1.45; font-weight: 600; color: var(--heading); }
