@@ -736,7 +736,7 @@ function selfAuditHtml(fileOf) {
 function harnessHtml(fileOf) {
   return `<section class="home-section harness" aria-labelledby="harness-h">` +
     `<h2 id="harness-h">The Harness Around the Agent</h2>` +
-    `<p class="section-lede">The same model, two ways to run it. On the left it is poked with prompt after prompt; on the right it runs inside a harness that keeps it on course.</p>` +
+    `<p class="section-lede">The same model, two ways to run it: poked with prompt after prompt in vibe coding, or kept on course by a harness in agentic system design.</p>` +
     ANIM_FIGURE +
     `<p class="hd-more"><a href="${fileOf('big-idea')}">Read the Big Idea →</a></p>` +
     `</section>`;
