@@ -184,3 +184,7 @@ The signature drops its em dash: *Alexey Krivitsky, the creator of the PAPE guid
 ## [2026-10-23] edit | Six tiers only: the old-number map is gone
 
 The guide no longer mentions its earlier eight-tier shape. The Tip Map appendix (old tier and tip numbers to new) is removed from `guide.md`, and [[The Six Tiers]] drops its "Coming from the Eight Tiers" section. No tip, tier or wikilink changed, so no tip page moved.
+
+## [2026-10-25] edit | Opener question in italics, run into the next line
+
+The opener's first line, *What if writing code was never the human task?*, is now italic and continues on the same line as "The real job was always…". Wording unchanged; no vault page affected.
