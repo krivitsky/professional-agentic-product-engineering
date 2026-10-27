@@ -752,7 +752,7 @@ function startHtml(fileOf) {
   const steps = HOME.steps.map((st) =>
     `<a class="step" href="${here}#start-step-${st.n}">` +
     `<span class="step-n">${st.n}</span><span class="step-title">${escapeHtml(st.title)}</span>` +
-    `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go" aria-hidden="true">→</span></a>`).join('');
+    `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go">How to start →</span></a>`).join('');
   const shortcut = HOME.shortcut
     ? `<p class="start-shortcut">${marked.parseInline(HOME.shortcut)} <a href="${here}#start-step-3">Step 3, with the commands →</a></p>` : '';
   return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
@@ -761,7 +761,6 @@ function startHtml(fileOf) {
     `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
     `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
     shortcut +
-    `<p class="hd-more"><a href="${here}">Open Start Here: the commands for each step →</a></p>` +
     `</section>`;
 }
 function harnessHtml(fileOf) {
