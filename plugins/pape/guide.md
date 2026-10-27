@@ -63,7 +63,7 @@
 
 ## Start Here
 
-Coding agents can now write most of the code. The catch: run one on prompts alone and you become its full-time operator, re-explaining the project, steering every step and reading every line, and still finding drift and bugs later. This guide shows how to build the system around the agent, so it carries that load instead of you.
+This guide shows how to build the system around a coding agent, so it carries the load instead of you. Agents can now write most of the code, but run one on prompts alone and you become its full-time operator: re-explaining the project, steering every step, reading every line, and still finding drift and bugs later.
 
 ### What You Gain
 
