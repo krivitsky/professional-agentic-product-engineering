@@ -761,7 +761,7 @@ function startHtml(fileOf) {
     `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
     `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
     shortcut +
-    `<p class="hd-more"><a href="${here}">All the commands and what comes after the audit →</a></p>` +
+    `<p class="hd-more"><a href="${here}">Open Start Here: the commands for each step →</a></p>` +
     `</section>`;
 }
 function harnessHtml(fileOf) {
