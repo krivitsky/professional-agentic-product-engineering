@@ -727,8 +727,8 @@ function selfAuditHtml(fileOf) {
   return `<section class="home-section self-audit" id="self-audit" aria-labelledby="audit-h" data-audit ` +
     `data-tiers="${escapeHtml(JSON.stringify(HOME.tiers.map((t) => ({ n: t.n, name: t.name, href: fileOf(`tier-${t.n}`) }))))}">` +
     `<div class="audit-grid"><div class="audit-left">` +
-    `<h2 id="audit-h">Start in Your Repo</h2>` +
-    `<p class="section-lede">Works in the repo you already have. Rate yourself on each tier from 0 to 5 to see where to climb, then let the audit rate the real thing.</p>` +
+    `<h2 id="audit-h">Where Do You Stand?</h2>` +
+    `<p class="section-lede">Rate yourself on each tier from 0 to 5 to see where to climb next. Then run the audit in the repo you already have, and it rates the real thing.</p>` +
     `<div class="audit-rows">${rows}</div>` +
     `<div class="audit-real">` +
     `<p>Run the <strong class="hl">harness audit</strong> in Claude Code, in a repo you work in: it reads the harness you've checked in, rates all six tiers, and names the one next thing to fix.</p>` +
