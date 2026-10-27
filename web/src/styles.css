@@ -574,3 +574,10 @@ button { font: inherit; }
   .stage { grid-template-columns: 190px repeat(2, minmax(0, 1fr)); grid-template-rows: auto; align-items: stretch; }
   .stage .stage-name { grid-column: 1; padding-top: 14px; }
 }
+
+/* home: Why — text and gains beside the figure on wide screens */
+.why-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px 48px; }
+@media (min-width: 1200px) {
+  .why-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+  .start .why-fig .pae-fig { margin-top: 4px; }
+}

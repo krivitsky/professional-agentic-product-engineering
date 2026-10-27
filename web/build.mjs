@@ -751,10 +751,13 @@ function whyHtml(fileOf) {
     `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go">${WAY_GO[st.n]} ↓</span></a>`).join('');
   return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
     `<h2 id="start-h">Why the PAPE Guide and How to Use It</h2>` +
+    `<div class="why-grid"><div class="why-text">` +
     `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
+    `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
+    `</div><div class="why-fig">` +
     ANIM_FIGURE +
     `<p class="hd-more"><a href="${fileOf('big-idea')}">The same model, two ways to run it: the Big Idea →</a></p>` +
-    `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
+    `</div></div>` +
     `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
     `</section>`;
 }
