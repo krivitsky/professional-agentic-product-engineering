@@ -564,9 +564,13 @@ button { font: inherit; }
 .content .way-deeper { margin: 28px 0 8px; }
 @media (max-width: 860px) { .way-cols { grid-template-columns: minmax(0, 1fr); } }
 
-/* tablet: each stage is a row, its two tiers side by side */
-@media (min-width: 721px) and (max-width: 1199px) {
-  .stage-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; gap: 26px; }
+/* each stage is a row, its two tiers side by side, so the ladder reads T1 T2 / T3 T4 / T5 T6 at every width */
+@media (min-width: 721px) {
+  .stage-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; gap: 22px; }
   .stage { grid-row: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto auto; gap: 12px 18px; }
   .stage .stage-name { grid-column: 1 / -1; }
+}
+@media (min-width: 1200px) {
+  .stage { grid-template-columns: 190px repeat(2, minmax(0, 1fr)); grid-template-rows: auto; align-items: stretch; }
+  .stage .stage-name { grid-column: 1; padding-top: 14px; }
 }
