@@ -744,6 +744,8 @@ function selfAuditHtml(fileOf) {
     `</div></div></section>`;
 }
 // --- home: Start Here (the problem, three gains, three steps), read from guide.md ---
+// What each card's link opens on Start Here (web sugar; the steps themselves come from guide.md).
+const STEP_GO = { 1: 'Where to begin reading', 2: 'The clone and the prompt', 3: 'The install commands' };
 function startHtml(fileOf) {
   const here = fileOf('start-here');
   const gains = HOME.gains.map((g) =>
@@ -751,7 +753,7 @@ function startHtml(fileOf) {
   const steps = HOME.steps.map((st) =>
     `<a class="step" href="${here}#start-step-${st.n}">` +
     `<span class="step-n">${st.n}</span><span class="step-title">${escapeHtml(st.title)}</span>` +
-    `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go">How to start →</span></a>`).join('');
+    `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go">${STEP_GO[st.n] || 'How to start'} →</span></a>`).join('');
   return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
     `<h2 id="start-h">Why the PAPE Guide and How to Use It</h2>` +
     `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
