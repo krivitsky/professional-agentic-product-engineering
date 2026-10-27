@@ -117,11 +117,16 @@ The audit rates your repo on the six tiers and names the one next thing to fix. 
 - **A team:** each teammate runs the three install commands once. The harness itself comes with the repo.
 
 ## TL;DR — If You Do Only Five Things
-1. **Be specific and positive.** Name files, constraints, and the pattern to follow; say what to *do*, not what to avoid.
-2. **Give the agent an executable Definition of Done.** Tests/lint/typecheck as commands — that's the loop's exit condition.
-3. **Plan before you edit; slice the work thin.** Investigate → approve a plan → one vertical slice at a time.
-4. **Commit on every green step.** Each commit is a checkpoint the loop can revert to.
-5. **Engineer the environment, not the prompt.** CLAUDE.md, Skills, hooks, MCP, CI carry the intelligence.
+
+The whole guide, cut to five habits. Each is the core of one step up the [six tiers](#the-six-tiers-at-a-glance), in ladder order, so doing them in order is a short version of the climb. Each links to the tips that show it with a before and after.
+
+1. **Be specific and positive.** Name files, constraints, and the pattern to follow; say what to *do*, not what to avoid. *T1 Prompt: [Tip 1.2](#tip-1-2), [Tip 1.3](#tip-1-3).*
+2. **Plan before you edit; slice the work thin.** Investigate, approve a plan, then build one vertical slice at a time. *T2 Plan: [Tip 2.1](#tip-2-1), [Tip 2.3](#tip-2-3), [Tip 2.5](#tip-2-5).*
+3. **Give the agent an executable Definition of Done.** Tests, lint and typecheck as commands: that's the loop's exit condition. *T3 Verify: [Tip 3.1](#tip-3-1).*
+4. **Commit on every green step.** Each commit is a checkpoint the loop can revert to. *T3 Verify: [Tip 3.12](#tip-3-12).*
+5. **Engineer the environment, not the prompt.** CLAUDE.md, Skills, hooks, MCP and CI carry the intelligence, so you stop repeating yourself. *T2 Plan: [Tip 2.10](#tip-2-10), [Tip 2.11](#tip-2-11); T4 Enforce: [Tip 4.1](#tip-4-1).*
+
+**Next:** find how far up you need to go in [Which Tier Do You Need?](#which-tier-do-you-need), or check which of the five your repo already does with [the harness audit](#start-step-3).
 
 ## Who This Is For
 - **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
