@@ -526,9 +526,10 @@ button { font: inherit; }
 
 /* home: Start Here — three gains, then three steps */
 .content .start-sub { margin: 28px 0 12px; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
-.gains, .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 18px; }
-.gain { border-top: 2px solid var(--line); padding: 12px 0 0; }
-.content .gain-name { margin: 0 0 6px; font-size: 26px; line-height: 1.05; font-weight: 700; letter-spacing: -0.03em; color: var(--heading); }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 18px; }
+.gains { max-width: var(--measure); border-top: 2px solid var(--line); }
+.gain { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line2); }
+.content .gain-name { margin: 0; font-size: 22px; line-height: 1.05; font-weight: 700; letter-spacing: -0.03em; color: var(--heading); }
 .content .gain-text { margin: 0; font-size: 16px; line-height: 1.5; color: var(--body); }
 .content .step {
   display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: auto 1fr auto; gap: 6px 12px;
@@ -540,4 +541,5 @@ button { font: inherit; }
 .step-go { grid-column: 2 / span 2; grid-row: 3; margin-top: 4px; font-size: 14.5px; font-weight: 600; color: var(--accent); }
 .step:hover .step-go { color: var(--accent); }
 .step-text { grid-column: 2 / span 2; grid-row: 2; font-size: 15.5px; line-height: 1.45; color: var(--body); }
-@media (max-width: 860px) { .gains, .steps { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 860px) { .steps { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) { .gain { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
