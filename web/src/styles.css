@@ -466,8 +466,9 @@ button { font: inherit; }
 .content .audit-real strong { color: var(--heading); }
 .content .audit-real strong.hl { color: var(--accent); font-weight: 600; }
 /* the harness around the agent: the animated figure, then the two halves explained */
-.harness .pae-fig { max-width: 980px; margin: 8px 0 0; }
-.harness .pae-fig .cap { display: none; }
+.content .pae-fig { max-width: 840px; }
+.start .pae-fig { margin: 8px 0 0; }
+.start .pae-fig .cap { display: none; }
 .content .hd-more { margin: 24px 0 0; }
 
 /* ------------------------------------------------------------ narrow */
@@ -520,9 +521,6 @@ button { font: inherit; }
 }
 
 /* Home: the questions under the harness figure that lead into the Big Idea. */
-.content .harness-qs { list-style: disc; margin: 28px 0 0; padding: 0 0 0 1.3em; max-width: var(--measure); }
-.content .harness-qs li { margin: 0 0 .35em; font-size: 18px; line-height: 1.6; font-weight: 400; color: var(--body); }
-.content .harness-qs li::marker { color: var(--accent); }
 
 /* home: Start Here — three gains, then three steps */
 .content .start-sub { margin: 28px 0 12px; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
@@ -556,3 +554,12 @@ button { font: inherit; }
 .content .habit-tag:hover { border-color: var(--accent); color: var(--accent); }
 .habit-body strong { color: var(--heading); }
 @media (max-width: 640px) { .content .habit-list li { grid-template-columns: 32px minmax(0, 1fr); } .habit-body { grid-column: 2; } }
+
+/* home: the three ways to start, each its own section */
+.content .way-n { margin: 0 0 6px; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.content .way-note { margin: 0 0 12px; max-width: var(--measure); font-size: 16.5px; line-height: 1.55; color: var(--body); }
+.way-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 36px; align-items: start; }
+.content .way-prompt { margin: 0 0 14px; padding: 12px 16px; border-left: 3px solid var(--accent); }
+.content .way-prompt p { margin: 0; font-size: 18px; line-height: 1.5; font-style: italic; color: var(--heading); }
+.content .way-deeper { margin: 28px 0 8px; }
+@media (max-width: 860px) { .way-cols { grid-template-columns: minmax(0, 1fr); } }

@@ -417,7 +417,14 @@ function homeData() {
   const tldrSec = sections.find((s) => /^TL;DR\b/i.test(s.heading));
   const tldr = [...(tldrSec ? tldrSec.lines.join('\n') : '').matchAll(/^\d\. \*\*([^*]+?)\*\*\s+(.+?)\s+\*(T\d[^*]*)\*\s*$/gm)]
     .map((m) => ({ title: m[1], text: m[2].trim(), tiers: [...m[3].matchAll(/T(\d) (\w+)/g)].map((t) => ({ n: +t[1], name: t[2] })) }));
+  const stepMd = (n) => (startMd.split(/<a id="start-step-\d"><\/a>/)[n] || '');
+  const fence = (md) => ((md.match(/```\w*\n([\s\S]*?)```/) || [, ''])[1]).trimEnd();
+  const learnCode = fence(stepMd(2));
+  const learnPrompt = ((stepMd(2).match(/Then ask: \*"([^"]+)"\*/) || [, ''])[1]);
+  const auditCode = fence(stepMd(3));
   const problems = [];
+  if (!learnCode || !learnPrompt) problems.push('"Start Here" step 2 lost its code block or its *"…"* prompt');
+  if (!/harness-audit/.test(auditCode)) problems.push('"Start Here" step 3 lost its install-and-audit code block');
   if (tldr.length !== 5 || tldr.some((h) => !h.tiers.length)) problems.push(`"TL;DR" has ${tldr.length} "N. **Title.** text *Tn Name: …*" habits, expected 5, each tagged with a tier`);
   if (!startIntro || startIntro.startsWith('#')) problems.push('no opening paragraph in "Start Here"');
   if (gains.length !== 3) problems.push(`"Start Here › What You Gain" has ${gains.length} "- **Name.** text" bullets, expected 3`);
@@ -434,7 +441,7 @@ function homeData() {
   // The hero subheader: the shift line up to its colon ("From coding features to designing agentic systems").
   const shiftHead = (shift || '').replace(/^\*\*|\*\*$/g, '').split(':')[0].trim();
   if (!shiftHead) problems.push('no "**From …: …**" shift line in the front matter');
-  return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest, startIntro, gains, steps, tldr };
+  return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest, startIntro, gains, steps, tldr, learnCode, learnPrompt, auditCode };
 }
 const HOME = homeData();
 const stageOfTier = Object.fromEntries(HOME.tiers.map((t) => [t.n, t.stage]));
@@ -721,69 +728,105 @@ function auditSummary(tiers, values, fileOf) {
   return { strongest: escapeHtml(strongest), nextHtml };
 }
 
-function selfAuditHtml(fileOf) {
+const codeBox = (code, lang) =>
+  `<div class="codebox" data-lang="${lang}"><button class="copy" type="button" aria-label="Copy to clipboard">${COPY_ICON}<span>Copy</span></button>` +
+  `<pre><code class="language-text">${escapeHtml(code)}</code></pre></div>`;
+// Each way's section heading: a small "Way N" eyebrow over the step title from guide.md.
+const wayHead = (n, id) => {
+  const st = HOME.steps.find((x) => x.n === n);
+  return `<p class="way-n">Way ${n}</p><h2 id="${id}">${escapeHtml(st.title)}</h2>`;
+};
+// The home page is the three ways to start: Why lists them as cards that jump
+// down the page; each way's section then leads deeper into the guide.
+const WAYS = { 1: 'read', 2: 'learn', 3: 'audit' };
+const WAY_GO = { 1: 'The map and the five habits', 2: 'The clone and the prompt', 3: 'Rate yourself, then audit' };
+
+// --- home: why (problem, harness figure, gains) and the three ways as cards ---
+function whyHtml(fileOf) {
+  const gains = HOME.gains.map((g) =>
+    `<div class="gain"><p class="gain-name">${escapeHtml(g.name)}</p><p class="gain-text">${marked.parseInline(g.text)}</p></div>`).join('');
+  const steps = HOME.steps.map((st) =>
+    `<a class="step" href="#${WAYS[st.n]}">` +
+    `<span class="step-n">${st.n}</span><span class="step-title">${escapeHtml(st.title)}</span>` +
+    `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go">${WAY_GO[st.n]} ↓</span></a>`).join('');
+  return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
+    `<h2 id="start-h">Why the PAPE Guide and How to Use It</h2>` +
+    `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
+    ANIM_FIGURE +
+    `<p class="hd-more"><a href="${fileOf('big-idea')}">The same model, two ways to run it: the Big Idea →</a></p>` +
+    `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
+    `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
+    `</section>`;
+}
+
+// --- home: way 1, read the guide (the six tiers, then the five habits) ---
+function readHtml(fileOf, stagesHtml) {
+  const habits = HOME.tldr.map((h) =>
+    `<li><span class="habit-tags">${h.tiers.map((t) => `<a class="habit-tag" href="${fileOf(`tier-${t.n}`)}">T${t.n} ${escapeHtml(t.name)}</a>`).join('')}</span>` +
+    `<span class="habit-body"><strong>${escapeHtml(h.title)}</strong> ${marked.parseInline(h.text)}</span></li>`).join('');
+  return `<section class="home-section way" id="read" aria-labelledby="read-h">` +
+    wayHead(1, 'read-h') +
+    `<p class="section-lede">The guide is one ladder of six tiers. ${escapeHtml(HOME.lede)}</p>` +
+    `<div class="stage-grid">${stagesHtml}</div>` +
+    `<h3 class="start-sub">If You Do Only Five Things</h3>` +
+    `<p class="way-note">The whole guide, cut to five habits, in ladder order.</p>` +
+    `<ol class="habit-list">${habits}</ol>` +
+    `<nav class="home-cta way-deeper" aria-label="Read deeper">` +
+    `<a class="btn btn-primary" href="${fileOf('climb-the-six-tiers')}#which-tier-do-you-need">Find your tier →</a>` +
+    `<a class="btn" href="${fileOf('tier-1')}">Start at T1</a>` +
+    `<a class="btn" href="${fileOf('tldr')}">The tips behind the five habits</a>` +
+    `<a class="btn" href="${fileOf('all-tips')}">All ${harvestedTips.length} tips</a>` +
+    `<a class="btn" href="${fileOf('big-idea')}">How it works</a>` +
+    `</nav>` +
+    `</section>`;
+}
+
+// --- home: way 2, learn with your agent ---
+function learnHtml(fileOf) {
+  return `<section class="home-section way" id="learn" aria-labelledby="learn-h">` +
+    wayHead(2, 'learn-h') +
+    `<p class="section-lede">${escapeHtml(HOME.steps.find((x) => x.n === 2).text)} Works with Claude Code, Codex or any agent that reads <code>CLAUDE.md</code> or <code>AGENTS.md</code>.</p>` +
+    `<div class="way-cols"><div>` +
+    `<p class="way-note">Clone the repo and open your agent in the folder:</p>` + codeBox(HOME.learnCode, 'shell') +
+    `</div><div>` +
+    `<p class="way-note">Then ask:</p><blockquote class="way-prompt"><p>${escapeHtml(HOME.learnPrompt)}</p></blockquote>` +
+    `<p class="way-note">In Claude Code, <code>hi</code> is enough. With your consent it reads your past prompts to tailor the examples, and it checks each concept stuck before moving on.</p>` +
+    `</div></div>` +
+    `<nav class="home-cta way-deeper" aria-label="Learn deeper">` +
+    `<a class="btn btn-primary" href="${fileOf('learn-this-with-an-agent')}">The tutor and the coach →</a>` +
+    `</nav>` +
+    `</section>`;
+}
+
+// --- home: way 3, audit your repo (rate yourself, then the real audit) ---
+function auditHtml(fileOf) {
   const v = AUDIT_DEFAULT;
   const rows = HOME.tiers.map((t, i) =>
     `<div class="audit-row"><span class="ar-n">T${t.n}</span><a class="ar-name" href="${fileOf(`tier-${t.n}`)}">${escapeHtml(t.name)}</a>` +
     `<input type="range" min="0" max="5" step="1" value="${v[i]}" data-tier="${i}" aria-label="T${t.n} ${escapeHtml(t.name)}, rated 0 to 5">` +
     `<output class="ar-v">${v[i]}</output></div>`).join('');
   const sum = auditSummary(HOME.tiers, v, fileOf);
-  return `<section class="home-section self-audit" id="self-audit" aria-labelledby="audit-h" data-audit ` +
+  return `<section class="home-section self-audit way" id="audit" aria-labelledby="audit-h" data-audit ` +
     `data-tiers="${escapeHtml(JSON.stringify(HOME.tiers.map((t) => ({ n: t.n, name: t.name, href: fileOf(`tier-${t.n}`) }))))}">` +
     `<div class="audit-grid"><div class="audit-left">` +
-    `<h2 id="audit-h">Where Do You Stand?</h2>` +
-    `<p class="section-lede">Rate yourself on each tier from 0 to 5 to see where to climb next. Then run the audit in the repo you already have, and it rates the real thing.</p>` +
+    wayHead(3, 'audit-h') +
+    `<p class="section-lede">Already shipping a product? Start here. First rate yourself on each tier from 0 to 5; then let the audit rate the repo you already have.</p>` +
     `<div class="audit-rows">${rows}</div>` +
     `<div class="audit-real">` +
-    `<p>Run the <strong class="hl">harness audit</strong> in Claude Code, in a repo you work in: it reads the harness you've checked in, rates all six tiers, and names the one next thing to fix.</p>` +
-    `<div class="codebox" data-lang="in Claude Code"><button class="copy" type="button" aria-label="Copy to clipboard">${COPY_ICON}<span>Copy</span></button>` +
-    `<pre><code class="language-text">/plugin marketplace add krivitsky/professional-agentic-product-engineering\n/plugin install pape@pape\n/reload-plugins\n/pape:harness-audit</code></pre></div>` +
-    `<p><a href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">The plugin on GitHub ↗</a> · <a href="${fileOf('audit-your-harness')}">How the audit works →</a></p>` +
+    `<p>Run the <strong class="hl">harness audit</strong> in Claude Code, inside your project. It reads the harness you've checked in, rates all six tiers, and names the one next thing to fix. Nothing to migrate: it only reads, apart from writing its report to <code>harness-audits/</code>.</p>` +
+    codeBox(HOME.auditCode, 'in Claude Code') +
     `</div>` +
     `</div><div class="audit-right">${radarSvg(HOME.tiers, v)}` +
     `<dl class="spec audit-result">` +
     `<div><dt>Strongest</dt><dd data-strongest>${sum.strongest}</dd></div>` +
     `<div><dt>Next tier to work on</dt><dd><span data-next>${sum.nextHtml}</span><span class="buildmeta">The lowest-numbered tier rated 2 or less — each tier rests on the ones below.</span></dd></div>` +
     `</dl>` +
-    `</div></div></section>`;
-}
-// --- home: Start Here (the problem, three gains, three steps), read from guide.md ---
-// What each card's link opens on Start Here (web sugar; the steps themselves come from guide.md).
-const STEP_GO = { 1: 'Where to begin reading', 2: 'The clone and the prompt', 3: 'The install commands' };
-function startHtml(fileOf) {
-  const here = fileOf('start-here');
-  const gains = HOME.gains.map((g) =>
-    `<div class="gain"><p class="gain-name">${escapeHtml(g.name)}</p><p class="gain-text">${marked.parseInline(g.text)}</p></div>`).join('');
-  const steps = HOME.steps.map((st) =>
-    `<a class="step" href="${here}#start-step-${st.n}">` +
-    `<span class="step-n">${st.n}</span><span class="step-title">${escapeHtml(st.title)}</span>` +
-    `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go">${STEP_GO[st.n] || 'How to start'} →</span></a>`).join('');
-  return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
-    `<h2 id="start-h">Why the PAPE Guide and How to Use It</h2>` +
-    `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
-    `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
-    `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
-    `</section>`;
-}
-// --- home: the five habits (the guide's TL;DR), each tagged with its tier ---
-function tldrHtml(fileOf) {
-  const items = HOME.tldr.map((h) =>
-    `<li><span class="habit-tags">${h.tiers.map((t) => `<a class="habit-tag" href="${fileOf(`tier-${t.n}`)}">T${t.n} ${escapeHtml(t.name)}</a>`).join('')}</span>` +
-    `<span class="habit-body"><strong>${escapeHtml(h.title)}</strong> ${marked.parseInline(h.text)}</span></li>`).join('');
-  return `<section class="home-section habits" aria-labelledby="habits-h">` +
-    `<h2 id="habits-h">If You Do Only Five Things</h2>` +
-    `<p class="section-lede">The whole guide, cut to five habits, in ladder order.</p>` +
-    `<ol class="habit-list">${items}</ol>` +
-    `<p class="hd-more"><a href="${fileOf('tldr')}">The tips behind each habit →</a></p>` +
-    `</section>`;
-}
-function harnessHtml(fileOf) {
-  return `<section class="home-section harness" aria-labelledby="harness-h">` +
-    `<h2 id="harness-h">The Harness Around the Agent</h2>` +
-    `<p class="section-lede">The same model, two ways to run it: poked with prompt after prompt in vibe coding, or kept on course by a harness in agentic system design.</p>` +
-    ANIM_FIGURE +
-    `<ul class="harness-qs"><li>Why does the same model act so differently on each side?</li><li>What would you need to build to stop steering it?</li><li>What skills does it take to move from vibe coding to harness engineering?</li></ul>` +
-    `<p class="hd-more"><a href="${fileOf('big-idea')}">Read the Big Idea →</a></p>` +
+    `</div></div>` +
+    `<nav class="home-cta way-deeper" aria-label="Audit deeper">` +
+    `<a class="btn btn-primary" href="${fileOf('audit-your-harness')}">What the report contains →</a>` +
+    `<a class="btn" href="${fileOf('start-here')}#after-the-audit">What to do after the audit</a>` +
+    `<a class="btn" href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">The plugin on GitHub ↗</a>` +
+    `</nav>` +
     `</section>`;
 }
 
@@ -839,29 +882,16 @@ for (const p of pages) {
       `<figure class="hero-opener"><blockquote>${HOME.opener.map((l) => `<p>${marked.parseInline(l)}</p>`).join('')}</blockquote>` +
       (HOME.cite ? `<figcaption>${marked.parseInline(HOME.cite).replace(/<a href="http/g, '<a target="_blank" rel="noopener" href="http')}</figcaption>` : '') + `</figure>` +
       `<p class="hero-get">` +
-      `<a class="btn btn-primary" href="${fileOf('start-here')}">Start now →</a>` +
+      `<a class="btn btn-primary" href="#start">Start now ↓</a>` +
       `<a class="btn" href="${fileOf('big-idea')}">Guide's big idea</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Claude Code plugin ↗</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/wiki" target="_blank" rel="noopener">Obsidian vault ↗</a>` +
       `</p>` +
       `</section>` +
-      startHtml(fileOf) +
-      `<section class="home-section" aria-labelledby="tiers-h">` +
-      `<h2 id="tiers-h">The Six Tiers of Professional Agentic Product Engineering</h2>` +
-      `<p class="section-subhead">${escapeHtml(HOME.subline)}</p>` +
-      (HOME.lede ? `<p class="section-lede">${escapeHtml(HOME.lede)}</p>` : '') +
-      `<div class="stage-grid">${stages}</div>` +
-      `<nav class="home-cta" aria-label="Where to go next">` +
-      `<a class="btn btn-primary" href="${fileOf('climb-the-six-tiers')}#which-tier-do-you-need">Find your tier →</a>` +
-      `<a class="btn" href="${fileOf('tier-1')}">Start at T1</a>` +
-      `<a class="btn" href="${fileOf('big-idea')}">How it works</a>` +
-      `<a class="btn" href="${fileOf('all-tips')}">All ${harvestedTips.length} tips</a>` +
-      `<a class="btn" href="${fileOf('learn-this-with-an-agent')}">Learn it with your agent</a>` +
-      `</nav>` +
-      `</section>` +
-      tldrHtml(fileOf) +
-      selfAuditHtml(fileOf) +
-      harnessHtml(fileOf) +
+      whyHtml(fileOf) +
+      readHtml(fileOf, stages) +
+      learnHtml(fileOf) +
+      auditHtml(fileOf) +
       (HOME.rest ? renderMarkdown(linkifyTiers(HOME.rest), 'index') : '');
   } else if (p.kind === 'overview-sub') {
     contentHtml =
