@@ -40,7 +40,7 @@ Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 
    ```
    It works on the repo you already have and only reads, apart from writing its report to `harness-audits/`.
 
-> **Already shipping a product?** Go straight to step 3. Full version: [Start Here](https://agenticengineering.guide/start-here).
+> **Already shipping a product?** Go straight to step 3: install the plugin and run the audit. Full version: [Start Here](https://agenticengineering.guide/start-here).
 
 ## Who This Is For
 

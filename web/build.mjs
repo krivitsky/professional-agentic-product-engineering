@@ -754,7 +754,7 @@ function startHtml(fileOf) {
     `<span class="step-n">${st.n}</span><span class="step-title">${escapeHtml(st.title)}</span>` +
     `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go" aria-hidden="true">→</span></a>`).join('');
   const shortcut = HOME.shortcut
-    ? `<p class="start-shortcut">${marked.parseInline(HOME.shortcut)} <a href="#self-audit">See step 3 below ↓</a></p>` : '';
+    ? `<p class="start-shortcut">${marked.parseInline(HOME.shortcut)} <a href="#self-audit">The commands are below ↓</a></p>` : '';
   return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
     `<h2 id="start-h">Why the PAPE Guide and How to Use It</h2>` +
     `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +

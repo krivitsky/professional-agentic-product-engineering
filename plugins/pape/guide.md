@@ -101,7 +101,7 @@ In Claude Code, inside your project:
 
 The audit rates your repo on the six tiers and names the one next thing to fix. It works on the repo you already have: there is nothing to migrate, and it only reads, apart from writing its report to `harness-audits/`. The coach then stays quiet until it spots a learning moment, and drops one nudge linked to the fix.
 
-> **Already shipping a product?** Go straight to step 3. The audit tells you where you stand in minutes.
+> **Already shipping a product?** Go straight to step 3: install the plugin and run the audit in your repo. It tells you where you stand in minutes.
 
 ### After the Audit
 
