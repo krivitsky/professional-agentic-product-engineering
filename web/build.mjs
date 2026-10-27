@@ -749,8 +749,8 @@ function whyHtml(fileOf) {
     `<a class="step" href="#${WAYS[st.n]}">` +
     `<span class="step-n">${st.n}</span><span class="step-title">${escapeHtml(st.title)}</span>` +
     `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go">${WAY_GO[st.n]} ↓</span></a>`).join('');
-  return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
-    `<h2 id="start-h">Why the PAPE Guide and How to Use It</h2>` +
+  return `<section class="home-section start" id="why" aria-labelledby="why-h">` +
+    `<h2 id="why-h">Why the PAPE Guide</h2>` +
     `<div class="why-grid"><div class="why-text">` +
     `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
     `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
@@ -758,7 +758,11 @@ function whyHtml(fileOf) {
     ANIM_FIGURE +
     `<p class="hd-more"><a href="${fileOf('big-idea')}">The same model, two ways to run it: the Big Idea →</a></p>` +
     `</div></div>` +
-    `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
+    `</section>` +
+    `<section class="home-section ways" id="start" aria-labelledby="start-h">` +
+    `<h2 id="start-h">Three Ways to Start</h2>` +
+    `<p class="section-lede">Go as far as you need; each way goes deeper than the one before. Pick one to jump to it.</p>` +
+    `<div class="steps">${steps}</div>` +
     `</section>`;
 }
 
