@@ -188,3 +188,7 @@ The guide no longer mentions its earlier eight-tier shape. The Tip Map appendix 
 ## [2026-10-25] edit | Opener question in italics, run into the next line
 
 The opener's first line, *What if writing code was never the human task?*, is now italic and continues on the same line as "The real job was always…". Wording unchanged; no vault page affected.
+
+## [2026-10-27] edit | Start Here opens the guide
+
+A reader said the guide never says what you gain or how to begin. `guide.md` now opens with a **Start** part: a new **Start Here** section (the problem, three gains: time, trust, control; three ways to start: read the guide, point your agent at the repo to be taught, install the plugin and run the audit; what to do after the audit; what you need), followed by TL;DR, Who This Is For and Goal of This Guide, moved up from the back. The Big Idea now opens with why it matters. No tier, tip or wikilink changed, so no vault page moved; [[Harness Audit]] and [[From Prompts to Systems]] still describe their sections correctly.

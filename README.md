@@ -23,6 +23,25 @@ The Guide is kept up-to-date to track how the best teams operate coding agents �
 
 Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 3.x+.
 
+## Start Here
+
+**What you gain:** **time** (the agent works whole tasks without you steering each step), **trust** (tests, checks and rules prove the work, so you ship without reading every line) and **control** (your standards live in the repo, so every run and every teammate follows them).
+
+**Three ways to start.** Go as far as you need:
+
+1. **Read the guide.** Start with the [TL;DR](https://agenticengineering.guide/tldr), then [find your tier](https://agenticengineering.guide/climb-the-six-tiers#which-tier-do-you-need). No setup.
+2. **Point your agent at this repo.** Clone it, open Claude Code, Codex or any agent in the folder, and ask it to *"interview me about my work and my level, then teach me what I need from this guide, one concept at a time."* In Claude Code, `hi` is enough.
+3. **Install the plugin in the repo you work in** (Claude Code). It audits your setup, then coaches you as you work:
+   ```
+   /plugin marketplace add krivitsky/professional-agentic-product-engineering
+   /plugin install pape@pape
+   /reload-plugins
+   /pape:harness-audit
+   ```
+   It works on the repo you already have and only reads, apart from writing its report to `harness-audits/`.
+
+> **Already shipping a product?** Go straight to step 3. Full version: [Start Here](https://agenticengineering.guide/start-here).
+
 ## Who This Is For
 
 - **Engineers and technical founders** — *operate* an agent in a real repo, not vibe-code a demo.
@@ -42,7 +61,7 @@ The six tiers are how you make these loops close on their own — from wording a
 
 **Four in one** — the same material in four forms: read it, get tutored through it, get coached *while you work*, or have a real repo **audited** against it.
 
-Not sure where you stand? **Start with the audit (4)** — it rates all six tiers on a repo you actually work in and names the one rung to fix. The tutor and the coach both pick up from there.
+Not sure where you stand? See [Start Here](#start-here) above: read, get taught, or audit a repo you work in. The tutor and the coach both pick up from the audit.
 
 ### 1) The Guide — [`guide.md`](guide.md)
 

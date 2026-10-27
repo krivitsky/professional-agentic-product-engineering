@@ -408,7 +408,17 @@ function homeData() {
     .map((m) => ({ name: m[1], gets: m[2].trim() }));
   const lede = ((body.match(/^Three stages[^\n]*$/m) || [''])[0]).replace(/:\s*$/, '.');
   const tierCount = pages.filter((p) => p.kind === 'tier').length;
+  const startSec = sections.find((s) => /^Start Here\b/i.test(s.heading));
+  const startMd = startSec ? startSec.lines.join('\n') : '';
+  const startIntro = (startMd.trim().split(/\n\s*\n/)[0] || '').trim();
+  const gainsMd = (startMd.match(/^### What You Gain\n([\s\S]*?)(?=^### )/m) || [, ''])[1];
+  const gains = [...gainsMd.matchAll(/^- \*\*([^*]+?)\.\*\*\s+(.+)$/gm)].map((m) => ({ name: m[1], text: m[2].trim() }));
+  const steps = [...startMd.matchAll(/^\*\*(\d)\. ([^*]+?)\.\*\*\s+(.+)$/gm)].map((m) => ({ n: +m[1], title: m[2], text: m[3].trim() }));
+  const shortcut = ((startMd.match(/^> (\*\*Already[^\n]+)$/m) || [, ''])[1]).trim();
   const problems = [];
+  if (!startIntro || startIntro.startsWith('#')) problems.push('no opening paragraph in "Start Here"');
+  if (gains.length !== 3) problems.push(`"Start Here › What You Gain" has ${gains.length} "- **Name.** text" bullets, expected 3`);
+  if (steps.length !== 3) problems.push(`"Start Here" has ${steps.length} "**N. Title.** text" steps, expected 3`);
   if (!opener) problems.push('no opener paragraph in the front matter');
   if (!headline || !subline) problems.push('no "> **headline**" + subline blockquote in the front matter');
   if (tiers.length !== tierCount) problems.push(`"The six tiers at a glance" has ${tiers.length} tier rows, the guide has ${tierCount} tiers`);
@@ -421,7 +431,7 @@ function homeData() {
   // The hero subheader: the shift line up to its colon ("From coding features to designing agentic systems").
   const shiftHead = (shift || '').replace(/^\*\*|\*\*$/g, '').split(':')[0].trim();
   if (!shiftHead) problems.push('no "**From …: …**" shift line in the front matter');
-  return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest };
+  return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest, startIntro, gains, steps, shortcut };
 }
 const HOME = homeData();
 const stageOfTier = Object.fromEntries(HOME.tiers.map((t) => [t.n, t.stage]));
@@ -510,10 +520,11 @@ function renderMarkdown(md, currentSlug) {
 // Explicit menu order (decoupled from guide.md section order).
 const tierSlugs = pages.filter((p) => p.kind === 'tier').map((p) => p.slug);
 const NAV = [
-  { title: 'The Six Tiers', slugs: ['index', 'the-six-tiers-at-a-glance'] },
+  { title: 'Start', slugs: ['index', 'start-here', 'tldr', 'who-this-is-for', 'goal-of-this-guide'] },
+  { title: 'The Six Tiers', slugs: ['the-six-tiers-at-a-glance'] },
   { title: 'How It Works', slugs: ['big-idea', 'loops-of-agentic-engineering', 'climb-the-six-tiers', 'learn-the-primitives'] },
   { title: 'Tier by Tier', slugs: tierSlugs },
-  { title: 'More', slugs: ['common-failure-patterns', 'all-tips', 'port-these-habits-to-any-model', 'audit-your-harness', 'goal-of-this-guide', 'who-this-is-for', 'tldr', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-this-with-an-agent', 'formats-of-this-guide', 'part-of-the-agentic-shift-system', 'sources'] },
+  { title: 'More', slugs: ['common-failure-patterns', 'all-tips', 'port-these-habits-to-any-model', 'audit-your-harness', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-this-with-an-agent', 'formats-of-this-guide', 'part-of-the-agentic-shift-system', 'sources'] },
 ];
 const bySlug = Object.fromEntries(pages.map((p) => [p.slug, p]));
 
@@ -717,8 +728,8 @@ function selfAuditHtml(fileOf) {
   return `<section class="home-section self-audit" id="self-audit" aria-labelledby="audit-h" data-audit ` +
     `data-tiers="${escapeHtml(JSON.stringify(HOME.tiers.map((t) => ({ n: t.n, name: t.name, href: fileOf(`tier-${t.n}`) }))))}">` +
     `<div class="audit-grid"><div class="audit-left">` +
-    `<h2 id="audit-h">Audit Your Harness: Example</h2>` +
-    `<p class="section-lede">Rate your practice on each tier from 0 to 5. The shape shows where you are strong and where to climb next.</p>` +
+    `<h2 id="audit-h">Start in Your Repo</h2>` +
+    `<p class="section-lede">Works in the repo you already have. Rate yourself on each tier from 0 to 5 to see where to climb, then let the audit rate the real thing.</p>` +
     `<div class="audit-rows">${rows}</div>` +
     `<div class="audit-real">` +
     `<p>Run the <strong class="hl">harness audit</strong> in Claude Code, in a repo you work in: it reads the harness you've checked in, rates all six tiers, and names the one next thing to fix.</p>` +
@@ -732,6 +743,26 @@ function selfAuditHtml(fileOf) {
     `<div><dt>Next tier to work on</dt><dd><span data-next>${sum.nextHtml}</span><span class="buildmeta">The lowest-numbered tier rated 2 or less — each tier rests on the ones below.</span></dd></div>` +
     `</dl>` +
     `</div></div></section>`;
+}
+// --- home: Start Here (the problem, three gains, three steps), read from guide.md ---
+function startHtml(fileOf) {
+  const here = fileOf('start-here');
+  const gains = HOME.gains.map((g) =>
+    `<div class="gain"><p class="gain-name">${escapeHtml(g.name)}</p><p class="gain-text">${marked.parseInline(g.text)}</p></div>`).join('');
+  const steps = HOME.steps.map((st) =>
+    `<a class="step" href="${here}#three-ways-to-start">` +
+    `<span class="step-n">${st.n}</span><span class="step-title">${escapeHtml(st.title)}</span>` +
+    `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go" aria-hidden="true">→</span></a>`).join('');
+  const shortcut = HOME.shortcut
+    ? `<p class="start-shortcut">${marked.parseInline(HOME.shortcut)} <a href="#self-audit">See step 3 below ↓</a></p>` : '';
+  return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
+    `<h2 id="start-h">Start Here</h2>` +
+    `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
+    `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
+    `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
+    shortcut +
+    `<p class="hd-more"><a href="${here}">All the commands and what comes after the audit →</a></p>` +
+    `</section>`;
 }
 function harnessHtml(fileOf) {
   return `<section class="home-section harness" aria-labelledby="harness-h">` +
@@ -795,18 +826,21 @@ for (const p of pages) {
       `<figure class="hero-opener"><blockquote>${HOME.opener.map((l) => `<p>${marked.parseInline(l)}</p>`).join('')}</blockquote>` +
       (HOME.cite ? `<figcaption>${marked.parseInline(HOME.cite).replace(/<a href="http/g, '<a target="_blank" rel="noopener" href="http')}</figcaption>` : '') + `</figure>` +
       `<p class="hero-get">` +
-      `<a class="btn btn-primary" href="${fileOf('big-idea')}">Guide's big idea →</a>` +
+      `<a class="btn btn-primary" href="${fileOf('start-here')}">Start now →</a>` +
+      `<a class="btn" href="${fileOf('big-idea')}">Guide's big idea</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/plugins/pape" target="_blank" rel="noopener">Claude Code plugin ↗</a>` +
       `<a class="btn" href="${REPO_URL}/tree/main/wiki" target="_blank" rel="noopener">Obsidian vault ↗</a>` +
       `</p>` +
       `</section>` +
+      startHtml(fileOf) +
       `<section class="home-section" aria-labelledby="tiers-h">` +
       `<h2 id="tiers-h">The Six Tiers of Professional Agentic Product Engineering</h2>` +
       `<p class="section-subhead">${escapeHtml(HOME.subline)}</p>` +
       (HOME.lede ? `<p class="section-lede">${escapeHtml(HOME.lede)}</p>` : '') +
       `<div class="stage-grid">${stages}</div>` +
       `<nav class="home-cta" aria-label="Where to go next">` +
-      `<a class="btn btn-primary" href="${fileOf('tier-1')}">Start at T1 →</a>` +
+      `<a class="btn btn-primary" href="${fileOf('climb-the-six-tiers')}#which-tier-do-you-need">Find your tier →</a>` +
+      `<a class="btn" href="${fileOf('tier-1')}">Start at T1</a>` +
       `<a class="btn" href="${fileOf('big-idea')}">How it works</a>` +
       `<a class="btn" href="${fileOf('all-tips')}">All ${harvestedTips.length} tips</a>` +
       `<a class="btn" href="${fileOf('learn-this-with-an-agent')}">Learn it with your agent</a>` +
