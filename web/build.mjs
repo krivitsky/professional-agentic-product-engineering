@@ -414,7 +414,6 @@ function homeData() {
   const gainsMd = (startMd.match(/^### What You Gain\n([\s\S]*?)(?=^### )/m) || [, ''])[1];
   const gains = [...gainsMd.matchAll(/^- \*\*([^*]+?)\.\*\*\s+(.+)$/gm)].map((m) => ({ name: m[1], text: m[2].trim() }));
   const steps = [...startMd.matchAll(/^\*\*(\d)\. ([^*]+?)\.\*\*\s+(.+)$/gm)].map((m) => ({ n: +m[1], title: m[2], text: m[3].trim() }));
-  const shortcut = ((startMd.match(/^> (\*\*Already[^\n]+)$/m) || [, ''])[1]).trim();
   const problems = [];
   if (!startIntro || startIntro.startsWith('#')) problems.push('no opening paragraph in "Start Here"');
   if (gains.length !== 3) problems.push(`"Start Here › What You Gain" has ${gains.length} "- **Name.** text" bullets, expected 3`);
@@ -431,7 +430,7 @@ function homeData() {
   // The hero subheader: the shift line up to its colon ("From coding features to designing agentic systems").
   const shiftHead = (shift || '').replace(/^\*\*|\*\*$/g, '').split(':')[0].trim();
   if (!shiftHead) problems.push('no "**From …: …**" shift line in the front matter');
-  return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest, startIntro, gains, steps, shortcut };
+  return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest, startIntro, gains, steps };
 }
 const HOME = homeData();
 const stageOfTier = Object.fromEntries(HOME.tiers.map((t) => [t.n, t.stage]));
@@ -753,14 +752,11 @@ function startHtml(fileOf) {
     `<a class="step" href="${here}#start-step-${st.n}">` +
     `<span class="step-n">${st.n}</span><span class="step-title">${escapeHtml(st.title)}</span>` +
     `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go">How to start →</span></a>`).join('');
-  const shortcut = HOME.shortcut
-    ? `<p class="start-shortcut">${marked.parseInline(HOME.shortcut)} <a href="${here}#start-step-3">Step 3, with the commands →</a></p>` : '';
   return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
     `<h2 id="start-h">Why the PAPE Guide and How to Use It</h2>` +
     `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
     `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
     `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
-    shortcut +
     `</section>`;
 }
 function harnessHtml(fileOf) {

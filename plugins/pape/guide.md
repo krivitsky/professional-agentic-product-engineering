@@ -92,7 +92,7 @@ claude        # or codex, or your agent of choice
 Then ask: *"Interview me about my work and my level, then teach me what I need from this guide, one concept at a time."* In Claude Code, `hi` is enough. With your consent it reads your past prompts to tailor the examples, and it checks that each concept stuck before moving on.
 
 <a id="start-step-3"></a>
-**3. Install the plugin in the repo you work in.** It audits your setup, then coaches you as you work.
+**3. Install the plugin in the repo you work in.** Already shipping a product? Start here: it audits your setup in minutes, then coaches you as you work.
 In Claude Code, inside your project:
 
 ```
@@ -103,8 +103,6 @@ In Claude Code, inside your project:
 ```
 
 The audit rates your repo on the six tiers and names the one next thing to fix. It works on the repo you already have: there is nothing to migrate, and it only reads, apart from writing its report to `harness-audits/`. The coach then stays quiet until it spots a learning moment, and drops one nudge linked to the fix.
-
-> **Already shipping a product?** Go straight to step 3: install the plugin and run the audit in your repo. It tells you where you stand in minutes.
 
 ### After the Audit
 

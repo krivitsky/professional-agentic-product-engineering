@@ -31,7 +31,7 @@ Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 
 
 1. **Read the guide.** Start with the [TL;DR](https://agenticengineering.guide/tldr), then [find your tier](https://agenticengineering.guide/climb-the-six-tiers#which-tier-do-you-need). No setup.
 2. **Point your agent at this repo.** Clone it, open Claude Code, Codex or any agent in the folder, and ask it to *"interview me about my work and my level, then teach me what I need from this guide, one concept at a time."* In Claude Code, `hi` is enough.
-3. **Install the plugin in the repo you work in** (Claude Code). It audits your setup, then coaches you as you work:
+3. **Install the plugin in the repo you work in** (Claude Code). Already shipping a product? Start here: it audits your setup in minutes, then coaches you as you work:
    ```
    /plugin marketplace add krivitsky/professional-agentic-product-engineering
    /plugin install pape@pape
@@ -40,7 +40,7 @@ Calibrated for the current frontier class — Opus 4.8+, GPT-5.5-class+, Gemini 
    ```
    It works on the repo you already have and only reads, apart from writing its report to `harness-audits/`.
 
-> **Already shipping a product?** Go straight to step 3: install the plugin and run the audit. Full version: [Start Here](https://agenticengineering.guide/start-here).
+Full version: [Start Here](https://agenticengineering.guide/start-here).
 
 ## Who This Is For
 
