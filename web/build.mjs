@@ -764,7 +764,7 @@ function whyHtml(fileOf) {
     `</div></div>` +
     `</section>` +
     `<section class="home-section ways" id="start" aria-labelledby="start-h">` +
-    `<h2 id="start-h">Three Ways to Start</h2>` +
+    `<h2 id="start-h">Three Ways to Start with PAPE</h2>` +
     `<p class="section-lede">Go as far as you need; each way goes deeper than the one before. Pick one to jump to it.</p>` +
     `<div class="steps">${steps}</div>` +
     `</section>`;
