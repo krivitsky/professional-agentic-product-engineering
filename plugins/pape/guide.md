@@ -75,9 +75,11 @@ Coding agents can now write most of the code. The catch: run one on prompts alon
 
 Go as far as you need; each step goes deeper than the one before.
 
+<a id="start-step-1"></a>
 **1. Read the guide.** Learn the modern practices at your own pace.
 Start with the [TL;DR](#tldr--if-you-do-only-five-things), find your level in [Which Tier Do You Need?](#which-tier-do-you-need), then read [that tier](#the-six-tiers-at-a-glance). No setup needed.
 
+<a id="start-step-2"></a>
 **2. Point your agent at this repo.** It interviews you, then teaches what your work needs.
 Works with Claude Code, Codex or any agent that reads `CLAUDE.md` or `AGENTS.md`. Clone the repo and open your agent in the folder:
 
@@ -89,6 +91,7 @@ claude        # or codex, or your agent of choice
 
 Then ask: *"Interview me about my work and my level, then teach me what I need from this guide, one concept at a time."* In Claude Code, `hi` is enough. With your consent it reads your past prompts to tailor the examples, and it checks that each concept stuck before moving on.
 
+<a id="start-step-3"></a>
 **3. Install the plugin in the repo you work in.** It audits your setup, then coaches you as you work.
 In Claude Code, inside your project:
 

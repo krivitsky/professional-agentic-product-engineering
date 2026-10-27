@@ -750,11 +750,11 @@ function startHtml(fileOf) {
   const gains = HOME.gains.map((g) =>
     `<div class="gain"><p class="gain-name">${escapeHtml(g.name)}</p><p class="gain-text">${marked.parseInline(g.text)}</p></div>`).join('');
   const steps = HOME.steps.map((st) =>
-    `<a class="step" href="${here}#three-ways-to-start">` +
+    `<a class="step" href="${here}#start-step-${st.n}">` +
     `<span class="step-n">${st.n}</span><span class="step-title">${escapeHtml(st.title)}</span>` +
     `<span class="step-text">${escapeHtml(st.text)}</span><span class="step-go" aria-hidden="true">→</span></a>`).join('');
   const shortcut = HOME.shortcut
-    ? `<p class="start-shortcut">${marked.parseInline(HOME.shortcut)} <a href="#self-audit">The commands are below ↓</a></p>` : '';
+    ? `<p class="start-shortcut">${marked.parseInline(HOME.shortcut)} <a href="${here}#start-step-3">Step 3, with the commands →</a></p>` : '';
   return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
     `<h2 id="start-h">Why the PAPE Guide and How to Use It</h2>` +
     `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
