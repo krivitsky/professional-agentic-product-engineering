@@ -756,7 +756,7 @@ function startHtml(fileOf) {
   const shortcut = HOME.shortcut
     ? `<p class="start-shortcut">${marked.parseInline(HOME.shortcut)} <a href="#self-audit">See step 3 below ↓</a></p>` : '';
   return `<section class="home-section start" id="start" aria-labelledby="start-h">` +
-    `<h2 id="start-h">Start Here</h2>` +
+    `<h2 id="start-h">Why PAPE and How to Use It</h2>` +
     `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
     `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
     `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
