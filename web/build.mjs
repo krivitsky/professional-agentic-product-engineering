@@ -414,7 +414,11 @@ function homeData() {
   const gainsMd = (startMd.match(/^### What You Gain\n([\s\S]*?)(?=^### )/m) || [, ''])[1];
   const gains = [...gainsMd.matchAll(/^- \*\*([^*]+?)\.\*\*\s+(.+)$/gm)].map((m) => ({ name: m[1], text: m[2].trim() }));
   const steps = [...startMd.matchAll(/^\*\*(\d)\. ([^*]+?)\.\*\*\s+(.+)$/gm)].map((m) => ({ n: +m[1], title: m[2], text: m[3].trim() }));
+  const tldrSec = sections.find((s) => /^TL;DR\b/i.test(s.heading));
+  const tldr = [...(tldrSec ? tldrSec.lines.join('\n') : '').matchAll(/^\d\. \*\*([^*]+?)\*\*\s+(.+?)\s+\*(T\d[^*]*)\*\s*$/gm)]
+    .map((m) => ({ title: m[1], text: m[2].trim(), tiers: [...m[3].matchAll(/T(\d) (\w+)/g)].map((t) => ({ n: +t[1], name: t[2] })) }));
   const problems = [];
+  if (tldr.length !== 5 || tldr.some((h) => !h.tiers.length)) problems.push(`"TL;DR" has ${tldr.length} "N. **Title.** text *Tn Name: …*" habits, expected 5, each tagged with a tier`);
   if (!startIntro || startIntro.startsWith('#')) problems.push('no opening paragraph in "Start Here"');
   if (gains.length !== 3) problems.push(`"Start Here › What You Gain" has ${gains.length} "- **Name.** text" bullets, expected 3`);
   if (steps.length !== 3) problems.push(`"Start Here" has ${steps.length} "**N. Title.** text" steps, expected 3`);
@@ -430,7 +434,7 @@ function homeData() {
   // The hero subheader: the shift line up to its colon ("From coding features to designing agentic systems").
   const shiftHead = (shift || '').replace(/^\*\*|\*\*$/g, '').split(':')[0].trim();
   if (!shiftHead) problems.push('no "**From …: …**" shift line in the front matter');
-  return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest, startIntro, gains, steps };
+  return { opener: openerLines, cite, shift, shiftHead, headline, subline, tiers, stages, lede, rest, startIntro, gains, steps, tldr };
 }
 const HOME = homeData();
 const stageOfTier = Object.fromEntries(HOME.tiers.map((t) => [t.n, t.stage]));
@@ -761,6 +765,18 @@ function startHtml(fileOf) {
     `<h3 class="start-sub">Three Ways to Start</h3><div class="steps">${steps}</div>` +
     `</section>`;
 }
+// --- home: the five habits (the guide's TL;DR), each tagged with its tier ---
+function tldrHtml(fileOf) {
+  const items = HOME.tldr.map((h) =>
+    `<li><span class="habit-tags">${h.tiers.map((t) => `<a class="habit-tag" href="${fileOf(`tier-${t.n}`)}">T${t.n} ${escapeHtml(t.name)}</a>`).join('')}</span>` +
+    `<span class="habit-body"><strong>${escapeHtml(h.title)}</strong> ${marked.parseInline(h.text)}</span></li>`).join('');
+  return `<section class="home-section habits" aria-labelledby="habits-h">` +
+    `<h2 id="habits-h">If You Do Only Five Things</h2>` +
+    `<p class="section-lede">The whole guide, cut to five habits, in ladder order.</p>` +
+    `<ol class="habit-list">${items}</ol>` +
+    `<p class="hd-more"><a href="${fileOf('tldr')}">The tips behind each habit →</a></p>` +
+    `</section>`;
+}
 function harnessHtml(fileOf) {
   return `<section class="home-section harness" aria-labelledby="harness-h">` +
     `<h2 id="harness-h">The Harness Around the Agent</h2>` +
@@ -843,6 +859,7 @@ for (const p of pages) {
       `<a class="btn" href="${fileOf('learn-this-with-an-agent')}">Learn it with your agent</a>` +
       `</nav>` +
       `</section>` +
+      tldrHtml(fileOf) +
       selfAuditHtml(fileOf) +
       harnessHtml(fileOf) +
       (HOME.rest ? renderMarkdown(linkifyTiers(HOME.rest), 'index') : '');
