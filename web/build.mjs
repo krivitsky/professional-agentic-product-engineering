@@ -731,10 +731,14 @@ function auditSummary(tiers, values, fileOf) {
 const codeBox = (code, lang) =>
   `<div class="codebox" data-lang="${lang}"><button class="copy" type="button" aria-label="Copy to clipboard">${COPY_ICON}<span>Copy</span></button>` +
   `<pre><code class="language-text">${escapeHtml(code)}</code></pre></div>`;
+// Chicago title case for headings built from sentence-style text (see CLAUDE.md).
+const SMALL_WORDS = new Set('a an the and but or nor for so yet as at by from in into of on onto over per to up via vs with'.split(' '));
+const titleCase = (t) => t.split(' ').map((w, i, all) =>
+  (i > 0 && i < all.length - 1 && SMALL_WORDS.has(w.toLowerCase())) ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 // Each way's section heading: a small "Way N" eyebrow over the step title from guide.md.
 const wayHead = (n, id) => {
   const st = HOME.steps.find((x) => x.n === n);
-  return `<p class="way-n">Way ${n}</p><h2 id="${id}">${escapeHtml(st.title)}</h2>`;
+  return `<p class="way-n">Way ${n}</p><h2 id="${id}">${escapeHtml(titleCase(st.title))}</h2>`;
 };
 // The home page is the three ways to start: Why lists them as cards that jump
 // down the page; each way's section then leads deeper into the guide.
