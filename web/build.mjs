@@ -18,6 +18,10 @@ const LOGO_SRC = join(ROOT, 'assets', 'tutor-caveman.png');
 const SITE_TITLE = 'PAPE: Professional Agentic Product Engineering';
 const REPO_URL = 'https://github.com/krivitsky/professional-agentic-product-engineering';
 const AUTHOR_URL = 'https://www.krivitsky.com';
+// Same @id as the Person on krivitsky.com and agenticshift.org, so Google
+// reads the three sites as one author's.
+const AUTHOR_ID = 'https://www.krivitsky.com/#person';
+const SHIFT_URL = 'https://agenticshift.org/';
 const AUTHOR_NAME = 'Alexey Krivitsky';
 // Absolute origin for canonical/OG/sitemap. Override at build time: SITE_URL=https://… node build.mjs
 // On Vercel, VERCEL_PROJECT_PRODUCTION_URL is injected automatically.
@@ -598,14 +602,21 @@ function jsonLd(page) {
       name: SITE_TITLE,
       description: SITE_DESC,
       inLanguage: 'en',
-      publisher: { '@id': `${BASE}/#author` },
+      publisher: { '@id': AUTHOR_ID },
     },
     {
       '@type': 'Person',
-      '@id': `${BASE}/#author`,
+      '@id': AUTHOR_ID,
       name: AUTHOR_NAME,
       url: AUTHOR_URL,
       email: 'alexey@krivitsky.com',
+      sameAs: ['https://www.linkedin.com/in/alexeykrivitsky/', 'https://github.com/krivitsky'],
+    },
+    {
+      '@type': 'Organization',
+      name: 'Agentic Shift',
+      url: SHIFT_URL,
+      founder: { '@id': AUTHOR_ID },
     },
   ];
   if (page.kind !== 'home') {
@@ -616,7 +627,7 @@ function jsonLd(page) {
       description: page.description,
       url: urlOf(page),
       inLanguage: 'en',
-      author: { '@id': `${BASE}/#author` },
+      author: { '@id': AUTHOR_ID },
       isPartOf: { '@id': `${BASE}/#website` },
       ...(page.kind === 'tier' ? { articleSection: `Tier ${page.n}` } : {}),
     });
@@ -757,6 +768,7 @@ function whyHtml(fileOf) {
     `<h2 id="why-h">Why the PAPE Guide</h2>` +
     `<div class="why-grid"><div class="why-text">` +
     `<p class="section-lede">${marked.parseInline(HOME.startIntro)}</p>` +
+    `<p class="section-lede">PAPE is the engineering half of the shift. The organizational half is the <a href="${SHIFT_URL}" target="_blank" rel="noopener">Agentic Shift manifesto</a>.</p>` +
     `<h3 class="start-sub">What You Gain</h3><div class="gains">${gains}</div>` +
     `</div><div class="why-fig">` +
     ANIM_FIGURE +
@@ -961,7 +973,8 @@ let llms =
   `# Professional Agentic Product Engineering Guide\n\n` +
   `> ${SITE_DESC}\n\n` +
   `Maintained by ${AUTHOR_NAME} (${AUTHOR_URL}). Source: ${REPO_URL}\n` +
-  `- [Overview](${BASE}/): the six tiers at a glance — what each one hands to the system, and where to start.\n`;
+  `- [Overview](${BASE}/): the six tiers at a glance — what each one hands to the system, and where to start.\n` +
+  `- [Agentic Shift](${SHIFT_URL}): the companion manifesto by the same author, on the organizational side of agentic adoption.\n`;
 for (const [title, items] of llmsGroups) {
   if (!items.length) continue;
   llms += `\n## ${title}\n\n`;

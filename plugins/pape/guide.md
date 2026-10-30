@@ -9,7 +9,7 @@
 >
 > **[Alexey Krivitsky](https://www.krivitsky.com/)**, the creator of the PAPE guide
 
-**From coding features to designing agentic systems: this guide is a deep dive into that [agentic shift](https://agentic-shift.com/).**
+**From coding features to designing agentic systems: this guide is a deep dive into that [agentic shift](https://agenticshift.org/).**
 
 > **Free the human to judge and innovate.**
 >
@@ -1464,7 +1464,7 @@ Read it in whichever form fits how you work — all four stay in sync with this 
 
 ## Part of the Agentic Shift System
 
-PAPE is the deep dive into the [agentic shift](https://agentic-shift.com/) from coding features to designing agentic systems.
+PAPE is the deep dive into the [agentic shift](https://agenticshift.org/) from coding features to designing agentic systems.
 
 This is a guide to the **technical** side of the agentic shift — how engineers and product teams get genuinely good at building with coding agents. It stops there on purpose.
 
@@ -1472,7 +1472,7 @@ The shift has a second front: the **structural** one — how organizations, team
 
 **Technical and structural shifts form one system: they enable and reinforce one another, and cannot be managed in isolation.** A team that masters the tools but keeps its old org design stalls; a reorg with no engineering practice underneath is theatre.
 
-For the structural half — the organizational picture this guide deliberately leaves out — see **[agentic-shift.com](https://agentic-shift.com/)**.
+For the structural half — the organizational picture this guide deliberately leaves out — see **[agenticshift.org](https://agenticshift.org/)**.
 
 ---
 
