@@ -96,6 +96,7 @@ The build fails, naming the part, if it can't read the opener, the `> **headline
 - **Code:** highlight.js and mermaid load on demand from jsDelivr; if the CDN is down, menu and switcher still work. `prompt`/`text` blocks stay unhighlighted. Copy buttons on every code box.
 - **OG image:** `node web/make-og.mjs` renders `assets/og.png` + `og-2x.png` (1200×630) with local Google Chrome — Vercel can't run it, so the PNGs are committed. Regenerate when the title, headline or tiers change.
 - **Links:** pages link to `*.html`, so the local static server works; links to home are written as `./`, so the address bar shows `/`, never `index.html`; every link off the site opens in a new tab (added at write time, so guide Markdown needs nothing); Vercel's `cleanUrls` serves them without the extension. Redirects for removed pages live in `web/vercel.json`.
+- **Analytics:** Google Analytics 4 (`G-SJW53LEJGS`, the agentic-shift property; Alexey's weekly visits report splits it by hostname). The gtag snippet sits in every page's `<head>`, set by `GA_ID` in `web/build.mjs`.
 
 ## 6. Open Items — Need Alexey's Call Before or After Merge
 

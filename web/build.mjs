@@ -642,6 +642,9 @@ function jsonLd(page) {
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 }
 
+// Google Analytics 4 (Alexey's agentic-shift property; his weekly visits report splits it by hostname).
+const GA_ID = 'G-SJW53LEJGS';
+
 function shell({ page, contentHtml }) {
   const isHome = page.kind === 'home';
   const pageSlug = page.slug;
@@ -653,6 +656,8 @@ function shell({ page, contentHtml }) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');</script>
 <title>${escapeHtml(fullTitle)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
