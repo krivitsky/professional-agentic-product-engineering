@@ -63,10 +63,11 @@ To change a color, edit the hex in `SCHEMES` — never the generated CSS. The bu
 
 ### 3.2 Switcher and Persistence
 
-- Header: square swatch button → panel with seven radio chips + Intensity slider + Reset (markup in `headerHtml()`, behavior in `app.js`).
+- Header: wordmark, sub-title, `| GitHub | Tube` (Tube = the guide's video feed, a new tab), then the square swatch button → panel with seven radio chips + Intensity slider + Reset (markup in `headerHtml()`, behavior in `app.js`).
 - A tiny pre-paint script (`PREPAINT` in build.mjs) runs in `<head>` before the stylesheet: sets `data-scheme`, `--intensity` and `data-nav` on `<html>`, so there is no flash.
 - localStorage keys: `pape.scheme`, `pape.intensity.<scheme>` (intensity is remembered **per scheme**), `pape.selfAudit`, `pape.palette.seen` (the palette opens by itself once, on a first visit, without taking focus; any click outside closes it). All access is wrapped in try/catch; the site works with storage blocked.
 - URL parameters win and stick: `?scheme=signal`, `?intensity=0.6`.
+- **Shared with PAPE Tube** (tube.agenticengineering.guide, AK 2026-11-15): every scheme or intensity change also writes the cookies `pape_scheme` and `pape_intensity` (`Domain=agenticengineering.guide; Path=/; Max-Age=31536000; SameSite=Lax; Secure`, only on that domain or a subdomain). Pre-paint priority: URL > cookie > localStorage > default; a winning cookie is copied into localStorage. Links marked `data-tube` (the header's Tube link) carry `?scheme=&intensity=`. The Tube runs the same protocol, so a pick on either site holds on both.
 - The OG share card is always Paper (black ink on off-white, black logo with a light dot), whatever a reader picks.
 
 ### 3.3 Menu

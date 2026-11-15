@@ -222,6 +222,10 @@ function linkifyTiers(md) {
 }
 
 // ------------------------------------------------------------- page chrome ---
+// PAPE Tube: the guide's video feed, a sister site that shares the color scheme
+// through the cookie domain below (see PREPAINT and app.js).
+const TUBE_URL = 'https://tube.agenticengineering.guide/';
+const COOKIE_DOMAIN = 'agenticengineering.guide';
 // The slim header: the menu toggle, the PAPE wordmark, the scheme switcher.
 const ICON_MENU = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>';
 function headerHtml() {
@@ -235,6 +239,8 @@ function headerHtml() {
   <span class="topbar-sub">Professional Agentic Product Engineering</span>
   <span class="topbar-sep" aria-hidden="true">|</span>
   <a class="topbar-link" href="${REPO_URL}" target="_blank" rel="noopener">GitHub</a>
+  <span class="topbar-sep" aria-hidden="true">|</span>
+  <a class="topbar-link" href="${TUBE_URL}" target="_blank" rel="noopener" data-tube>Tube</a>
   <div class="topbar-end">
     <div class="scheme">
       <button class="scheme-btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="scheme-panel" aria-label="Color scheme"><span></span></button>
@@ -271,14 +277,20 @@ function footerHtml() {
 </footer>`;
 }
 // Runs in <head> before the stylesheet: picks the scheme, its intensity and
-// the menu state before first paint. ?scheme= and ?intensity= win and stick.
+// the menu state before first paint. Priority: ?scheme= / ?intensity= (they
+// win and stick) > the shared cookie (pape_scheme / pape_intensity, set on
+// agenticengineering.guide and its subdomains, so the guide and PAPE Tube keep
+// one scheme) > localStorage > default. The cookie is copied into localStorage.
 const PREPAINT = `(function(){var d=document.documentElement,L;try{L=window.localStorage}catch(e){}
 function g(k){try{return L?L.getItem(k):null}catch(e){return null}}function p(k,v){try{if(L)L.setItem(k,v)}catch(e){}}
-var S=${JSON.stringify(SCHEMES.map((x) => x.id))},q=new URLSearchParams(location.search),s=q.get('scheme');
-if(S.indexOf(s)>=0)p('pape.scheme',s);else s=g('pape.scheme');if(S.indexOf(s)<0)s='${DEFAULT_SCHEME}';
-var i=parseFloat(q.get('intensity'));if(i>=${INTENSITY.min}&&i<=${INTENSITY.max})p('pape.intensity.'+s,String(i));else i=parseFloat(g('pape.intensity.'+s));
-if(!(i>=${INTENSITY.min}&&i<=${INTENSITY.max}))i=${INTENSITY.def};
+function c(k){var m=document.cookie.match(new RegExp('(?:^|; )'+k+'=([^;]*)'));return m?decodeURIComponent(m[1]):null}
+var S=${JSON.stringify(SCHEMES.map((x) => x.id))},q=new URLSearchParams(location.search),s=q.get('scheme'),u=S.indexOf(s)>=0,cs=c('pape_scheme'),ci=parseFloat(c('pape_intensity'));
+function ok(v){return v>=${INTENSITY.min}&&v<=${INTENSITY.max}}
+if(u)p('pape.scheme',s);else if(S.indexOf(cs)>=0){s=cs;p('pape.scheme',s)}else s=g('pape.scheme');if(S.indexOf(s)<0)s='${DEFAULT_SCHEME}';
+var i=parseFloat(q.get('intensity')),ui=ok(i);if(ui)p('pape.intensity.'+s,String(i));else if(s===cs&&ok(ci)){i=ci;p('pape.intensity.'+s,String(i))}else i=parseFloat(g('pape.intensity.'+s));
+if(!ok(i))i=${INTENSITY.def};
 d.setAttribute('data-scheme',s);d.style.setProperty('--intensity',String(i));
+var h=location.hostname;if((u||ui)&&(h==='${COOKIE_DOMAIN}'||h.slice(-${COOKIE_DOMAIN.length + 1})==='.${COOKIE_DOMAIN}')){var a='; Domain=${COOKIE_DOMAIN}; Path=/; Max-Age=31536000; SameSite=Lax; Secure';document.cookie='pape_scheme='+s+a;document.cookie='pape_intensity='+i+a}
 var w=window.matchMedia&&matchMedia('(min-width: 1024px)').matches;
 d.setAttribute('data-nav',!d.hasAttribute('data-home')&&w?'open':'closed');})();`;
 

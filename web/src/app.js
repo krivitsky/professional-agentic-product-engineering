@@ -54,18 +54,38 @@ function intensityFor(id) {
   const v = parseFloat(store.get('pape.intensity.' + id));
   return v >= MIN && v <= MAX ? v : DEF;
 }
+// The guide and PAPE Tube (tube.agenticengineering.guide) share the scheme:
+// every change also writes two cookies on the parent domain, and links to
+// the Tube carry ?scheme=&intensity= for a first visit.
+const COOKIE_DOMAIN = 'agenticengineering.guide';
+const onSharedDomain = () => location.hostname === COOKIE_DOMAIN || location.hostname.endsWith('.' + COOKIE_DOMAIN);
+function shareScheme(writeCookies) {
+  const id = current(), v = root.style.getPropertyValue('--intensity').trim() || String(DEF);
+  if (writeCookies && onSharedDomain()) {
+    const attrs = `; Domain=${COOKIE_DOMAIN}; Path=/; Max-Age=31536000; SameSite=Lax; Secure`;
+    document.cookie = `pape_scheme=${id}${attrs}`;
+    document.cookie = `pape_intensity=${v}${attrs}`;
+  }
+  document.querySelectorAll('a[data-tube]').forEach((a) => {
+    const u = new URL(a.href);
+    u.searchParams.set('scheme', id);
+    u.searchParams.set('intensity', v);
+    a.href = u.toString();
+  });
+}
 function setIntensity(v, remember) {
   root.style.setProperty('--intensity', String(v));
   if (range) range.value = String(v);
   if (out) out.value = Number(v).toFixed(2);
   if (remember) store.set('pape.intensity.' + current(), String(v));
+  if (remember) shareScheme(true);
 }
 function setScheme(id, remember) {
   root.dataset.scheme = id;
   radios.forEach((r) => { r.checked = r.value === id; });
   setIntensity(intensityFor(id), false);
   schemeBtn?.setAttribute('aria-label', `Color scheme: ${nameOf(id)}`);
-  if (remember) store.set('pape.scheme', id);
+  if (remember) { store.set('pape.scheme', id); shareScheme(true); }
 }
 function openPanel(open, focus = true) {
   if (!panel) return;
@@ -74,6 +94,7 @@ function openPanel(open, focus = true) {
   if (open && focus) (radios.find((r) => r.checked) || radios[0])?.focus();
 }
 setScheme(current(), false);
+shareScheme(false);   // Tube links carry the scheme from the start; cookies only on a change
 // Picking a scheme with the mouse or a tap closes the palette. Arrowing
 // through the schemes by keyboard keeps it open (Escape closes it).
 let pointerPick = false;
