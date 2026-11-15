@@ -80,6 +80,13 @@ button { font: inherit; }
 .topbar-sep { font-size: 14px; color: var(--line2); }
 .topbar-link { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; }
 .topbar-link:hover { color: var(--accent); }
+.tube-btn {
+  display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px;
+  border: 1px solid var(--accent); color: var(--accent);
+  font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap;
+}
+.tube-btn span { font-size: 11px; }
+.tube-btn:hover { background: var(--accent); color: var(--accent-ink); }
 
 /* scheme switcher */
 .scheme { position: relative; }
@@ -492,11 +499,17 @@ button { font: inherit; }
   .hero-opener { margin: 0 0 28px; }
   .audit-grid { grid-template-columns: minmax(0, 1fr); }
 }
+@media (max-width: 480px) {
+  /* room for the PAPE Tube button: the menu button keeps its icon, its label stays for screen readers */
+  .nav-toggle { padding: 0 9px; }
+  .nav-toggle span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
 @media (max-width: 720px) {
   :root { --gutter: 8px; }
   body { font-size: 17px; }
   .topbar { padding: 0 12px; gap: 12px; }
   .topbar-link { display: none; }
+  .tube-btn { padding: 0 10px; }
   .content { padding: 32px 18px 12px; }
   .content h2 { font-size: 26px; }
   .pager { padding: 0 18px; }

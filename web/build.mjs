@@ -239,9 +239,8 @@ function headerHtml() {
   <span class="topbar-sub">Professional Agentic Product Engineering</span>
   <span class="topbar-sep" aria-hidden="true">|</span>
   <a class="topbar-link" href="${REPO_URL}" target="_blank" rel="noopener">GitHub</a>
-  <span class="topbar-sep" aria-hidden="true">|</span>
-  <a class="topbar-link" href="${TUBE_URL}" target="_blank" rel="noopener" data-tube>Tube</a>
   <div class="topbar-end">
+    <a class="tube-btn" href="${TUBE_URL}" target="_blank" rel="noopener" data-tube title="Curated videos on agentic engineering" aria-label="PAPE Tube: curated videos on agentic engineering, opens in a new tab"><span aria-hidden="true">▶</span> PAPE Tube</a>
     <div class="scheme">
       <button class="scheme-btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="scheme-panel" aria-label="Color scheme"><span></span></button>
       <div class="scheme-panel" id="scheme-panel" role="dialog" aria-label="Color scheme" hidden>

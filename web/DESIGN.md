@@ -63,7 +63,7 @@ To change a color, edit the hex in `SCHEMES` — never the generated CSS. The bu
 
 ### 3.2 Switcher and Persistence
 
-- Header: wordmark, sub-title, `| GitHub | Tube` (Tube = the guide's video feed, a new tab), then the square swatch button → panel with seven radio chips + Intensity slider + Reset (markup in `headerHtml()`, behavior in `app.js`).
+- Header: wordmark, sub-title, `| GitHub`; at the right end an outlined accent button "▶ PAPE Tube" (the guide's video feed at tube.agenticengineering.guide, new tab, AK 2026-11-15; on phones under 480px the Contents button goes icon-only to make room), then the square swatch button → panel with seven radio chips + Intensity slider + Reset (markup in `headerHtml()`, behavior in `app.js`).
 - A tiny pre-paint script (`PREPAINT` in build.mjs) runs in `<head>` before the stylesheet: sets `data-scheme`, `--intensity` and `data-nav` on `<html>`, so there is no flash.
 - localStorage keys: `pape.scheme`, `pape.intensity.<scheme>` (intensity is remembered **per scheme**), `pape.selfAudit`, `pape.palette.seen` (the palette opens by itself once, on a first visit, without taking focus; any click outside closes it). All access is wrapped in try/catch; the site works with storage blocked.
 - URL parameters win and stick: `?scheme=signal`, `?intensity=0.6`.
