@@ -74,7 +74,7 @@ To change a color, edit the hex in `SCHEMES` — never the generated CSS. The bu
 
 - **Inner pages, width ≥1024px:** the menu always opens docked on the left, so following a link deeper into the guide keeps it in view. Closing it lasts for that page only (nothing is remembered). Current page highlighted and scrolled into view.
 - **Homepage (any width) and every page below 1024px:** menu is a drawer, always starts closed; opened by "Contents" in the top-left; overlay click, × button or Escape closes it; focus moves into the drawer and back.
-- Groups come from `NAV` in build.mjs: Start (Overview, Start Here, TL;DR, Who This Is For, Goal), The Six Tiers, How It Works, Tier by Tier, More. A new guide section must be wired into `NAV` or it won't appear.
+- Groups come from `NAV` in build.mjs: Start (Overview, Start Here, TL;DR, Who This Is For, Goal), The Six Tiers, How It Works, Tier by Tier, More. A new guide section must be wired into `NAV` or it won't appear. `NAV` can also hold an external link object (`{ href, label, tube }`): "▶ PAPE Tube (videos)" is the last item under More (AK 2026-11-16). It opens in a new tab, carries the scheme like the header button, and isn't part of the Previous/Next pager.
 
 ## 4. Homepage
 

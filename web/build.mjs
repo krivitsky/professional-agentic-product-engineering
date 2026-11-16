@@ -549,17 +549,22 @@ const NAV = [
   { title: 'The Six Tiers', slugs: ['the-six-tiers-at-a-glance'] },
   { title: 'How It Works', slugs: ['big-idea', 'loops-of-agentic-engineering', 'climb-the-six-tiers', 'learn-the-primitives'] },
   { title: 'Tier by Tier', slugs: tierSlugs },
-  { title: 'More', slugs: ['common-failure-patterns', 'all-tips', 'port-these-habits-to-any-model', 'audit-your-harness', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-this-with-an-agent', 'formats-of-this-guide', 'part-of-the-agentic-shift-system', 'sources'] },
+  { title: 'More', slugs: ['common-failure-patterns', 'all-tips', 'port-these-habits-to-any-model', 'audit-your-harness', 'unlearn-the-old-playbook', 'pick-the-right-tool', 'learn-this-with-an-agent', 'formats-of-this-guide', 'part-of-the-agentic-shift-system', 'sources',
+    { href: TUBE_URL, label: '▶ PAPE Tube (videos)', tube: true }] },   // external: the guide's video feed (AK 2026-11-16)
 ];
 const bySlug = Object.fromEntries(pages.map((p) => [p.slug, p]));
 
 function renderNav(currentSlug) {
   let html = '';
   for (const g of NAV) {
-    const items = g.slugs.map((s) => bySlug[s]).filter(Boolean);
+    const items = g.slugs.map((s) => (typeof s === 'string' ? bySlug[s] : s)).filter(Boolean);
     if (!items.length) continue;
     html += `<div class="nav-group"><p class="nav-group-title">${g.title}</p><ul>`;
     for (const p of items) {
+      if (p.href) {   // an external link, not a guide page (not in the pager either)
+        html += `<li><a href="${p.href}" target="_blank" rel="noopener"${p.tube ? ' data-tube' : ''}><span>${escapeHtml(p.label)}</span></a></li>`;
+        continue;
+      }
       const attr = p.slug === currentSlug ? ' class="active"' : '';
       const num = p.kind === 'tier' ? `<span class="nav-num">T${p.n}</span>` : '';
       const label = p.kind === 'tier' ? p.menuLabel.replace(/^T\d+\s·\s/, '') : p.menuLabel;
@@ -585,7 +590,7 @@ function tierCards() {
 }
 
 // Reading order = the menu order (so prev/next always match the sidebar).
-const NAV_ORDER = NAV.flatMap((g) => g.slugs).map((s) => bySlug[s]).filter(Boolean);
+const NAV_ORDER = NAV.flatMap((g) => g.slugs).filter((s) => typeof s === 'string').map((s) => bySlug[s]).filter(Boolean);
 function prevNext(currentSlug) {
   const idx = NAV_ORDER.findIndex((p) => p.slug === currentSlug);
   const prev = NAV_ORDER[idx - 1];
