@@ -251,9 +251,9 @@ One line, drawn from what the finders actually counted, never invented. **It cha
 
 ### Keep the Subagents' Tool Calls Legible
 
-**Nothing `cd`s — not the subagents, and not the orchestrating context.** Everything already starts in the repo root. Runs have been observed emitting `cd /Users/alexey/src/aidy/repos/<repo>` before every command, which spends the visible width of the line on a constant, and then the actual command is what gets truncated. The reader is left with a path they already know and an ellipsis where the evidence was.
+**Nothing `cd`s — not the subagents, and not the orchestrating context.** Everything already starts in the repo root. Runs have been observed emitting `cd /Users/alexey/src/<repo>` before every command, which spends the visible width of the line on a constant, and then the actual command is what gets truncated. The reader is left with a path they already know and an ellipsis where the evidence was.
 
-**This binds the orchestrating context too.** It now runs the presence checks itself while research is out, and a run was observed prefixing each of those with `cd /Users/alexey/src/aidy/repos/<repo>` — the same waste, on the line the reader is actually watching, since these are the only tool calls visible during the wait.
+**This binds the orchestrating context too.** It now runs the presence checks itself while research is out, and a run was observed prefixing each of those with `cd /Users/alexey/src/<repo>` — the same waste, on the line the reader is actually watching, since these are the only tool calls visible during the wait.
 
 **Ask for short tool descriptions too.** A finder's Bash calls are the only window into what it is doing while it runs; `rg for hook definitions` tells the watcher something, and a truncated multi-line `echo` banner does not.
 
