@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# pre-push gate (AK 2026-11-22: hook in all repos) — nothing that would fail CI or Vercel gets pushed.
+#
+# 1. Public-repo guard (secrets + private data): ~/src/aidy/cron/bin/public-repo-pre-push.sh
+# 2. Every `run:` step of .github/workflows/*.yml, executed the way GitHub Actions
+#    runs them (bash -eo pipefail, repo root), on a clean export of the commit being
+#    pushed — so the hook can never drift from CI. Skipped: PR-only steps
+#    (`if: github.event_name == 'pull_request'`) and `npm ci` (web/node_modules is
+#    linked from this checkout instead). Vercel's `node build.mjs` is one of the steps.
+#
+# Enable once per clone:  git config core.hooksPath .githooks
+# Never bypass with --no-verify (a global Claude hook blocks it anyway).
+set -uo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:$HOME/.bun/bin:/usr/bin:/bin:$PATH"
+
+ROOT="$(git rev-parse --show-toplevel)"
+ZERO=0000000000000000000000000000000000000000
+IN="$(mktemp)"; WORK=""
+trap 'rm -rf "$IN" ${WORK:+"$WORK"}' EXIT
+[ -t 0 ] || cat > "$IN"
+
+blocked() { echo "✘ pre-push: $*" >&2; echo "Push blocked. Fix it and push again (never --no-verify)." >&2; exit 1; }
+for t in git node jq uv python3; do command -v "$t" >/dev/null || blocked "$t not found — the gate could not run"; done
+
+# 1. public-repo guard, fed the same stdin
+GUARD="$HOME/src/aidy/cron/bin/public-repo-pre-push.sh"
+[ -x "$GUARD" ] || blocked "public-repo guard missing at $GUARD"
+"$GUARD" "$@" < "$IN" || exit 1
+
+# which commits are being pushed (empty stdin = run by hand → HEAD)
+SHAS=$(awk -v z="$ZERO" '$2 != z {print $2}' "$IN" | sort -u)
+if [ -z "$SHAS" ]; then [ -s "$IN" ] && exit 0; SHAS=$(git rev-parse HEAD); fi
+
+# python with pyyaml for the YAML parsing + the SKILL.md frontmatter step (CI uses setup-python + pip)
+VENV="$HOME/.cache/pre-push/pape-venv"
+if [ ! -x "$VENV/bin/python" ] || ! "$VENV/bin/python" -c 'import yaml' 2>/dev/null; then
+  uv venv -q --seed "$VENV" >/dev/null 2>&1 && uv pip install -q --python "$VENV/bin/python" pyyaml >/dev/null 2>&1 \
+    || blocked "could not set up a python venv with pyyaml"
+fi
+export PATH="$VENV/bin:$PATH"
+
+for SHA in $SHAS; do
+  WORK="$(mktemp -d)"
+  git -C "$ROOT" archive "$SHA" | tar -x -C "$WORK" || blocked "git archive $SHA failed"
+  [ -d "$ROOT/web/node_modules" ] || blocked "web/node_modules missing — run: npm ci --prefix web"
+  ln -s "$ROOT/web/node_modules" "$WORK/web/node_modules"
+  echo "pre-push: CI steps on ${SHA:0:7} …"
+  python - "$WORK" <<'PY' || blocked "a CI step failed on ${SHA:0:7} (see above)"
+import glob, os, subprocess, sys, yaml
+work = sys.argv[1]
+fail = 0; ran = 0
+for wf in sorted(glob.glob(os.path.join(work, '.github/workflows/*.yml'))):
+    doc = yaml.safe_load(open(wf))
+    for job_name, job in (doc.get('jobs') or {}).items():
+        for step in job.get('steps') or []:
+            run = step.get('run'); name = step.get('name') or (run or '').split('\n')[0]
+            if not run:
+                continue
+            cond = str(step.get('if', ''))
+            if 'pull_request' in cond:
+                print(f"  - skip (PR-only): {name}"); continue
+            if run.strip().startswith('npm ci'):
+                print(f"  - skip (node_modules linked): {name}"); continue
+            r = subprocess.run(['bash', '--noprofile', '--norc', '-eo', 'pipefail', '-c', run],
+                               cwd=work, capture_output=True, text=True)
+            ran += 1
+            if r.returncode == 0:
+                print(f"  ✓ {name}")
+            else:
+                fail = 1
+                print(f"  ✘ {name}\n{r.stdout[-3000:]}{r.stderr[-3000:]}")
+if ran == 0:
+    print("  ✘ no CI steps found — the gate ran nothing"); sys.exit(1)
+sys.exit(fail)
+PY
+  rm -rf "$WORK"; WORK=""
+done
+echo "pre-push: ✓ CI-equivalent checks passed"
+exit 0
